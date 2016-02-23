@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pt.tecnico</groupId>
-    <artifactId>phonebook</artifactId> <!-- FIXME -->
+    <artifactId>Mydrive</artifactId> <!-- FIXME -->
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Phonebook</name>
+    <name>Mydrive</name>
 
     <organization>
       <name>Engenharia de Software, IST 2016</name>
@@ -17,10 +17,10 @@
 
     <developers>
       <developer> <!-- FIXME: one developer for each team member -->
-        <id>ist99999</id> <!-- FIXME -->
-	<name>github username</name> <!-- FIXME -->
-	<email>ist99999@tecnico.ulisboa.pt</email> <!-- FIXME -->
-	<organization>es16 g99al</organization> <!-- FIXME -->
+        <id>ist179719</id> <!-- FIXME -->
+	<name>xxlxpto</name> <!-- FIXME -->
+	<email>franciscopolaco@tecnico.ulisboa.pt</email> <!-- FIXME -->
+	<organization>es16 g09al</organization> <!-- FIXME -->
 	<roles>
 	  <role>Developer</role>
 	  <role>Architect</role>
@@ -28,9 +28,10 @@
 	  <role>Integrator</role>
 	</roles>
 	<properties>
-          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist199999</picUrl> <!-- FIXME -->
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist179719</picUrl> <!-- FIXME -->
         </properties>
       </developer>
+      <!-- CADA UM TEM DE CRIAR UMA ENTRADA -->
     </developers>
 
     <properties>
