@@ -100,7 +100,7 @@
               </execution>
             </executions>
             <configuration>
-    	      <mainClass>pt.tecnico.phonebook.PhoneBookApplication</mainClass> <!-- FIXME -->
+    	      <mainClass>pt.tecnico.mydrive.MyDrive</mainClass> <!-- FIXME -->
               <killAfter>-1</killAfter>
                 </configuration>
           </plugin>
