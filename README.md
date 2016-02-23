@@ -1,22 +1,7 @@
 
-  P H O N E B O O K
+  M Y D R I V E
 
-  exemplo de aplicação para es16
+  Equipa 9
 
-
-  $ mysql -p -u root
-
-  Enter password: rootroot
-
-  mysql> GRANT ALL PRIVILEGES ON \*.\* TO 'phone'@'localhost' IDENTIFIED BY 'book' WITH GRANT OPTION;
-
-  mysql> CREATE DATABASE phonedb;
-
-  musql> \q
-
-  $ git clone https://github.com/tecnico-softeng/phonebook-V1.git
-
-  $ cd phonebook
-
-  $ mvn clean package exec:java
+  Engenharia de Software, IST 2016
 
