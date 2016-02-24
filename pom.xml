@@ -31,7 +31,21 @@
           <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist179719</picUrl> <!-- FIXME -->
         </properties>
       </developer>
-      <!-- FIXME: CADA UM TEM DE CRIAR UMA ENTRADA -->
+      <developer>
+        <id>ist179018</id> 
+	<name>drlferreira</name> 
+	<email>diogo.lopes.ferreira@tecnico.ulisboa.pt</email> 
+	<organization>es16 g09al</organization>
+	<roles>
+	  <role>Developer</role>
+	  <role>Architect</role>
+	  <role>Tester</role>
+	  <role>Integrator</role>
+	</roles>
+	<properties>
+          <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist179018?s=100</picUrl>
+        </properties>
+      </developer>
     </developers>
 
     <properties>
