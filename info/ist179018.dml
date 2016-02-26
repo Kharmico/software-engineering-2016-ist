@@ -48,20 +48,20 @@ relation FileSystemComposedByFile {
 	
 relation DomainRootHasMydriveApplication {
 	.pt.ist.fenixframework.DomainRoot playsRole root {
-    	multiplicity 0..1;
+    		multiplicity 0..1;
   	}
   	Mydrive playsRole mydrive {
-    	multiplicity 0..1;
+    		multiplicity 0..1;
   	}
 }
 
 relation UserHasDirectory {
-    User playsRole user {
-        multiplicity 1;
-    }
-    Dir playsRole userDir {
-        multiplicity 1;
-    }
+    	User playsRole user {
+        	multiplicity 1;
+    	}	
+    	Dir playsRole userDir {
+        	multiplicity 1;
+    	}
 }
 
 relation UserHasFile {
