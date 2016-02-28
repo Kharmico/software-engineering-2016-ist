@@ -91,6 +91,21 @@
 			<picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist167011</picUrl>
 		</properties>
 	</developer>
+		<developer>
+		<id>ist179153</id> 
+		<name>carinamgm</name> 
+		<email>carinamartins@outlook.com</email> 
+		<organization>es16 g09al</organization>
+		<roles>
+			<role>Developer</role>
+			<role>Architect</role>
+			<role>Tester</role>
+			<role>Integrator</role>
+		</roles>
+		<properties>
+			<picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist179153</picUrl>
+		</properties>
+	</developer>
     </developers>
 
     <properties>
