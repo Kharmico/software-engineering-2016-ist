@@ -76,7 +76,7 @@
 				  <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist179714</picUrl>
 			</properties>
 		</developer>
-		<developer> <!-- FIXME: one developer for each team member -->
+		<developer>
 			<id>ist167011</id> 
 			<name>Kharmico</name> 
 			<email>joao.m.santos@tecnico.ulisboa.pt</email> 
@@ -88,7 +88,7 @@
 				<role>Integrator</role>
 			</roles>
 			<properties>
-			  <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist167011</picUrl> <!-- FIXME -->
+			  <picUrl>https://fenix.tecnico.ulisboa.pt/user/photo/ist167011</picUrl>
 			</properties>
 		</developer>
     </developers>
