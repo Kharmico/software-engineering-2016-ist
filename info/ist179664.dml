@@ -32,16 +32,16 @@ class Directory extends File;
 
 relation UserHasHomeDirectory{
     User playsRole user {
-        multiplicity 1;
+        multiplicity 1..1;
     }
     Directory playsRole homeDirectory{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 }
 
 relation DirectoryHasFile{
     Directory playsRole directory{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 	File playsRole file{
 		multiplicity 2..*;
@@ -52,7 +52,7 @@ class FileSystem;
 
 relation FileSystemHasUsers{
     FileSystem playsRole filesystem{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 	User playsRole users{
 		multiplicity 1..*;
@@ -61,14 +61,16 @@ relation FileSystemHasUsers{
 
 relation FileSystemHasFiles{
     FileSystem playsRole filesystem{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 	File playsRole files{
 		multiplicity 1..*;
     }  
 }
 
-class Session;
+class Session{
+	String _id;
+}
 
 relation DomainRootHasSession {
   .pt.ist.fenixframework.DomainRoot playsRole rootFenix {
@@ -81,27 +83,27 @@ relation DomainRootHasSession {
 
 relation SessionHasCurrentUser{
     Session playsRole session{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 	User playsRole currentUser{
-		multiplicity 1;
+		multiplicity 1..1;
     }  
 }
 
 relation SessionHasCurrentPath{
     Session playsRole session{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 	Directory playsRole currentPath{
-		multiplicity 1;
+		multiplicity 1..1;
     }  
 }
 
 relation SessionHasFileSystem{
     Session playsRole session{
-		multiplicity 1;
+		multiplicity 1..1;
     }
 	FileSystem playsRole filesystem{
-		multiplicity 1;
+		multiplicity 1..1;
     }  
 }
