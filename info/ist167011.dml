@@ -32,6 +32,7 @@ class PlainFile extends File {
 	String data;
 }
 
+class RootUser extends User;
 class Dir extends File;
 class Link extends PlainFile;
 class App extends PlainFile;
