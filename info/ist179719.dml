@@ -6,6 +6,7 @@ class File{
 	Int _id;
 	String _name;
 	DateTime _lastModified;
+	String _permissions;
 }
 
 
@@ -21,38 +22,22 @@ class User{
 	Int _username;
 	String _password;
 	String _name;
+	String _umask;
 }
 
-class Permissions{
-	Boolean _userRead;
-	Boolean _userWrite;
-	Boolean _userXcute;
-	Boolean _userDelete;
-	Boolean _othersRead;
-	Boolean _othersWrite;
-	Boolean _othersXcute;
-	Boolean _othersDelete;
-}
+class Root extends User;
 
 class FileSystem;
 
 relation FileHasOwner{
-	File playsRole file{
-			multiplicity 1;
+    File playsRole file{
+	multiplicity 1;
     }
     User playsRole owner {
         multiplicity 1;
     }
 }
 
-relation FileHasPermissions{
-	File playsRole file{
-		multiplicity 1;
-    }
-    Permissions playsRole permissions {
-        multiplicity 1;
-    }
-}
 
 relation FileSystemHasFiles{
 	
@@ -80,7 +65,7 @@ relation FileSystemHasUsers{
         multiplicity 1;
     }
     User playsRole users{
-		multiplicity 1..*;
+	multiplicity 1..*;
     }
 }
 
@@ -90,7 +75,7 @@ relation FileSystemHasCurrentUsers{
         multiplicity 1;
     }
     User playsRole currentUser{
-		multiplicity 1;
+	multiplicity 1;
     }
 }
 	
@@ -105,17 +90,6 @@ relation UserHasHomeDirectory{
     }
 }	
 
-	
-relation UserHasPermissionMask{
-
-    User playsRole currentUser{
-		multiplicity 1;
-    }
-	
-    Permissions playsRole umask {
-        multiplicity 1;
-    }
-}
 
 relation DirectoryHasFiles{
 	
