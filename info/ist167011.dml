@@ -1,6 +1,8 @@
 package pt.tecnico.mydrive.domain;
 
-class MyDrive;
+class MyDrive {
+	Int identifier;
+}
 
 class User {
 	String username;
