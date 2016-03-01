@@ -11,10 +11,10 @@ class User {
 class FileSystem;
 
 class Permission { 
-	String _uD;
-	String _uR;
-	String _uW;
-	String _uX;
+	Boolean _uD;
+	Boolean _uR;
+	Boolean _uW;
+	Boolean _uX;
 }
 
 class File{
@@ -48,7 +48,7 @@ relation UserHasMyDrive {
 		multiplicity 1;
 	}
 	MyDrive playsRole mydrive {
-		multplicity 1;
+		multiplicity 1;
 	}
 }
 
@@ -101,7 +101,7 @@ relation DirectoryHasParentDirectory {
 	Directory playsRole directory {
 		multiplicity 1;
 	}
-	Directory playsRole Parent Directory {
+	Directory playsRole ParentDirectory {
 		multiplicity 1;
 	}
 }
