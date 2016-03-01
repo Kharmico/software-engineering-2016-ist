@@ -85,7 +85,7 @@ relation UserHasPermissions {
 	User playsRole user {
 		multiplicity 1;
 	}
-	Permissions playsRole permission {
+	Permissions playsRole permissions {
 		multiplicity 1;
 	}
 }
