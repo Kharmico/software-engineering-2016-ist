@@ -3,7 +3,7 @@ package pt.tecnico.myDrive.domain;
 class MyDrive;
 
 class File{
-	Int _id;
+	int _id;
 	String _filename;
 	DateTime _lastModified;
 	String _ownerPermissions;
