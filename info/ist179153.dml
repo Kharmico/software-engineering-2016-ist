@@ -1,21 +1,19 @@
 package pt.tecnico.mydrive.domain;
 
-class MyDrive;
+class MyDrive {
+	Integer _sessionID;
+}
 
 class User {
 	String _username;
 	String _password;
 	String _name;
+	String _mask;
 }
+
+class Root extends User;
 
 class FileSystem;
-
-class Permission { 
-	Boolean _uD;
-	Boolean _uR;
-	Boolean _uW;
-	Boolean _uX;
-}
 
 class File{
 	String _name;
