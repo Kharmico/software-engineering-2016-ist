@@ -1,0 +1,109 @@
+package pt.tecnico.mydrive.domain;
+
+Class MyDrive;
+
+Class User {
+	String username;
+	String password;
+	String name;
+	Permissions umask;
+}
+
+Class File {
+	String name;
+	Int id;
+	String createdBy;
+	String lastModif;
+	Permissions filemask;
+}
+
+Class Permissions {
+	Boolean userReadPerm;
+	Boolean userWritePerm;
+	Boolean userExecPerm;
+	Boolean userDelPerm;
+	Boolean otherReadPerm;
+	Boolean otherWritePerm;
+	Boolean otherExecPerm;
+	Boolean otherDelPerm;
+}
+
+Class PlainFile extends File {
+	String data;
+}
+
+Class Dir extends File;
+Class Link extends PlainFile;
+Class App extends PlainFile;
+
+relation MyDriveHasUser {
+	MyDrive playsrole mydrive {
+		multiplicity 1;
+	}
+	User playsrole user {
+		multiplicity 1..*;
+	}
+}
+
+relation MyDriveHasDir {
+	MyDrive playsrole mydrive {
+		multiplicity 1;
+	}
+	Dir playsrole dir {
+		multiplicity 1;
+	}
+}
+
+relation UserHasFiles {
+	User playsrole owner {
+		multiplicity 1;
+	}
+	Files playsrole file {
+		multiplicity 0..*;
+	}
+}
+
+relation UserHasDir {
+	User playsrole user {
+		multiplicity 1;
+	}
+	Dir playsrole dir {
+		multiplicity 1;
+	}
+}
+
+relation DirHasFiles {
+	Dir playsrole dir {
+		multiplicity 1;
+	}
+	Files playsrole file {
+		multiplicity 2..*;
+	}
+}
+
+relation UserHasPermissions {
+	User playsrole user {
+		multiplicity 1;
+	}
+	Permissions playsrole permission {
+		multiplicity 1;
+	}
+}
+
+relation FileHasPermissions {
+	File playsrole file {
+		multiplicity 1;
+	}
+	Permissions playsrole permissions {
+		multiplicity 1;
+	}
+}
+
+relation DomainRootHasMyDriveApp {
+	.pt.ist.fenixframework.DomainRoot playsrole rootfenix {
+		multiplicity 0..1;
+	}
+	MyDrive playsrole mydrive {
+		multiplicity 0..1;
+	}
+}
