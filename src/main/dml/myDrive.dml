@@ -1,9 +1,9 @@
 package pt.tecnico.myDrive.domain;
 
-class MyDrive;
+class Manager;
 
 class File{
-	int _id;
+	Integer _id;
 	String _filename;
 	DateTime _lastModified;
 	String _ownerPermissions;
@@ -51,9 +51,9 @@ relation FileSystemHasFiles{
     }
 }
 
-relation MyDriveHasCurrentDirectoryy{
+relation ManagerHasCurrentDirectoryy{
 	
-    MyDrive playsRole _mydrive {
+    Manager playsRole _manager {
         multiplicity 1..1;
     }
     Directory playsRole _currentDirectory{
@@ -71,9 +71,9 @@ relation FileSystemHasUsers{
     }
 }
 
-relation MyDriveHasCurrentUser{
+relation ManagerHasCurrentUser{
 	
-    MyDrive playsRole _mydrive {
+    Manager playsRole _manager {
         multiplicity 1..1;
     }
     User playsRole _currentUser{
@@ -104,9 +104,9 @@ relation DirectoryHasFiles{
     }
 }
 
-relation MyDriveApplicationHasFileSystem{
+relation ManagerApplicationHasFileSystem{
 	
-    MyDrive playsRole _mydrive{
+    Manager playsRole _manager{
 		multiplicity 1..1;
     }
     
@@ -117,11 +117,11 @@ relation MyDriveApplicationHasFileSystem{
 }
 
 	
-relation DomainRootHasMyDriveApplication {
+relation DomainRootHasManager {
   .pt.ist.fenixframework.DomainRoot playsRole rootFenix {
     multiplicity 0..1;
   }
-  MyDrive playsRole mydrive {
+  Manager playsRole _manager  {
     multiplicity 0..1;
   }
 }
