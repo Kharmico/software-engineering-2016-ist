@@ -46,7 +46,7 @@ relation FileSystemHasFiles{
     FileSystem playsRole filesystem {
         multiplicity 1..1;
     }
-    File playsRole slash{
+    Directory playsRole slash{
 		multiplicity 1..1;
     }
 }
