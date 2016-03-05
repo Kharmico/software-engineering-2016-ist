@@ -8,18 +8,12 @@ public abstract class File extends File_Base {
 	public File(){	
 		super();     
     }
-	
-
-	protected void init(int id, String filename, String userMask) /* TODO: throws*/{
+		
+	protected void init(int id, String filename, String userMask, User owner) /* TODO: throws*/{
 		setPermissions(userMask);		
         setId(id);
         setFilename(filename);
-        setLastModified(new DateTime());
-        setOwner(getFilesystem().getRoot());
-	}
-	
-	protected void init(int id, String filename, String userMask, User owner) /* TODO: throws*/{
-		init(id, filename, userMask);		
+        setLastModified(new DateTime());	
 		setOwner(owner);
 	}
 	
@@ -58,7 +52,6 @@ public abstract class File extends File_Base {
 	
 	public void remove() {
 		setLastModified(null);
-		setFilesystem(null);
 		setOwner(null);
         deleteDomainObject();
     }

@@ -15,10 +15,6 @@ public class Directory extends Directory_Base {
         
     }
     
-    public Directory(int id, String filename, String userMask, Directory father) /* TODO: throws*/{
-    	super.init(id, filename, userMask);
-        addFile(new Directory(father.getId(), "..", father.getPermissions(), father.getFather()));
-    }
     
 
 
@@ -46,6 +42,11 @@ public class Directory extends Directory_Base {
     		return null;
     	}
 	}
+    
+    /*private void setFilesystemRoot(Directory root){
+    	super.setFilesSet(root.getFilesSet());
+    }*/
+    
    
     public void removeFile(String filename) /* TODO: throws*/{
     	if(!hasFile(filename)){
@@ -71,6 +72,7 @@ public class Directory extends Directory_Base {
     public void remove() {
         for (File f: getFilesSet())
             f.remove();
+		setFilesystem(null);
         super.remove();
         deleteDomainObject();
     }

@@ -13,8 +13,10 @@ public class FileSystem extends FileSystem_Base {
     	// TODO : Missing important stuff
     	this.addUsers(new Root());
     	
-    	Directory slash = new Directory(0, "/", getUserMask("root"), getRoot());
-    	this.setSlash(slash);
+    	Directory barra = new Directory(0, "/", getUserMask("root"), getRoot());
+    	this.setSlash(barra);
+    	//barra.addFile(barra)
+    	
     	
     }
     

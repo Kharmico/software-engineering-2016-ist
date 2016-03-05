@@ -7,41 +7,22 @@ public class PlainFile extends PlainFile_Base {
 		super();
 	}
 	
-    public PlainFile(int id, String filename, String userMask) /* TODO: throws*/{
-
-    	this.init(id, filename, userMask);
-    }
-    
     public PlainFile(int id, String filename, String userMask, User owner) /* TODO: throws*/{
     	this.init(id, filename, userMask, owner);
     }
     
-    public PlainFile(int id, String filename, String userMask, String content) /* TODO: throws*/{
-
-    	this.init(id, filename, userMask, content);
-
-    }
     
     public PlainFile(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
     	this.init(id, filename, userMask, owner, content);
 
     }
     
-    @Override
-    protected void init(int id, String filename, String userMask) /* TODO: throws*/{
-    	super.init(id, filename, userMask);
-    }
     
     @Override
     protected void init(int id, String filename, String userMask, User owner) /* TODO: throws*/{
     	super.init(id, filename, userMask, owner);
     }
     
-    public void init(int id, String filename, String userMask, String content) /* TODO: throws*/{
-
-    	init(id, filename, userMask);
-    	this.setContent(content);
-    }
     
     public void init(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
     	init(id, filename, userMask, owner);

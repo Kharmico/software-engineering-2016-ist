@@ -6,19 +6,10 @@ public class LinkFile extends LinkFile_Base {
         super();
     }
     
-    public LinkFile(int id, String filename, String userMask) /* TODO: throws*/{
-    	init(id, filename, userMask);
-    }
-    
     public LinkFile(int id, String filename, String userMask, User owner) /* TODO: throws*/{
     	init(id, filename, userMask, owner);
     }
     
-    public LinkFile(int id, String filename, String userMask, String content) /* TODO: throws*/{
-
-    	init(id, filename, userMask, content);
-
-    }
     
     public LinkFile(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
     	init(id, filename, userMask, owner, content);
