@@ -21,9 +21,16 @@ public class FileSystem extends FileSystem_Base {
     	root.setHomeDirectory(rootHomeDirectory);
     	
     	this.addUsers(root);
-    	this.setSlash(new Directory(this.generateUniqueId(), 
-    			"/", getUserMask(ROOT_USER), getRoot()));
-    	
+    	try{
+	    	this.setSlash(new Directory(this.generateUniqueId(), 
+	    			"/", getUserMask(ROOT_USER), getRoot()));
+	    	
+    	}catch(IllegalStateException e){
+    		/* This exception should not occur it only exists to protect the method against
+    		* bad programming
+    		*/
+    		e.printStackTrace();
+    	}
     	super.getSlash().addFile(new Directory(this.generateUniqueId(), HOME_DIR,
     			getUserMask(ROOT_USER), getRoot()));
     	this.addDirectorytoHome(rootHomeDirectory);
@@ -32,7 +39,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Users */
     
-    public void addUsers(String username){
+    public void addUsers(String username)/*TODO: throws*/{
     	if(hasUser(username)){
     		// TODO : throw
     	}else{
@@ -44,14 +51,24 @@ public class FileSystem extends FileSystem_Base {
     		super.addUsers(toCreate);
     	}
     }
-   
-    public void removeUsers(String username){
-    	if(!hasUser(username)){
+    
+    public void addUsers(User user)/*TODO: throws*/{
+    	if(hasUser(user.getUsername())){
     		// TODO : throw
     	}else{
-	    	User u = getUserByUsername(username);
-	    	u.remove();
-	    	super.removeUsers(u);
+    		
+    		super.addUsers(user);
+    	}
+    }
+   
+    public void removeUsers(String username)/*TODO: throws*/{
+    	if(!hasUser(username) || username.equals(ROOT_USER)){
+    		// TODO : throw
+    	}else{
+    		// Should we remove the user home dir?
+	    	User toRemove = getUserByUsername(username);
+	    	toRemove.remove();
+	    	super.removeUsers(toRemove);
     	}
     }
     private String getUserMask(String username){
@@ -75,7 +92,11 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
     
-    public void createDirectory(String filename, Directory currentDirectory, User currentUser){
+    public void createDirectory(String filename, Directory currentDirectory, User currentUser) /*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+    	Directory newDir = new Directory(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser, currentDirectory);
+    	currentDirectory.addFile(newDir);
     	
     }
     
@@ -86,13 +107,11 @@ public class FileSystem extends FileSystem_Base {
     }
     
     
-    // FIXME: ls and cd
+    // FIXME: ls - JP and cd - JP
     
     /* Files */
     
-    // FIXME: rm
-    
-    
+    // FIXME: rm - Carina
     
     public String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException*/{
     	String FileLocation = path.substring(0,path.lastIndexOf("/"));
@@ -103,17 +122,63 @@ public class FileSystem extends FileSystem_Base {
     	return f.printContent();
     }
     
-    public void createPlainFile(String filename, Directory currentDirectory, User currentUser){
+    public void createPlainFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser);
+    	currentDirectory.addFile(plainFile);
+	
+    }
+    
+    public void createPlainFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser, content);
+    	currentDirectory.addFile(plainFile);
+	
+    }
+    
+    public void createLinkFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser);
+    	currentDirectory.addFile(linkFile);
     	
     }
     
-    public void createLinkFile(String filename, Directory currentDirectory, User currentUser){
-    
+    public void createLinkFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser, content);
+    	currentDirectory.addFile(linkFile);
+  
     }
     
-    public void createAppFile(String filename, Directory currentDirectory, User currentUser){
+    public void createAppFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+		AppFile appFile = new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser);
+    	currentDirectory.addFile(appFile);
     	
     }
+    
+    public void createAppFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
+    	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
+		AppFile appFile = new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
+    			currentUser, content);
+    	currentDirectory.addFile(appFile);
+
+    }
+    
+    public void accessCheckerToCreate(String filename, Directory currentDirectory, User currentUser) /* TODO: throws*/{
+    	if(currentDirectory.hasFile(filename)){
+    		// TODO : throw exception
+    		// WE also need to check if the user can write here
+    		
+    	}
+    }
+    
+    /* Uniques Ids */
     
     private int getAndIncrementuniqueId(){
     	Integer idSeed = super.getIdSeed();
@@ -128,6 +193,17 @@ public class FileSystem extends FileSystem_Base {
     @Override
     public void setSlash(Directory slash){
     	super.setSlash(slash);
+    }
+ 
+    
+    /* Fenixframework binary relations setters */
+    
+    @Override
+    public void setMyDriveManager(MyDriveManager mngr){
+    	if(mngr == null){
+    		super.setMyDriveManager(null);
+    	}else
+    		mngr.setFilesystem(this);
     }
     
     private void addDirectorytoHome(Directory toAdd){

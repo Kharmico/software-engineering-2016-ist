@@ -55,7 +55,7 @@ relation FileSystemHasFiles{
 
 relation MyDriveManagerHasCurrentDirectoryy{
 	
-    MyDriveManager playsRole mydrivemanager {
+    MyDriveManager playsRole myDriveManager {
         multiplicity 1..1;
     }
     Directory playsRole currentDirectory{
@@ -75,7 +75,7 @@ relation FileSystemHasUsers{
 
 relation MyDriveManagerHasCurrentUser{
 	
-    MyDriveManager playsRole mydrivemanager {
+    MyDriveManager playsRole myDriveManager {
         multiplicity 1..1;
     }
     User playsRole currentUser{
@@ -108,9 +108,9 @@ relation DirectoryHasFiles{
 
 
 
-relation MyDriveManagerApplicationHasFileSystem{
+relation MyDriveManagerHasFileSystem{
 	
-    MyDriveManager playsRole mydrivemanager{
+    MyDriveManager playsRole myDriveManager{
 		multiplicity 1..1;
     }
     
@@ -125,7 +125,7 @@ relation DomainRootHasMyDriveManager {
   .pt.ist.fenixframework.DomainRoot playsRole rootFenix {
     multiplicity 0..1;
   }
-  MyDriveManager playsRole mydrivemanager  {
+  MyDriveManager playsRole myDriveManager  {
     multiplicity 0..1;
   }
 }

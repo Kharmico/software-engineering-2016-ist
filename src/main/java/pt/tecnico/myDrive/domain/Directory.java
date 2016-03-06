@@ -7,9 +7,9 @@ public class Directory extends Directory_Base {
 
     }
     
-    public Directory(int id, String filename, String userMask, User owner) /* TODO: throws*/{
+    public Directory(int id, String filename, String userMask, User owner) throws IllegalStateException{
     	if(!filename.equals("/")){
-    		// TODO : throw execption
+    		throw new IllegalStateException();
     	}
     	super.init(id, filename, userMask, owner);
     	this.setParentDirectory(this);
@@ -84,6 +84,32 @@ public class Directory extends Directory_Base {
     @Override
     public void setParentDirectory(Directory parentDirectory){
     	super.setParentDirectory(parentDirectory);
+    	
+    }
+    
+    /* Fenixframework binary relations setters */
+    
+    @Override
+    public void setUser(User user){
+    	if(user == null){
+    		super.setUser(null);
+    	}else
+    		user.setHomeDirectory(this);
+    }
+    
+    @Override
+    public void setFilesystem(FileSystem fs){
+    	if(fs == null){
+    		super.setFilesystem(null);
+    	}else
+    		fs.setSlash(this);
+    }
+    @Override
+    public void setMyDriveManager(MyDriveManager mngr){
+    	if(mngr == null){
+    		super.setMyDriveManager(null);
+    	}else
+    		mngr.setCurrentDirectory(this);
     }
 
 	@Override

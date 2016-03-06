@@ -1,10 +1,28 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.ist.fenixframework.FenixFramework;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class MyDriveManager extends MyDriveManager_Base {
+	
+	static final Logger log = LogManager.getRootLogger();
     
     public MyDriveManager() {
         super();
+        super.setRootFenix(FenixFramework.getDomainRoot());
         this.setCurrentUser(getFilesystem().getRoot());
+        this.setCurrentDirectory(getCurrentUser().getHomeDirectory());
+    }
+    
+    public static MyDriveManager getInstance() {
+    	MyDriveManager mngr = FenixFramework.getDomainRoot().getMyDriveManager();
+        if (mngr != null)
+        	return mngr;
+
+        log.trace("new MyDriveManager");
+        return new MyDriveManager();
     }
     
     @Override
@@ -59,14 +77,29 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser());
     }
     
+    public void createPlainFile(String filename, String content){
+    	super.getFilesystem().createPlainFile(filename, 
+    			getCurrentDirectory(), getCurrentUser(), content);
+    }
+    
     public void createLinkFile(String filename){
     	super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
     }
     
+    public void createLinkFile(String filename, String content){
+    	super.getFilesystem().createLinkFile(filename, 
+    			getCurrentDirectory(), getCurrentUser(), content);
+    }
+    
     public void createAppFile(String filename){
     	super.getFilesystem().createAppFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    }
+    
+    public void createAppFile(String filename, String content){
+    	super.getFilesystem().createAppFile(filename, 
+    			getCurrentDirectory(), getCurrentUser(), content);
     }
     
     
