@@ -1,0 +1,23 @@
+[MyDriveManager]
+[File| Integer id; String filename; DateTime lastModified; String ownerPermissions; String othersPermissions;]
+[File]^-[PlainFile]
+[PlainFile| String content;]
+[PlainFile]^-[LinkFile]
+[LinkFile]
+[PlainFile]^-[AppFile]
+[AppFile]
+[File]^-[Directory]
+[Directory]
+[User| String username; String password; String name; String umask;]
+[User]^-[Root]
+[Root]
+[FileSystem| Integer idSeed;]
+[File]1..1 file - owner 1..1[User] // FileHasOwner
+[FileSystem]1..1 filesystem - slash 1..1[Directory] // FileSystemHasFiles
+[MyDriveManager]1..1 myDriveManager - currentDirectory 1..1[Directory] // MyDriveManagerHasCurrentDirectoryy
+[FileSystem]1..1 filesystem - users 1..*[User] // FileSystemHasUsers
+[MyDriveManager]1..1 myDriveManager - currentUser 1..1[User] // MyDriveManagerHasCurrentUser
+[User]1..1 user - homeDirectory 1..1[Directory] // UserHasHomeDirectory
+[Directory]1..1 parentDirectory - files 2..*[File] // DirectoryHasFiles
+[MyDriveManager]1..1 myDriveManager - filesystem 1..1[FileSystem] // MyDriveManagerHasFileSystem
+[.pt.ist.fenixframework.DomainRoot]0..1 rootFenix - myDriveManager 0..1[MyDriveManager] // DomainRootHasMyDriveManager
