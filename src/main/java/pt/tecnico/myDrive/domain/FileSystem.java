@@ -13,7 +13,8 @@ public class FileSystem extends FileSystem_Base {
     }
     
     private void init(){
-    	// TODO : Missing important stuff
+    	
+    	super.setIdSeed(new Integer(0));
     	Root root = new Root();
     	Directory rootHomeDirectory = new Directory(this.generateUniqueId(), 
 				root.getUsername(), root.getUmask(), root);
@@ -28,8 +29,8 @@ public class FileSystem extends FileSystem_Base {
     	this.addDirectorytoHome(rootHomeDirectory);
     	
     }
-    /* Users */
     
+    /* Users */
     
     public void addUsers(String username){
     	if(hasUser(username)){
@@ -53,12 +54,12 @@ public class FileSystem extends FileSystem_Base {
 	    	super.removeUsers(u);
     	}
     }
-    public String getUserMask(String username){
+    private String getUserMask(String username){
     	// TODO : Verify that it doesn't return null
     	return getUserByUsername(username).getUmask();
     }
     
-    public User getUserByUsername(String name) {
+    private User getUserByUsername(String name) {
     	// TODO : throw exception instead of returning null
         for (User user: super.getUsersSet())
             if (user.getUsername().equals(name))
@@ -66,7 +67,7 @@ public class FileSystem extends FileSystem_Base {
         return null;
     }
     
-    public boolean hasUser(String username) {
+    private boolean hasUser(String username) {
         return this.getUserByUsername(username) != null;
     }
     
@@ -76,6 +77,12 @@ public class FileSystem extends FileSystem_Base {
     
     public void createDirectory(String filename, Directory currentDirectory, User currentUser){
     	
+    }
+    
+    public Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
+    	// TODO : Implement cd and remove return null
+    	
+    	return null;
     }
     
     
@@ -97,9 +104,14 @@ public class FileSystem extends FileSystem_Base {
     	
     }
     
-    public int generateUniqueId(){
-    	// TODO : Add a real implementation
-    	return 0;
+    private int getAndIncrementuniqueId(){
+    	Integer idSeed = super.getIdSeed();
+    	super.setIdSeed(new Integer(idSeed.intValue() + 1));
+    	return idSeed.intValue();
+    }
+    
+    private int generateUniqueId(){
+    	return this.getAndIncrementuniqueId();
     }
     
     @Override

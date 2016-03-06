@@ -28,7 +28,9 @@ class User{
 
 class Root extends User;
 
-class FileSystem;
+class FileSystem{
+	Integer idSeed;
+}
 
 relation FileHasOwner{
     File playsRole file{

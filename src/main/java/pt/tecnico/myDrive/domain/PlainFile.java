@@ -40,9 +40,9 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    public Directory changeDirectory(){
+    public Directory changeDirectory(String dirName) throws UnsupportedOperationException{
     	/* TODO: throw exception and remove return*/
-    	return new Directory();
+    	throw new UnsupportedOperationException();
     }
     
     @Override

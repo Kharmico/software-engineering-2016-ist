@@ -72,7 +72,7 @@ public abstract class File extends File_Base {
 		// TODO : implement permissions
 	}
 	
-	public abstract Directory changeDirectory()/* TODO: throws*/;
+	public abstract Directory changeDirectory(String dirName)/* TODO: throws*/;
 	
 	public abstract String printContent()/* TODO: throws*/;
 	

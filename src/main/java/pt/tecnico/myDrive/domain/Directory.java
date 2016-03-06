@@ -36,11 +36,7 @@ public class Directory extends Directory_Base {
     public Directory getFather() {  
     	return super.getParentDirectory();
 	}
-    
-    /*private void setFilesystemRoot(Directory root){
-    	super.setFilesSet(root.getFilesSet());
-    }*/
-    
+   
    
     public void removeFile(String filename) /* TODO: throws*/{
     	if(!hasFile(filename)){
@@ -91,7 +87,7 @@ public class Directory extends Directory_Base {
     }
 
 	@Override
-	public Directory changeDirectory() {
+	public Directory changeDirectory(String dirName) {
 		// TODO Auto-generated method stub
 		return this;
 	}
