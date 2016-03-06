@@ -11,14 +11,14 @@ public abstract class File extends File_Base {
 		
 	protected void init(int id, String filename, String userMask, User owner) /* TODO: throws*/{
 		setPermissions(userMask);		
-        setId(id);
+        setId(new Integer(id));
         setFilename(filename);
         setLastModified(new DateTime());	
 		setOwner(owner);
 	}
 	
-	//@Override
-	public void setId(int id){
+	@Override
+	public void setId(Integer id){
 		super.setId(id);
 	}
 	
@@ -52,6 +52,7 @@ public abstract class File extends File_Base {
 	
 	public void remove() {
 		setLastModified(null);
+		setId(null);
 		setOwner(null);
         deleteDomainObject();
     }

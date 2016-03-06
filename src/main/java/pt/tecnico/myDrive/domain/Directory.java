@@ -12,6 +12,8 @@ public class Directory extends Directory_Base {
     		// TODO : throw execption
     	}
     	super.init(id, filename, userMask, owner);
+    	addFile(this);
+    	setIdParentDir(this.getId());
         
     }
     
@@ -20,8 +22,11 @@ public class Directory extends Directory_Base {
 
 	public Directory(int id, String filename, String userMask, User owner, Directory father) /* TODO: throws*/{
     	super.init(id, filename, userMask, owner);
-    	addFile(new Directory(father.getId(), "..", father.getPermissions(), father.getOwner()
-    			, father.getFather()));
+    	addFile(father);
+    	setIdParentDir(father.getId());
+    	
+    	/*addFile(new Directory(father.getId(), "..", father.getPermissions(), father.getOwner()
+    			, father.getFather()));*/
     }
     
     
@@ -34,9 +39,9 @@ public class Directory extends Directory_Base {
     
     public Directory getFather() {
 		// TODO Auto-generated method stub
-    	if(getFileByName("..").getClass() == Directory.class){
+    	if(getFileById(super.getIdParentDir()).getClass() == Directory.class){
     		// Minor verification just to be sure that file .. is actually a directory
-    		return (Directory) getFileByName("..");
+    		return (Directory) getFileById(super.getIdParentDir());
     		
     	}else {
     		return null;
@@ -57,8 +62,17 @@ public class Directory extends Directory_Base {
     
 
     public File getFileByName(String name) {
+    	// TODO : throw exception instead of returning null
         for (File file: super.getFilesSet())
             if (file.getFilename().equals(name))
+                return file;
+        return null;
+    }
+    
+    public File getFileById(Integer id) {
+    	// TODO : throw exception instead of returning null
+        for (File file: super.getFilesSet())
+            if (file.getId().equals(id))
                 return file;
         return null;
     }
@@ -67,11 +81,16 @@ public class Directory extends Directory_Base {
         return getFileByName(filename) != null;
     }
 
+    @Override
+    public void setIdParentDir(Integer idParentDir){
+    	super.setIdParentDir(idParentDir);
+    }
     
     @Override
     public void remove() {
         for (File f: getFilesSet())
             f.remove();
+        setIdParentDir(null);
 		setFilesystem(null);
         super.remove();
         deleteDomainObject();

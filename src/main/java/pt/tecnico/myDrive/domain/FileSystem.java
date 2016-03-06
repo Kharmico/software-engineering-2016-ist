@@ -15,14 +15,20 @@ public class FileSystem extends FileSystem_Base {
     	
     	Directory barra = new Directory(0, "/", getUserMask("root"), getRoot());
     	this.setSlash(barra);
-    	//barra.addFile(barra)
     	
     	
     }
+    /* Users */
     
     @Override
     public void addUsers(User u){
     	super.addUsers(u);
+    }
+    
+    public void removeUser(String username){
+    	User u = getUserByUsername(username);
+    	u.remove();
+    	super.removeUsers(u);
     }
     
     public String getUserMask(String username){
@@ -31,11 +37,37 @@ public class FileSystem extends FileSystem_Base {
     }
     
     public User getUserByUsername(String name) {
+    	// TODO : throw exception instead of returning null
         for (User user: super.getUsersSet())
             if (user.getUsername().equals(name))
                 return user;
         return null;
     }
+    
+    // FIXME: Joao - Restrictions
+    
+    /* Directory */
+    
+    public void createDirectory(){
+    	
+    }
+    
+    public void createPlainFile(){
+    	
+    }
+    
+    public void createLinkFile(){
+    
+    }
+    
+    public void createAppFile(){
+    	
+    }
+    // FIXME: ls and cd
+    
+    /* Files */
+    
+    // FIXME: rm and cat
     
     @Override
     public void setSlash(Directory slash){
@@ -43,8 +75,17 @@ public class FileSystem extends FileSystem_Base {
     }
     
 	public User getRoot() {
-		// TODO Auto-generated method stub
-		return null;
+		return getUserByUsername("root");
+	}
+	
+	public void remove(){
+		this.getSlash().remove();
+		setSlash(null);
+		for (User user: super.getUsersSet()){
+			this.removeUser(user.getUsername());
+			user.remove();
+		}
+		deleteDomainObject();
 	}
     
 }

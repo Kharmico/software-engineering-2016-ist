@@ -17,7 +17,9 @@ class PlainFile extends File{
 
 class LinkFile extends PlainFile;
 class AppFile extends PlainFile;
-class Directory extends File;
+class Directory extends File{
+	Integer idParentDir;
+}
 
 class User{
 	String username;
@@ -103,6 +105,8 @@ relation DirectoryHasFiles{
         multiplicity 2..*;
     }
 }
+
+
 
 relation MyDriveManagerApplicationHasFileSystem{
 	
