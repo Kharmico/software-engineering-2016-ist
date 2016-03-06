@@ -4,7 +4,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public MyDriveManager() {
         super();
-        setCurrentUser(getFilesystem().getRoot());
+        this.setCurrentUser(getFilesystem().getRoot());
     }
     
     @Override

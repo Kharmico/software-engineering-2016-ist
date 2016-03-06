@@ -17,9 +17,7 @@ class PlainFile extends File{
 
 class LinkFile extends PlainFile;
 class AppFile extends PlainFile;
-class Directory extends File{
-	Integer idParentDir;
-}
+class Directory extends File;
 
 class User{
 	String username;
@@ -97,7 +95,7 @@ relation UserHasHomeDirectory{
 
 relation DirectoryHasFiles{
 	
-    Directory playsRole directory {
+    Directory playsRole parentDirectory {
         multiplicity 1..1;
     }
     

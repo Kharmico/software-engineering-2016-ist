@@ -12,8 +12,7 @@ public class Directory extends Directory_Base {
     		// TODO : throw execption
     	}
     	super.init(id, filename, userMask, owner);
-    	addFile(this);
-    	setIdParentDir(this.getId());
+
         
     }
     
@@ -22,11 +21,7 @@ public class Directory extends Directory_Base {
 
 	public Directory(int id, String filename, String userMask, User owner, Directory father) /* TODO: throws*/{
     	super.init(id, filename, userMask, owner);
-    	addFile(father);
-    	setIdParentDir(father.getId());
-    	
-    	/*addFile(new Directory(father.getId(), "..", father.getPermissions(), father.getOwner()
-    			, father.getFather()));*/
+
     }
     
     
@@ -37,15 +32,8 @@ public class Directory extends Directory_Base {
     	super.addFiles(file);
     }
     
-    public Directory getFather() {
-		// TODO Auto-generated method stub
-    	if(getFileById(super.getIdParentDir()).getClass() == Directory.class){
-    		// Minor verification just to be sure that file .. is actually a directory
-    		return (Directory) getFileById(super.getIdParentDir());
-    		
-    	}else {
-    		return null;
-    	}
+    public Directory getFather() {  
+    	return super.getParentDirectory();
 	}
     
     /*private void setFilesystemRoot(Directory root){
@@ -81,17 +69,13 @@ public class Directory extends Directory_Base {
         return getFileByName(filename) != null;
     }
 
-    @Override
-    public void setIdParentDir(Integer idParentDir){
-    	super.setIdParentDir(idParentDir);
-    }
     
     @Override
     public void remove() {
         for (File f: getFilesSet())
             f.remove();
-        setIdParentDir(null);
-		setFilesystem(null);
+        super.setParentDirectory(null);
+		this.setFilesystem(null);
         super.remove();
         deleteDomainObject();
     }
