@@ -90,7 +90,18 @@ public class FileSystem extends FileSystem_Base {
     
     /* Files */
     
-    // FIXME: rm and cat
+    // FIXME: rm
+    
+    
+    
+    public String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException*/{
+    	String FileLocation = path.substring(0,path.lastIndexOf("/"));
+    	Directory d = null;												//TODO cd(FileLocation);
+    	String filename = path.substring(path.lastIndexOf("/")+1);
+    	//fileExists(filename, d);
+    	File f = d.getFileByName(filename);
+    	return f.printContent();
+    }
     
     public void createPlainFile(String filename, Directory currentDirectory, User currentUser){
     	
