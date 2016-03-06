@@ -50,6 +50,14 @@ public abstract class File extends File_Base {
 		super.setLastModified(date);
 	}
 	
+	@Override
+    public void setParentDirectory(Directory parentDirectory){
+		if(parentDirectory == null){
+			super.setParentDirectory(null);
+		}else
+			parentDirectory.addFile(this);
+    }
+	
 	public void remove() {
 		setLastModified(null);
 		setId(null);

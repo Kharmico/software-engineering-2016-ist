@@ -52,6 +52,32 @@ public class User extends User_Base {
     	super.setHomeDirectory(homeDirectory);
     }
     
+    /* Fenixframework binary relations setters */
+    
+    @Override
+    public void setFilesystem(FileSystem fs) {
+        if (fs == null)
+            super.setFilesystem(null);
+        else
+            fs.addUsers(this);
+    }
+    
+    @Override
+    public void setMyDriveManager(MyDriveManager mngr) {
+        if (mngr == null)
+            super.setMyDriveManager(null);
+        else
+        	mngr.setCurrentUser(this);
+    }
+    
+    @Override
+    public void setFile(File file) {
+        if (file == null)
+            super.setFile(null);
+        else
+        	file.setOwner(this);
+    }
+    
 
     public void remove(){
     	this.setHomeDirectory(null);
