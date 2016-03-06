@@ -12,7 +12,7 @@ public class Directory extends Directory_Base {
     		// TODO : throw execption
     	}
     	super.init(id, filename, userMask, owner);
-
+    	this.setParentDirectory(this);
         
     }
     
@@ -21,6 +21,7 @@ public class Directory extends Directory_Base {
 
 	public Directory(int id, String filename, String userMask, User owner, Directory father) /* TODO: throws*/{
     	super.init(id, filename, userMask, owner);
+    	this.setParentDirectory(father);
 
     }
     
@@ -45,7 +46,9 @@ public class Directory extends Directory_Base {
     	if(!hasFile(filename)){
     		// TODO : throw
     	}
-    	super.removeFiles(getFileByName(filename));
+    	File toRemove = getFileByName(filename);
+    	toRemove.remove();
+    	super.removeFiles(toRemove);
     }
     
 
@@ -82,7 +85,10 @@ public class Directory extends Directory_Base {
     
     
     
-    
+    @Override
+    public void setParentDirectory(Directory parentDirectory){
+    	super.setParentDirectory(parentDirectory);
+    }
 
 	@Override
 	public Directory changeDirectory() {

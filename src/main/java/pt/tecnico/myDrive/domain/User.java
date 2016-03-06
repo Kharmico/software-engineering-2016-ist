@@ -9,13 +9,14 @@ public class User extends User_Base {
         super();
     }
     
-    public User(String username, Directory homeDirectory)/* TODO: throws */ {
-    	this.init(username, username, username, DEFAULT_UMASK, homeDirectory);
+    public User(String username)/* TODO: throws */ {
+    	this.init(username, username, username, DEFAULT_UMASK);
     }
     
 
     
-    protected void init(String username, String password, String name, String umask, Directory homeDirectory)/* TODO: throws */ {
+    protected void init(String username, String password, String name, String umask)/* TODO: throws */ {
+    	/* The directory must be linked after the user creation */
     	if(username.equals("root")){
     		// TODO : throw exception
     	}
@@ -24,7 +25,6 @@ public class User extends User_Base {
     	this.setPassword(password);
     	this.setName(name);
     	this.setUmask(umask);
-    	this.setHomeDirectory(homeDirectory);
     }
     
     @Override

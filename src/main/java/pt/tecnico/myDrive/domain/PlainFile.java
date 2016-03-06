@@ -58,9 +58,21 @@ public class PlainFile extends PlainFile_Base {
     }
     
     public Directory getFather() throws UnsupportedOperationException{
-		// TODO Auto-generated method stub
     	
     	throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public void addFile(File toAdd) throws UnsupportedOperationException{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void removeFile(String toRemove) throws UnsupportedOperationException{
+		throw new UnsupportedOperationException();
+		
+	}
+    
+    
     
 }

@@ -30,4 +30,39 @@ public class MyDriveManager extends MyDriveManager_Base {
     	deleteDomainObject();
     }
     
+    /* Users */
+    
+    public void addUser(String username){
+    	super.getFilesystem().addUsers(username);
+    }
+    
+    public void removeUser(String username){
+    	super.getFilesystem().removeUsers(username);
+    }
+    
+    /* Directory */
+    
+    public void createDirectory(String filename){
+    	super.getFilesystem().createDirectory(filename, 
+    			getCurrentDirectory(), getCurrentUser());
+    }
+    
+    /* Files */ 
+    
+    public void createPlainFile(String filename){
+    	super.getFilesystem().createPlainFile(filename, 
+    			getCurrentDirectory(), getCurrentUser());
+    }
+    
+    public void createLinkFile(String filename){
+    	super.getFilesystem().createLinkFile(filename, 
+    			getCurrentDirectory(), getCurrentUser());
+    }
+    
+    public void createAppFile(String filename){
+    	super.getFilesystem().createAppFile(filename, 
+    			getCurrentDirectory(), getCurrentUser());
+    }
+    
+    
 }

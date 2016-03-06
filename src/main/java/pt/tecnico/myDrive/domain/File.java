@@ -80,6 +80,10 @@ public abstract class File extends File_Base {
 	
 	public abstract Directory getFather() /* TODO: throws*/;
 	
+	public abstract void addFile(File toAdd) /* TODO: throws*/ ;
+	
+	public abstract void removeFile(String toRemove) /* TODO: throws*/ ;
+	
 	@Override
 	public String toString(){
 		return this.getPermissions() + super.getOwner()
