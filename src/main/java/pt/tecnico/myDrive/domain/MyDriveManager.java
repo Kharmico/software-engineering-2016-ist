@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
 import pt.ist.fenixframework.FenixFramework;
 
 import org.apache.logging.log4j.LogManager;

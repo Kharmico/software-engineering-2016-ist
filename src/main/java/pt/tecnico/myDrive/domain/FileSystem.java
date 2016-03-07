@@ -1,5 +1,9 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
+import java.util.List;
+
 public class FileSystem extends FileSystem_Base {
     
     private static final String ROOT_USER = "root";
