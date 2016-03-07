@@ -40,7 +40,7 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    public Directory changeDirectory(String dirName) throws UnsupportedOperationException{
+    public void isCdAble(String dirName) throws UnsupportedOperationException{
     	/* TODO: throw exception and remove return*/
     	throw new UnsupportedOperationException();
     }

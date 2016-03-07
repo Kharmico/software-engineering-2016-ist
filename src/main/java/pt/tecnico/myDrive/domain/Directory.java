@@ -47,7 +47,16 @@ public class Directory extends Directory_Base {
     	super.removeFiles(toRemove);
     }
     
-
+    //////////////// Funçao cd em teste//////////////////
+    
+    public void getDirectoryFilesName() {
+        for (File file: super.getFilesSet()){
+        	System.out.println(file.getFilename());
+        }  
+    }   
+    
+    /////////////////////////////////////////////////////
+    
     public File getFileByName(String name) {
     	// TODO : throw exception instead of returning null
         for (File file: super.getFilesSet())
@@ -113,9 +122,8 @@ public class Directory extends Directory_Base {
     }
 
 	@Override
-	public Directory changeDirectory(String dirName) {
+	public void isCdAble(String dirName) {
 		// TODO Auto-generated method stub
-		return this;
 	}
 
 	@Override
