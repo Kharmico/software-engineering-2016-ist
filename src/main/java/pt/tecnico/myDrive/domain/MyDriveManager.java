@@ -106,5 +106,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     	return super.getFilesystem().printTextFile(path, getCurrentUser());
     }
     
+    /* ImportXML */
+    
+    public void xmlImport(Element element) {
+    	super.getFilesystem().xmlImport(element);
+    }
     
 }

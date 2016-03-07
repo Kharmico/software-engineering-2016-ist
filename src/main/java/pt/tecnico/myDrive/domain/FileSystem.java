@@ -226,4 +226,77 @@ public class FileSystem extends FileSystem_Base {
 		deleteDomainObject();
 	}
     
+    /* ImportXML */
+	
+    protected void xmlImport(Element element){
+            this.xmlImportUser(element.getChildren("user"));
+            this.xmlImportDir(element.getChildren("directory"));
+            this.xmlImportFile(element.getChildren("linkfile"));	
+    }
+    
+    private Directory createDirectories(Directory current, String name, User user) /* TODO: throws*/{
+            Directory nextDir = new Directory(this.generateUniqueId(), name, 
+                    user.getUmask(), user, current);
+            current.addFile(nextDir);
+            return nextDir;
+    }
+    
+    private void createPath(String path, User user) /* TODO: throws*/{
+            String delims = "[/]";
+            String[] tokens = path.split(delims);
+            
+            /* Path only a slash */
+            if (tokens.length == 0)
+                    return;
+            else{
+                    Directory currentDir = super.getSlash();
+                    /* Creating after slash */
+                    if (tokens.length == 1)
+                            currentDir = this.createDirectories(currentDir, tokens[0], user);
+                    else{
+                    /* Creating folder path with root */
+                    for (int i = 0; i < (tokens.length - 1); i++)
+                            currentDir = this.createDirectories(currentDir, tokens[i], this.getRoot());
+                    /* Last folder from user */
+                    currentDir = this.createDirectories(currentDir, tokens[tokens.length - 1], user);
+                    }
+                    user.setHomeDirectory(currentDir);
+                    super.addUsers(user);
+            }
+    }
+    
+    private void xmlImportUser(List<Element> user){
+            for (Element node : user) {
+                    String username = node.getAttributeValue("username");
+                    User toInsert = this.getUserByUsername(username);
+                    if (toInsert == null){
+                            toInsert = new User(username);
+                            
+                            if (node.getChild("password").getValue() != null)
+                                    toInsert.setPassword(node.getChild("password").getValue());
+                            
+                            if (node.getChild("name").getValue() != null)
+                                    toInsert.setName(node.getChild("name").getValue());
+                            
+                            if (node.getChild("mask").getValue() != null)
+                                    toInsert.setUmask(node.getChild("mask").getValue());
+                            
+                            if (node.getChild("home").getValue() != null)
+                                    createPath(node.getChild("home").getValue(), toInsert);
+                            else{
+                                    Directory homeDirectory = new Directory(this.generateUniqueId(), username, 
+                                                    toInsert.getUmask(), toInsert);
+                                    toInsert.setHomeDirectory(homeDirectory);
+                                    this.addDirectorytoHome(homeDirectory);
+                                    super.addUsers(toInsert);
+                            }
+                    }
+            }
+    }
+    
+    private void xmlImportDir(List<Element> dir){
+    }
+    
+    private void xmlImportFile(List<Element> file){
+    }
 }
