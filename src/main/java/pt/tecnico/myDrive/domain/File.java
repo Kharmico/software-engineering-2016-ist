@@ -65,32 +65,32 @@ public abstract class File extends File_Base {
         deleteDomainObject();
     }
 	
-	public String getPermissions(){
+	protected String getPermissions(){
 		return super.getOwnerPermissions() + super.getOthersPermissions(); 
 	}
 	
-	public void checkOwner(User u){
+	protected void checkOwner(User u){
 		if(!u.equals(super.getOwner()) || !u.isRoot()){
 			// TODO :throw Exception
 		}
 	}
 	
-	public void checkAccess(User u){
+	protected void checkAccess(User u){
 		checkOwner(u);
 		// TODO : implement permissions
 	}
 	
-	public abstract void isCdAble()/* TODO: throws*/;
+	protected abstract void isCdAble() throws UnsupportedOperationException;
 	
-	public abstract String printContent()/* TODO: throws*/;
+	protected abstract String printContent()/* TODO: throws*/;
 	
-	public abstract void executeApp()/* TODO: throws*/;
+	protected abstract void executeApp()/* TODO: throws*/;
 	
-	public abstract Directory getFather() /* TODO: throws*/;
+	protected abstract Directory getFather() throws UnsupportedOperationException;
 	
-	public abstract void addFile(File toAdd) /* TODO: throws*/ ;
+	protected abstract void addFile(File toAdd) throws UnsupportedOperationException ;
 	
-	public abstract void removeFile(String toRemove) /* TODO: throws*/ ;
+	protected abstract void removeFile(String toRemove) throws UnsupportedOperationException ;
 	
 	@Override
 	public String toString(){

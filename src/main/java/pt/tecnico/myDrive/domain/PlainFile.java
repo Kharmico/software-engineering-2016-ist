@@ -24,7 +24,7 @@ public class PlainFile extends PlainFile_Base {
     }
     
     
-    public void init(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
+    protected void init(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
     	init(id, filename, userMask, owner);
     	this.setContent(content);
     }
@@ -40,24 +40,23 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    public void isCdAble() throws UnsupportedOperationException{
+    protected void isCdAble() throws UnsupportedOperationException{
     	/* TODO: throw exception and remove return*/
     	throw new UnsupportedOperationException();
     }
     
     @Override
-    public String printContent(){
+    protected String printContent(){
     	return this.getContent();
- 
 
     }
     
     @Override
-    public void executeApp(){
+    protected void executeApp(){
     	/* TODO: throw exception */
     }
     
-    public Directory getFather() throws UnsupportedOperationException{
+    protected Directory getFather() throws UnsupportedOperationException{
     	
     	throw new UnsupportedOperationException();
 	}

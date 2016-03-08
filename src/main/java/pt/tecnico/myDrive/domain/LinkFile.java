@@ -22,7 +22,7 @@ public class LinkFile extends LinkFile_Base {
     }
     
     @Override
-    public String printContent(){
+    protected String printContent(){
 		
     	// TODO: Print the file's content that is linked to this entity
     	return null;    	

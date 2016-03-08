@@ -29,7 +29,7 @@ public class AppFile extends AppFile_Base {
     
     
     @Override
-    public void executeApp(){
+    protected void executeApp(){
     	// TODO
     }
 }

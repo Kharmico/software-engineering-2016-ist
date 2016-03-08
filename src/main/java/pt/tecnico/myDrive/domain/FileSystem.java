@@ -11,9 +11,7 @@ public class FileSystem extends FileSystem_Base {
 
 	public FileSystem() {
         super();
-        this.init();
-        
-        
+        this.init(); 
     }
     
     private void init(){
@@ -43,7 +41,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Users */
     
-    public void addUsers(String username)/*TODO: throws*/{
+    protected void addUsers(String username)/*TODO: throws*/{
     	if(hasUser(username)){
     		// TODO : throw
     	}else{
@@ -65,7 +63,7 @@ public class FileSystem extends FileSystem_Base {
     	}
     }
    
-    public void removeUsers(String username)/*TODO: throws*/{
+    protected void removeUsers(String username)/*TODO: throws*/{
     	if(!hasUser(username) || username.equals(ROOT_USER)){
     		// TODO : throw
     	}else{
@@ -96,18 +94,18 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
     
-    public void createDirectory(String filename, Directory currentDirectory, User currentUser) /*TODO: throws*/{
+    protected void createDirectory(String filename, Directory currentDirectory, User currentUser) /*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
     	Directory newDir = new Directory(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, currentDirectory);
     	currentDirectory.addFile(newDir);
     }
      ///////////////////////////////// Em construção ///////////////////////////////////
-    public Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
+    protected Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
     	return currentDirectory.changeDirectory (dirname, currentUser); 	
     }
     
-    public Directory AbsolutPath(String path, Directory currentDirectory, User currentUser){
+    protected Directory AbsolutPath(String path, Directory currentDirectory, User currentUser){
     	return null;
     }
     ///////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +116,7 @@ public class FileSystem extends FileSystem_Base {
     
     // FIXME: rm - Carina
     
-    public String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
+    protected String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
     	//String FileLocation = path.substring(0,path.lastIndexOf("/"));
     	//Directory d = cd(FileLocation);
     	//String filename = path.substring(path.lastIndexOf("/")+1);
@@ -129,7 +127,7 @@ public class FileSystem extends FileSystem_Base {
     	return "work in progress";
     }
     
-    public void createPlainFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
+    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
@@ -137,7 +135,7 @@ public class FileSystem extends FileSystem_Base {
 	
     }
     
-    public void createPlainFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
+    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);
@@ -145,7 +143,7 @@ public class FileSystem extends FileSystem_Base {
 	
     }
     
-    public void createLinkFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
+    protected void createLinkFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
@@ -153,7 +151,7 @@ public class FileSystem extends FileSystem_Base {
     	
     }
     
-    public void createLinkFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
+    protected void createLinkFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);
@@ -161,7 +159,7 @@ public class FileSystem extends FileSystem_Base {
   
     }
     
-    public void createAppFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
+    protected void createAppFile(String filename, Directory currentDirectory, User currentUser)/*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		AppFile appFile = new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
@@ -169,7 +167,7 @@ public class FileSystem extends FileSystem_Base {
     	
     }
     
-    public void createAppFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
+    protected void createAppFile(String filename, Directory currentDirectory, User currentUser, String content)/*TODO: throws*/{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		AppFile appFile = new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);
@@ -177,7 +175,7 @@ public class FileSystem extends FileSystem_Base {
 
     }
     
-    public void accessCheckerToCreate(String filename, Directory currentDirectory, User currentUser) /* TODO: throws*/{
+    protected void accessCheckerToCreate(String filename, Directory currentDirectory, User currentUser) /* TODO: throws*/{
     	if(currentDirectory.hasFile(filename)){
     		// TODO : throw exception
     		// WE also need to check if the user can write here
@@ -187,14 +185,10 @@ public class FileSystem extends FileSystem_Base {
     
     /* Uniques Ids */
     
-    private int getAndIncrementuniqueId(){
+    private int generateUniqueId(){
     	Integer idSeed = super.getIdSeed();
     	super.setIdSeed(new Integer(idSeed.intValue() + 1));
     	return idSeed.intValue();
-    }
-    
-    private int generateUniqueId(){
-    	return this.getAndIncrementuniqueId();
     }
     
     @Override
@@ -217,7 +211,7 @@ public class FileSystem extends FileSystem_Base {
     	super.getSlash().getFileByName(HOME_DIR).addFile(toAdd);
     }
     
-	public User getRoot() {
+	protected User getRoot() {
 		return getUserByUsername(ROOT_USER);
 	}
 	

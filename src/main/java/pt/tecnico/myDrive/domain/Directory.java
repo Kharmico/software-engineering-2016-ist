@@ -25,7 +25,7 @@ public class Directory extends Directory_Base {
 
     }
     
-    
+    @Override
     public void addFile(File file) /* TODO: throws*/{
     	if(hasFile(file.getFilename())){
     		// TODO : throw
@@ -33,13 +33,14 @@ public class Directory extends Directory_Base {
     	super.addFiles(file);
     }
     
-    public Directory getFather() {  
+    @Override
+    protected Directory getFather() {  
     	return super.getParentDirectory();
 	}
    
     
     ////////////////Mudar Directorio em construçao /////////////////////////////////////////////////
-    public Directory changeDirectory(String dirname, User currentUser){
+    protected Directory changeDirectory(String dirname, User currentUser){
     	getFileByName(dirname).isCdAble();
     	return (Directory) getFileByName(dirname);
     }
@@ -56,7 +57,7 @@ public class Directory extends Directory_Base {
     
     //////////////// Funçao ls para testar//////////////////
     
-    public void getDirectoryFilesName() {
+    protected void getDirectoryFilesName() {
         for (File file: super.getFilesSet()){
         	System.out.println(file.getFilename());
         }  
@@ -64,7 +65,7 @@ public class Directory extends Directory_Base {
     
     /////////////////////////////////////////////////////
     
-    public File getFileByName(String name) {
+    protected File getFileByName(String name) {
     	// TODO : throw exception instead of returning null
         for (File file: super.getFilesSet())
             if (file.getFilename().equals(name))
@@ -72,7 +73,7 @@ public class Directory extends Directory_Base {
         return null;
     }
     
-    public File getFileById(Integer id) {
+    protected File getFileById(Integer id) {
     	// TODO : throw exception instead of returning null
         for (File file: super.getFilesSet())
             if (file.getId().equals(id))
@@ -80,7 +81,7 @@ public class Directory extends Directory_Base {
         return null;
     }
 
-    public boolean hasFile(String filename) {
+    protected boolean hasFile(String filename) {
         return getFileByName(filename) != null;
     }
 
