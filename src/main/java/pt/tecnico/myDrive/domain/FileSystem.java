@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 import java.util.List;
+import java.util.Vector;
 
 public class FileSystem extends FileSystem_Base {
     
@@ -232,75 +233,142 @@ public class FileSystem extends FileSystem_Base {
     
     /* ImportXML */
 	
-    protected void xmlImport(Element element){
-            this.xmlImportUser(element.getChildren("user"));
-            this.xmlImportDir(element.getChildren("directory"));
-            this.xmlImportFile(element.getChildren("linkfile"));	
+	/* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
+    /* FALTA CASOS DE VERIFICAÇÃO */
+    protected void xmlImport(Element element) throws IllegalStateException {
+        this.xmlImportUser(element.getChildren("user"));
+        this.xmlImportDir(element.getChildren("dir"));
+        this.xmlImportLink(element.getChildren("link"));
+        this.xmlImportApp(element.getChildren("app"));	
     }
     
-    private Directory createDirectories(Directory current, String name, User user) /* TODO: throws*/{
-            Directory nextDir = new Directory(this.generateUniqueId(), name, 
-                    user.getUmask(), user, current);
-            current.addFile(nextDir);
-            return nextDir;
+    private Directory createDir(Directory current, String name, User user){
+		Directory next = null;
+		
+    	if(!current.hasFile(name)){
+			next = new Directory (this.generateUniqueId(), name, this.getRoot().getUmask(), user, current);
+			current.addFile(next);
+		}
+		else{ 
+			/* TO DO */ 
+		}
+    	return next;
+	}
+    
+    /*  Creates all the path until last token */
+    private Directory createPath(String path) throws IllegalStateException {
+        String delims = "[/]";
+        String[] tokens = path.split(delims);
+        Directory current = super.getSlash();
+        
+        /* Slash case */
+        if (tokens.length == 0)
+        	throw new IllegalStateException();
+  
+        for (int i = 0; i < (tokens.length - 1); i++)
+        	current = createDir(current, tokens[i], this.getRoot());
+        return current;
     }
     
-    private void createPath(String path, User user) /* TODO: throws*/{
-            String delims = "[/]";
-            String[] tokens = path.split(delims);
-            
-            /* Path only a slash */
-            if (tokens.length == 0)
-                    return;
-            else{
-                    Directory currentDir = super.getSlash();
-                    /* Creating after slash */
-                    if (tokens.length == 1)
-                            currentDir = this.createDirectories(currentDir, tokens[0], user);
-                    else{
-                    /* Creating folder path with root */
-                    for (int i = 0; i < (tokens.length - 1); i++)
-                            currentDir = this.createDirectories(currentDir, tokens[i], this.getRoot());
-                    /* Last folder from user */
-                    currentDir = this.createDirectories(currentDir, tokens[tokens.length - 1], user);
-                    }
-                    user.setHomeDirectory(currentDir);
-                    super.addUsers(user);
+    /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
+    /* FALTA CASOS DE VERIFICAÇÃO */
+    private void xmlImportUser(List<Element> user) throws IllegalStateException {
+        for (Element node : user) {
+            String username = node.getAttributeValue("username");
+            User toInsert = this.getUserByUsername(username);
+            if (toInsert == null){
+                toInsert = new User(username);
+                
+                if (node.getChild("password").getValue() != null)
+                    toInsert.setPassword(node.getChild("password").getValue());
+                
+                if (node.getChild("name").getValue() != null)
+                    toInsert.setName(node.getChild("name").getValue());
+                
+                if (node.getChild("mask").getValue() != null)
+                    toInsert.setUmask(node.getChild("mask").getValue());
+           
+                if (node.getChild("home").getValue() != null){
+                	String[] tokens = node.getChild("home").getValue().split("[/]");
+                	toInsert.setHomeDirectory(createDir(createPath(node.getChild("home").getValue()),tokens[tokens.length - 1],toInsert));
+                }
+                else{
+                    Directory homeDirectory = new Directory(this.generateUniqueId(), username, 
+                                    toInsert.getUmask(), toInsert);
+                    toInsert.setHomeDirectory(homeDirectory);
+                    this.addDirectorytoHome(homeDirectory);
+                }
+                super.addUsers(toInsert);
             }
+        }
     }
     
-    private void xmlImportUser(List<Element> user){
-            for (Element node : user) {
-                    String username = node.getAttributeValue("username");
-                    User toInsert = this.getUserByUsername(username);
-                    if (toInsert == null){
-                            toInsert = new User(username);
-                            
-                            if (node.getChild("password").getValue() != null)
-                                    toInsert.setPassword(node.getChild("password").getValue());
-                            
-                            if (node.getChild("name").getValue() != null)
-                                    toInsert.setName(node.getChild("name").getValue());
-                            
-                            if (node.getChild("mask").getValue() != null)
-                                    toInsert.setUmask(node.getChild("mask").getValue());
-                            
-                            if (node.getChild("home").getValue() != null)
-                                    createPath(node.getChild("home").getValue(), toInsert);
-                            else{
-                                    Directory homeDirectory = new Directory(this.generateUniqueId(), username, 
-                                                    toInsert.getUmask(), toInsert);
-                                    toInsert.setHomeDirectory(homeDirectory);
-                                    this.addDirectorytoHome(homeDirectory);
-                                    super.addUsers(toInsert);
-                            }
-                    }
-            }
+    /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
+    /* FALTA CASOS DE VERIFICAÇÃO */
+    private Vector<String> xmlImportFile(Element node) throws IllegalStateException {	
+    	Vector<String> output = new Vector<String>();
+    	
+    	int id = node.getAttributeValue("id") != null ? Integer.parseInt(node.getAttributeValue("id")) : this.generateUniqueId();
+ 		if (!(id == (this.getIdSeed() + 1)))
+ 			throw new IllegalStateException();
+ 
+ 		String name = node.getChild("name").getValue();
+ 		if(name == null)
+ 			throw new IllegalStateException(); 
+   
+     	String ownerUsername = node.getChild("owner").getValue();
+ 		if(ownerUsername != null && this.hasUser(ownerUsername))
+ 			throw new IllegalStateException(); 
+ 		
+ 		String perm = node.getChild("perm").getValue();
+ 		if(perm == null)
+ 			perm = this.getUserByUsername(ownerUsername).getUmask();
+ 		
+ 		output.addElement(String.valueOf(id));
+ 		output.addElement(name);
+ 		output.addElement(ownerUsername);
+ 		output.addElement(perm);
+ 		
+ 		return output;
+ 		
     }
     
-    private void xmlImportDir(List<Element> dir){
+    /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
+    /* FALTA CASOS DE VERIFICAÇÃO */
+    private void xmlImportDir(List<Element> dir) throws IllegalStateException {
+    	for (Element node : dir) {
+    		Vector<String> input = xmlImportFile(node);
+			if (node.getChild("path").getValue() != null){
+				String[] tokens = node.getChild("path").getValue().split("[/]");
+				createDir(createPath(node.getChild("path").getValue()), tokens[tokens.length - 1], this.getUserByUsername(input.get(2)));
+			}
+    	}
     }
     
-    private void xmlImportFile(List<Element> file){
+    /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
+    /* FALTA CASOS DE VERIFICAÇÃO */
+    private void xmlImportLink(List<Element> link) throws IllegalStateException {
+    	for (Element node : link) {
+    		Vector<String> input = xmlImportFile(node);
+			if (node.getChild("path").getValue() != null)
+				if (node.getChild("value").getValue() != null)
+					this.createLinkFile(input.get(1), createPath(node.getChild("path").getValue()), this.getUserByUsername(input.get(2)), node.getChild("value").getValue());
+				else
+					this.createLinkFile(input.get(1), createPath(node.getChild("path").getValue()), this.getUserByUsername(input.get(2)));
+    		}
     }
+    
+    /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
+    /* FALTA CASOS DE VERIFICAÇÃO */
+    private void xmlImportApp(List<Element> app) throws IllegalStateException {
+    	for (Element node : app) {
+    		Vector<String> input = xmlImportFile(node);
+			if (node.getChild("path").getValue() != null)
+				if (node.getChild("method").getValue() != null)
+					this.createAppFile(input.get(1), createPath(node.getChild("path").getValue()), this.getUserByUsername(input.get(2)), node.getChild("method").getValue());
+				else
+					this.createAppFile(input.get(1), createPath(node.getChild("path").getValue()), this.getUserByUsername(input.get(2)));
+    		}
+    }
+   
 }

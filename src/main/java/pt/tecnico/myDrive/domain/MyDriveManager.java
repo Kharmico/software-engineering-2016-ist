@@ -117,7 +117,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* ImportXML */
     
-    public void xmlImport(Element element) {
+    public void xmlImport(Element element) throws IllegalStateException {
     	super.getFilesystem().xmlImport(element);
     }
     
