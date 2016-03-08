@@ -104,8 +104,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser(), content);
     }
     
-    public String printTextFile(String path) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
-    	return super.getFilesystem().printTextFile(path, getCurrentUser());
+    public void printTextFile(String path) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
+    	System.out.println(super.getFilesystem().printTextFile(path, getCurrentUser()));
     }
     
     /* ImportXML */
