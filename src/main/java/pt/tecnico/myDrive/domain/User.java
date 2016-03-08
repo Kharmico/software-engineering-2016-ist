@@ -17,7 +17,7 @@ public class User extends User_Base {
     
     protected void init(String username, String password, String name, String umask)/* TODO: throws */ {
     	/* The directory must be linked after the user creation */
-    	if(username.equals("root")){
+    	if(username.equals(Root.ROOT_USERNAME)){
     		// TODO : throw exception
     	}
     	

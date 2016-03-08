@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FileSystem extends FileSystem_Base {
     
-    private static final String ROOT_USER = "root";
+    private static final String ROOT_USER = Root.ROOT_USERNAME;
 	private static final String HOME_DIR = "home";
 
 	public FileSystem() {
