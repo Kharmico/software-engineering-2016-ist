@@ -55,15 +55,16 @@ public class Directory extends Directory_Base {
     	super.removeFiles(toRemove);
     }
     
-    //////////////// Funçao ls para testar//////////////////
     
-    protected void getDirectoryFilesName() {
-        for (File file: super.getFilesSet()){
-        	System.out.println(file.getFilename());
+
+	protected String getDirectoryFilesName() {
+    	String ls = null;
+        for (File file: super.getFilesSet()){ 
+        	ls = ls + file.getFilename() + "\n";
         }  
+        return ls;
     }   
-    
-    /////////////////////////////////////////////////////
+ 
     
     protected File getFileByName(String name) {
     	// TODO : throw exception instead of returning null

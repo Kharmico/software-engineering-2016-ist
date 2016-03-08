@@ -74,6 +74,11 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     
+    
+    public void getDirectoryFilesName() {
+    	System.out.println(super.getFilesystem().getDirectoryFilesName(getCurrentDirectory()));
+    }
+    
     /* Files */ 
     
     public void createPlainFile(String filename){

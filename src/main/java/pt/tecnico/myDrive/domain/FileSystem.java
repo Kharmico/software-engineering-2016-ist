@@ -110,6 +110,11 @@ public class FileSystem extends FileSystem_Base {
     }
     ///////////////////////////////////////////////////////////////////////////////////
     
+    
+    public String getDirectoryFilesName(Directory currentDirectory) {
+    	return currentDirectory.getDirectoryFilesName();
+    }
+    
     // FIXME: ls - JP and cd - JP
     
     /* Files */
