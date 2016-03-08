@@ -37,7 +37,14 @@ public class Directory extends Directory_Base {
     	return super.getParentDirectory();
 	}
    
-   
+    
+    ////////////////Mudar Directorio em construçao /////////////////////////////////////////////////
+    public Directory changeDirectory(String dirname, User currentUser){
+    	getFileByName(dirname).isCdAble();
+    	return (Directory) getFileByName(dirname);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public void removeFile(String filename) /* TODO: throws*/{
     	if(!hasFile(filename)){
     		// TODO : throw
@@ -47,7 +54,7 @@ public class Directory extends Directory_Base {
     	super.removeFiles(toRemove);
     }
     
-    //////////////// Funçao cd em teste//////////////////
+    //////////////// Funçao ls para testar//////////////////
     
     public void getDirectoryFilesName() {
         for (File file: super.getFilesSet()){
@@ -122,7 +129,7 @@ public class Directory extends Directory_Base {
     }
 
 	@Override
-	public void isCdAble(String dirName) {
+	public void isCdAble() {
 		// TODO Auto-generated method stub
 	}
 

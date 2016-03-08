@@ -67,10 +67,12 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser());
     }
     
+    ///////////////////////////Em Construção/////////////////////////////////////////////////////
     public void changeDirectory(String dirname){
-    	// TODO : Implement cd by calling the method on fs and setting the attributes here
-    
+    	super.setCurrentDirectory(getFilesystem().changeDirectory(dirname, 
+    			getCurrentDirectory(),getCurrentUser()));
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////
     
     /* Files */ 
     

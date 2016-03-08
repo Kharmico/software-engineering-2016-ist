@@ -101,15 +101,16 @@ public class FileSystem extends FileSystem_Base {
     	Directory newDir = new Directory(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, currentDirectory);
     	currentDirectory.addFile(newDir);
-    	
+    }
+     ///////////////////////////////// Em construção ///////////////////////////////////
+    public Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
+    	return currentDirectory.changeDirectory (dirname, currentUser); 	
     }
     
-    public Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
-    	// TODO : Implement cd and remove return null
-    	
+    public Directory AbsolutPath(String path, Directory currentDirectory, User currentUser){
     	return null;
     }
-    
+    ///////////////////////////////////////////////////////////////////////////////////
     
     // FIXME: ls - JP and cd - JP
     

@@ -80,7 +80,7 @@ public abstract class File extends File_Base {
 		// TODO : implement permissions
 	}
 	
-	public abstract void isCdAble(String dirName)/* TODO: throws*/;
+	public abstract void isCdAble()/* TODO: throws*/;
 	
 	public abstract String printContent()/* TODO: throws*/;
 	

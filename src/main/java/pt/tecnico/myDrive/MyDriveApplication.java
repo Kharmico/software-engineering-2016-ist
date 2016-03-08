@@ -2,6 +2,7 @@ package pt.tecnico.myDrive;
 
 import pt.tecnico.myDrive.domain.MyDriveManager;
 
+
 public class MyDriveApplication{
 
 	public static void main(String[] args){
@@ -9,8 +10,8 @@ public class MyDriveApplication{
 		
 		MyDriveManager manager = new MyDriveManager();
 		
-		//0 args -> criar fs com root e associados
 		
+		//0 args -> criar fs com root e associados
 		
 		//1 arg -> importar xml
 		
@@ -54,3 +55,4 @@ public class MyDriveApplication{
 		//TODO manager.listDirectory();
 	}
 }
+	
