@@ -10,23 +10,16 @@ public class User extends User_Base {
     }
     
     public User(String username)/* TODO: throws */ {
-    	this.init(username, username, username, DEFAULT_UMASK);
-    }
-    
-
-    
-    protected void init(String username, String password, String name, String umask)/* TODO: throws */ {
-    	/* The directory must be linked after the user creation */
     	if(username.equals(Root.ROOT_USERNAME)){
     		// TODO : throw exception
     	}
-    	
     	this.setUsername(username);
-    	this.setPassword(password);
-    	this.setName(name);
-    	this.setUmask(umask);
+    	this.setPassword(username);
+    	this.setName(username);
+    	this.setUmask(DEFAULT_UMASK);
     }
     
+
     @Override
 	public void setUsername(String username){
     	super.setUsername(username);
@@ -52,7 +45,7 @@ public class User extends User_Base {
     	super.setHomeDirectory(homeDirectory);
     }
     
-    /* Fenixframework binary relations setters */
+    /* FenixFramework binary relations setters */
     
     @Override
     public void setFilesystem(FileSystem fs) {

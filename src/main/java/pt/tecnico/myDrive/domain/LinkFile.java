@@ -7,12 +7,12 @@ public class LinkFile extends LinkFile_Base {
     }
     
     public LinkFile(int id, String filename, String userMask, User owner) /* TODO: throws*/{
-    	init(id, filename, userMask, owner);
+    	super.init(id, filename, userMask, owner);
     }
     
     
     public LinkFile(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
-    	init(id, filename, userMask, owner, content);
+    	super.init(id, filename, userMask, owner, content);
 
     }
     
