@@ -100,16 +100,18 @@ public class FileSystem extends FileSystem_Base {
     			currentUser, currentDirectory);
     	currentDirectory.addFile(newDir);
     }
-     ///////////////////////////////// Em construção ///////////////////////////////////
+    
     protected Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
     	return currentDirectory.changeDirectory (dirname, currentUser); 	
     }
     
-    protected Directory AbsolutPath(String path, Directory currentDirectory, User currentUser){
-    	return null;
+    protected Directory AbsolutePath(String path, User currentUser){
+    	Directory directory = getSlash();
+    	String[] FileLocation = path.split("/");
+    	for(int i = 1; i < (FileLocation.length-1) ; i++) 
+    		directory = changeDirectory(FileLocation[i], directory, currentUser);
+    	return directory;
     }
-    ///////////////////////////////////////////////////////////////////////////////////
-    
     
     public String getDirectoryFilesName(Directory currentDirectory) {
     	return currentDirectory.getDirectoryFilesName();

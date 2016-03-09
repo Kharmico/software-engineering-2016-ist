@@ -39,12 +39,12 @@ public class Directory extends Directory_Base {
 	}
    
     
-    ////////////////Mudar Directorio em construçao /////////////////////////////////////////////////
     protected Directory changeDirectory(String dirname, User currentUser){
-    	getFileByName(dirname).isCdAble();
-    	return (Directory) getFileByName(dirname);
+    	File file = getFileByName(dirname);
+    	file.checkAccess(currentUser);
+    	file.isCdAble();
+    	return (Directory) file;
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////////
     
     public void removeFile(String filename) /* TODO: throws*/{
     	if(!hasFile(filename)){

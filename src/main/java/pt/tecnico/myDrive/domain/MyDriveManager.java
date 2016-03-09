@@ -67,13 +67,14 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser());
     }
     
-    ///////////////////////////Em Construção/////////////////////////////////////////////////////
     public void changeDirectory(String dirname){
     	super.setCurrentDirectory(getFilesystem().changeDirectory(dirname, 
     			getCurrentDirectory(),getCurrentUser()));
     }
-    /////////////////////////////////////////////////////////////////////////////////////////////
     
+    public void AbsolutePath(String path){
+    	super.setCurrentDirectory(getFilesystem().AbsolutePath(path, getCurrentUser()));
+    }    
     
     public void getDirectoryFilesName() {
     	System.out.println(super.getFilesystem().getDirectoryFilesName(getCurrentDirectory()));
