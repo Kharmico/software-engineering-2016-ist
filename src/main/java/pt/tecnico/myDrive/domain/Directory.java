@@ -16,11 +16,8 @@ public class Directory extends Directory_Base {
         
     }
     
-    
-
-
 	public Directory(int id, String filename, String userMask, User owner, Directory father) /* TODO: throws*/{
-    	super.init(id, filename, userMask, owner);
+		super.init(id, filename, userMask, owner);
     	this.setParentDirectory(father);
 
     }

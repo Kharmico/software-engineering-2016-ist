@@ -18,7 +18,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         this.setCurrentDirectory(getCurrentUser().getHomeDirectory());
     }
     
-    public static MyDriveManager getInstance() {
+    public static MyDriveManager getInstance(){
     	MyDriveManager mngr = FenixFramework.getDomainRoot().getMyDriveManager();
         if (mngr != null)
         	return mngr;
@@ -118,7 +118,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* ImportXML */
     
-    public void xmlImport(Element element) {
+    public void xmlImport(Element element) throws IllegalStateException {
     	super.getFilesystem().xmlImport(element);
     }
     
