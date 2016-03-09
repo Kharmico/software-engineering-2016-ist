@@ -246,10 +246,16 @@ public class FileSystem extends FileSystem_Base {
 		Directory next = null;
 		
     	if(!current.hasFile(name)){
+    		current.checkAccess(user);
 			next = new Directory (this.generateUniqueId(), name, this.getRoot().getUmask(), user, current);
 			current.addFile(next);
 		}
 		else{ 
+			try{
+				current.getFileByName(name).isCdAble();
+				next = (Directory) current.getFileByName(name);
+				next.checkAccess(user);
+			} catch (Exception e) {}
 			/* TO DO */ 
 		}
     	return next;
@@ -342,6 +348,7 @@ public class FileSystem extends FileSystem_Base {
 				String[] tokens = node.getChild("path").getValue().split("[/]");
 				createDir(createPath(node.getChild("path").getValue()), tokens[tokens.length - 1], this.getUserByUsername(input.get(2)));
 			}
+			throw new IllegalStateException();
     	}
     }
     
@@ -356,6 +363,7 @@ public class FileSystem extends FileSystem_Base {
 				else
 					this.createLinkFile(input.get(1), createPath(node.getChild("path").getValue()), this.getUserByUsername(input.get(2)));
     		}
+    	throw new IllegalStateException();
     }
     
     /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
@@ -369,6 +377,7 @@ public class FileSystem extends FileSystem_Base {
 				else
 					this.createAppFile(input.get(1), createPath(node.getChild("path").getValue()), this.getUserByUsername(input.get(2)));
     		}
+    	throw new IllegalStateException();
     }
    
 }
