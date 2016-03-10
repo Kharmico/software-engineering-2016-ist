@@ -6,18 +6,18 @@ package pt.tecnico.myDrive.exception;
 public class IsNotFileException extends MyDriveException {
 	private static final long serialVersionUID = 1L;
 
-	private final String conflictingEntryName;
+	private final String conflictingFileName;
 
-	public IsNotFileException(String entryName) {
-		conflictingEntryName = entryName;
+	public IsNotFileException(String fileName) {
+		conflictingFileName = fileName;
 	}
 	
-	public String getConflictingEntryName(){
-		return conflictingEntryName;
+	public String getConflictingFileName(){
+		return conflictingFileName;
 	}
 
 	@Override
 	public String getMessage() {
-		return "Entry'" + conflictingEntryName + "' is not a file.";
+		return "'" + conflictingFileName + "' is not a file.";
 	}
 }

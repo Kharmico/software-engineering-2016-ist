@@ -1,5 +1,8 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
+
 public class User extends User_Base {
     
     private static final String DEFAULT_UMASK = "rwxd----";
@@ -9,9 +12,9 @@ public class User extends User_Base {
         super();
     }
     
-    public User(String username)/* TODO: throws */ {
+    public User(String username) throws UserAlreadyExistsException {
     	if(username.equals(Root.ROOT_USERNAME)){
-    		// TODO : throw exception
+    		throw new UserAlreadyExistsException(username);
     	}
     	this.setUsername(username);
     	this.setPassword(username);
@@ -36,7 +39,10 @@ public class User extends User_Base {
     }
     
     @Override
-	public void setUmask(String umask){
+	public void setUmask(String umask) throws InvalidMaskException {
+    	if(umask.length() != 8) {
+    		throw new InvalidMaskException(umask);
+    	}
     	super.setUmask(umask);
     }
     

@@ -1,5 +1,13 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.IDUnknownException;
+import pt.tecnico.myDrive.exception.InvalidFileNameException;
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotAppFileException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
+
 public class Directory extends Directory_Base {
     
     public Directory() {
@@ -7,7 +15,7 @@ public class Directory extends Directory_Base {
 
     }
     
-    public Directory(int id, String filename, String userMask, User owner) throws IllegalStateException{
+    public Directory(int id, String filename, String userMask, User owner) throws IllegalStateException, InvalidFileNameException, InvalidMaskException{
     	if(!filename.equals("/")){
     		throw new IllegalStateException();
     	}
@@ -16,16 +24,16 @@ public class Directory extends Directory_Base {
         
     }
     
-	public Directory(int id, String filename, String userMask, User owner, Directory father) /* TODO: throws*/{
+	public Directory(int id, String filename, String userMask, User owner, Directory father) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner);
     	this.setParentDirectory(father);
 
     }
     
     @Override
-    public void addFile(File file) /* TODO: throws*/{
+    public void addFile(File file) throws FileAlreadyExistsException {
     	if(hasFile(file.getFilename())){
-    		// TODO : throw
+    		throw new FileAlreadyExistsException(file.getFilename());
     	}
     	super.addFiles(file);
     }
@@ -43,9 +51,9 @@ public class Directory extends Directory_Base {
     	return (Directory) file;
     }
     
-    public void removeFile(String filename) /* TODO: throws*/{
+    public void removeFile(String filename) throws FileUnknownException{
     	if(!hasFile(filename)){
-    		// TODO : throw
+    		throw new FileUnknownException(filename);
     	}
     	File toRemove = getFileByName(filename);
     	toRemove.remove();
@@ -63,20 +71,18 @@ public class Directory extends Directory_Base {
     }   
  
     
-    protected File getFileByName(String name) {
-    	// TODO : throw exception instead of returning null
+    protected File getFileByName(String name) throws FileUnknownException {
         for (File file: super.getFilesSet())
             if (file.getFilename().equals(name))
                 return file;
-        return null;
+        throw new FileUnknownException(name);
     }
     
-    protected File getFileById(Integer id) {
-    	// TODO : throw exception instead of returning null
+    protected File getFileById(Integer id) throws IDUnknownException{
         for (File file: super.getFilesSet())
             if (file.getId().equals(id))
                 return file;
-        return null;
+        throw new IDUnknownException(id);
     }
 
     protected boolean hasFile(String filename) {
@@ -133,14 +139,13 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public String printContent() {
-		// TODO throw exception and remove return
-		return null;
+	public String printContent() throws IsNotPlainFileException {
+		throw new IsNotPlainFileException("Directory"); //do empty constructor on exception?
 	}
 
 	@Override
-	public void executeApp() {
-		// TODO throw exception and remove return
+	public void executeApp() throws IsNotAppFileException {
+		throw new IsNotAppFileException("Directory"); //do empty constructor on exception?
 		
 	}
     

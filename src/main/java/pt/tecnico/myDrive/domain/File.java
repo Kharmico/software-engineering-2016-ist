@@ -3,13 +3,19 @@ package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
 
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.InvalidFileNameException;
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotAppFileException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
+
 public abstract class File extends File_Base {
     
 	public File(){	
 		super();     
     }
 		
-	protected void init(int id, String filename, String userMask, User owner) /* TODO: throws*/{
+	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
 		setPermissions(userMask);		
         setId(new Integer(id));
         setFilename(filename);
@@ -23,9 +29,9 @@ public abstract class File extends File_Base {
 	}
 	
 	@Override
-	public void setFilename(String filename){
+	public void setFilename(String filename) throws InvalidFileNameException {
 		if(filename.contains("/") || filename.contains("\0")){
-			// TODO : throw exception
+			throw new InvalidFileNameException(filename);
 		}
 		
 		super.setFilename(filename);
@@ -37,9 +43,9 @@ public abstract class File extends File_Base {
 	}
 	
 	//@Override
-	public void setPermissions(String umask){
+	public void setPermissions(String umask) throws InvalidMaskException{
 		if(umask.length() != 8){
-			// TODO : throw exception
+			throw new InvalidMaskException(umask);
 		}
 		super.setOwnerPermissions(umask.substring(0, 3));
         super.setOthersPermissions(umask.substring(4, 7));
@@ -69,9 +75,9 @@ public abstract class File extends File_Base {
 		return super.getOwnerPermissions() + super.getOthersPermissions(); 
 	}
 	
-	protected void checkOwner(User u){
+	protected void checkOwner(User u) throws AccessDeniedException{
 		if(!u.equals(super.getOwner()) || !u.isRoot()){
-			// TODO :throw Exception
+			throw new AccessDeniedException(u);
 		}
 	}
 	
@@ -82,9 +88,9 @@ public abstract class File extends File_Base {
 	
 	protected abstract void isCdAble() throws UnsupportedOperationException;
 	
-	protected abstract String printContent()/* TODO: throws*/;
+	protected abstract String printContent() throws IsNotPlainFileException;
 	
-	protected abstract void executeApp()/* TODO: throws*/;
+	protected abstract void executeApp() throws IsNotAppFileException;
 	
 	protected abstract Directory getFather() throws UnsupportedOperationException;
 	

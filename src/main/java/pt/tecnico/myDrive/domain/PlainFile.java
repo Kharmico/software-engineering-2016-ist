@@ -1,5 +1,9 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.InvalidFileNameException;
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotAppFileException;
+import pt.tecnico.myDrive.exception.IsNotDirectoryException;
 
 public class PlainFile extends PlainFile_Base {
     
@@ -7,24 +11,24 @@ public class PlainFile extends PlainFile_Base {
 		super();
 	}
 	
-    public PlainFile(int id, String filename, String userMask, User owner) /* TODO: throws*/{
+    public PlainFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
     	this.init(id, filename, userMask, owner);
     }
     
     
-    public PlainFile(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
+    public PlainFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException {
     	this.init(id, filename, userMask, owner, content);
 
     }
     
     
     @Override
-    protected void init(int id, String filename, String userMask, User owner) /* TODO: throws*/{
+    protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
     	super.init(id, filename, userMask, owner);
     }
     
     
-    protected void init(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
+    protected void init(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException{
     	init(id, filename, userMask, owner);
     	this.setContent(content);
     }
@@ -40,9 +44,8 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    protected void isCdAble() throws UnsupportedOperationException{
-    	/* TODO: throw exception and remove return*/
-    	throw new UnsupportedOperationException();
+    protected void isCdAble() throws IsNotDirectoryException {
+    	throw new IsNotDirectoryException("Plain File"); //how to do this
     }
     
     @Override
@@ -52,8 +55,8 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    protected void executeApp(){
-    	/* TODO: throw exception */
+    protected void executeApp() throws IsNotAppFileException{
+    	throw new IsNotAppFileException("Plain File"); //same as above
     }
     
     protected Directory getFather() throws UnsupportedOperationException{

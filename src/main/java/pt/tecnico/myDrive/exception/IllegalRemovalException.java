@@ -7,8 +7,14 @@ public class IllegalRemovalException extends MyDriveException {
 	
 	private static final long serialVersionUID = 1L;
 
+	private final String removal;
+	
+	public IllegalRemovalException(String removalName){
+		removal = removalName;
+	}
+	
 	@Override
 	public String getMessage() {
-		return "It is not possible to remove \".\" or \"..\".";
+		return "It is not possible to remove '" + removal;
 	}
 }

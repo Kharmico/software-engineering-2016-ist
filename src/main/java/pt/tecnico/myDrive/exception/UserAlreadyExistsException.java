@@ -13,6 +13,7 @@ public class UserAlreadyExistsException extends MyDriveException {
 		conflictingUsername = username;
 	}
 	
+	
 	public String getConflictingUsername(){
 		return conflictingUsername;
 	}
