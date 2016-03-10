@@ -123,11 +123,19 @@ public class FileSystem extends FileSystem_Base {
     public String getDirectoryFilesName(Directory currentDirectory) {
     	return currentDirectory.getDirectoryFilesName();
     }
+     
+   /*protected void removeDirectory(Directory directoryName, Directory currentDirectory) throws IllegalRemovalException, FileUnknownException { //TODO: permissions
+    	if(directoryName.equals(currentDirectory) || directoryName.equals(directoryName.getFather()) || directoryName.equals("/"))
+    		throw new IllegalRemovalException(directoryName);
+    	if(directoryName.getDirectoryFilesName() == null){
+    		directoryName.remove();
+    		//missing actual object removal - carina
+    	}
+    }*/
     
     // FIXME: ls - JP and cd - JP
     /* Files */
-    
-    // FIXME: rm - Carina
+
     
     protected String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
     	//String FileLocation = path.substring(0,path.lastIndexOf("/"));
@@ -195,6 +203,13 @@ public class FileSystem extends FileSystem_Base {
 
     	}
     }
+    
+    protected void removeFile(String file, Directory currentDirectory){ //TODO: throws
+    	if(currentDirectory.hasFile(file))
+    		currentDirectory.removeFile(file);
+    	//missing actual object removal - carina
+    }
+    
     
     /* Uniques Ids */
     
