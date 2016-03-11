@@ -1,5 +1,14 @@
 package pt.tecnico.myDrive;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import jvstm.Atomic;
+import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 
 
@@ -54,5 +63,20 @@ public class MyDriveApplication{
 		manager.changeDirectory("home");
 		//TODO manager.listDirectory();
 	}
+	
+	/*@Atomic
+	public static void xmlScan(File file) {
+		//log.trace("xmlScan: " + FenixFramework.getDomainRoot());
+		MyDriveManager manager = MyDriveManager.getInstance();
+		SAXBuilder builder = new SAXBuilder();
+		try {
+		    Document document = (Document)builder.build(file);
+		    manager.xmlImport(document.getRootElement());
+		} catch (JDOMException | IOException e) {
+		    e.printStackTrace();
+		}
+	}*/
+	
+	
 }
 	
