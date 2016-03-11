@@ -1,6 +1,12 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
+import org.jdom2.Document;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+
+import java.io.IOException;
+import java.io.PrintStream;
 
 import pt.ist.fenixframework.FenixFramework;
 
@@ -50,7 +56,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     	deleteDomainObject();
     }
     
-    /* Users */
+    
+    /* --- Users --- */
     
     public void addUser(String username){
     	super.getFilesystem().addUsers(username);
@@ -60,7 +67,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     	super.getFilesystem().removeUsers(username);
     }
     
-    /* Directory */
+    
+    /* --- Directory --- */
     
     public void createDirectory(String filename){
     	super.getFilesystem().createDirectory(filename, 
@@ -80,7 +88,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     	System.out.println(super.getFilesystem().getDirectoryFilesName(getCurrentDirectory()));
     }
     
-    /* Files */ 
+    
+    /* --- Files --- */ 
     
     public void createPlainFile(String filename){
     	super.getFilesystem().createPlainFile(filename, 
@@ -116,10 +125,24 @@ public class MyDriveManager extends MyDriveManager_Base {
     	System.out.println(super.getFilesystem().printTextFile(path, getCurrentUser()));
     }
     
-    /* ImportXML */
+    
+    /* --- ImportXML --- */
     
     public void xmlImport(Element element) throws IllegalStateException {
     	super.getFilesystem().xmlImport(element);
     }
     
+    
+    /* --- ExportXML --- */
+    
+    public void xmlExport(){
+    	Element element = new Element("mydrivemanager");
+    	Document doc = new Document(element);
+    	XMLOutputter xmloutput = new XMLOutputter(Format.getPrettyFormat());
+    	
+    	element.addContent(super.getFilesystem().xmlExport());
+    	try {
+    		xmloutput.output(doc, new PrintStream(System.out));
+    	} catch (IOException e) { System.out.println(e); }
+    }
 }

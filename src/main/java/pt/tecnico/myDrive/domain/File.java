@@ -94,17 +94,26 @@ public abstract class File extends File_Base {
 	
 	protected abstract Directory getFather() throws UnsupportedOperationException;
 	
-	protected abstract void addFile(File toAdd) throws UnsupportedOperationException ;
+	protected abstract void addFile(File toAdd) throws UnsupportedOperationException;
 	
-	protected abstract void removeFile(String toRemove) throws UnsupportedOperationException ;
+	protected abstract void removeFile(String toRemove) throws UnsupportedOperationException;
+	
+	public abstract boolean isDirectory();
+	
+	// TODO: Implement a recursive path calculator
+	public String getPath(){
+		return "CoolStuff";
+	}
 	
 	@Override
 	public String toString(){
 		return this.getPermissions() + super.getOwner()
 			+ super.getLastModified() + super.getFilename();
 	}
-		
-    
-    
-    
+
+	/* public files xmlExport();
+	 * for(files)
+	 * Att -> id
+	 * Elements -> nome, username do owner, mask, content if any, last modif, path
+	 */
 }

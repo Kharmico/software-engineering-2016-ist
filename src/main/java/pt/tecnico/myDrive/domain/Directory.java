@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.IDUnknownException;
@@ -137,6 +139,11 @@ public class Directory extends Directory_Base {
 	public void isCdAble() {
 		// TODO Auto-generated method stub
 	}
+	
+	@Override
+	public boolean isDirectory(){
+		return true;
+	}
 
 	@Override
 	public String printContent() throws IsNotPlainFileException {
@@ -149,4 +156,20 @@ public class Directory extends Directory_Base {
 		
 	}
     
+	public Element xmlExport(){
+		Element dir_el = new Element("dir");
+		
+		/* isDir verification cycle, including
+		 * addContent and Elements for XMLExport
+		 * cannot include slash (/) nor /home dirs
+		 */
+		
+		// if(file.isDirectory() == true) print dir info and enter it
+		// else print file info
+		return dir_el;
+	}
+	/*for(files)
+	 * Att -> id
+	 * Elements -> nome, username do owner, mask, path
+	 */
 }

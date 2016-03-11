@@ -42,7 +42,7 @@ public class MyDriveApplication{
 		//TODO manager.removeFile("bin");
 		
 		//imprimir a exportacao em XML do sistema de ficheiros
-		
+		manager.xmlExport();
 		
 		//remover o ficheiro /home/README
 		//TODO manager.goToSlash();

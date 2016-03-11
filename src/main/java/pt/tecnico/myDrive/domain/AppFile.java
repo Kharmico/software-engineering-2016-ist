@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
 public class AppFile extends AppFile_Base {
     
 	
@@ -27,9 +29,23 @@ public class AppFile extends AppFile_Base {
     	
     }
     
-    
     @Override
     protected void executeApp(){
     	// TODO
+    }
+    
+    public Element xmlExport(){
+    	Element app_el = new Element("app");
+    	
+    	app_el.setAttribute("id", getId().toString());
+    	app_el.addContent("<name>" + getFilename() + "</name>");
+    	app_el.addContent("<owner>" + getOwner() + "</owner>");
+    	app_el.addContent("<path>" + getPath() + "</path>");
+    	app_el.addContent("<perm>" + getPermissions() + "</perm>");
+    	
+    	// Check if there is content on the file, none found print nothing
+    	app_el.addContent("<method>" + getContent() + "</method>");
+    	
+    	return app_el;
     }
 }

@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
 public class LinkFile extends LinkFile_Base {
     
     public LinkFile() {
@@ -32,6 +34,21 @@ public class LinkFile extends LinkFile_Base {
     @Override
     public String toString(){
     	return toString() + " -> " + super.getContent();
+    }
+    
+    public Element xmlExport(){
+    	Element link_el = new Element("link");
+    	
+    	link_el.setAttribute("id", getId().toString());
+    	link_el.addContent("<name>" + getFilename() + "</name>");
+    	link_el.addContent("<owner>" + getOwner() + "</owner>");
+    	link_el.addContent("<path>" + getPath() + "</path>");
+    	link_el.addContent("<perm>" + getPermissions() + "</perm>");
+    	
+    	// Check if there is content on the file, none found print nothing
+    	link_el.addContent("<value>" + getContent() + "</value>");
+    	
+    	return link_el;
     }
     
 }

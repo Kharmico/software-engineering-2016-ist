@@ -13,13 +13,13 @@ import java.util.Vector;
 
 public class FileSystem extends FileSystem_Base {
     
-    private static final String ROOT_USER = Root.ROOT_USERNAME;
+	private static final String ROOT_USER = Root.ROOT_USERNAME;
 	private static final String HOME_DIR = "home";
 
 	public FileSystem() {
-        super();
-        this.init(); 
-    }
+		super();
+		this.init(); 
+	}
     
     private void init(){
     	
@@ -48,7 +48,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Users */
     
-    protected void addUsers(String username) throws UserAlreadyExistsException{
+    protected void addUsers(String username) throws UserAlreadyExistsException, UserUnknownException {
     	if(hasUser(username)){
     		throw new UserAlreadyExistsException(username);
     	}else{
@@ -61,27 +61,30 @@ public class FileSystem extends FileSystem_Base {
     	}
     }
     
-    public void addUsers(User user) throws UserAlreadyExistsException{
+    public void addUsers(User user) throws UserAlreadyExistsException, UserUnknownException {
     	if(hasUser(user.getUsername())){
     		throw new UserAlreadyExistsException(user.getUsername());
     	}else{
-    		
     		super.addUsers(user);
     	}
     }
    
-    protected void removeUsers(String username) throws IllegalRemovalException {
+    protected void removeUsers(String username) throws IllegalRemovalException, UserUnknownException {
     	if(!hasUser(username) || username.equals(ROOT_USER)){
     		throw new IllegalRemovalException(username);
     	}else{
-    		// Should we remove the user home dir?
+    		// Should we remove the user home dir?  If not, new owner = root?!
 	    	User toRemove = getUserByUsername(username);
 	    	toRemove.remove();
 	    	super.removeUsers(toRemove);
     	}
     }
-    private String getUserMask(String username){
-    	// TODO : Verify that it doesn't return null
+    private String getUserMask(String username) throws UserUnknownException {
+    	String mask = getUserByUsername(username).getUmask();
+    	
+    	// TODO : if null then what?
+    	if(mask == null);
+    	
     	return getUserByUsername(username).getUmask();
     }
     
@@ -93,7 +96,7 @@ public class FileSystem extends FileSystem_Base {
         throw new UserUnknownException(name);
     }
     
-    private boolean hasUser(String username) {
+    private boolean hasUser(String username) throws UserUnknownException {
         return this.getUserByUsername(username) != null;
     }
     
@@ -200,8 +203,8 @@ public class FileSystem extends FileSystem_Base {
     	if(currentDirectory.hasFile(filename)){
     		throw new FileAlreadyExistsException(filename);
     		// WE also need to check if the user can write here
-
     	}
+    	//if(filename.checkAccess()) check files access to user, what permissions does the user have???
     }
     
     protected void removeFile(String file, Directory currentDirectory){ //TODO: throws
@@ -239,7 +242,7 @@ public class FileSystem extends FileSystem_Base {
     	super.getSlash().getFileByName(HOME_DIR).addFile(toAdd);
     }
     
-	protected User getRoot() {
+	protected User getRoot() throws UserUnknownException {
 		return getUserByUsername(ROOT_USER);
 	}
 	
@@ -300,7 +303,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
     /* FALTA CASOS DE VERIFICAÇÃO */
-    private void xmlImportUser(List<Element> user) throws IllegalStateException {
+    private void xmlImportUser(List<Element> user) throws IllegalStateException, UserUnknownException {
         for (Element node : user) {
             String username = node.getAttributeValue("username");
             User toInsert = this.getUserByUsername(username);
@@ -333,7 +336,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
     /* FALTA CASOS DE VERIFICAÇÃO */
-    private Vector<String> xmlImportFile(Element node) throws IllegalStateException {	
+    private Vector<String> xmlImportFile(Element node) throws IllegalStateException, UserUnknownException {	
     	Vector<String> output = new Vector<String>();
     	
     	int id = node.getAttributeValue("id") != null ? Integer.parseInt(node.getAttributeValue("id")) : this.generateUniqueId();
@@ -363,7 +366,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
     /* FALTA CASOS DE VERIFICAÇÃO */
-    private void xmlImportDir(List<Element> dir) throws IllegalStateException {
+    private void xmlImportDir(List<Element> dir) throws IllegalStateException, UserUnknownException {
     	for (Element node : dir) {
     		Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path").getValue() != null){
@@ -376,7 +379,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
     /* FALTA CASOS DE VERIFICAÇÃO */
-    private void xmlImportLink(List<Element> link) throws IllegalStateException {
+    private void xmlImportLink(List<Element> link) throws IllegalStateException, UserUnknownException {
     	for (Element node : link) {
     		Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path").getValue() != null)
@@ -390,7 +393,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* SUBSTITUIR EXCEPTION POR UMA ADEQUADA */
     /* FALTA CASOS DE VERIFICAÇÃO */
-    private void xmlImportApp(List<Element> app) throws IllegalStateException {
+    private void xmlImportApp(List<Element> app) throws IllegalStateException, UserUnknownException {
     	for (Element node : app) {
     		Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path").getValue() != null)
@@ -401,5 +404,16 @@ public class FileSystem extends FileSystem_Base {
     		}
     	throw new IllegalStateException();
     }
-   
+    
+    protected Element xmlExport(){
+    	Element fs_el = new Element("filesystem");
+    	
+    	for(User usr : getUsersSet())
+    		fs_el.addContent(usr.xmlExport());
+    		
+    	fs_el.addContent(super.getSlash().xmlExport());
+    	
+    	return fs_el;
+    }
+ 
 }

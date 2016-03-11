@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.IsNotAppFileException;
@@ -49,6 +51,11 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
+    public boolean isDirectory(){
+    	return false;
+    }
+    
+    @Override
     protected String printContent(){
     	return this.getContent();
 
@@ -75,6 +82,19 @@ public class PlainFile extends PlainFile_Base {
 		
 	}
     
-    
+    public Element xmlExport(){
+    	Element pf_el = new Element("plain");
+    	
+    	pf_el.setAttribute("id", getId().toString());
+    	pf_el.addContent("<name>" + getFilename() + "</name>");
+    	pf_el.addContent("<owner>" + getOwner() + "</owner>");
+    	pf_el.addContent("<path>" + getPath() + "</path>");
+    	pf_el.addContent("<perm>" + getPermissions() + "</perm>");
+    	
+    	// Check if there is content on the file, none found print nothing
+    	pf_el.addContent("<contents>" + getContent() + "</contents>");
+    	
+    	return pf_el;
+    }
     
 }

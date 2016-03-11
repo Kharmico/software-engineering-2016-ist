@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.jdom2.Element;
+
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 
@@ -88,4 +90,16 @@ public class User extends User_Base {
 		return false;
 	}
     
+	protected Element xmlExport(){
+		Element usr_el = new Element("user");
+		usr_el.setAttribute("username", getUsername());
+		usr_el.addContent("<password>" + getPassword() + "</password>");
+		usr_el.addContent("<name>" + getName() + "</name>");
+		usr_el.addContent("<home>" + getHomeDirectory() + "</home>");
+		usr_el.addContent("<mask>" + getUmask() + "</mask>");
+
+		return usr_el;
+	}
+
+
 }
