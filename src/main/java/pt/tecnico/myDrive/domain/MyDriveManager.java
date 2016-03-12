@@ -123,7 +123,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser(), content);
     }
     
-    public void printTextFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+    public void printTextFile(String filename){
     	System.out.println(super.getFilesystem().printTextFile(filename, getCurrentDirectory(), getCurrentUser()));
     }
     
