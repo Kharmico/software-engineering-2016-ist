@@ -128,7 +128,6 @@ public class MyDriveManager extends MyDriveManager_Base {
     	System.out.println(super.getFilesystem().printTextFile(path, getCurrentUser()));
     }
     
-    
     /* --- ImportXML --- */
     
     public void xmlImport(Element element) throws IllegalStateException {

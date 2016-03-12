@@ -79,6 +79,10 @@ public class PlainFile extends PlainFile_Base {
 		throw new IsNotFileException(toRemove);
 		
 	}
+	
+	protected Directory changeDirectory(String dirname, User currentUser) throws UnsupportedOperationException{
+		throw new UnsupportedOperationException();
+	}
     
 	@Override
     public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!

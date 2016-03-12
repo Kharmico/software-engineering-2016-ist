@@ -106,11 +106,20 @@ public abstract class File extends File_Base {
 	
 	public abstract boolean isDirectory();
 	
+	protected abstract Directory changeDirectory(String dirname, User currentUser);
+	
 	public abstract Element xmlExport();
 	
 	// TODO: Implement a recursive path calculator
 	public String getPath(){
-		return "CoolStuff";
+		String path = null;
+		File file = getFather();
+		while(!file.getFilename().equals("/")){
+			path = file.getFilename() + "/" + path;
+			file = file.getFather();
+		}
+		path = file.getFilename() + path;
+		return path;
 	}
 	
 	@Override
