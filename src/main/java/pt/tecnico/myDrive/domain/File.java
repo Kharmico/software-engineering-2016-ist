@@ -106,6 +106,8 @@ public abstract class File extends File_Base {
 	
 	public abstract boolean isDirectory();
 	
+	protected abstract String getDirectoryFilesName();
+	
 	protected abstract Directory changeDirectory(String dirname, User currentUser);
 	
 	public abstract Element xmlExport();
