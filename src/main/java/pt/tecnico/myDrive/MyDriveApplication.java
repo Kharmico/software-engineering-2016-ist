@@ -29,7 +29,7 @@ public class MyDriveApplication{
 		//TODO fazer cd ate home ou dar path absoluta?
 		//TODO manager.goToSlash();
 		manager.changeDirectory("home");
-		manager.createPlainFile("README", "work in progress" /*manager.listUsers()*/);
+		//manager.createPlainFile("README", "work in progress" /*manager.listUsers()*/);
 		
 		//criar a diretoria /usr/local/bin
 		//TODO manager.goToSlash();
