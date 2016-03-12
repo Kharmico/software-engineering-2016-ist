@@ -16,7 +16,7 @@ public class MyDriveApplication{
 
 	public static void main(String[] args){
 		
-		MyDriveManager manager = new MyDriveManager();
+		MyDriveManager manager = MyDriveManager.getInstance();
 		
 		//0 args -> criar fs com root e associados
 		if(args.length == 0){
