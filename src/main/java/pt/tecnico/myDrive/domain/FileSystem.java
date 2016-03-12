@@ -138,7 +138,6 @@ public class FileSystem extends FileSystem_Base {
     
     public String getDirectoryFilesName(String filenameArg, Directory currentDirectoryArg, User currentUser) {
     	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
-    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	return currentDirectory.getDirectoryFilesName();
     }
      
