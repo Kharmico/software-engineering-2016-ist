@@ -141,14 +141,12 @@ public class FileSystem extends FileSystem_Base {
 
     
     protected String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
-    	//String FileLocation = path.substring(0,path.lastIndexOf("/"));
-    	//Directory d = cd(FileLocation);
-    	//String filename = path.substring(path.lastIndexOf("/")+1);
-    	//fileExists(filename, d);
-    	//accessChecker(filename, d, logged);
-    	//File f = d.getFileByName(filename);
-    	//return f.printContent();
-    	return "work in progress";
+    	Directory d = AbsolutePath(path, logged);
+    	String filename = path.substring(path.lastIndexOf("/")+1);
+    	d.hasFile(filename);
+    	File f = d.getFileByName(filename);
+    	f.checkAccess(logged);
+    	return f.printContent();
     }
     
     protected void createPlainFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException {
