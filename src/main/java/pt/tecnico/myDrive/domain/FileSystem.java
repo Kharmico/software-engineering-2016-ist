@@ -113,20 +113,13 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
     
-    protected void createDirectory(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException{
+    protected void createDirectory(String filenameArg, Directory currentDirectoryArg, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException{
+    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
+    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
     	Directory newDir = new Directory(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, currentDirectory);
     	currentDirectory.addFile(newDir);
-    }
-    
-    protected void createDirectory(String path,User currentUser) throws InvalidFileNameException, FileAlreadyExistsException{
-    	Directory d = AbsolutePath(path, currentUser);
-    	String filename = path.substring(path.lastIndexOf("/")+1); 
-    	this.accessCheckerToCreate(filename, d, currentUser);
-    	Directory newDir = new Directory(this.generateUniqueId(), filename, currentUser.getUmask(), 
-    			currentUser, d);
-    	d.addFile(newDir);
     }
     
     protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws IsNotDirectoryException{
@@ -143,14 +136,10 @@ public class FileSystem extends FileSystem_Base {
     	return directory;
     }
     
-    public String getDirectoryFilesName(Directory currentDirectory) {
+    public String getDirectoryFilesName(String filenameArg, Directory currentDirectoryArg, User currentUser) {
+    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
+    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	return currentDirectory.getDirectoryFilesName();
-    }
-    
-    public String getDirectoryFilesName(String path, User currentUser) {
-    	Directory d = AbsolutePath(path, currentUser);
-    	String filename = path.substring(path.lastIndexOf("/")+1); 
-    	return d.getFileByName(filename).getDirectoryFilesName();
     }
      
    /*protected void removeDirectory(Directory directoryName, Directory currentDirectory) throws IllegalRemovalException, FileUnknownException { //TODO: permissions
@@ -166,56 +155,32 @@ public class FileSystem extends FileSystem_Base {
     /* Files */
 
     
-    protected String printTextFile(String filename, Directory currentDirectory, User currentUser) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+    protected String printTextFile(String filenameArg, Directory currentDirectoryArg, User currentUser) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
+    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	currentDirectory.hasFile(filename);
     	File f = currentDirectory.getFileByName(filename);
     	f.checkAccess(currentUser);
     	return f.printContent();
     }
     
-    protected String printTextFile(String path, User currentUser) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	Directory d = AbsolutePath(path, currentUser);
-    	String filename = path.substring(path.lastIndexOf("/")+1);
-    	d.hasFile(filename);
-    	File f = d.getFileByName(filename);
-    	f.checkAccess(currentUser);
-    	return f.printContent();
-    }
-    
-    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {    	 	
+    protected void createPlainFile(String filenameArg, Directory currentDirectoryArg, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {    	 	
+    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
+    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
     	currentDirectory.addFile(plainFile);
     }
     
-    protected void createPlainFile(String path, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {    	 	
-    	Directory d = AbsolutePath(path, currentUser);
-    	String filename = path.substring(path.lastIndexOf("/")+1); 	
-    	this.accessCheckerToCreate(filename, d, currentUser);
-		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
-    			currentUser);
-    	d.addFile(plainFile);
-    }
-    
-    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
+    protected void createPlainFile(String filenameArg, Directory currentDirectoryArg, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
+    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
+    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);
     	currentDirectory.addFile(plainFile);
-	
     }
-    
-    protected void createPlainFile(String path, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
-    	Directory d = AbsolutePath(path, currentUser);
-    	String filename = path.substring(path.lastIndexOf("/")+1); 
-    	this.accessCheckerToCreate(filename, d, currentUser);
-		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
-    			currentUser, content);
-    	d.addFile(plainFile);
-	
-    }
-    
     protected void createLinkFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
@@ -256,17 +221,11 @@ public class FileSystem extends FileSystem_Base {
     	//if(filename.checkAccess()) check files access to user, what permissions does the user have???
     }
     
-    protected void removeFile(String filename, Directory currentDirectory, User currentUser){ //TODO: throws
+    protected void removeFile(String filenameArg, Directory currentDirectoryArg, User currentUser){ //TODO: throws
+    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
+    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	if(currentDirectory.hasFile(filename))
     		currentDirectory.removeFile(filename);
-    	//missing actual object removal - carina
-    }
-    
-    protected void removeFile(String path, User currentUser){ //TODO: throws
-    	Directory d = AbsolutePath(path, currentUser);
-    	String filename = path.substring(path.lastIndexOf("/")+1); 
-    	if(d.hasFile(filename))
-    		d.removeFile(filename);
     	//missing actual object removal - carina
     }
     

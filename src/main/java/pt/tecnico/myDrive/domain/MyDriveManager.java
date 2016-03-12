@@ -87,15 +87,14 @@ public class MyDriveManager extends MyDriveManager_Base {
     	super.setCurrentDirectory(getFilesystem().AbsolutePath(path, getCurrentUser()));
     }    
     
-    public void getDirectoryFilesName() {
-    	System.out.println(super.getFilesystem().getDirectoryFilesName(getCurrentDirectory()));
+    public void getDirectoryFilesName(String filename) {
+    	System.out.println(super.getFilesystem().getDirectoryFilesName(filename, getCurrentDirectory(), getCurrentUser()));
     }
     
     
     /* --- Files --- */ 
     
-    //TODO FIXME
-    /*public void createPlainFile(String filename){
+    public void createPlainFile(String filename){
     	super.getFilesystem().createPlainFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
     }
@@ -104,17 +103,6 @@ public class MyDriveManager extends MyDriveManager_Base {
     	super.getFilesystem().createPlainFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
     }
-    
-    public void createPlainFile(String path){
-    	super.getFilesystem().createPlainFile(path, 
-    			getCurrentUser());
-    }
-    
-    public void createPlainFile(String path, String content){
-    	super.getFilesystem().createPlainFile(path, 
-    			getCurrentUser(), content);
-    } */
-    
     public void createLinkFile(String filename){
     	super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
@@ -136,7 +124,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     public void printTextFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	System.out.println(super.getFilesystem().printTextFile(filename, getCurrentUser()));
+    	System.out.println(super.getFilesystem().printTextFile(filename, getCurrentDirectory(), getCurrentUser()));
     }
     
     /* --- ImportXML --- */
