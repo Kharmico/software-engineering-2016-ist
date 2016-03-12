@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import org.jdom2.Element;
 
+import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.IDUnknownException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.IsNotAppFileException;
+import pt.tecnico.myDrive.exception.IsNotDirectoryException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 public class Directory extends Directory_Base {
@@ -42,7 +44,7 @@ public class Directory extends Directory_Base {
     	super.addFiles(file);
     }
    
-    protected Directory changeDirectory(String dirname, User currentUser){
+    protected Directory changeDirectory(String dirname, User currentUser) throws AccessDeniedException, IsNotDirectoryException{
     	File file = getFileByName(dirname);
     	file.checkAccess(currentUser);
     	file.isCdAble();
