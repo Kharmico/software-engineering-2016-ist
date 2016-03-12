@@ -99,8 +99,8 @@ public class PlainFile extends PlainFile_Base {
     	pf_el.addContent("<path>" + getPath() + "</path>");
     	pf_el.addContent("<perm>" + getPermissions() + "</perm>");
     	
-    	// Check if there is content on the file, none found print nothing
-    	pf_el.addContent("<contents>" + getContent() + "</contents>");
+    	if(getContent() != null)// Check if there is content on the file, none found print nothing
+    		pf_el.addContent("<contents>" + getContent() + "</contents>");
     	
     	return pf_el;
     }

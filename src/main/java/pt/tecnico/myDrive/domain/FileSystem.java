@@ -426,8 +426,10 @@ public class FileSystem extends FileSystem_Base {
     	ArrayList<File> allfiles = new ArrayList<File>();
     	Element fs_el = new Element("filesystem");
     	
-    	for(User usr : getUsersSet())
-    		fs_el.addContent(usr.xmlExport());
+    	for(User usr : getUsersSet()){
+    		if(!(usr.isRoot()))
+    			fs_el.addContent(usr.xmlExport());
+    	}
     		
     	allfiles = super.getSlash().getAllFiles();
     	
@@ -438,5 +440,5 @@ public class FileSystem extends FileSystem_Base {
     	
     	return fs_el;
     }
- 
+    
 }

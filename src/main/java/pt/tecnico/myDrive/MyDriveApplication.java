@@ -20,18 +20,18 @@ public class MyDriveApplication{
 		MyDriveManager manager = new MyDriveManager();
 		
 		
-		//0 args -> criar fs com root e associados
+		//0 args -> create fs with root and associates
 		
-		//1 arg -> importar xml
+		//1 arg -> import xml
 		
 		
-		//criar o ficheiro de texto /home/README com o conteudo lista de utilizadores
+		//create plaintext file /home/README com o conteudo lista de utilizadores
 		//TODO fazer cd ate home ou dar path absoluta?
 		//TODO manager.goToSlash();
 		manager.changeDirectory("home");
 		//manager.createPlainFile("README", "work in progress" /*manager.listUsers()*/);
 		
-		//criar a diretoria /usr/local/bin
+		//create directory /usr/local/bin
 		//TODO manager.goToSlash();
 		manager.createDirectory("usr");
 		manager.changeDirectory("usr");
@@ -39,26 +39,27 @@ public class MyDriveApplication{
 		manager.changeDirectory("local");
 		manager.createDirectory("bin");
 		
-		//imprimir o conteudo do ficheiro /home/README
+		//print content from file /home/README
 		//TODO manager.goToSlash();
 		manager.changeDirectory("home");
 		manager.printTextFile("README");
 		
-		//remover a diretoria /usr/local/bin
+		//remove directory /usr/local/bin
 		//TODO manager.goToSlash();
 		manager.changeDirectory("usr");
 		manager.changeDirectory("local");
 		//TODO manager.removeFile("bin");
 		
-		//imprimir a exportacao em XML do sistema de ficheiros
+		//XMLExport
+		//need xmlPrint???
 		manager.xmlExport();
 		
-		//remover o ficheiro /home/README
+		//remove file /home/README
 		//TODO manager.goToSlash();
 		manager.changeDirectory("home");
 		//TODO manager.removeFile("README");
 		
-		//imprimir a listagem simples da diretoria /home
+		//print a simple list of /home
 		//TODO manager.goToSlash();
 		manager.changeDirectory("home");
 		//TODO manager.listDirectory();

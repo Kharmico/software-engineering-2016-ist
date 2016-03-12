@@ -45,8 +45,8 @@ public class LinkFile extends LinkFile_Base {
     	link_el.addContent("<path>" + getPath() + "</path>");
     	link_el.addContent("<perm>" + getPermissions() + "</perm>");
     	
-    	// Check if there is content on the file, none found print nothing
-    	link_el.addContent("<value>" + getContent() + "</value>");
+    	if(getContent() != null)// Check if there is content on the file, none found print nothing
+    		link_el.addContent("<value>" + getContent() + "</value>");
     	
     	return link_el;
     }

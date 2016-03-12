@@ -49,8 +49,8 @@ public class AppFile extends AppFile_Base {
     	app_el.addContent("<path>" + getPath() + "</path>");
     	app_el.addContent("<perm>" + getPermissions() + "</perm>");
     	
-    	// Check if there is content on the file, none found print nothing
-    	app_el.addContent("<method>" + getContent() + "</method>");
+    	if(getContent() != null)// Check if there is content on the file, none found print nothing
+    		app_el.addContent("<method>" + getContent() + "</method>");
     	
     	return app_el;
     }
