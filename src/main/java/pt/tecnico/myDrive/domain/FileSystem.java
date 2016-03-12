@@ -8,6 +8,7 @@ import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 import pt.tecnico.myDrive.exception.UserUnknownException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -406,12 +407,18 @@ public class FileSystem extends FileSystem_Base {
     }
     
     protected Element xmlExport(){ // Supposedly done
+    	ArrayList<File> allfiles = new ArrayList<File>();
     	Element fs_el = new Element("filesystem");
     	
     	for(User usr : getUsersSet())
     		fs_el.addContent(usr.xmlExport());
     		
-    	fs_el.addContent(super.getSlash().xmlExport());
+    	allfiles = super.getSlash().getAllFiles();
+    	
+    	for(File file : allfiles)
+    		fs_el.addContent(file.xmlExport());
+    	
+    	//fs_el.addContent(super.getSlash().xmlExport());
     	
     	return fs_el;
     }

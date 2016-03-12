@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import java.util.ArrayList;
+
 import org.jdom2.Element;
 
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
@@ -156,20 +158,52 @@ public class Directory extends Directory_Base {
 		
 	}
     
-	public Element xmlExport(){ //TODO: Unfinished business!!!
+	public ArrayList<File> getAllFiles(){ //TODO: Unfinished business!!!
+		int i;
+		Directory dir = null;
+		ArrayList<File> allfiles = new ArrayList<File>();
+		
+		// Getting all files present in slash (includes directories)
+		for(File file : getFilesSet()){
+			allfiles.add(file);
+		}
+		
+		// Getting all files inside all directories (includes directories)
+		for(i = 0; i < allfiles.size(); i++){
+			if(allfiles.get(i).isDirectory()){
+				dir = (Directory) allfiles.get(i);
+				for(File filling : dir.getFilesSet()){
+				allfiles.add(filling);
+				}
+			}
+		}
+		
+		allfiles.remove(getFileByName("home"));
+		
+		return allfiles;
+	}
+	
+	public Element xmlExport(){
 		Element dir_el = new Element("dir");
 		
-		/* isDir verification cycle, including
-		 * addContent and Elements for XMLExport
-		 * cannot include slash (/) nor /home dirs
-		 */
+    	dir_el.setAttribute("id", getId().toString());
+    	dir_el.addContent("<name>" + getFilename() + "</name>");
+    	dir_el.addContent("<owner>" + getOwner() + "</owner>");
+    	dir_el.addContent("<path>" + getPath() + "</path>");
+    	dir_el.addContent("<perm>" + getPermissions() + "</perm>");
 		
-		// if(file.isDirectory() == true) print dir info and enter it
-		// else print file info
-		return dir_el;
+    	return dir_el;
 	}
-	/*for(files)
-	 * Att -> id
-	 * Elements -> nome, username do owner, mask, path
-	 */
+		
+		
+		
+/*
+				dirorfile_el = new Element("dir");
+				dirorfile_el.setAttribute("id", getId().toString());
+				dirorfile_el.addContent("<name>" + getFilename() + "</name>");
+				dirorfile_el.addContent("<owner>" + getOwner()+ "</owner>");
+				dirorfile_el.addContent("<path>" + getPath()+ "</path>");
+				dirorfile_el.addContent("<perm>" + getPermissions() + "</perm>");
+*/
+
 }
