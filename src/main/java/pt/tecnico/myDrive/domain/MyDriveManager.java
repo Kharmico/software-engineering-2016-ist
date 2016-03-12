@@ -88,7 +88,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public void createDirectory(String filename){
     	try{
-    	super.getFilesystem().createDirectory(filename, 
+    		super.getFilesystem().createDirectory(filename, 
     			getCurrentDirectory(), getCurrentUser());
     	}catch(InvalidFileNameException | FileAlreadyExistsException e){System.out.println(e);}
     }
@@ -149,7 +149,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public void createAppFile(String filename, String content){
     	try{
-    	super.getFilesystem().createAppFile(filename, 
+    		super.getFilesystem().createAppFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
     	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
@@ -161,7 +161,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     public void removeEntries(String filename){
-    	super.getFilesystem().removeEntries(filename, getCurrentUser());
+    	try{
+    		super.getFilesystem().removeEntries(filename, getCurrentUser());
+    	}catch(IllegalRemovalException | FileUnknownException | AccessDeniedException |
+    			IsNotDirectoryException e){System.out.println(e);}
     }
     
     /* --- ImportXML --- */
