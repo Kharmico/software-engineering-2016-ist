@@ -36,7 +36,8 @@ public class LinkFile extends LinkFile_Base {
     	return toString() + " -> " + super.getContent();
     }
     
-    public Element xmlExport(){
+    @Override
+    public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
     	Element link_el = new Element("link");
     	
     	link_el.setAttribute("id", getId().toString());

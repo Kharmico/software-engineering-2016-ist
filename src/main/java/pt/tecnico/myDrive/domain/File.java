@@ -3,6 +3,8 @@ package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
 
+import org.jdom2.Element;
+
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
@@ -100,6 +102,8 @@ public abstract class File extends File_Base {
 	
 	public abstract boolean isDirectory();
 	
+	public abstract Element xmlExport();
+	
 	// TODO: Implement a recursive path calculator
 	public String getPath(){
 		return "CoolStuff";
@@ -110,10 +114,4 @@ public abstract class File extends File_Base {
 		return this.getPermissions() + super.getOwner()
 			+ super.getLastModified() + super.getFilename();
 	}
-
-	/* public files xmlExport();
-	 * for(files)
-	 * Att -> id
-	 * Elements -> nome, username do owner, mask, content if any, last modif, path
-	 */
 }

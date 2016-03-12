@@ -156,7 +156,7 @@ public class Directory extends Directory_Base {
 		
 	}
     
-	public Element xmlExport(){
+	public Element xmlExport(){ //TODO: Unfinished business!!!
 		Element dir_el = new Element("dir");
 		
 		/* isDir verification cycle, including

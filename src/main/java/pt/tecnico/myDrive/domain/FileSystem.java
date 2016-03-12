@@ -405,7 +405,7 @@ public class FileSystem extends FileSystem_Base {
     	throw new IllegalStateException();
     }
     
-    protected Element xmlExport(){
+    protected Element xmlExport(){ // Supposedly done
     	Element fs_el = new Element("filesystem");
     	
     	for(User usr : getUsersSet())

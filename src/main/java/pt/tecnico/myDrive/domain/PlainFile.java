@@ -72,17 +72,18 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 	@Override
-	public void addFile(File toAdd) throws UnsupportedOperationException{
+	protected void addFile(File toAdd) throws UnsupportedOperationException{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void removeFile(String toRemove) throws UnsupportedOperationException{
+	protected void removeFile(String toRemove) throws UnsupportedOperationException{
 		throw new UnsupportedOperationException();
 		
 	}
     
-    public Element xmlExport(){
+	@Override
+    public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
     	Element pf_el = new Element("plain");
     	
     	pf_el.setAttribute("id", getId().toString());

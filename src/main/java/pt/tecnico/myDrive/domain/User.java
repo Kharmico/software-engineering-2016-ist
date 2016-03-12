@@ -90,7 +90,7 @@ public class User extends User_Base {
 		return false;
 	}
     
-	protected Element xmlExport(){
+	protected Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
 		Element usr_el = new Element("user");
 		usr_el.setAttribute("username", getUsername());
 		usr_el.addContent("<password>" + getPassword() + "</password>");
