@@ -39,13 +39,13 @@ public class MyDriveApplication{
 		manager.printTextFile("/home/README");
 		
 		//remover a diretoria /usr/local/bin
-		//manager.removeEntries("/usr/local/bin");
+		manager.removeEntries("/usr/local/bin");
 		
 		//imprimir a exportacao em XML do sistema de ficheiros
 		manager.xmlExport();
 		
 		//remover o ficheiro /home/README
-		//TODO manager.removeEntries("/home/README");
+		manager.removeEntries("/home/README");
 		
 		//imprimir a listagem simples da diretoria /home
 		manager.getDirectoryFilesName("/home");

@@ -141,9 +141,9 @@ public class FileSystem extends FileSystem_Base {
     	return currentDirectory.getDirectoryFilesName();
     }
      
-   protected void removeEntries(String absPath, User currentUser) throws IllegalRemovalException, FileUnknownException, AccessDeniedException, IsNotDirectoryException { //TODO: permissions and throws
-	   String toRemove = absPath.substring(absPath.lastIndexOf("/")+1);
-	   Directory currentDirectory = AbsolutePath(absPath, currentUser);
+   protected void removeEntries(String filename, User currentUser) throws IllegalRemovalException, FileUnknownException, AccessDeniedException, IsNotDirectoryException { //TODO: permissions and throws
+	   String toRemove = filename.substring(filename.lastIndexOf("/")+1);
+	   Directory currentDirectory = AbsolutePath(filename, currentUser);
 	   
 	   if(!(currentDirectory.getFileByName(toRemove).isDirectory()) || 
 			   (currentDirectory.getFileByName(toRemove).getDirectoryFilesName()) == null ){

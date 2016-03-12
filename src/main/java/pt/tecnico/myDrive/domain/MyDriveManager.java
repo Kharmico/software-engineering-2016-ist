@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import pt.ist.fenixframework.FenixFramework;
-import pt.tecnico.myDrive.exception.AccessDeniedException;
-import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,6 +56,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     	deleteDomainObject();
     }
     
+   
     
     /* --- Users --- */
     
@@ -125,6 +123,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public void printTextFile(String filename){
     	System.out.println(super.getFilesystem().printTextFile(filename, getCurrentDirectory(), getCurrentUser()));
+    }
+    
+    public void removeEntries(String filename){
+    	super.getFilesystem().removeEntries(filename, getCurrentUser());
     }
     
     /* --- ImportXML --- */
