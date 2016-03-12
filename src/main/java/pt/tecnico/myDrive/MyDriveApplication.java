@@ -25,9 +25,9 @@ public class MyDriveApplication{
 		
 		//1 arg -> importar xml
 		else if(args.length == 1){
-			
+			//manager.xmlImport(element);
+			//manager.setFilesystem(filesystem);
 		}
-		
 		
 		//criar o ficheiro de texto /home/README com o conteudo lista de utilizadores
 		manager.createPlainFile("/home/README", "lista de utilizadores");
@@ -39,13 +39,13 @@ public class MyDriveApplication{
 		manager.printTextFile("/home/README");
 		
 		//remover a diretoria /usr/local/bin
-		//manager.removeFile("/usr/local/bin");
+		//manager.removeEntries("/usr/local/bin");
 		
 		//imprimir a exportacao em XML do sistema de ficheiros
 		manager.xmlExport();
 		
 		//remover o ficheiro /home/README
-		//TODO manager.removeFile("/home/README");
+		//TODO manager.removeEntries("/home/README");
 		
 		//imprimir a listagem simples da diretoria /home
 		manager.getDirectoryFilesName("/home");
