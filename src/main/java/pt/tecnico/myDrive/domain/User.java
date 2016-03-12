@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 
 public class User extends User_Base {
@@ -14,10 +15,11 @@ public class User extends User_Base {
         super();
     }
     
-    public User(String username) throws UserAlreadyExistsException {
+    public User(String username) throws UserAlreadyExistsException, InvalidUsernameException{
     	if(username.equals(Root.ROOT_USERNAME)){
     		throw new UserAlreadyExistsException(username);
     	}
+    	this.checkUsername(username);
     	this.setUsername(username);
     	this.setPassword(username);
     	this.setName(username);
@@ -88,6 +90,13 @@ public class User extends User_Base {
     
 	public boolean isRoot() {
 		return false;
+	}
+	
+	protected void checkUsername(String username) throws InvalidUsernameException{
+	    String pattern= "^[a-zA-Z0-9]*$";
+        if(!username.matches(pattern)){
+        	throw new InvalidUsernameException(username);
+        }
 	}
     
 	protected Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!

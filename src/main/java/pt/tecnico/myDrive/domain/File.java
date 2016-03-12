@@ -9,6 +9,8 @@ import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.IsNotAppFileException;
+import pt.tecnico.myDrive.exception.IsNotDirectoryException;
+import pt.tecnico.myDrive.exception.IsNotFileException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 public abstract class File extends File_Base {
@@ -66,6 +68,10 @@ public abstract class File extends File_Base {
 			parentDirectory.addFile(this);
     }
 	
+	 protected Directory getFather(){  
+	    return super.getParentDirectory();
+	}
+	
 	public void remove() {
 		setLastModified(null);
 		setId(null);
@@ -88,25 +94,32 @@ public abstract class File extends File_Base {
 		// TODO : implement permissions
 	}
 	
-	protected abstract void isCdAble() throws UnsupportedOperationException;
+	protected abstract void isCdAble() throws IsNotDirectoryException;
 	
 	protected abstract String printContent() throws IsNotPlainFileException;
 	
 	protected abstract void executeApp() throws IsNotAppFileException;
 	
-	protected abstract Directory getFather() throws UnsupportedOperationException;
-	
 	protected abstract void addFile(File toAdd) throws UnsupportedOperationException;
 	
-	protected abstract void removeFile(String toRemove) throws UnsupportedOperationException;
+	protected abstract void removeFile(String toRemove) throws IsNotFileException;
 	
 	public abstract boolean isDirectory();
+	
+	protected abstract Directory changeDirectory(String dirname, User currentUser);
 	
 	public abstract Element xmlExport();
 	
 	// TODO: Implement a recursive path calculator
 	public String getPath(){
-		return "CoolStuff";
+		String path = null;
+		File file = getFather();
+		while(!file.getFilename().equals("/")){
+			path = file.getFilename() + "/" + path;
+			file = file.getFather();
+		}
+		path = file.getFilename() + path;
+		return path;
 	}
 	
 	@Override
