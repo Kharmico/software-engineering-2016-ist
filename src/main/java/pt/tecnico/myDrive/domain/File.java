@@ -106,7 +106,14 @@ public abstract class File extends File_Base {
 	
 	// TODO: Implement a recursive path calculator
 	public String getPath(){
-		return "CoolStuff";
+		String path = null;
+		File file = getFather();
+		while(!file.getFilename().equals("/")){
+			path = file.getFilename() + "/" + path;
+			file = file.getFather();
+		}
+		path = file.getFilename() + path;
+		return path;
 	}
 	
 	@Override
