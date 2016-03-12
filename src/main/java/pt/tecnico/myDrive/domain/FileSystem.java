@@ -2,12 +2,15 @@ package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
 
+import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.IllegalRemovalException;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.IsNotDirectoryException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 import pt.tecnico.myDrive.exception.UserUnknownException;
 
@@ -147,7 +150,7 @@ public class FileSystem extends FileSystem_Base {
     /* Files */
 
     
-    protected String printTextFile(String path, User logged)/* throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
+    protected String printTextFile(String path, User logged) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
     	Directory d = AbsolutePath(path, logged);
     	String filename = path.substring(path.lastIndexOf("/")+1);
     	d.hasFile(filename);

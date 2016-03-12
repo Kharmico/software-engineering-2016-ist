@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 
 import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 
 public class User extends User_Base {
@@ -95,6 +96,7 @@ public class User extends User_Base {
 	    String pattern= "^[a-zA-Z0-9]*$";
         if(!username.matches(pattern)){
         	throw new InvalidUsernameException(username);
+        }
 	}
     
 	protected Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
