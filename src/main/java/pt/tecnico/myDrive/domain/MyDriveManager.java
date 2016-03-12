@@ -94,7 +94,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* --- Files --- */ 
     
-    public void createPlainFile(String filename){
+    //TODO FIXME
+    /*public void createPlainFile(String filename){
     	super.getFilesystem().createPlainFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
     }
@@ -103,6 +104,16 @@ public class MyDriveManager extends MyDriveManager_Base {
     	super.getFilesystem().createPlainFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
     }
+    
+    public void createPlainFile(String path){
+    	super.getFilesystem().createPlainFile(path, 
+    			getCurrentUser());
+    }
+    
+    public void createPlainFile(String path, String content){
+    	super.getFilesystem().createPlainFile(path, 
+    			getCurrentUser(), content);
+    } */
     
     public void createLinkFile(String filename){
     	super.getFilesystem().createLinkFile(filename, 
@@ -124,8 +135,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser(), content);
     }
     
-    public void printTextFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	System.out.println(super.getFilesystem().printTextFile(path, getCurrentUser()));
+    public void printTextFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+    	System.out.println(super.getFilesystem().printTextFile(filename, getCurrentUser()));
     }
     
     /* --- ImportXML --- */
