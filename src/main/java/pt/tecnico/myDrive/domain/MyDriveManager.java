@@ -68,6 +68,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     	deleteDomainObject();
     }
     
+   
     
     /* --- Users --- */
     
@@ -157,6 +158,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try{
     		System.out.println(super.getFilesystem().printTextFile(filename, getCurrentDirectory(), getCurrentUser()));
     	}catch(FileUnknownException | IsNotPlainFileException | AccessDeniedException e){System.out.println(e);}
+    }
+    
+    public void removeEntries(String filename){
+    	super.getFilesystem().removeEntries(filename, getCurrentUser());
     }
     
     /* --- ImportXML --- */

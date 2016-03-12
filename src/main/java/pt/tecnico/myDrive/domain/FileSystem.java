@@ -122,13 +122,13 @@ public class FileSystem extends FileSystem_Base {
     	currentDirectory.addFile(newDir);
     }
     
-    protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws IsNotDirectoryException{
+    protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws AccessDeniedException, IsNotDirectoryException{
     	if(!currentDirectory.hasFile(dirName))
     		throw new IsNotDirectoryException(dirName);
     	return currentDirectory.changeDirectory(dirName, currentUser); 	
     }
     
-    protected Directory AbsolutePath(String path, User currentUser){
+    protected Directory AbsolutePath(String path, User currentUser) throws AccessDeniedException, IsNotDirectoryException{
     	Directory directory = getSlash();
     	String[] FileLocation = path.split("/");
     	for(int i = 1; i < (FileLocation.length-1) ; i++) 
@@ -138,22 +138,22 @@ public class FileSystem extends FileSystem_Base {
     
     public String getDirectoryFilesName(String filenameArg, Directory currentDirectoryArg, User currentUser) {
     	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
-    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
     	return currentDirectory.getDirectoryFilesName();
     }
      
-   /*protected void removeDirectory(Directory directoryName, Directory currentDirectory) throws IllegalRemovalException, FileUnknownException { //TODO: permissions
-    	if(directoryName.equals(currentDirectory) || directoryName.equals(directoryName.getFather()) || directoryName.equals("/"))
-    		throw new IllegalRemovalException(directoryName);
-    	if(directoryName.getDirectoryFilesName() == null){
-    		directoryName.remove();
-    		//missing actual object removal - carina
-    	}
-    }*/
-    
-    // FIXME: ls - JP and cd - JP
+   protected void removeEntries(String filename, User currentUser) throws IllegalRemovalException, FileUnknownException, AccessDeniedException, IsNotDirectoryException { //TODO: permissions and throws
+	   String toRemove = filename.substring(filename.lastIndexOf("/")+1);
+	   Directory currentDirectory = AbsolutePath(filename, currentUser);
+	   
+	   if(!(currentDirectory.getFileByName(toRemove).isDirectory()) || 
+			   (currentDirectory.getFileByName(toRemove).getDirectoryFilesName()) == null ){
+		   currentDirectory.removeFile(toRemove);
+	   }
+	   else 
+		   throw new IllegalRemovalException(toRemove);
+    }
+  
     /* Files */
-
     
     protected String printTextFile(String filenameArg, Directory currentDirectoryArg, User currentUser) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
     	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
@@ -220,16 +220,6 @@ public class FileSystem extends FileSystem_Base {
     	}
     	//if(filename.checkAccess()) check files access to user, what permissions does the user have???
     }
-    
-    protected void removeFile(String filenameArg, Directory currentDirectoryArg, User currentUser){ //TODO: throws
-    	Directory currentDirectory = AbsolutePath(filenameArg, currentUser);
-    	String filename = filenameArg.substring(filenameArg.lastIndexOf("/")+1); 	
-    	if(currentDirectory.hasFile(filename))
-    		currentDirectory.removeFile(filename);
-    	//missing actual object removal - carina
-    }
-    
-    
     
     /* Uniques Ids */
     
