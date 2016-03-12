@@ -102,6 +102,8 @@ public abstract class File extends File_Base {
 	
 	public abstract boolean isDirectory();
 	
+	protected abstract Directory changeDirectory(String dirname, User currentUser);
+	
 	public abstract Element xmlExport();
 	
 	// TODO: Implement a recursive path calculator
