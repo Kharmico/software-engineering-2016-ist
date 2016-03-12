@@ -152,7 +152,7 @@ public class Directory extends Directory_Base {
 		
 	}
     
-	public ArrayList<File> getAllFiles(){ //TODO: Unfinished business!!!
+	public ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
 		int i;
 		Directory dir = null;
 		ArrayList<File> allfiles = new ArrayList<File>();
@@ -177,7 +177,7 @@ public class Directory extends Directory_Base {
 		return allfiles;
 	}
 	
-	public Element xmlExport(){
+	public Element xmlExport(){ // Supposedly done
 		Element dir_el = new Element("dir");
 		
     	dir_el.setAttribute("id", getId().toString());
@@ -188,16 +188,5 @@ public class Directory extends Directory_Base {
 		
     	return dir_el;
 	}
-		
-		
-		
-/*
-				dirorfile_el = new Element("dir");
-				dirorfile_el.setAttribute("id", getId().toString());
-				dirorfile_el.addContent("<name>" + getFilename() + "</name>");
-				dirorfile_el.addContent("<owner>" + getOwner()+ "</owner>");
-				dirorfile_el.addContent("<path>" + getPath()+ "</path>");
-				dirorfile_el.addContent("<perm>" + getPermissions() + "</perm>");
-*/
 
 }
