@@ -4,7 +4,10 @@ import org.jdom2.Element;
 
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.IllegalRemovalException;
+import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotDirectoryException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 import pt.tecnico.myDrive.exception.UserUnknownException;
 
@@ -48,7 +51,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Users */
     
-    protected void addUsers(String username) throws UserAlreadyExistsException, UserUnknownException {
+    protected void addUsers(String username) throws UserAlreadyExistsException {
     	if(hasUser(username)){
     		throw new UserAlreadyExistsException(username);
     	}else{
@@ -61,7 +64,7 @@ public class FileSystem extends FileSystem_Base {
     	}
     }
     
-    public void addUsers(User user) throws UserAlreadyExistsException, UserUnknownException {
+    public void addUsers(User user) throws UserAlreadyExistsException {
     	if(hasUser(user.getUsername())){
     		throw new UserAlreadyExistsException(user.getUsername());
     	}else{
@@ -70,9 +73,11 @@ public class FileSystem extends FileSystem_Base {
     }
    
     protected void removeUsers(String username) throws IllegalRemovalException, UserUnknownException {
-    	if(!hasUser(username) || username.equals(ROOT_USER)){
+    	if(!hasUser(username))
+    		throw new UserUnknownException(username);
+    	if(username.equals(ROOT_USER))
     		throw new IllegalRemovalException(username);
-    	}else{
+    	else{
     		// Should we remove the user home dir?  If not, new owner = root?!
 	    	User toRemove = getUserByUsername(username);
 	    	toRemove.remove();
@@ -104,15 +109,17 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
     
-    protected void createDirectory(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException{
+    protected void createDirectory(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
     	Directory newDir = new Directory(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, currentDirectory);
     	currentDirectory.addFile(newDir);
     }
     
-    protected Directory changeDirectory(String dirname, Directory currentDirectory, User currentUser){
-    	return currentDirectory.changeDirectory (dirname, currentUser); 	
+    protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws IsNotDirectoryException{
+    	if(!currentDirectory.hasFile(dirName))
+    		throw new IsNotDirectoryException(dirName);
+    	return currentDirectory.changeDirectory(dirName, currentUser); 	
     }
     
     protected Directory AbsolutePath(String path, User currentUser){
@@ -140,7 +147,7 @@ public class FileSystem extends FileSystem_Base {
     /* Files */
 
     
-    protected String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
+    protected String printTextFile(String path, User logged) /*TODO throws FileUnknownException, IsNotPlainFileException, AccessDeniedException*/{
     	//String FileLocation = path.substring(0,path.lastIndexOf("/"));
     	//Directory d = cd(FileLocation);
     	//String filename = path.substring(path.lastIndexOf("/")+1);
@@ -151,7 +158,7 @@ public class FileSystem extends FileSystem_Base {
     	return "work in progress";
     }
     
-    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException {
+    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
@@ -159,7 +166,7 @@ public class FileSystem extends FileSystem_Base {
 	
     }
     
-    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser, String content) throws FileAlreadyExistsException{
+    protected void createPlainFile(String filename, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		PlainFile plainFile = new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);
@@ -167,7 +174,7 @@ public class FileSystem extends FileSystem_Base {
 	
     }
     
-    protected void createLinkFile(String filename, Directory currentDirectory, User currentUser) throws FileAlreadyExistsException{
+    protected void createLinkFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
@@ -175,7 +182,7 @@ public class FileSystem extends FileSystem_Base {
     	
     }
     
-    protected void createLinkFile(String filename, Directory currentDirectory, User currentUser, String content) throws FileAlreadyExistsException{
+    protected void createLinkFile(String filename, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		LinkFile linkFile = new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);
@@ -183,7 +190,7 @@ public class FileSystem extends FileSystem_Base {
   
     }
     
-    protected void createAppFile(String filename, Directory currentDirectory, User currentUser) throws FileAlreadyExistsException{
+    protected void createAppFile(String filename, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		AppFile appFile = new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser);
@@ -191,7 +198,7 @@ public class FileSystem extends FileSystem_Base {
     	
     }
     
-    protected void createAppFile(String filename, Directory currentDirectory, User currentUser, String content)throws FileAlreadyExistsException{
+    protected void createAppFile(String filename, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
     	this.accessCheckerToCreate(filename, currentDirectory, currentUser);
 		AppFile appFile = new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(), 
     			currentUser, content);

@@ -14,7 +14,7 @@ public class InvalidMaskException extends MyDriveException {
 		invalidMask = mask;
 	}
 	
-	public String getInvalidFileName(){
+	public String getInvalidMaskName(){
 		return invalidMask;
 	}
 	
