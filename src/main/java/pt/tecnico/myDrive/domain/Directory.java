@@ -17,9 +17,9 @@ public class Directory extends Directory_Base {
 
     }
     
-    public Directory(int id, String filename, String userMask, User owner) throws IllegalStateException, InvalidFileNameException, InvalidMaskException{
+    public Directory(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
     	if(!filename.equals("/")){
-    		throw new IllegalStateException();
+    		throw new InvalidFileNameException(filename);
     	}
     	super.init(id, filename, userMask, owner);
     	this.setParentDirectory(this);
@@ -39,13 +39,7 @@ public class Directory extends Directory_Base {
     	}
     	super.addFiles(file);
     }
-    
-    @Override
-    protected Directory getFather() {  
-    	return super.getParentDirectory();
-	}
    
-    
     protected Directory changeDirectory(String dirname, User currentUser){
     	File file = getFileByName(dirname);
     	file.checkAccess(currentUser);
@@ -147,12 +141,12 @@ public class Directory extends Directory_Base {
 
 	@Override
 	public String printContent() throws IsNotPlainFileException {
-		throw new IsNotPlainFileException("Directory"); //do empty constructor on exception?
+		throw new IsNotPlainFileException(this.getFilename());
 	}
 
 	@Override
 	public void executeApp() throws IsNotAppFileException {
-		throw new IsNotAppFileException("Directory"); //do empty constructor on exception?
+		throw new IsNotAppFileException(this.getFilename()); 
 		
 	}
     

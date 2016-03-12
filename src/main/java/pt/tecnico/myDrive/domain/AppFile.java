@@ -2,6 +2,11 @@ package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
 
+import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
+import pt.tecnico.myDrive.exception.InvalidContentException;
+import pt.tecnico.myDrive.exception.InvalidFileNameException;
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+
 public class AppFile extends AppFile_Base {
     
 	
@@ -10,19 +15,19 @@ public class AppFile extends AppFile_Base {
     }
     
     
-    public AppFile(int id, String filename, String userMask, User owner) /* TODO: throws*/{
+    public AppFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	super.init(id, filename, userMask, owner);
     }
     
-    public AppFile(int id, String filename, String userMask, User owner, String content) /* TODO: throws*/{
+    public AppFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
     	super.init(id, filename, userMask, owner, content);
 
     }
     
     @Override
-    public void setContent(String content){
+    public void setContent(String content) throws InvalidContentException{
     	if(content.contains(" ") || content.contains("\n")){
-    		// TODO: throw exception
+    		throw new InvalidContentException(content);
     	}else{
     		super.setContent(content);
     	}

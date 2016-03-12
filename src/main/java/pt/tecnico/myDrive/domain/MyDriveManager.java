@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import pt.ist.fenixframework.FenixFramework;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -121,7 +124,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser(), content);
     }
     
-    public void printTextFile(String path) /*TODO throws FileUnknownException, IsNotTextFileException, AccessDeniedException*/{
+    public void printTextFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
     	System.out.println(super.getFilesystem().printTextFile(path, getCurrentUser()));
     }
     
