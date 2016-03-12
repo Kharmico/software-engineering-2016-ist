@@ -10,8 +10,17 @@ import java.io.PrintStream;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.IllegalRemovalException;
+import pt.tecnico.myDrive.exception.InvalidContentException;
+import pt.tecnico.myDrive.exception.InvalidFileNameException;
+import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotDirectoryException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
+import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
+import pt.tecnico.myDrive.exception.UserUnknownException;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,32 +68,42 @@ public class MyDriveManager extends MyDriveManager_Base {
     	deleteDomainObject();
     }
     
+   
     
     /* --- Users --- */
     
     public void addUser(String username){
-    	super.getFilesystem().addUsers(username);
+    	try{
+    		super.getFilesystem().addUsers(username);
+    	}catch(UserAlreadyExistsException e){System.out.println(e);}  
     }
     
     public void removeUser(String username){
-    	super.getFilesystem().removeUsers(username);
+    	try{
+    		super.getFilesystem().removeUsers(username);
+    	}catch(IllegalRemovalException | UserUnknownException e){System.out.println(e);} 	
     }
-    
     
     /* --- Directory --- */
     
     public void createDirectory(String filename){
-    	super.getFilesystem().createDirectory(filename, 
+    	try{
+    		super.getFilesystem().createDirectory(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    	}catch(InvalidFileNameException | FileAlreadyExistsException e){System.out.println(e);}
     }
     
     public void changeDirectory(String dirname){
-    	super.setCurrentDirectory(getFilesystem().changeDirectory(dirname, 
+    	try{
+    		super.setCurrentDirectory(getFilesystem().changeDirectory(dirname, 
     			getCurrentDirectory(),getCurrentUser()));
+    	}catch(IsNotDirectoryException e){System.out.println(e);}
     }
     
     public void AbsolutePath(String path){
-    	super.setCurrentDirectory(getFilesystem().AbsolutePath(path, getCurrentUser()));
+    	try{
+    		super.setCurrentDirectory(getFilesystem().AbsolutePath(path, getCurrentUser()));
+    	}catch(AccessDeniedException | IsNotDirectoryException e){System.out.println(e);}
     }    
     
     public void getDirectoryFilesName(String filename) {
@@ -95,36 +114,57 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Files --- */ 
     
     public void createPlainFile(String filename){
-    	super.getFilesystem().createPlainFile(filename, 
+    	try{
+    		super.getFilesystem().createPlainFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
     
     public void createPlainFile(String filename, String content){
-    	super.getFilesystem().createPlainFile(filename, 
+    	try{
+    		super.getFilesystem().createPlainFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
+    	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
     public void createLinkFile(String filename){
-    	super.getFilesystem().createLinkFile(filename, 
+    	try{
+    		super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
     
     public void createLinkFile(String filename, String content){
-    	super.getFilesystem().createLinkFile(filename, 
+    	try{
+    		super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
+    	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
     
     public void createAppFile(String filename){
-    	super.getFilesystem().createAppFile(filename, 
+    	try{
+    		super.getFilesystem().createAppFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
     
     public void createAppFile(String filename, String content){
-    	super.getFilesystem().createAppFile(filename, 
+    	try{
+    		super.getFilesystem().createAppFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
+    	}catch(InvalidFileNameException | InvalidMaskException | FileAlreadyExistsException e){System.out.println(e);}
     }
     
-    public void printTextFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	System.out.println(super.getFilesystem().printTextFile(filename, getCurrentDirectory(), getCurrentUser()));
+    public void printTextFile(String filename){
+    	try{
+    		System.out.println(super.getFilesystem().printTextFile(filename, getCurrentDirectory(), getCurrentUser()));
+    	}catch(FileUnknownException | IsNotPlainFileException | AccessDeniedException e){System.out.println(e);}
+    }
+    
+    public void removeEntries(String filename){
+    	try{
+    		super.getFilesystem().removeEntries(filename, getCurrentUser());
+    	}catch(IllegalRemovalException | FileUnknownException | AccessDeniedException |
+    			IsNotDirectoryException e){System.out.println(e);}
     }
     
     /* --- ImportXML --- */

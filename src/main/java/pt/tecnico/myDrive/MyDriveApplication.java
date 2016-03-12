@@ -15,54 +15,41 @@ import pt.tecnico.myDrive.domain.MyDriveManager;
 public class MyDriveApplication{
 
 	public static void main(String[] args){
-		System.out.println("Hello World!");
 		
-		MyDriveManager manager = new MyDriveManager();
+		MyDriveManager manager = MyDriveManager.getInstance();
 		
+		//0 args -> criar fs com root e associados
+		if(args.length == 0){
+			
+		}
 		
-		//0 args -> create fs with root and associates
+		//1 arg -> importar xml
+		else if(args.length == 1){
+			//manager.xmlImport(element);
+			//manager.setFilesystem(filesystem);
+		}
 		
-		//1 arg -> import xml
+		//criar o ficheiro de texto /home/README com o conteudo lista de utilizadores
+		manager.createPlainFile("/home/README", "lista de utilizadores");
 		
+		//criar a diretoria /usr/local/bin
+		manager.createDirectory("/usr/local/bin");
 		
-		//create plaintext file /home/README com o conteudo lista de utilizadores
-		//TODO fazer cd ate home ou dar path absoluta?
-		//TODO manager.goToSlash();
-		manager.changeDirectory("home");
-		//manager.createPlainFile("README", "work in progress" /*manager.listUsers()*/);
+		//imprimir o conteudo do ficheiro /home/README
+		manager.printTextFile("/home/README");
 		
-		//create directory /usr/local/bin
-		//TODO manager.goToSlash();
-		manager.createDirectory("usr");
-		manager.changeDirectory("usr");
-		manager.createDirectory("local");
-		manager.changeDirectory("local");
-		manager.createDirectory("bin");
-		
-		//print content from file /home/README
-		//TODO manager.goToSlash();
-		manager.changeDirectory("home");
-		manager.printTextFile("README");
-		
-		//remove directory /usr/local/bin
-		//TODO manager.goToSlash();
-		manager.changeDirectory("usr");
-		manager.changeDirectory("local");
-		//TODO manager.removeFile("bin");
+		//remover a diretoria /usr/local/bin
+		manager.removeEntries("/usr/local/bin");
 		
 		//XMLExport
 		//need xmlPrint???
 		manager.xmlExport();
+
+		//remover o ficheiro /home/README
+		manager.removeEntries("/home/README");
 		
-		//remove file /home/README
-		//TODO manager.goToSlash();
-		manager.changeDirectory("home");
-		//TODO manager.removeFile("README");
-		
-		//print a simple list of /home
-		//TODO manager.goToSlash();
-		manager.changeDirectory("home");
-		//TODO manager.listDirectory();
+		//imprimir a listagem simples da diretoria /home
+		manager.getDirectoryFilesName("/home");
 	}
 	
 	/*@Atomic
