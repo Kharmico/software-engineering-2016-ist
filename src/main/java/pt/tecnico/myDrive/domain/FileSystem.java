@@ -219,7 +219,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser) throws IllegalRemovalException, FileUnknownException, AccessDeniedException, IsNotDirectoryException { //TODO: permissions and throws
+	protected void removeFile(String path, User currentUser) throws IllegalRemovalException, FileUnknownException, AccessDeniedException, IsNotDirectoryException { //TODO: permissions
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
 		Directory currentDirectory = absolutePath(path, currentUser);
 		try{
