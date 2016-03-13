@@ -38,8 +38,7 @@ public class MyDriveApplication{
 		xmlPrint();
 		demoRemoveFile();
 	}
-
-
+	
 	@Atomic
 	public static void setup(){
 		log.trace("MyDriveApplication.setup: Setting up Manager." );
