@@ -63,7 +63,7 @@ public class Directory extends Directory_Base {
     
 
 	protected String getDirectoryFilesName() {
-    	String ls = null;
+    	String ls = "";
         for (File file: super.getFilesSet()){ 
         	ls = ls + file.getFilename() + "\n";
         }  
