@@ -12,7 +12,7 @@ public class FileSystem extends FileSystem_Base {
 	private static final String ROOT_USER = Root.ROOT_USERNAME;
 	private static final String HOME_DIR = "home";
 
-	public FileSystem(MyDriveManager mdm) {
+	protected FileSystem(MyDriveManager mdm) {
 		super();
 		setMyDriveManager(mdm);
 
@@ -42,14 +42,25 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	public Directory getSlash(){
+	protected Directory getSlash(){
 		return super.getFsRoot();
 	}
 
 	protected void addToSlash(File file){
 		super.getFsRoot().addFile(file);
 	}
-    /* Users */
+
+	/* Fenixframework binary relations setters */
+
+	@Override
+	public void setMyDriveManager(MyDriveManager mngr){
+		if(mngr == null){
+			super.setMyDriveManager(null);
+		}else
+			mngr.setFilesystem(this);
+	}
+
+	/* Users */
 
 	protected void addUsers(String username) throws UserAlreadyExistsException {
 		if(hasUser(username)){
@@ -59,7 +70,7 @@ public class FileSystem extends FileSystem_Base {
 			Directory homeDirectory = new Directory(this.generateUniqueId(),
 					username, toCreate.getUmask(), toCreate, getMyDriveManager(),this);
 			toCreate.setHomeDirectory(homeDirectory);
-			this.addDirectorytoHome(homeDirectory);
+			this.addDirectoryToHome(homeDirectory);
 			super.addUsers(toCreate);
 		}
 	}
@@ -106,6 +117,11 @@ public class FileSystem extends FileSystem_Base {
 		return this.getUserByUsername(username) != null;
 	}
 
+
+	protected User getRoot() throws UserUnknownException {
+		return getUserByUsername(ROOT_USER);
+	}
+
     
     /* Directory */
 
@@ -133,17 +149,21 @@ public class FileSystem extends FileSystem_Base {
 		return directory;
 	}
 
-	public String getDirectoryFilesName(String path, User currentUser) {
+	protected String getDirectoryFilesName(String path, User currentUser) {
 		System.out.println(path.substring(path.lastIndexOf("/")+1));
 		return AbsolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
+	}
+
+	private void addDirectoryToHome(Directory toAdd){
+		getSlash().getFileByName(HOME_DIR).addFile(toAdd);
 	}
 
 
     /* Files */
 
-	protected String printTextFile(String path, User logged) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+	protected String printPlainFile(String path, User logged) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
 		Directory d = AbsolutePath(path, logged);
-		String filename = path.substring(path.lastIndexOf("/")+1);
+		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.hasFile(filename);
 		File f = d.getFileByName(filename);
 		f.checkAccess(logged);
@@ -153,7 +173,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = AbsolutePath(path, currentUser);
 		d.checkAccess(currentUser);
-		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
 				currentUser));
 
 	}
@@ -161,7 +181,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
 		Directory d = AbsolutePath(path, currentUser);
 		d.checkAccess(currentUser);
-		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
 				currentUser, content));
 
 	}
@@ -169,7 +189,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = AbsolutePath(path, currentUser);
 		d.checkAccess(currentUser);
-		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
 				currentUser));
 
 	}
@@ -177,7 +197,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = AbsolutePath(path, currentUser);
 		d.checkAccess(currentUser);
-		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
 				currentUser, content));
 
 	}
@@ -185,7 +205,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = AbsolutePath(path, currentUser);
 		d.checkAccess(currentUser);
-		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
 				currentUser));
 
 	}
@@ -193,7 +213,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = AbsolutePath(path, currentUser);
 		d.checkAccess(currentUser);
-		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
 				currentUser, content));
 
 	}
@@ -216,32 +236,12 @@ public class FileSystem extends FileSystem_Base {
     
     private int generateUniqueId(){
     	Integer idSeed = super.getIdSeed();
-    	super.setIdSeed(new Integer(idSeed.intValue() + 1));
-    	return idSeed.intValue();
+    	super.setIdSeed(++idSeed);
+    	return idSeed;
     }
     
 
-    
-    /* Fenixframework binary relations setters */
-    
-    @Override
-    public void setMyDriveManager(MyDriveManager mngr){
-    	if(mngr == null){
-    		super.setMyDriveManager(null);
-    	}else
-    		mngr.setFilesystem(this);
-    }
-
-	private void addDirectorytoHome(Directory toAdd){
-		getSlash().getFileByName(HOME_DIR).addFile(toAdd);
-	}
-
-	protected User getRoot() throws UserUnknownException {
-		return getUserByUsername(ROOT_USER);
-	}
-
-	public void remove(){
-
+	protected void remove(){
 		getSlash();
 		for (User user: super.getUsersSet()){
 			this.removeUsers(user.getUsername());
@@ -329,7 +329,7 @@ public class FileSystem extends FileSystem_Base {
 					Directory homeDirectory = new Directory(this.generateUniqueId(), username,
 							toInsert.getUmask(), toInsert, getHomeDirectory(), getMyDriveManager(), this);
 					toInsert.setHomeDirectory(homeDirectory);
-					this.addDirectorytoHome(homeDirectory);
+					this.addDirectoryToHome(homeDirectory);
 				}
 				super.addUsers(toInsert);
 			}

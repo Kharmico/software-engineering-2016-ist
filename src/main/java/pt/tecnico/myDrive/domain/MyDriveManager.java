@@ -25,7 +25,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         if (mngr != null)
         	return mngr;
 
-        log.trace("new MyDriveManager");
+        log.trace("MyDriveManager.getInstance: new MyDriveManager");
         return new MyDriveManager();
     }
     
@@ -121,8 +121,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     			getCurrentDirectory(), getCurrentUser(), content);
     }
     
-    public String printTextFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	return super.getFilesystem().printTextFile(path, getCurrentUser());
+    public String printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+    	return super.getFilesystem().printPlainFile(path, getCurrentUser());
     }
 
 
@@ -136,7 +136,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* --- ExportXML --- */
     
-    public Document  xmlExport(){ // TODO: Unfinished business!!!
+    public Document xmlExport(){
     	Element element = new Element("mydrivemanager");
     	Document doc = new Document(element);
     	super.getFilesystem().xmlExport(element);
