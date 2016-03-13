@@ -1,7 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
@@ -38,20 +37,22 @@ public class AppFile extends AppFile_Base {
     protected void executeApp(){
     	// TODO
     }
-    
+
     @Override
     public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
-    	Element app_el = new Element("app");
-    	
-    	app_el.setAttribute("id", getId().toString());
-    	app_el.addContent("<name>" + getFilename() + "</name>");
-    	app_el.addContent("<owner>" + getOwner() + "</owner>");
-    	app_el.addContent("<path>" + getPath() + "</path>");
-    	app_el.addContent("<perm>" + getPermissions() + "</perm>");
-    	
-    	if(getContent() != null)// Check if there is content on the file, none found print nothing
-    		app_el.addContent("<method>" + getContent() + "</method>");
-    	
-    	return app_el;
+        Element pf_el = new Element("app");
+
+        super.generalFileExport(pf_el);
+
+        // Check if there is content on the file, none found print nothing
+        if(!getContent().isEmpty())
+            pf_el.addContent(new Element("method").setText(getContent()));
+
+        return pf_el;
+    }
+
+    @Override
+    public String toString(){
+        return super.toString() + " -> " + getContent();
     }
 }

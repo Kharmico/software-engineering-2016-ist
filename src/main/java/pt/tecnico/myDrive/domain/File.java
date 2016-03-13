@@ -1,17 +1,9 @@
 package pt.tecnico.myDrive.domain;
 
 
-import org.joda.time.DateTime;
-
 import org.jdom2.Element;
-
-import pt.tecnico.myDrive.exception.AccessDeniedException;
-import pt.tecnico.myDrive.exception.InvalidFileNameException;
-import pt.tecnico.myDrive.exception.InvalidMaskException;
-import pt.tecnico.myDrive.exception.IsNotAppFileException;
-import pt.tecnico.myDrive.exception.IsNotDirectoryException;
-import pt.tecnico.myDrive.exception.IsNotFileException;
-import pt.tecnico.myDrive.exception.IsNotPlainFileException;
+import org.joda.time.DateTime;
+import pt.tecnico.myDrive.exception.*;
 
 public abstract class File extends File_Base {
     
@@ -34,9 +26,10 @@ public abstract class File extends File_Base {
 	
 	@Override
 	public void setFilename(String filename) throws InvalidFileNameException {
-		if(filename.contains("/") || filename.contains("\0")){
+		// TODO: Restrictions remove during fenix frameweork rework
+		/*if(filename.contains("/") || filename.contains("\0")){
 			throw new InvalidFileNameException(filename);
-		}
+		}*/
 		
 		super.setFilename(filename);
 	}
@@ -71,26 +64,35 @@ public abstract class File extends File_Base {
 	 protected Directory getFather(){  
 	    return super.getParentDirectory();
 	}
-	
+
 	public void remove() {
+		removeObject();
+		deleteDomainObject();
+	}
+
+	protected void removeObject(){
 		setLastModified(null);
+		setParentDirectory(null);
+		//setPermissions(null);
+		setFilename(null);
 		setId(null);
 		setOwner(null);
-        deleteDomainObject();
-    }
+	}
 	
 	protected String getPermissions(){
 		return super.getOwnerPermissions() + super.getOthersPermissions(); 
 	}
-	
+
 	protected void checkOwner(User u) throws AccessDeniedException{
+		// FIXME : Plz implement this right
 		if(!u.equals(super.getOwner()) || !u.isRoot()){
 			throw new AccessDeniedException(u);
 		}
 	}
 	
 	protected void checkAccess(User u){
-		checkOwner(u);
+
+		// checkOwner(u);
 		// TODO : implement permissions
 	}
 	
@@ -109,24 +111,30 @@ public abstract class File extends File_Base {
 	protected abstract String getDirectoryFilesName();
 	
 	protected abstract Directory changeDirectory(String dirname, User currentUser);
+
+	protected abstract boolean isEmpty()throws IsNotDirectoryException;
 	
 	public abstract Element xmlExport();
-	
-	// TODO: Implement a recursive path calculator
+
 	public String getPath(){
-		String path = null;
+		String path = "";
 		File file = getFather();
-		while(!file.getFilename().equals("/")){
-			path = file.getFilename() + "/" + path;
+		while(!file.getFather().equals(file)){
+			if(path.equals("")){
+				path = file.getFilename();
+			}else
+				path = file.getFilename() + "/" + path;
+
 			file = file.getFather();
 		}
+
 		path = file.getFilename() + path;
 		return path;
 	}
-	
+
 	@Override
 	public String toString(){
-		return this.getPermissions() + super.getOwner()
-			+ super.getLastModified() + super.getFilename();
+		return this.getPermissions() + " " + super.getOwner()
+				+ " " + super.getLastModified() + " " + super.getFilename();
 	}
 }

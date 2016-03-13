@@ -1,14 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-
-import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
-import pt.tecnico.myDrive.exception.InvalidContentException;
-import pt.tecnico.myDrive.exception.InvalidFileNameException;
-import pt.tecnico.myDrive.exception.InvalidMaskException;
-import pt.tecnico.myDrive.exception.IsNotAppFileException;
-import pt.tecnico.myDrive.exception.IsNotDirectoryException;
-import pt.tecnico.myDrive.exception.IsNotFileException;
+import pt.tecnico.myDrive.exception.*;
 
 public class PlainFile extends PlainFile_Base {
     
@@ -79,30 +72,51 @@ public class PlainFile extends PlainFile_Base {
 		throw new IsNotFileException(toRemove);
 		
 	}
-	
+
+	@Override
+	protected boolean isEmpty() throws IsNotDirectoryException{
+		throw new IsNotDirectoryException(this.getFilename());
+	}
+
+	@Override
+	protected String getDirectoryFilesName() throws IsNotDirectoryException{
+		throw new IsNotDirectoryException(getFilename());
+	}
+
 	protected Directory changeDirectory(String dirname, User currentUser) throws UnsupportedOperationException{
 		throw new UnsupportedOperationException();
 	}
-	
-	protected String getDirectoryFilesName() throws UnsupportedOperationException{
-		throw new UnsupportedOperationException();
-	}
-	
-    
+
 	@Override
-    public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
-    	Element pf_el = new Element("plain");
-    	
-    	pf_el.setAttribute("id", getId().toString());
-    	pf_el.addContent("<name>" + getFilename() + "</name>");
-    	pf_el.addContent("<owner>" + getOwner() + "</owner>");
-    	pf_el.addContent("<path>" + getPath() + "</path>");
-    	pf_el.addContent("<perm>" + getPermissions() + "</perm>");
-    	
-    	if(getContent() != null)// Check if there is content on the file, none found print nothing
-    		pf_el.addContent("<contents>" + getContent() + "</contents>");
-    	
-    	return pf_el;
-    }
+	public void remove(){
+		super.removeObject();
+		setContent(null);
+		deleteDomainObject();
+
+	}
+
+	@Override
+	public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
+		Element pf_el = new Element("plain");
+
+		generalFileExport(pf_el);
+
+		// Check if there is content on the file, none found print nothing
+		if(!getContent().isEmpty())
+			pf_el.addContent(new Element("contents").setText(getContent()));
+
+		return pf_el;
+	}
+
+
+	protected Element generalFileExport(Element el){
+		el.setAttribute("id", getId().toString());
+		el.addContent(new Element("name").setText(getFilename()));
+		el.addContent(new Element("owner").setText(getOwner().getUsername()));
+		el.addContent(new Element("path").setText(getPath()));
+		el.addContent(new Element("perm").setText(getPermissions()));
+
+		return el;
+	}
     
 }

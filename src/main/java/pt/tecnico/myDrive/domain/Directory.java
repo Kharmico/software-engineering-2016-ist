@@ -1,18 +1,9 @@
 package pt.tecnico.myDrive.domain;
 
-import java.util.ArrayList;
-
 import org.jdom2.Element;
+import pt.tecnico.myDrive.exception.*;
 
-import pt.tecnico.myDrive.exception.AccessDeniedException;
-import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
-import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IDUnknownException;
-import pt.tecnico.myDrive.exception.InvalidFileNameException;
-import pt.tecnico.myDrive.exception.InvalidMaskException;
-import pt.tecnico.myDrive.exception.IsNotAppFileException;
-import pt.tecnico.myDrive.exception.IsNotDirectoryException;
-import pt.tecnico.myDrive.exception.IsNotPlainFileException;
+import java.util.ArrayList;
 
 public class Directory extends Directory_Base {
     
@@ -20,27 +11,36 @@ public class Directory extends Directory_Base {
         super();
 
     }
-    
-    public Directory(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
-    	if(!filename.equals("/")){
-    		throw new InvalidFileNameException(filename);
-    	}
-    	super.init(id, filename, userMask, owner);
-    	this.setParentDirectory(this);
-        
-    }
-    
-	public Directory(int id, String filename, String userMask, User owner, Directory father) throws InvalidFileNameException, InvalidMaskException{
-		super.init(id, filename, userMask, owner);
-    	this.setParentDirectory(father);
 
-    }
+	public Directory(int id, String filename, String userMask, User owner, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+		if(!filename.equals("/")){
+			throw new InvalidFileNameException(filename);
+		}
+		super.init(id, filename, userMask, owner);
+		this.setParentDirectory(this);
+		this.setMyDriveManager(mdm);
+		this.setFilesystem(fs);
+
+	}
+
+	public Directory(int id, String filename, String userMask, User owner, Directory father, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+		super.init(id, filename, userMask, owner);
+		this.setParentDirectory(father);
+		this.setMyDriveManager(mdm);
+		this.setFilesystem(fs);
+	}
+
+	@Override
+	protected boolean isEmpty() {
+		return getFilesSet().size() == 0;
+	}
     
     @Override
     public void addFile(File file) throws FileAlreadyExistsException {
-    	if(hasFile(file.getFilename())){
+    	//FIXME : Disable during fenix framework rework
+		/*if(hasFile(file.getFilename())){
     		throw new FileAlreadyExistsException(file.getFilename());
-    	}
+    	}*/
     	super.addFiles(file);
     }
    
@@ -59,85 +59,88 @@ public class Directory extends Directory_Base {
     	toRemove.remove();
     	super.removeFiles(toRemove);
     }
-    
-    
+
+
 
 	protected String getDirectoryFilesName() {
-    	String ls = "";
-        for (File file: super.getFilesSet()){ 
-        	ls = ls + file.getFilename() + "\n";
-        }  
-        return ls;
-    }   
- 
-    
-    protected File getFileByName(String name) throws FileUnknownException {
-        for (File file: super.getFilesSet())
-            if (file.getFilename().equals(name))
-                return file;
-        throw new FileUnknownException(name);
-    }
-    
-    protected File getFileById(Integer id) throws IDUnknownException{
-        for (File file: super.getFilesSet())
-            if (file.getId().equals(id))
-                return file;
-        throw new IDUnknownException(id);
-    }
+		String ls = this.toString() + " .\n" +
+				getFather().toString() + " ..\n";
+		for (File file: super.getFilesSet()){
+			ls = ls + file.toString() + "\n";
+		}
 
-    protected boolean hasFile(String filename) {
-        return getFileByName(filename) != null;
-    }
+		return ls;
+	}
 
-    
-    @Override
-    public void remove() {
-        for (File f: getFilesSet())
-            f.remove();
-        super.setParentDirectory(null);
-		this.setFilesystem(null);
-        super.remove();
-        deleteDomainObject();
-    }
-    
-    
-    
-    @Override
+
+	public File getFileByName(String name) throws FileUnknownException {
+		for (File file: super.getFilesSet())
+			if (file.getFilename().equals(name))
+				return file;
+		throw new FileUnknownException(name);
+	}
+
+	protected File getFileById(Integer id) throws IDUnknownException{
+		for (File file: super.getFilesSet())
+			if (file.getId().equals(id))
+				return file;
+		throw new IDUnknownException(id);
+	}
+
+	protected boolean hasFile(String filename) {
+		return getFileByName(filename) != null;
+	}
+
+
+	@Override
+	public void remove() {
+		super.removeObject();
+		setFilesystem(null);
+		setMyDriveManager(null);
+		deleteDomainObject();
+	}
+
+
+
+
+	@Override
     public void setParentDirectory(Directory parentDirectory){
     	super.setParentDirectory(parentDirectory);
     	
     }
     
     /* Fenixframework binary relations setters */
-    
-    @Override
-    public void setUser(User user){
-    	if(user == null){
-    		super.setUser(null);
-    	}else
-    		user.setHomeDirectory(this);
-    }
-    
-    @Override
-    public void setFilesystem(FileSystem fs){
-    	if(fs == null){
+
+	@Override
+	public void setUser(User user){
+		if(user == null){
+			super.setUser(null);
+		}else
+			user.setHomeDirectory(this);
+	}
+
+	@Override
+	public void setFilesystem(FileSystem fs){
+		if(fs == null)
+			super.setFilesystem(fs);
+		/*if(fs == null){
     		super.setFilesystem(null);
     	}else
-    		fs.setSlash(this);
-    }
-    @Override
-    public void setMyDriveManager(MyDriveManager mngr){
-    	if(mngr == null){
-    		super.setMyDriveManager(null);
-    	}else
-    		mngr.setCurrentDirectory(this);
-    }
+    		fs.addToSlash(this);*/
+	}
+	@Override
+	public void setMyDriveManager(MyDriveManager mngr){
+		if(mngr == null){
+			super.setMyDriveManager(null);
+		}else
+			mngr.setCurrentDirectory(this);
+	}
 
 	@Override
 	public void isCdAble() {
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public boolean isDirectory(){
 		return true;
@@ -150,45 +153,57 @@ public class Directory extends Directory_Base {
 
 	@Override
 	public void executeApp() throws IsNotAppFileException {
-		throw new IsNotAppFileException(this.getFilename()); 
-		
+		throw new IsNotAppFileException(this.getFilename());
+
 	}
-    
+
 	public ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
-		int i;
-		Directory dir = null;
 		ArrayList<File> allfiles = new ArrayList<File>();
-		
+
+		if(noDirectories()) {
+			allfiles.addAll(getFilesSet());
+			return allfiles;
+		}
+
 		// Getting all files present in slash (includes directories)
 		for(File file : getFilesSet()){
-			allfiles.add(file);
-		}
-		
-		// Getting all files inside all directories (includes directories)
-		for(i = 0; i < allfiles.size(); i++){
-			if(allfiles.get(i).isDirectory()){
-				dir = (Directory) allfiles.get(i);
-				for(File filling : dir.getFilesSet()){
-				allfiles.add(filling);
-				}
+			try{
+				/* Slash has itself in the set */
+				if(!file.equals(this)){
+					file.isCdAble();
+					Directory next = (Directory) file;
+					allfiles.addAll(next.getAllFiles());}
 			}
+			catch (IsNotDirectoryException e) {}
+			finally { allfiles.add(file); }
 		}
-		
-		allfiles.remove(getFileByName("home"));
-		
+
 		return allfiles;
+
 	}
-	
+
+	private boolean noDirectories(){
+		for (File f : getFilesSet()) {
+			try {
+				f.isCdAble();
+				return false;
+			} catch (IsNotDirectoryException e) {}
+		}
+		return true;
+	}
+
+
 	public Element xmlExport(){ // Supposedly done
 		Element dir_el = new Element("dir");
-		
-    	dir_el.setAttribute("id", getId().toString());
-    	dir_el.addContent("<name>" + getFilename() + "</name>");
-    	dir_el.addContent("<owner>" + getOwner() + "</owner>");
-    	dir_el.addContent("<path>" + getPath() + "</path>");
-    	dir_el.addContent("<perm>" + getPermissions() + "</perm>");
-		
-    	return dir_el;
+
+		dir_el.setAttribute("id", getId().toString());
+
+		dir_el.addContent(new Element("name").setText(getFilename()));
+		dir_el.addContent(new Element("owner").setText(getOwner().getUsername()));
+		dir_el.addContent(new Element("path").setText(getPath()));
+		dir_el.addContent(new Element("perm").setText(getPermissions()));
+
+		return dir_el;
 	}
 
 }

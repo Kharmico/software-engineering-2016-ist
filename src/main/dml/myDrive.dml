@@ -2,22 +2,9 @@ package pt.tecnico.myDrive.domain;
 
 class MyDriveManager;
 
-class File{
-	Integer id;
-	String filename;
-	DateTime lastModified;
-	String ownerPermissions;
-	String othersPermissions;
+class FileSystem{
+	Integer idSeed;
 }
-
-
-class PlainFile extends File{
-	String content;
-}
-
-class LinkFile extends PlainFile;
-class AppFile extends PlainFile;
-class Directory extends File;
 
 class User{
 	String username;
@@ -26,101 +13,38 @@ class User{
 	String umask;
 }
 
+class File{
+	Integer id;
+	String filename;
+	DateTime lastModified;
+	String ownerPermissions;
+	String othersPermissions;
+}
+
+class PlainFile extends File{
+	String content;
+}
+
+class Directory extends File;
+
+class LinkFile extends PlainFile;
+class AppFile extends PlainFile;
+
+
 class Root extends User;
 
-class FileSystem{
-	Integer idSeed;
-}
-
-relation FileHasOwner{
-    File playsRole file{
-		multiplicity 1..1;
-    }
-
-    User playsRole owner{
-        multiplicity 1..1;
-    }
-}
-
-
-relation FileSystemHasFiles{
-	
-    FileSystem playsRole filesystem {
-        multiplicity 1..1;
-    }
-    Directory playsRole slash{
-		multiplicity 1..1;
-    }
-}
-
-relation MyDriveManagerHasCurrentDirectoryy{
-	
-    MyDriveManager playsRole myDriveManager {
-        multiplicity 1..1;
-    }
-    Directory playsRole currentDirectory{
-		multiplicity 1..1;
-    }
-}
-
-relation FileSystemHasUsers{
-	
-    FileSystem playsRole filesystem {
-        multiplicity 1..1;
-    }
-    User playsRole users{
-	multiplicity 1..*;
-    }
-}
-
-relation MyDriveManagerHasCurrentUser{
-	
-    MyDriveManager playsRole myDriveManager {
-        multiplicity 1..1;
-    }
-    User playsRole currentUser{
-		multiplicity 1..1;
-    }
-}
-	
-relation UserHasHomeDirectory{
-
-    User playsRole user{
-		multiplicity 1..1;
-    }
-	
-    Directory playsRole homeDirectory{
-        multiplicity 1..1;
-    }
-}	
-
-
-relation DirectoryHasFiles{
-	
-    Directory playsRole parentDirectory {
-        multiplicity 1..1;
-    }
-    
-    File playsRole files {
-        multiplicity 2..*;
-    }
-}
-
-
-
 relation MyDriveManagerHasFileSystem{
-	
+
     MyDriveManager playsRole myDriveManager{
-		multiplicity 1..1;
+		multiplicity 0..1;
     }
-    
+
     FileSystem playsRole filesystem {
-        multiplicity 1..1;
+        multiplicity 0..1;
     }
-    
+
 }
 
-	
 relation DomainRootHasMyDriveManager {
   .pt.ist.fenixframework.DomainRoot playsRole rootFenix {
     multiplicity 0..1;
@@ -128,4 +52,75 @@ relation DomainRootHasMyDriveManager {
   MyDriveManager playsRole myDriveManager  {
     multiplicity 0..1;
   }
+}
+
+relation FileSystemHasUsers{
+
+    FileSystem playsRole filesystem {
+        multiplicity 0..1;
+    }
+    User playsRole users{
+	    multiplicity 1..*;
+    }
+}
+
+relation UserHasFile {
+	User playsRole owner {
+		multiplicity 1;
+	}
+	File playsRole file {
+		multiplicity *;
+	}
+}
+
+relation FileSystemHasDirectory{
+
+    FileSystem playsRole filesystem {
+        multiplicity 0..1;
+    }
+    Directory playsRole fsRoot{
+		multiplicity 0..1;
+    }
+}
+
+relation DirectoryHasFiles{
+
+    Directory playsRole parentDirectory {
+        multiplicity 1..1;
+    }
+
+    File playsRole files {
+        multiplicity *;
+    }
+}
+
+relation UserHasHomeDirectory{
+
+    User playsRole user{
+		multiplicity 0..1;
+    }
+
+    Directory playsRole homeDirectory{
+        multiplicity 0..1;
+    }
+}
+
+relation MyDriveManagerHasCurrentUser{
+
+    MyDriveManager playsRole myDriveManager {
+        multiplicity 0..1;
+    }
+    User playsRole currentUser{
+		multiplicity 0..1;
+    }
+}
+
+relation MyDriveManagerHasCurrentDirectory{
+
+    MyDriveManager playsRole myDriveManager {
+        multiplicity 0..1;
+    }
+    Directory playsRole currentDirectory{
+		multiplicity 0..1;
+    }
 }

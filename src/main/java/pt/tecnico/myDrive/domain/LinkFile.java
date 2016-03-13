@@ -1,7 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
@@ -34,21 +33,18 @@ public class LinkFile extends LinkFile_Base {
     public String toString(){
     	return toString() + " -> " + super.getContent();
     }
-    
+
     @Override
     public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
-    	Element link_el = new Element("link");
-    	
-    	link_el.setAttribute("id", getId().toString());
-    	link_el.addContent("<name>" + getFilename() + "</name>");
-    	link_el.addContent("<owner>" + getOwner() + "</owner>");
-    	link_el.addContent("<path>" + getPath() + "</path>");
-    	link_el.addContent("<perm>" + getPermissions() + "</perm>");
-    	
-    	if(getContent() != null)// Check if there is content on the file, none found print nothing
-    		link_el.addContent("<value>" + getContent() + "</value>");
-    	
-    	return link_el;
+        Element pf_el = new Element("link");
+
+        super.generalFileExport(pf_el);
+
+        // Check if there is content on the file, none found print nothing
+        if(!getContent().isEmpty())
+            pf_el.addContent(new Element("value").setText(getContent()));
+
+        return pf_el;
     }
     
 }

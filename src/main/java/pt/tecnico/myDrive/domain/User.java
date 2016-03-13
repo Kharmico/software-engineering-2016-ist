@@ -1,7 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
@@ -15,15 +14,17 @@ public class User extends User_Base {
         super();
     }
     
-    public User(String username) throws UserAlreadyExistsException, InvalidUsernameException{
+    public User(String username, MyDriveManager mdm, FileSystem fs) throws UserAlreadyExistsException, InvalidUsernameException{
     	if(username.equals(Root.ROOT_USERNAME)){
     		throw new UserAlreadyExistsException(username);
     	}
-    	this.checkUsername(username);
-    	this.setUsername(username);
-    	this.setPassword(username);
-    	this.setName(username);
-    	this.setUmask(DEFAULT_UMASK);
+		this.checkUsername(username);
+		this.setUsername(username);
+		this.setPassword(username);
+		this.setName(username);
+		this.setUmask(DEFAULT_UMASK);
+		super.setMyDriveManager(mdm);
+		super.setFilesystem(fs);;
     }
     
 
@@ -64,23 +65,22 @@ public class User extends User_Base {
         else
             fs.addUsers(this);
     }
-    
-    @Override
-    public void setMyDriveManager(MyDriveManager mngr) {
-        if (mngr == null)
-            super.setMyDriveManager(null);
-        else
-        	mngr.setCurrentUser(this);
-    }
-    
-    @Override
+
+	@Override
+	public void setMyDriveManager(MyDriveManager mngr) {
+		if (mngr == null)
+			super.setMyDriveManager(null);
+		else
+			mngr.setCurrentUser(this);
+	}
+
+   /* @Override
     public void setFile(File file) {
         if (file == null)
             super.setFile(null);
         else
         	file.setOwner(this);
-    }
-    
+    }*/
 
     public void remove(){
     	this.setHomeDirectory(null);
@@ -98,16 +98,22 @@ public class User extends User_Base {
         	throw new InvalidUsernameException(username);
         }
 	}
-    
+
 	protected Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
 		Element usr_el = new Element("user");
 		usr_el.setAttribute("username", getUsername());
-		usr_el.addContent("<password>" + getPassword() + "</password>");
-		usr_el.addContent("<name>" + getName() + "</name>");
-		usr_el.addContent("<home>" + getHomeDirectory() + "</home>");
-		usr_el.addContent("<mask>" + getUmask() + "</mask>");
+
+		usr_el.addContent(new Element("name").setText(getName()));
+		usr_el.addContent(new Element("password").setText(getPassword()));
+		usr_el.addContent(new Element("home").setText(getHomeDirectory().getPath() + "/" + getHomeDirectory().getFilename()));
+		usr_el.addContent(new Element("mask").setText(getUmask()));
 
 		return usr_el;
+	}
+
+	@Override
+	public String toString(){
+		return getUsername();
 	}
 
 
