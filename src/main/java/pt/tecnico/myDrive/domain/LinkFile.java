@@ -6,17 +6,17 @@ import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 
 public class LinkFile extends LinkFile_Base {
-    
-    public LinkFile() {
+
+    protected LinkFile() {
         super();
     }
-    
-    public LinkFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+
+    protected LinkFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	super.init(id, filename, userMask, owner);
     }
-    
-    
-    public LinkFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+
+
+    protected LinkFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
     	super.init(id, filename, userMask, owner, content);
 
     }

@@ -7,18 +7,18 @@ import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 
 public class AppFile extends AppFile_Base {
-    
-	
-    public AppFile() {
+
+
+    protected AppFile() {
         super();
     }
-    
-    
-    public AppFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+
+
+    protected AppFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
     	super.init(id, filename, userMask, owner);
     }
-    
-    public AppFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+
+    protected AppFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
     	super.init(id, filename, userMask, owner, content);
 
     }

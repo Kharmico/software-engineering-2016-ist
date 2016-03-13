@@ -22,7 +22,7 @@ public class MyDriveApplication{
 	static final Logger log = LogManager.getRootLogger();
 
 	public static void main(String[] args){
-		System.out.println("Hello World!");
+		log.trace("MyDriveApplication.main: Starting application." );
 		setup();
 
 		if(args.length == 1) {
@@ -31,48 +31,48 @@ public class MyDriveApplication{
 				xmlScan(f);
 		}
 
-		func1();
-		func2();
-		func3();
-		func4();
+		demoCreatePlainFile();
+		demoCreateDirectory();
+		demoPrintPlainFile();
+		demoRemoveDirectory();
 		xmlPrint();
-		func6();
+		demoRemoveFile();
 	}
 	
 	@Atomic
 	public static void setup(){
+		log.trace("MyDriveApplication.setup: Setting up Manager." );
 		manager = MyDriveManager.getInstance();
 	}
 
 	@Atomic
-	public static void func1(){
+	public static void demoCreatePlainFile(){
+		log.trace("MyDriveApplication.demoCreatePlainFile: Creating /home/README." );
 		manager.createPlainFile("/home/README", "lista de utilizadores");
 
 	}
 
 	@Atomic
-	public static void func2(){
+	public static void demoCreateDirectory(){
+		log.trace("MyDriveApplication.demoCreateDirectory: Creating /usr/local/bin." );
 		manager.createDirectory("/usr/local/bin");
-		/*Directory usr = (Directory) manager.getFilesystem().getSlash().getFileByName("usr");
-		Directory local = (Directory) usr.getFileByName("local");
-
-		System.out.println(local.getFileByName("bin").getPath());*/
-		//System.out.println(manager.getDirectoryFilesName("/usr/local"));
 	}
 
 	@Atomic
-	public static void func3(){
-		System.out.println(manager.printTextFile("/home/README"));
+	public static void demoPrintPlainFile(){
+		log.trace("MyDriveApplication.demoPrintPlainFile: Printing /home/README." );
+		System.out.println(manager.printPlainFile("/home/README"));
 	}
 
 	@Atomic
-	public static void func4(){
+	public static void demoRemoveDirectory(){
+		log.trace("MyDriveApplication.demoRemoveDirectory: Removing /usr/local/bin." );
 		manager.removeFile("/usr/local/bin");
-		//System.out.println(manager.getDirectoryFilesName("/usr"));
 	}
 
 	@Atomic
-	public static void func6(){
+	public static void demoRemoveFile(){
+		log.trace("MyDriveApplication.demoRemoveFile: Removing /home/README." );
 		manager.removeFile("/home/README");
 	}
 
@@ -83,7 +83,7 @@ public class MyDriveApplication{
 
 	@Atomic
 	public static void xmlPrint() {
-		log.trace("xmlPrint: " + FenixFramework.getDomainRoot());
+		log.trace("MyDriveApplication.xmlPrint: " + FenixFramework.getDomainRoot());
 		Document doc = manager.xmlExport();
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try { xmlOutput.output(doc, new PrintStream(System.out));
@@ -93,7 +93,7 @@ public class MyDriveApplication{
 
 	@Atomic
 	public static void xmlScan(File file) {
-		//log.trace("xmlScan: " + FenixFramework.getDomainRoot());
+		log.trace("MyDriveApplication.xmlScan: " + FenixFramework.getDomainRoot());
 		SAXBuilder builder = new SAXBuilder();
 		try {
 		    Document document = (Document)builder.build(file);
