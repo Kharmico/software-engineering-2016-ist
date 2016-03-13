@@ -38,8 +38,7 @@ public class MyDriveApplication{
 		xmlPrint();
 		func6();
 	}
-
-
+	
 	@Atomic
 	public static void setup(){
 		manager = MyDriveManager.getInstance();
