@@ -141,7 +141,7 @@ public class FileSystem extends FileSystem_Base {
 		return currentDirectory.changeDirectory(dirName, currentUser);
 	}
 
-	protected Directory absolutePath(String path, User currentUser){
+	protected Directory absolutePath(String path, User currentUser) throws IsNotDirectoryException{
 		Directory directory = getSlash();
 		String[] FileLocation = path.split("/");
 		for(int i = 1; i < (FileLocation.length-1) ; i++)
@@ -149,7 +149,7 @@ public class FileSystem extends FileSystem_Base {
 		return directory;
 	}
 
-	protected String getDirectoryFilesName(String path, User currentUser) {
+	protected String getDirectoryFilesName(String path, User currentUser) throws IsNotDirectoryException{
 		System.out.println(path.substring(path.lastIndexOf("/")+1));
 		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
@@ -170,7 +170,7 @@ public class FileSystem extends FileSystem_Base {
 		return f.printContent();
 	}
 
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
 		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
@@ -178,7 +178,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
 		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
@@ -186,7 +186,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
 		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
@@ -194,7 +194,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
 		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
@@ -202,7 +202,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
 		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
@@ -210,7 +210,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
 		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
