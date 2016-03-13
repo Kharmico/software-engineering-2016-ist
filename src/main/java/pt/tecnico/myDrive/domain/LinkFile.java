@@ -24,8 +24,8 @@ public class LinkFile extends LinkFile_Base {
     @Override
     protected String printContent(){
 		
-    	// TODO: Print the file's content that is linked to this entity
-    	return null;    	
+    	// TODO: Returns the file's content that is linked to this entity
+    	return "<content>";
     }
     
     

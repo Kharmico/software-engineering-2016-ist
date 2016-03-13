@@ -106,8 +106,6 @@ public abstract class File extends File_Base {
 	
 	protected abstract void removeFile(String toRemove) throws IsNotFileException;
 	
-	public abstract boolean isDirectory();
-	
 	protected abstract String getDirectoryFilesName();
 	
 	protected abstract Directory changeDirectory(String dirname, User currentUser);

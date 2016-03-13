@@ -17,7 +17,7 @@ public class Root extends Root_Base {
     }
     
     @Override
-    public boolean isRoot(){
+    protected boolean isRoot(){
     	return true;
     }
     

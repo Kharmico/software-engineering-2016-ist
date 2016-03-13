@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 public class Directory extends Directory_Base {
     
-    public Directory() {
+    protected Directory() {
         super();
 
     }
 
-	public Directory(int id, String filename, String userMask, User owner, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+	protected Directory(int id, String filename, String userMask, User owner, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		if(!filename.equals("/")){
 			throw new InvalidFileNameException(filename);
 		}
@@ -23,7 +23,7 @@ public class Directory extends Directory_Base {
 
 	}
 
-	public Directory(int id, String filename, String userMask, User owner, Directory father, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+	protected Directory(int id, String filename, String userMask, User owner, Directory father, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner);
 		this.setParentDirectory(father);
 		this.setMyDriveManager(mdm);
@@ -36,9 +36,9 @@ public class Directory extends Directory_Base {
 	}
     
     @Override
-    public void addFile(File file) throws FileAlreadyExistsException {
+    public void addFile(File file) throws FileAlreadyExistsException, FileUnknownException{
     	//FIXME : Disable during fenix framework rework
-		/*if(hasFile(file.getFilename())){
+		/*if(!file.getFilename().equals("/") && hasFile(file.getFilename())){
     		throw new FileAlreadyExistsException(file.getFilename());
     	}*/
     	super.addFiles(file);
@@ -51,7 +51,7 @@ public class Directory extends Directory_Base {
     	return (Directory) file;
     }
     
-    public void removeFile(String filename) throws FileUnknownException{
+    protected void removeFile(String filename) throws FileUnknownException{
     	if(!hasFile(filename)){
     		throw new FileUnknownException(filename);
     	}
@@ -73,7 +73,7 @@ public class Directory extends Directory_Base {
 	}
 
 
-	public File getFileByName(String name) throws FileUnknownException {
+	protected File getFileByName(String name) throws FileUnknownException {
 		for (File file: super.getFilesSet())
 			if (file.getFilename().equals(name))
 				return file;
@@ -93,7 +93,7 @@ public class Directory extends Directory_Base {
 
 
 	@Override
-	public void remove() {
+	protected void remove() {
 		super.removeObject();
 		setFilesystem(null);
 		setMyDriveManager(null);
@@ -123,11 +123,8 @@ public class Directory extends Directory_Base {
 	public void setFilesystem(FileSystem fs){
 		if(fs == null)
 			super.setFilesystem(fs);
-		/*if(fs == null){
-    		super.setFilesystem(null);
-    	}else
-    		fs.addToSlash(this);*/
 	}
+
 	@Override
 	public void setMyDriveManager(MyDriveManager mngr){
 		if(mngr == null){
@@ -137,14 +134,7 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public void isCdAble() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean isDirectory(){
-		return true;
-	}
+	protected void isCdAble() {}
 
 	@Override
 	public String printContent() throws IsNotPlainFileException {
@@ -157,7 +147,7 @@ public class Directory extends Directory_Base {
 
 	}
 
-	public ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
+	protected ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
 		ArrayList<File> allfiles = new ArrayList<File>();
 
 		if(noDirectories()) {
@@ -193,7 +183,7 @@ public class Directory extends Directory_Base {
 	}
 
 
-	public Element xmlExport(){ // Supposedly done
+	protected Element xmlExport(){
 		Element dir_el = new Element("dir");
 
 		dir_el.setAttribute("id", getId().toString());

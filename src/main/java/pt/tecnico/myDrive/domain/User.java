@@ -10,14 +10,11 @@ public class User extends User_Base {
     private static final String DEFAULT_UMASK = "rwxd----";
 
 
-	public User() {
+	protected User() {
         super();
     }
     
-    public User(String username, MyDriveManager mdm, FileSystem fs) throws UserAlreadyExistsException, InvalidUsernameException{
-    	if(username.equals(Root.ROOT_USERNAME)){
-    		throw new UserAlreadyExistsException(username);
-    	}
+    protected User(String username, MyDriveManager mdm, FileSystem fs) throws  InvalidUsernameException{
 		this.checkUsername(username);
 		this.setUsername(username);
 		this.setPassword(username);
@@ -74,32 +71,24 @@ public class User extends User_Base {
 			mngr.setCurrentUser(this);
 	}
 
-   /* @Override
-    public void setFile(File file) {
-        if (file == null)
-            super.setFile(null);
-        else
-        	file.setOwner(this);
-    }*/
-
-    public void remove(){
+    protected void remove(){
     	this.setHomeDirectory(null);
     	deleteDomainObject();
     }
     
     
-	public boolean isRoot() {
+	protected boolean isRoot() {
 		return false;
 	}
 	
 	protected void checkUsername(String username) throws InvalidUsernameException{
 	    String pattern= "^[a-zA-Z0-9]*$";
-        if(!username.matches(pattern)){
+        if(!username.matches(pattern) || username.equals(Root.ROOT_USERNAME)){
         	throw new InvalidUsernameException(username);
         }
 	}
 
-	protected Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
+	protected Element xmlExport(){
 		Element usr_el = new Element("user");
 		usr_el.setAttribute("username", getUsername());
 

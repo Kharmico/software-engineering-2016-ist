@@ -45,12 +45,7 @@ public class PlainFile extends PlainFile_Base {
     protected void isCdAble() throws IsNotDirectoryException {
     	throw new IsNotDirectoryException(this.getFilename()); 
     }
-    
-    @Override
-    public boolean isDirectory(){
-    	return false;
-    }
-    
+
     @Override
     protected String printContent(){
     	return this.getContent();
