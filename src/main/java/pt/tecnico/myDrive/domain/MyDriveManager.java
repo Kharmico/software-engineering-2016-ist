@@ -77,7 +77,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     public void AbsolutePath(String path){
-    	super.setCurrentDirectory(getFilesystem().AbsolutePath(path, getCurrentUser()));
+    	super.setCurrentDirectory(getFilesystem().absolutePath(path, getCurrentUser()));
     }
 
     public String getDirectoryFilesName(String path) {

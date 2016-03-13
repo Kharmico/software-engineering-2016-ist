@@ -7,13 +7,13 @@ import pt.tecnico.myDrive.exception.*;
 
 public abstract class File extends File_Base {
     
-	public File(){	
+	protected File(){
 		super();     
     }
 		
 	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
 		setPermissions(userMask);		
-        setId(new Integer(id));
+        setId(id);
         setFilename(filename);
         setLastModified(new DateTime());	
 		setOwner(owner);
@@ -39,8 +39,8 @@ public abstract class File extends File_Base {
 		super.setOwner(owner);
 	}
 	
-	//@Override
-	public void setPermissions(String umask) throws InvalidMaskException{
+
+	protected void setPermissions(String umask) throws InvalidMaskException{
 		if(umask.length() != 8){
 			throw new InvalidMaskException(umask);
 		}
@@ -61,11 +61,11 @@ public abstract class File extends File_Base {
 			parentDirectory.addFile(this);
     }
 	
-	 protected Directory getFather(){  
+	protected Directory getFather(){
 	    return super.getParentDirectory();
 	}
 
-	public void remove() {
+	protected void remove() {
 		removeObject();
 		deleteDomainObject();
 	}
@@ -114,9 +114,9 @@ public abstract class File extends File_Base {
 
 	protected abstract boolean isEmpty()throws IsNotDirectoryException;
 	
-	public abstract Element xmlExport();
+	protected abstract Element xmlExport();
 
-	public String getPath(){
+	protected String getPath(){
 		String path = "";
 		File file = getFather();
 		while(!file.getFather().equals(file)){
