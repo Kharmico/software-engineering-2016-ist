@@ -87,7 +87,7 @@ public class FileSystem extends FileSystem_Base {
 			super.addUsers(user);
 			return;
 		}
-		
+
 		throw new UserAlreadyExistsException(user.getUsername());
 	}
 	
@@ -143,10 +143,10 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws FileUnknownException{
-		if(!currentDirectory.hasFile(dirName))
-			throw new FileUnknownException(dirName);
-		return currentDirectory.changeDirectory(dirName, currentUser);
+	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser) throws FileUnknownException{
+		if(!currentDirectory.hasFile(directoryName))
+			throw new FileUnknownException(directoryName);
+		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
 	
@@ -160,7 +160,7 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	protected String getDirectoryFilesName(String path, User currentUser) throws IsNotDirectoryException{
-		System.out.println(path.substring(path.lastIndexOf("/")+1));
+		System.out.println(path.substring(path.lastIndexOf("/") + 1));
 		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
 
@@ -172,7 +172,7 @@ public class FileSystem extends FileSystem_Base {
 
     /* Files */
 
-	protected String printPlainFile(String path, User logged) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+	protected String printPlainFile(String path, User logged) throws IsNotDirectoryException, FileUnknownException, IsNotPlainFileException, AccessDeniedException{
 		Directory d = absolutePath(path, logged);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.hasFile(filename);

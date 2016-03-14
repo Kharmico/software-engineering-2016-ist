@@ -39,13 +39,15 @@ public class Directory extends Directory_Base {
 	}
     
     @Override
-    public void addFile(File file) throws FileAlreadyExistsException, FileUnknownException{
-    	//FIXME : Disable during fenix framework rework
-		/*if(!file.getFilename().equals("/") && hasFile(file.getFilename())){
-    		throw new FileAlreadyExistsException(file.getFilename());
-    	}*/
-    	super.addFiles(file);
+    public void addFile(File file) throws FileAlreadyExistsException{
+		// FIXME: Can't stop believing
+		//if(!hasFile(file.getFilename()))
+			super.addFiles(file);
+		//else
+		//	throw new FileAlreadyExistsException(file.getFilename());
+
     }
+
    
     protected Directory changeDirectory(String dirname, User currentUser) throws AccessDeniedException, IsNotDirectoryException{
     	File file = getFileByName(dirname);
@@ -91,7 +93,12 @@ public class Directory extends Directory_Base {
 	}
 
 	protected boolean hasFile(String filename) {
-		return getFileByName(filename) != null;
+		try{
+			getFileByName(filename);
+		}catch (FileUnknownException e){
+			return false;
+		}
+		return true;
 	}
 
 
