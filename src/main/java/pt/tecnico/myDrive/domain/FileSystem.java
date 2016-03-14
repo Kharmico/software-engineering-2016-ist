@@ -105,7 +105,7 @@ public class FileSystem extends FileSystem_Base {
 		if(username.equals(ROOT_USER))
 			throw new IllegalRemovalException(username);
 		else{
-			// Should we remove the user home dir?  If not, new owner = root?!
+			// Should we remove the user home dir?  If not, new owner = root?! - check next sprint
 			User toRemove = getUserByUsername(username);
 			toRemove.remove();
 			super.removeUsers(toRemove);
