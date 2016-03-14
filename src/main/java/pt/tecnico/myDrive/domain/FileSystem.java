@@ -326,20 +326,22 @@ public class FileSystem extends FileSystem_Base {
 			file.isCdAble();
 			next = (Directory) current.getFileByName(name);
 		}
-		catch (FileUnknownException e) {
-			next = new Directory(this.generateUniqueId(), name, user.getUmask(), user, current.getFather(), getMyDriveManager(), this);
-			current.addFile(next);
-		}
+		catch (FileUnknownException e) {}
 		catch (IsNotDirectoryException e){
 			throw new ImportDocumentException();
 		}
 		finally {
+			if(next == null){
+				next = new Directory(this.generateUniqueId(), name, user.getUmask(), user, current, getSlash().getMyDriveManager(), this);
+				current.addFile(next);
+			}
 			return next;
 		}
+
 	}
 
 	
-	/*  Creates all the path until last token */
+	/*  Creates the path until last token */
 	private Directory createPath(String path) throws ImportDocumentException {
 		String delims = "/";
 		String[] tokens = path.split(delims);
