@@ -92,7 +92,7 @@ public abstract class File extends File_Base {
 	
 	protected void checkAccess(User u){
 
-		// checkOwner(u);
+		//checkOwner(u);
 		// TODO : implement permissions
 	}
 	
