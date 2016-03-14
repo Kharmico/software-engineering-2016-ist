@@ -1,12 +1,17 @@
 package pt.tecnico.myDrive.domain;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.*;
 
 public abstract class File extends File_Base {
-    
+
+	static final Logger log = LogManager.getRootLogger();
+	public static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
+
 	protected File(){
 		super();     
     }
@@ -29,10 +34,9 @@ public abstract class File extends File_Base {
 	
 	@Override
 	public void setFilename(String filename) throws InvalidFileNameException {
-		// TODO: Restrictions remove during fenix frameweork rework
-		/*if(filename.contains("/") || filename.contains("\0")){
+		if(filename != null && filename.matches(INVALID_FILENAME_REGEX) ){
 			throw new InvalidFileNameException(filename);
-		}*/
+		}
 		
 		super.setFilename(filename);
 	}
@@ -82,7 +86,6 @@ public abstract class File extends File_Base {
 	protected void removeObject(){
 		setLastModified(null);
 		setParentDirectory(null);
-		//setPermissions(null);
 		setFilename(null);
 		setId(null);
 		setOwner(null);
@@ -95,7 +98,6 @@ public abstract class File extends File_Base {
 
 	
 	protected void checkOwner(User u) throws AccessDeniedException{
-		// FIXME : Plz implement this right
 		if(!u.equals(super.getOwner()) || !u.isRoot()){
 			throw new AccessDeniedException(u);
 		}
@@ -103,7 +105,7 @@ public abstract class File extends File_Base {
 	
 	
 	protected void checkAccess(User u){
-
+		// Implement to the next Sprint
 		// checkOwner(u);
 		// TODO : implement permissions
 	}
@@ -143,6 +145,8 @@ public abstract class File extends File_Base {
 		path = file.getFilename() + path;
 		return path;
 	}
+
+
 
 	@Override
 	public String toString(){

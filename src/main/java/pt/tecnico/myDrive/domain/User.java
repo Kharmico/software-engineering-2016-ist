@@ -3,11 +3,11 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
-import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 
 public class User extends User_Base {
-    
-    private static final String DEFAULT_UMASK = "rwxd----";
+
+	private static final String DEFAULT_UMASK = "rwxd----";
+	public static final String INVALID_USERNAME_REGEX = "^[a-zA-Z0-9]*$";
 
 
 	protected User() {
@@ -82,8 +82,7 @@ public class User extends User_Base {
 	}
 	
 	protected void checkUsername(String username) throws InvalidUsernameException{
-	    String pattern= "^[a-zA-Z0-9]*$";
-        if(!username.matches(pattern) || username.equals(Root.ROOT_USERNAME)){
+        if(!username.matches(INVALID_USERNAME_REGEX) || username.equals(Root.ROOT_USERNAME)){
         	throw new InvalidUsernameException(username);
         }
 	}
@@ -99,6 +98,7 @@ public class User extends User_Base {
 
 		return usr_el;
 	}
+
 
 	@Override
 	public String toString(){

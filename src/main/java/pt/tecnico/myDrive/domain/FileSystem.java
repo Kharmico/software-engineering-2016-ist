@@ -20,6 +20,7 @@ public class FileSystem extends FileSystem_Base {
 
 		Root root = new Root();
 		this.addUsers(root);
+
 		try{
 			super.setFsRoot(new Directory(this.generateUniqueId(),
 					"/", root.getUmask(), root, getMyDriveManager(), this));
@@ -32,8 +33,8 @@ public class FileSystem extends FileSystem_Base {
 		}
 
 		Directory home = new Directory(this.generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash(),getMyDriveManager(),this);
-		addToSlash(home);
 
+		addToSlash(home);
 
 		Directory rootHomeDirectory = new Directory(this.generateUniqueId(),
 				root.getUsername(), root.getUmask(), root, home,getMyDriveManager(),this);
