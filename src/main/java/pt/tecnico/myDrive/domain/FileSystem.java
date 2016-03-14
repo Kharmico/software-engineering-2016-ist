@@ -135,22 +135,22 @@ public class FileSystem extends FileSystem_Base {
 		beforeLast.addFile(newDir);
 	}
 
-	protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws IsNotDirectoryException{
-		if(!currentDirectory.hasFile(dirName))
-			throw new IsNotDirectoryException(dirName);
-		return currentDirectory.changeDirectory(dirName, currentUser);
+	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser) throws IsNotDirectoryException{
+		if(!currentDirectory.hasFile(directoryName))
+			throw new IsNotDirectoryException(directoryName);
+		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
 	protected Directory absolutePath(String path, User currentUser) throws IsNotDirectoryException{
 		Directory directory = getSlash();
 		String[] FileLocation = path.split("/");
-		for(int i = 1; i < (FileLocation.length-1) ; i++)
+		for(int i = 1; i < (FileLocation.length - 1) ; i++)
 			directory = changeDirectory(FileLocation[i], directory, currentUser);
 		return directory;
 	}
 
 	protected String getDirectoryFilesName(String path, User currentUser) throws IsNotDirectoryException{
-		System.out.println(path.substring(path.lastIndexOf("/")+1));
+		System.out.println(path.substring(path.lastIndexOf("/") + 1));
 		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
 
