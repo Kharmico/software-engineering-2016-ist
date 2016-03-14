@@ -302,9 +302,8 @@ public class FileSystem extends FileSystem_Base {
     
 	
      /* ImportXML */
-	// What is this IllegalStateException???
-	// What are those ImportDocumentExceptions???
-	protected void xmlImport(Element element) throws IllegalStateException {
+
+	protected void xmlImport(Element element) throws ImportDocumentException {
 		this.xmlImportUser(element.getChildren("user"));
 		this.xmlImportDir(element.getChildren("dir"));
 		this.xmlImportPlain(element.getChildren("plain"));
@@ -471,7 +470,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	private void xmlImportApp(List<Element> app) throws IllegalStateException, UserUnknownException {
+	private void xmlImportApp(List<Element> app) throws ImportDocumentException {
 		for (Element node : app) {
 			Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path") != null) {
@@ -489,7 +488,7 @@ public class FileSystem extends FileSystem_Base {
 	
 	/* Export XML */
 
-	protected Element xmlExport(Element el){ // Supposedly done
+	protected Element xmlExport(Element el){
 		ArrayList<File> allfiles = new ArrayList<File>();
 
 		for(User usr : getUsersSet()) {
