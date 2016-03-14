@@ -36,12 +36,8 @@ public class Directory extends Directory_Base {
 	}
     
     @Override
-    public void addFile(File file) throws FileAlreadyExistsException{
-		// FIXME: Can't stop believing
-		//if(!hasFile(file.getFilename()))
-			super.addFiles(file);
-		//else
-		//	throw new FileAlreadyExistsException(file.getFilename());
+    public void addFile(File file){
+		super.addFiles(file);
 
     }
 

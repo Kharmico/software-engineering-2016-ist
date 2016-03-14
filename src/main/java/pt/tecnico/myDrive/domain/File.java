@@ -1,11 +1,15 @@
 package pt.tecnico.myDrive.domain;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.*;
 
 public abstract class File extends File_Base {
+
+	static final Logger log = LogManager.getRootLogger();
     
 	protected File(){
 		super();     
@@ -73,7 +77,6 @@ public abstract class File extends File_Base {
 	protected void removeObject(){
 		setLastModified(null);
 		setParentDirectory(null);
-		//setPermissions(null);
 		setFilename(null);
 		setId(null);
 		setOwner(null);
@@ -84,14 +87,13 @@ public abstract class File extends File_Base {
 	}
 
 	protected void checkOwner(User u) throws AccessDeniedException{
-		// FIXME : Plz implement this right
 		if(!u.equals(super.getOwner()) || !u.isRoot()){
 			throw new AccessDeniedException(u);
 		}
 	}
 	
 	protected void checkAccess(User u){
-
+		// Implement to the next Sprint
 		// checkOwner(u);
 		// TODO : implement permissions
 	}
@@ -129,6 +131,8 @@ public abstract class File extends File_Base {
 		path = file.getFilename() + path;
 		return path;
 	}
+
+
 
 	@Override
 	public String toString(){

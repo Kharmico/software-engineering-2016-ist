@@ -3,7 +3,6 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
-import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 
 public class User extends User_Base {
     
@@ -99,6 +98,7 @@ public class User extends User_Base {
 
 		return usr_el;
 	}
+
 
 	@Override
 	public String toString(){
