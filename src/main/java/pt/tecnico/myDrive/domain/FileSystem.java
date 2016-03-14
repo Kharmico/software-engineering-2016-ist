@@ -140,13 +140,9 @@ public class FileSystem extends FileSystem_Base {
     /* Directory */
 
 	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
-		Directory beforeLast = createPath(path);
-		// FIXME : Sometimes this returns null
-		//System.out.println("Direcc: " + beforeLast +"User: " + currentUser);
-		//beforeLast.checkAccess(currentUser);
-		Directory newDir = new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
-				currentUser, beforeLast, getMyDriveManager(),this);
-		beforeLast.addFile(newDir);
+		Directory beforeLast = absolutePath(path, currentUser);
+		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
+				currentUser, beforeLast, getMyDriveManager(),this));
 	}
 
 	
