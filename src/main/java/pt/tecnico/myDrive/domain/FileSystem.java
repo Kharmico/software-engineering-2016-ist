@@ -159,8 +159,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected String getDirectoryFilesName(String path, User currentUser) throws IsNotDirectoryException{
-		System.out.println(path.substring(path.lastIndexOf("/") + 1));
+	protected String getDirectoryFilesName(String path, User currentUser) throws FileUnknownException{
 		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
 
@@ -236,19 +235,19 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser) throws IllegalRemovalException, FileUnknownException, AccessDeniedException, IsNotDirectoryException { //TODO: permissions
+	protected void removeFile(String path, User currentUser) throws FileUnknownException, IsNotDirectoryException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
 		Directory currentDirectory = absolutePath(path, currentUser);
 		try{
 			if(currentDirectory.getFileByName(toRemove).isEmpty()){
 				currentDirectory.getFileByName(toRemove).remove();
-			}else
-				throw new IllegalRemovalException(toRemove);
-		}catch (IsNotDirectoryException e){
+			} //else    TODO: Permissions allowance!!!
+				//throw new IllegalRemovalException(toRemove); AccessDeniedException
+		} catch (IsNotDirectoryException e){
 			currentDirectory.getFileByName(toRemove).remove();
 		}
 	}
-    
+	
 	
     /* Uniques Ids */
     

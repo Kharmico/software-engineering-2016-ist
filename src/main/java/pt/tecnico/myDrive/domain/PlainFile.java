@@ -58,13 +58,13 @@ public class PlainFile extends PlainFile_Base {
     }
 
 	@Override
-	protected void addFile(File toAdd) throws FileAlreadyExistsException{
-		throw new FileAlreadyExistsException(toAdd.getFilename());
+	protected void addFile(File toAdd) throws IsNotDirectoryException{
+		throw new IsNotDirectoryException(toAdd.getFilename());
 	}
 
 	@Override
-	protected void removeFile(String toRemove) throws IsNotFileException{
-		throw new IsNotFileException(toRemove);
+	protected void removeFile(String toRemove) throws IsNotDirectoryException{
+		throw new IsNotDirectoryException(toRemove);
 		
 	}
 
@@ -91,12 +91,11 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 	@Override
-	protected Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
+	protected Element xmlExport(){
 		Element pf_el = new Element("plain");
 
 		generalFileExport(pf_el);
 
-		// Check if there is content on the file, none found print nothing
 		if(!getContent().isEmpty())
 			pf_el.addContent(new Element("contents").setText(getContent()));
 

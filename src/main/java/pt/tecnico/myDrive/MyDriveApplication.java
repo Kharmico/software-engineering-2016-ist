@@ -78,7 +78,7 @@ public class MyDriveApplication{
 
 	@Atomic
 	public static void func7(){
-		System.out.println(manager.getDirectoryFilesName("/home"));
+		manager.getDirectoryFilesName("/home");
 	}
 
 	@Atomic

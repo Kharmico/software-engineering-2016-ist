@@ -39,12 +39,11 @@ public class AppFile extends AppFile_Base {
     }
 
     @Override
-    public Element xmlExport(){ //Supposedly done, probably needs some changing tweaks!!!
+    public Element xmlExport(){
         Element pf_el = new Element("app");
 
         super.generalFileExport(pf_el);
 
-        // Check if there is content on the file, none found print nothing
         if(!getContent().isEmpty())
             pf_el.addContent(new Element("method").setText(getContent()));
 

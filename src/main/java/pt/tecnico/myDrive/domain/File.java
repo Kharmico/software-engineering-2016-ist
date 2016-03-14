@@ -10,7 +10,7 @@ public abstract class File extends File_Base {
 	protected File(){
 		super();     
     }
-		
+	
 	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
         setId(id);		
 		setOwner(owner);
@@ -20,10 +20,12 @@ public abstract class File extends File_Base {
 
 	}
 	
+	
 	@Override
 	public void setId(Integer id){
 		super.setId(id);
 	}
+	
 	
 	@Override
 	public void setFilename(String filename) throws InvalidFileNameException {
@@ -34,6 +36,7 @@ public abstract class File extends File_Base {
 		
 		super.setFilename(filename);
 	}
+	
 	
 	@Override
 	public void setOwner(User owner){
@@ -49,10 +52,12 @@ public abstract class File extends File_Base {
         super.setOthersPermissions(umask.substring(4, 7));
 	}
 	
+	
 	@Override
 	public void setLastModified(DateTime date){
 		super.setLastModified(date);
 	}
+	
 	
 	@Override
     public void setParentDirectory(Directory parentDirectory){
@@ -62,15 +67,18 @@ public abstract class File extends File_Base {
 			parentDirectory.addFile(this);
     }
 	
+	
 	protected Directory getFather(){
 	    return super.getParentDirectory();
 	}
 
+	
 	protected void remove() {
 		removeObject();
 		deleteDomainObject();
 	}
 
+	
 	protected void removeObject(){
 		setLastModified(null);
 		setParentDirectory(null);
@@ -80,10 +88,12 @@ public abstract class File extends File_Base {
 		setOwner(null);
 	}
 	
+	
 	protected String getPermissions(){
 		return super.getOwnerPermissions() + super.getOthersPermissions(); 
 	}
 
+	
 	protected void checkOwner(User u) throws AccessDeniedException{
 		// FIXME : Plz implement this right
 		if(!u.equals(super.getOwner()) || !u.isRoot()){
@@ -91,11 +101,13 @@ public abstract class File extends File_Base {
 		}
 	}
 	
+	
 	protected void checkAccess(User u){
 
 		// checkOwner(u);
 		// TODO : implement permissions
 	}
+	
 	
 	protected abstract void isCdAble() throws IsNotDirectoryException;
 	
@@ -111,10 +123,11 @@ public abstract class File extends File_Base {
 	
 	protected abstract Directory changeDirectory(String dirname, User currentUser);
 
-	protected abstract boolean isEmpty()throws IsNotDirectoryException;
+	protected abstract boolean isEmpty() throws IsNotDirectoryException;
 	
 	protected abstract Element xmlExport();
 
+	
 	protected String getPath(){
 		String path = "";
 		File file = getFather();

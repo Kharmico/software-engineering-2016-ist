@@ -122,13 +122,25 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     
-    public String getDirectoryFilesName(String path) {
-        return getFilesystem().getDirectoryFilesName(path, getCurrentUser());
+    public void getDirectoryFilesName(String path) {
+    	
+    	try {
+    		System.out.println(getFilesystem().getDirectoryFilesName(path, getCurrentUser()));
+    	} catch (FileUnknownException ex) {
+    		System.err.println(ex.getMessage());
+    	}
     }
 
     
     public void removeFile(String path){
-        super.getFilesystem().removeFile(path, getCurrentUser());
+    	
+    	try {
+    		super.getFilesystem().removeFile(path, getCurrentUser());
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (IllegalRemovalException ex2) {
+    		System.err.println(ex2.getMessage());
+    	}
     }
     
     
