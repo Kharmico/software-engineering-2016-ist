@@ -10,7 +10,8 @@ import pt.tecnico.myDrive.exception.*;
 public abstract class File extends File_Base {
 
 	static final Logger log = LogManager.getRootLogger();
-    
+	public static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
+
 	protected File(){
 		super();     
     }
@@ -30,10 +31,9 @@ public abstract class File extends File_Base {
 	
 	@Override
 	public void setFilename(String filename) throws InvalidFileNameException {
-		// TODO: Restrictions remove during fenix frameweork rework
-		/*if(filename.contains("/") || filename.contains("\0")){
+		if(filename != null && filename.matches(INVALID_FILENAME_REGEX) ){
 			throw new InvalidFileNameException(filename);
-		}*/
+		}
 		
 		super.setFilename(filename);
 	}
