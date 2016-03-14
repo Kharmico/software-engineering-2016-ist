@@ -337,7 +337,6 @@ public class FileSystem extends FileSystem_Base {
 			}
 			return next;
 		}
-
 	}
 
 	
@@ -424,7 +423,6 @@ public class FileSystem extends FileSystem_Base {
 		output.addElement(perm);
 
 		return output;
-
 	}
 
 	
@@ -498,7 +496,6 @@ public class FileSystem extends FileSystem_Base {
 			if (!usr.isRoot())
 				el.addContent(usr.xmlExport());
 		}
-
 		allfiles = getSlash().getAllFiles();
 
 		/* Remove files that were created by users */
@@ -508,13 +505,11 @@ public class FileSystem extends FileSystem_Base {
 					allfiles.remove(f);
 			}
 		}
-
 		Collections.reverse(allfiles);
 		for(File file : allfiles){
 			if(file.getId() >= 3)
 				el.addContent(file.xmlExport());
 		}
-
 		return el;
 	}
 	
