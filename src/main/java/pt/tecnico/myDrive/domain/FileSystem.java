@@ -46,10 +46,12 @@ public class FileSystem extends FileSystem_Base {
 		return super.getFsRoot();
 	}
 
+	
 	protected void addToSlash(File file){
 		super.getFsRoot().addFile(file);
 	}
 
+	
 	/* Fenixframework binary relations setters */
 
 	@Override
@@ -59,6 +61,7 @@ public class FileSystem extends FileSystem_Base {
 		}else
 			mngr.setFilesystem(this);
 	}
+	
 
 	/* Users */
 
@@ -75,17 +78,19 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
+	
 	public void addUsers(User user) throws UserAlreadyExistsException {
+		
 		try {
 			hasUser(user.getUsername());
 		}catch (UserUnknownException e) {
 			super.addUsers(user);
 			return;
 		}
-
+		
 		throw new UserAlreadyExistsException(user.getUsername());
-
 	}
+	
 
 	protected void removeUsers(String username) throws IllegalRemovalException, UserUnknownException {
 		if(!hasUser(username))
@@ -99,12 +104,13 @@ public class FileSystem extends FileSystem_Base {
 			super.removeUsers(toRemove);
 		}
 	}
-	private String getUserMask(String username) throws UserUnknownException {
-		String mask = getUserByUsername(username).getUmask();
-
+	
+	
+	protected String getUserMask(String username) throws UserUnknownException {
 		return getUserByUsername(username).getUmask();
 	}
 
+	
 	private User getUserByUsername(String name) throws UserUnknownException {
 		for (User user: super.getUsersSet()){
 			if (user.getUsername().equals(name))
@@ -113,6 +119,7 @@ public class FileSystem extends FileSystem_Base {
 		throw new UserUnknownException(name);
 	}
 
+	
 	private boolean hasUser(String username) throws UserUnknownException {
 		return this.getUserByUsername(username) != null;
 	}
@@ -125,7 +132,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException{
+	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 		Directory beforeLast = createPath(path);
 		// FIXME : Sometimes this returns null
 		//System.out.println("Direcc: " + beforeLast +"User: " + currentUser);
@@ -135,25 +142,29 @@ public class FileSystem extends FileSystem_Base {
 		beforeLast.addFile(newDir);
 	}
 
-	protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws IsNotDirectoryException{
+	
+	protected Directory changeDirectory(String dirName, Directory currentDirectory, User currentUser) throws FileUnknownException{
 		if(!currentDirectory.hasFile(dirName))
-			throw new IsNotDirectoryException(dirName);
+			throw new FileUnknownException(dirName);
 		return currentDirectory.changeDirectory(dirName, currentUser);
 	}
 
-	protected Directory absolutePath(String path, User currentUser) throws IsNotDirectoryException{
+	
+	protected Directory absolutePath(String path, User currentUser) throws FileUnknownException{
 		Directory directory = getSlash();
 		String[] FileLocation = path.split("/");
-		for(int i = 1; i < (FileLocation.length-1) ; i++)
+		for(int i = 1; i < (FileLocation.length - 1) ; i++)
 			directory = changeDirectory(FileLocation[i], directory, currentUser);
 		return directory;
 	}
 
+	
 	protected String getDirectoryFilesName(String path, User currentUser) throws IsNotDirectoryException{
 		System.out.println(path.substring(path.lastIndexOf("/")+1));
 		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
 
+	
 	private void addDirectoryToHome(Directory toAdd){
 		getSlash().getFileByName(HOME_DIR).addFile(toAdd);
 	}
@@ -170,6 +181,7 @@ public class FileSystem extends FileSystem_Base {
 		return f.printContent();
 	}
 
+	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
@@ -178,6 +190,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
+	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
@@ -186,6 +199,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
+	
 	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
@@ -194,6 +208,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
+	
 	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
@@ -202,6 +217,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
+	
 	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
@@ -210,6 +226,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
+	
 	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser);
 		d.checkAccess(currentUser);
@@ -232,6 +249,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
     
+	
     /* Uniques Ids */
     
     private int generateUniqueId(){
@@ -250,6 +268,7 @@ public class FileSystem extends FileSystem_Base {
 		deleteDomainObject();
 	}
     
+	
      /* ImportXML */
 
 	protected void xmlImport(Element element) throws IllegalStateException {
@@ -260,10 +279,12 @@ public class FileSystem extends FileSystem_Base {
 		this.xmlImportApp(element.getChildren("app"));
 	}
 
+	
 	protected Directory getHomeDirectory(){
 		return (Directory) this.getSlash().getFileByName(HOME_DIR);
 	}
 
+	
 	private Directory createDir(Directory current, String name, User user) throws ImportDocumentException {
 		Directory next = null;
 
@@ -284,6 +305,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
+	
 	/*  Creates all the path until last token */
 	private Directory createPath(String path) throws ImportDocumentException {
 		String delims = "/";
@@ -300,6 +322,7 @@ public class FileSystem extends FileSystem_Base {
 		return current;
 	}
 
+	
 	private void xmlImportUser(List<Element> user) throws ImportDocumentException {
 		for (Element node : user) {
 			String username = node.getAttributeValue("username");
@@ -369,6 +392,7 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
+	
 	private void xmlImportPlain(List<Element> plain) throws ImportDocumentException {
 		for (Element node : plain) {
 			Vector<String> input = xmlImportFile(node);
@@ -385,6 +409,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
+	
 	private void xmlImportDir(List<Element> dir) throws ImportDocumentException {
 		for (Element node : dir) {
 			Vector<String> input = xmlImportFile(node);
@@ -395,6 +420,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
+	
 	private void xmlImportLink(List<Element> link) throws ImportDocumentException {
 		for (Element node : link) {
 			Vector<String> input = xmlImportFile(node);
@@ -411,6 +437,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
+	
 	private void xmlImportApp(List<Element> app) throws IllegalStateException, UserUnknownException {
 		for (Element node : app) {
 			Vector<String> input = xmlImportFile(node);
@@ -426,6 +453,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
+	
 	/* Export XML */
 
 	protected Element xmlExport(Element el){ // Supposedly done
@@ -441,18 +469,17 @@ public class FileSystem extends FileSystem_Base {
 		/* Remove files that were created by users */
 		for(File f : getHomeDirectory().getFilesSet()){
 			for(User usr : getUsersSet()) {
-				if(f.getOwner().equals(usr)){
+				if(f.getOwner().equals(usr))
 					allfiles.remove(f);
-				}
 			}
 		}
 
-		for(File file : allfiles)
+		for(File file : allfiles){
 			if(file.getId() >= 3)
 				el.addContent(file.xmlExport());
+		}
 
 		return el;
-
 	}
-    
+	
 }

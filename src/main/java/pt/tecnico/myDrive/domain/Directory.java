@@ -12,6 +12,7 @@ public class Directory extends Directory_Base {
 
     }
 
+    
 	protected Directory(int id, String filename, String userMask, User owner, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		if(!filename.equals("/")){
 			throw new InvalidFileNameException(filename);
@@ -23,6 +24,7 @@ public class Directory extends Directory_Base {
 
 	}
 
+	
 	protected Directory(int id, String filename, String userMask, User owner, Directory father, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner);
 		this.setParentDirectory(father);
@@ -30,6 +32,7 @@ public class Directory extends Directory_Base {
 		this.setFilesystem(fs);
 	}
 
+	
 	@Override
 	protected boolean isEmpty() {
 		return getFilesSet().size() == 0;
@@ -61,7 +64,6 @@ public class Directory extends Directory_Base {
     }
 
 
-
 	protected String getDirectoryFilesName() {
 		String ls = this.toString() + " .\n" +
 				getFather().toString() + " ..\n";
@@ -80,6 +82,7 @@ public class Directory extends Directory_Base {
 		throw new FileUnknownException(name);
 	}
 
+	
 	protected File getFileById(Integer id) throws IDUnknownException{
 		for (File file: super.getFilesSet())
 			if (file.getId().equals(id))
@@ -99,8 +102,6 @@ public class Directory extends Directory_Base {
 		setMyDriveManager(null);
 		deleteDomainObject();
 	}
-
-
 
 
 	@Override

@@ -12,11 +12,12 @@ public abstract class File extends File_Base {
     }
 		
 	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
-		setPermissions(userMask);		
-        setId(id);
-        setFilename(filename);
-        setLastModified(new DateTime());	
+        setId(id);		
 		setOwner(owner);
+        setFilename(filename);
+		setPermissions(userMask);
+        setLastModified(new DateTime());	
+
 	}
 	
 	@Override
