@@ -68,7 +68,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try {
     		super.getFilesystem().addUsers(username);
     	} catch (UserAlreadyExistsException ex) {
-    		System.err.println(ex.getMessage());
+    		log.trace(ex.getMessage());
     	}
     }
     
@@ -77,9 +77,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try {
     		super.getFilesystem().removeUsers(username);
     	} catch (UserUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+			log.trace(ex1.getMessage());
     	} catch (IllegalRemovalException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	}
     }
     
@@ -92,13 +92,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createDirectory(filename, 
     			getCurrentDirectory(), getCurrentUser());
     	} catch (InvalidFileNameException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	} catch (InvalidMaskException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (FileUnknownException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     }
     
@@ -109,7 +109,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.setCurrentDirectory(getFilesystem().changeDirectory(directoryname, 
     				getCurrentDirectory(),getCurrentUser()));
     	} catch (FileUnknownException ex) {
-    		System.err.println(ex.getMessage());
+    		log.trace(ex.getMessage());
     	}
     }
     
@@ -119,7 +119,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try {
     	super.setCurrentDirectory(getFilesystem().absolutePath(path, getCurrentUser()));
     	} catch (FileUnknownException ex) {
-    		System.err.println(ex.getMessage());
+    		log.trace(ex.getMessage());
     	}
     }
 
@@ -129,7 +129,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try {
     		System.out.println(getFilesystem().getDirectoryFilesName(path, getCurrentUser()));
     	} catch (FileUnknownException ex) {
-    		System.err.println(ex.getMessage());
+    		log.trace(ex.getMessage());
     	}
     }
 
@@ -139,9 +139,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try {
     		super.getFilesystem().removeFile(path, getCurrentUser());
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (IllegalRemovalException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	}
     }
     
@@ -154,13 +154,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createPlainFile(filename, 
     				getCurrentDirectory(), getCurrentUser());
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	} catch (InvalidFileNameException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     }
     
@@ -171,13 +171,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createPlainFile(filename,
     				getCurrentDirectory(), getCurrentUser(), content);
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
 		} catch (FileAlreadyExistsException ex2) {
-			System.err.println(ex2.getMessage());
+			log.trace(ex2.getMessage());
 		} catch (InvalidFileNameException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     }
  
@@ -188,13 +188,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	} catch (InvalidFileNameException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     	
     }
@@ -206,13 +206,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	} catch (InvalidFileNameException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     	
     }
@@ -224,13 +224,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createAppFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	} catch (InvalidFileNameException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     }
 
@@ -241,13 +241,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     		super.getFilesystem().createAppFile(filename,
     				getCurrentDirectory(), getCurrentUser(), content);
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	} catch (InvalidFileNameException ex3) {
-    		System.err.println(ex3.getMessage());
+    		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
-    		System.err.println(ex4.getMessage());
+    		log.trace(ex4.getMessage());
     	}
     }
 
@@ -257,9 +257,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     	try {
     		System.out.println(super.getFilesystem().printPlainFile(path, getCurrentUser()));
     	} catch (FileUnknownException ex1) {
-    		System.err.println(ex1.getMessage());
+    		log.trace(ex1.getMessage());
     	} catch (IsNotPlainFileException ex2) {
-    		System.err.println(ex2.getMessage());
+    		log.trace(ex2.getMessage());
     	}
     }
 

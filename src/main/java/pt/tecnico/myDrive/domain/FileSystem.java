@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
 
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Vector;
 
 public class FileSystem extends FileSystem_Base {
+
+	static final Logger log = LogManager.getRootLogger();
 
 	private static final String ROOT_USER = Root.ROOT_USERNAME;
 	private static final String HOME_DIR = "home";
@@ -26,10 +30,11 @@ public class FileSystem extends FileSystem_Base {
 			super.setFsRoot(new Directory(this.generateUniqueId(),
 					"/", root.getUmask(), root, getMyDriveManager(), this));
 
-		}catch(IllegalStateException e){
+		}catch(InvalidFileNameException |InvalidMaskException e){
     		/* This exception should not occur it only exists to protect the method against
     		* bad programming
     		*/
+			log.trace(e.getMessage());
 			e.printStackTrace();
 		}
 
