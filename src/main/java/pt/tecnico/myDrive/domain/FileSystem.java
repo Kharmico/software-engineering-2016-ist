@@ -82,9 +82,7 @@ public class FileSystem extends FileSystem_Base {
 			super.addUsers(user);
 			return;
 		}
-
 		throw new UserAlreadyExistsException(user.getUsername());
-
 	}
 
 	protected void removeUsers(String username) throws IllegalRemovalException, UserUnknownException {
@@ -161,7 +159,7 @@ public class FileSystem extends FileSystem_Base {
 
     /* Files */
 
-	protected String printPlainFile(String path, User logged) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+	protected String printPlainFile(String path, User logged) throws IsNotDirectoryException, FileUnknownException, IsNotPlainFileException, AccessDeniedException{
 		Directory d = absolutePath(path, logged);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.hasFile(filename);
