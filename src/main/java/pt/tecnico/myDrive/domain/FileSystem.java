@@ -4,6 +4,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -112,12 +113,12 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	private User getUserByUsername(String name) throws UserUnknownException {
+	private User getUserByUsername(String username) throws UserUnknownException {
 		for (User user: super.getUsersSet()){
-			if (user.getUsername().equals(name))
+			if (user.getUsername().equals(username))
 				return user;
 		}
-		throw new UserUnknownException(name);
+		throw new UserUnknownException(username);
 	}
 
 	
@@ -172,67 +173,98 @@ public class FileSystem extends FileSystem_Base {
 
     /* Files */
 
-	protected String printPlainFile(String path, User logged) throws IsNotDirectoryException, FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-		Directory d = absolutePath(path, logged);
+	protected String printPlainFile(String path, User currentUser) throws FileUnknownException, IsNotPlainFileException {
+		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		d.hasFile(filename);
+		
+		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
 		File f = d.getFileByName(filename);
-		f.checkAccess(logged);
+		// f.checkAccess(logged); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		return f.printContent();
 	}
 
 	
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
-		Directory d = absolutePath(path, currentUser);
-		d.checkAccess(currentUser);
-		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+		Directory d = absolutePath(path, currentUser);	
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		//d.checkAccess(currentUser);  ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		for(File f : d.getFilesSet()){
+			if(f.getFilename().equals(filename))
+				throw new FileAlreadyExistsException(filename);
+		}
+		
+		d.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser));
-
 	}
 
 	
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser);
-		d.checkAccess(currentUser);
-		d.addFile(new PlainFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		for(File f : d.getFilesSet()){
+			if(f.getFilename().equals(filename))
+				throw new FileAlreadyExistsException(filename);
+		}
+		
+		d.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser, content));
-
-	}
+	}	
 
 	
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
-		d.checkAccess(currentUser);
-		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		for(File f : d.getFilesSet()){
+			if(f.getFilename().equals(filename))
+				throw new FileAlreadyExistsException(filename);
+		}
+		
+		d.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser));
-
 	}
 
 	
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
-		d.checkAccess(currentUser);
-		d.addFile(new LinkFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		for(File f : d.getFilesSet()){
+			if(f.getFilename().equals(filename))
+				throw new FileAlreadyExistsException(filename);
+		}
+		
+		d.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser, content));
-
 	}
 
 	
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
-		d.checkAccess(currentUser);
-		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		for(File f : d.getFilesSet()){
+			if(f.getFilename().equals(filename))
+				throw new FileAlreadyExistsException(filename);
+		}
+		
+		d.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser));
-
 	}
 
 	
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws IsNotDirectoryException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser);
-		d.checkAccess(currentUser);
-		d.addFile(new AppFile(this.generateUniqueId(), path.substring(path.lastIndexOf("/") + 1), currentUser.getUmask(),
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		for(File f : d.getFilesSet()){
+			if(f.getFilename().equals(filename))
+				throw new FileAlreadyExistsException(filename);
+		}
+		
+		d.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser, content));
-
 	}
 
 
@@ -270,7 +302,8 @@ public class FileSystem extends FileSystem_Base {
     
 	
      /* ImportXML */
-
+	// What is this IllegalStateException???
+	// What are those ImportDocumentExceptions???
 	protected void xmlImport(Element element) throws IllegalStateException {
 		this.xmlImportUser(element.getChildren("user"));
 		this.xmlImportDir(element.getChildren("dir"));
@@ -474,6 +507,7 @@ public class FileSystem extends FileSystem_Base {
 			}
 		}
 
+		Collections.reverse(allfiles);
 		for(File file : allfiles){
 			if(file.getId() >= 3)
 				el.addContent(file.xmlExport());

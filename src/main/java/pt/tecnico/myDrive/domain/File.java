@@ -18,9 +18,9 @@ public abstract class File extends File_Base {
 	
 	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
         setId(id);		
-		setOwner(owner);
         setFilename(filename);
 		setPermissions(userMask);
+		setOwner(owner);
         setLastModified(new DateTime());	
 
 	}
@@ -52,8 +52,8 @@ public abstract class File extends File_Base {
 		if(umask.length() != 8){
 			throw new InvalidMaskException(umask);
 		}
-		super.setOwnerPermissions(umask.substring(0, 3));
-        super.setOthersPermissions(umask.substring(4, 7));
+		super.setOwnerPermissions(umask.substring(0, 4));
+        super.setOthersPermissions(umask.substring(4, 8));
 	}
 	
 	

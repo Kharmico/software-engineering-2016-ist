@@ -1,7 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 
@@ -11,12 +10,12 @@ public class LinkFile extends LinkFile_Base {
         super();
     }
 
-    protected LinkFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+    protected LinkFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException {
     	super.init(id, filename, userMask, owner);
     }
 
 
-    protected LinkFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+    protected LinkFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException {
     	super.init(id, filename, userMask, owner, content);
 
     }

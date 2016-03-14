@@ -15,6 +15,8 @@ import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
 import pt.tecnico.myDrive.exception.UserUnknownException;
 
+// import pt.tecnico.myDrive.exception.InvalidContentException;
+
 public class MyDriveManager extends MyDriveManager_Base {
 	
 	static final Logger log = LogManager.getRootLogger();
@@ -101,10 +103,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     
-    public void changeDirectory(String dirname){
+    public void changeDirectory(String directoryname){
     	
     	try {
-    		super.setCurrentDirectory(getFilesystem().changeDirectory(dirname, 
+    		super.setCurrentDirectory(getFilesystem().changeDirectory(directoryname, 
     				getCurrentDirectory(),getCurrentUser()));
     	} catch (FileUnknownException ex) {
     		System.err.println(ex.getMessage());
@@ -147,45 +149,119 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Files --- */ 
     
     public void createPlainFile(String filename){
-    	super.getFilesystem().createPlainFile(filename, 
-    			getCurrentDirectory(), getCurrentUser());
+    	
+    	try {
+    		super.getFilesystem().createPlainFile(filename, 
+    				getCurrentDirectory(), getCurrentUser());
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (FileAlreadyExistsException ex2) {
+    		System.err.println(ex2.getMessage());
+    	} catch (InvalidFileNameException ex3) {
+    		System.err.println(ex3.getMessage());
+    	} catch (InvalidMaskException ex4) {
+    		System.err.println(ex4.getMessage());
+    	}
     }
     
     
     public void createPlainFile(String filename, String content){
-    	super.getFilesystem().createPlainFile(filename, 
-    			getCurrentDirectory(), getCurrentUser(), content);
+    	
+    	try {
+    		super.getFilesystem().createPlainFile(filename,
+    				getCurrentDirectory(), getCurrentUser(), content);
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+		} catch (FileAlreadyExistsException ex2) {
+			System.err.println(ex2.getMessage());
+		} catch (InvalidFileNameException ex3) {
+    		System.err.println(ex3.getMessage());
+    	} catch (InvalidMaskException ex4) {
+    		System.err.println(ex4.getMessage());
+    	}
     }
  
     
     public void createLinkFile(String filename){
-    	super.getFilesystem().createLinkFile(filename, 
+    	
+    	try {
+    		super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (FileAlreadyExistsException ex2) {
+    		System.err.println(ex2.getMessage());
+    	} catch (InvalidFileNameException ex3) {
+    		System.err.println(ex3.getMessage());
+    	} catch (InvalidMaskException ex4) {
+    		System.err.println(ex4.getMessage());
+    	}
+    	
     }
   
     
     public void createLinkFile(String filename, String content){
-    	super.getFilesystem().createLinkFile(filename, 
+    	// TODO: InvalidContentException
+    	try {
+    		super.getFilesystem().createLinkFile(filename, 
     			getCurrentDirectory(), getCurrentUser(), content);
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (FileAlreadyExistsException ex2) {
+    		System.err.println(ex2.getMessage());
+    	} catch (InvalidFileNameException ex3) {
+    		System.err.println(ex3.getMessage());
+    	} catch (InvalidMaskException ex4) {
+    		System.err.println(ex4.getMessage());
+    	}
+    	
     }
  
     
     public void createAppFile(String filename){
-    	super.getFilesystem().createAppFile(filename, 
+    	
+    	try {
+    		super.getFilesystem().createAppFile(filename, 
     			getCurrentDirectory(), getCurrentUser());
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (FileAlreadyExistsException ex2) {
+    		System.err.println(ex2.getMessage());
+    	} catch (InvalidFileNameException ex3) {
+    		System.err.println(ex3.getMessage());
+    	} catch (InvalidMaskException ex4) {
+    		System.err.println(ex4.getMessage());
+    	}
     }
 
     
     public void createAppFile(String filename, String content){
-    	super.getFilesystem().createAppFile(filename, 
-    			getCurrentDirectory(), getCurrentUser(), content);
+    	// TODO: InvalidContentException
+    	try {
+    		super.getFilesystem().createAppFile(filename,
+    				getCurrentDirectory(), getCurrentUser(), content);
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (FileAlreadyExistsException ex2) {
+    		System.err.println(ex2.getMessage());
+    	} catch (InvalidFileNameException ex3) {
+    		System.err.println(ex3.getMessage());
+    	} catch (InvalidMaskException ex4) {
+    		System.err.println(ex4.getMessage());
+    	}
     }
 
     
-    public String printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	return super.getFilesystem().printPlainFile(path, getCurrentUser());
+    public void printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+    	
+    	try {
+    		System.out.println(super.getFilesystem().printPlainFile(path, getCurrentUser()));
+    	} catch (FileUnknownException ex1) {
+    		System.err.println(ex1.getMessage());
+    	} catch (IsNotPlainFileException ex2) {
+    		System.err.println(ex2.getMessage());
+    	}
     }
-
 
     
     /* --- ImportXML --- */

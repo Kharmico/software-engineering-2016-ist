@@ -38,10 +38,10 @@ public class Directory extends Directory_Base {
 		return getFilesSet().size() == 0;
 	}
     
+	
     @Override
     public void addFile(File file){
 		super.addFiles(file);
-
     }
 
    

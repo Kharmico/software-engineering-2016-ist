@@ -9,12 +9,12 @@ public class PlainFile extends PlainFile_Base {
 		super();
 	}
 
-	protected PlainFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected PlainFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException {
     	this.init(id, filename, userMask, owner);
     }
 
 
-	protected PlainFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException {
+	protected PlainFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
     	this.init(id, filename, userMask, owner, content);
 
     }
@@ -26,14 +26,14 @@ public class PlainFile extends PlainFile_Base {
     }
 
 
-    protected void init(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
+    protected void init(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException {
     	init(id, filename, userMask, owner);
     	this.setContent(content);
     }
 
     
     @Override
-    public void setContent(String content) throws InvalidContentException{
+    public void setContent(String content) {
     	super.setContent(content);
     }
     

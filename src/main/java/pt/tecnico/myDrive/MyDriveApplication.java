@@ -39,12 +39,14 @@ public class MyDriveApplication{
 		demoRemoveFile();
 	}
 	
+	
 	@Atomic
 	public static void setup(){
 		log.trace("MyDriveApplication.setup: Setting up Manager." );
 		manager = MyDriveManager.getInstance();
 	}
 
+	
 	@Atomic
 	public static void demoCreatePlainFile(){
 		log.trace("MyDriveApplication.demoCreatePlainFile: Creating /home/README." );
@@ -52,35 +54,41 @@ public class MyDriveApplication{
 
 	}
 
+	
 	@Atomic
 	public static void demoCreateDirectory(){
 		log.trace("MyDriveApplication.demoCreateDirectory: Creating /usr/local/bin." );
 		manager.createDirectory("/usr/local/bin");
 	}
 
+	
 	@Atomic
 	public static void demoPrintPlainFile(){
 		log.trace("MyDriveApplication.demoPrintPlainFile: Printing /home/README." );
-		System.out.println(manager.printPlainFile("/home/README"));
+		manager.printPlainFile("/home/README");
 	}
 
+	
 	@Atomic
 	public static void demoRemoveDirectory(){
 		log.trace("MyDriveApplication.demoRemoveDirectory: Removing /usr/local/bin." );
 		manager.removeFile("/usr/local/bin");
 	}
 
+	
 	@Atomic
 	public static void demoRemoveFile(){
 		log.trace("MyDriveApplication.demoRemoveFile: Removing /home/README." );
 		manager.removeFile("/home/README");
 	}
 
+	
 	@Atomic
 	public static void func7(){
 		manager.getDirectoryFilesName("/home");
 	}
 
+	
 	@Atomic
 	public static void xmlPrint() {
 		log.trace("MyDriveApplication.xmlPrint: " + FenixFramework.getDomainRoot());
@@ -102,6 +110,6 @@ public class MyDriveApplication{
 		    e.printStackTrace();
 		}
 	}
-
+	
 }
 	

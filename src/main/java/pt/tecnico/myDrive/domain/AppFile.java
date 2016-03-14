@@ -1,7 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
@@ -14,11 +13,11 @@ public class AppFile extends AppFile_Base {
     }
 
 
-    protected AppFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+    protected AppFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException {
     	super.init(id, filename, userMask, owner);
     }
 
-    protected AppFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+    protected AppFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
     	super.init(id, filename, userMask, owner, content);
 
     }
