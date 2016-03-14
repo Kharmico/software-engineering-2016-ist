@@ -304,10 +304,11 @@ public class FileSystem extends FileSystem_Base {
 			}
 			return next;
 		}
+
 	}
 
 	
-	/*  Creates all the path until last token */
+	/*  Creates the path until last token */
 	private Directory createPath(String path) throws ImportDocumentException {
 		String delims = "/";
 		String[] tokens = path.split(delims);
