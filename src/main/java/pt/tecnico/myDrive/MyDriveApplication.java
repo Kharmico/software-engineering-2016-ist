@@ -81,13 +81,6 @@ public class MyDriveApplication{
 		log.trace("MyDriveApplication.demoRemoveFile: Removing /home/README." );
 		manager.removeFile("/home/README");
 	}
-
-	
-	@Atomic
-	public static void func7(){
-		manager.getDirectoryFilesName("/home");
-	}
-
 	
 	@Atomic
 	public static void xmlPrint() {
