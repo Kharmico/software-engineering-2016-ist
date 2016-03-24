@@ -16,6 +16,7 @@ public class FileSystem extends FileSystem_Base {
 
 	private static final String ROOT_USER = Root.ROOT_USERNAME;
 	private static final String HOME_DIR = "home";
+	public static final int MAX_PATH_SIZE = 1024;
 
 	protected FileSystem(MyDriveManager mdm) {
 		super();
@@ -154,6 +155,11 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	protected Directory absolutePath(String path, User currentUser) throws FileUnknownException{
+		if(path.length() > MAX_PATH_SIZE){
+			// TODO: Implement execption
+			log.trace("path is too big"); // Remove this after the exception implementation is ready. It serves only for debug
+			// throw new PathIsToBigException(path);
+		}
 		Directory directory = getSlash();
 		String[] FileLocation = path.split("/");
 		for(int i = 1; i < (FileLocation.length - 1) ; i++)
