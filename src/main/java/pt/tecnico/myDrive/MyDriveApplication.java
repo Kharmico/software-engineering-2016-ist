@@ -62,8 +62,9 @@ public class MyDriveApplication{
 		demoCreateDirectory();
 		demoPrintPlainFile();
 		demoRemoveDirectory();
-		xmlPrint();
+		// xmlPrint(); // For the purpose of debug, this function drops too much output
 		demoRemoveFile();
+		//test();			// This will throw an InvalidUsernameException, it only serves as a test.
 	}
 	
 	
@@ -78,7 +79,7 @@ public class MyDriveApplication{
 	public static void demoCreatePlainFile(){
 		log.trace("MyDriveApplication.demoCreatePlainFile: Creating /home/README." );
 		manager.createPlainFile("/home/README", "lista de utilizadores");
-		manager.createPlainFile(DEBUG_1024_DIR, "lista de utilizadores");
+
 
 	}
 
@@ -108,6 +109,12 @@ public class MyDriveApplication{
 	public static void demoRemoveFile(){
 		log.trace("MyDriveApplication.demoRemoveFile: Removing /home/README." );
 		manager.removeFile("/home/README");
+	}
+
+	@Atomic
+	public static void test(){
+		manager.createPlainFile(DEBUG_1024_DIR, "lista de utilizadores");
+		manager.addUser("o");
 	}
 	
 	@Atomic

@@ -8,6 +8,7 @@ public class User extends User_Base {
 
 	private static final String DEFAULT_UMASK = "rwxd----";
 	public static final String INVALID_USERNAME_REGEX = "^[a-zA-Z0-9]*$";
+	public static final int MIN_USERNAME_SIZE = 3;
 
 
 	protected User() {
@@ -82,7 +83,7 @@ public class User extends User_Base {
 	}
 	
 	protected void checkUsername(String username) throws InvalidUsernameException{
-        if(!username.matches(INVALID_USERNAME_REGEX) || username.equals(Root.ROOT_USERNAME)){
+        if(username.length() < MIN_USERNAME_SIZE || !username.matches(INVALID_USERNAME_REGEX) || username.equals(Root.ROOT_USERNAME)){
         	throw new InvalidUsernameException(username);
         }
 	}

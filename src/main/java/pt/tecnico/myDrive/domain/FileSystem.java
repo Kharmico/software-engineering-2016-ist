@@ -73,17 +73,19 @@ public class FileSystem extends FileSystem_Base {
 
 	/* Users */
 
-	protected void addUsers(String username) throws UserAlreadyExistsException {
-		if(hasUser(username)){
-			throw new UserAlreadyExistsException(username);
-		}else{
+	protected void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException{
+		try {
+			hasUser(username);
+		}catch (UserUnknownException e){
 			User toCreate = new User(username, getMyDriveManager(), this);
 			Directory homeDirectory = new Directory(this.generateUniqueId(),
 					username, toCreate.getUmask(), toCreate, getMyDriveManager(),this);
 			toCreate.setHomeDirectory(homeDirectory);
 			this.addDirectoryToHome(homeDirectory);
 			super.addUsers(toCreate);
+			return;
 		}
+		throw new UserAlreadyExistsException(username);
 	}
 
 	
@@ -101,8 +103,7 @@ public class FileSystem extends FileSystem_Base {
 	
 
 	protected void removeUsers(String username) throws IllegalRemovalException, UserUnknownException {
-		if(!hasUser(username))
-			throw new UserUnknownException(username);
+		hasUser(username);
 		if(username.equals(ROOT_USER))
 			throw new IllegalRemovalException(username);
 		else{
@@ -128,8 +129,8 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	private boolean hasUser(String username) throws UserUnknownException {
-		return this.getUserByUsername(username) != null;
+	private void hasUser(String username) throws UserUnknownException {
+		this.getUserByUsername(username);
 	}
 
 
