@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
 
+import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 public class Directory extends Directory_Base {
@@ -60,7 +61,7 @@ public class Directory extends Directory_Base {
     }
 
 
-	protected String getDirectoryFilesName() {
+	public String getDirectoryFilesName() {
 		String ls = this.toString() + " .\n" +
 				getFather().toString() + " ..\n";
 		for (File file: super.getFilesSet()){
@@ -71,7 +72,7 @@ public class Directory extends Directory_Base {
 	}
 
 
-	protected File getFileByName(String name) throws FileUnknownException {
+	public File getFileByName(String name) throws FileUnknownException {
 		for (File file: super.getFilesSet())
 			if (file.getFilename().equals(name))
 				return file;
@@ -188,6 +189,11 @@ public class Directory extends Directory_Base {
 		dir_el.addContent(new Element("perm").setText(getPermissions()));
 
 		return dir_el;
+	}
+
+	@Override
+	public void writeContent(String content) throws IsNotPlainFileException{
+		throw new IsNotPlainFileException(getFilename());
 	}
 
 }

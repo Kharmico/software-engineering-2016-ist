@@ -20,6 +20,6 @@ public abstract class MyDriveService {
         return MyDriveManager.getInstance();
     }
 
-    protected abstract void dispatch() throws MyDriveException;
+    public abstract void dispatch() throws MyDriveException;
 
 }

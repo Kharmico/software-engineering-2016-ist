@@ -113,5 +113,10 @@ public class PlainFile extends PlainFile_Base {
 
 		return el;
 	}
+
+	@Override
+	public void writeContent(String content) throws IsNotPlainFileException{
+		setContent(content);
+	}
     
 }

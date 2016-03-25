@@ -1,7 +1,7 @@
 package pt.tecnico.myDrive.service;
 
-
-import pt.tecnico.myDrive.exception.MyDriveException;
+import pt.tecnico.myDrive.domain.File;
+import pt.tecnico.myDrive.exception.FileUnknownException;
 
 public class WriteFileService extends MyDriveService{
 
@@ -16,8 +16,11 @@ public class WriteFileService extends MyDriveService{
     }
 
     @Override
-    protected void dispatch() throws MyDriveException{
-        // TO DO
+    public void dispatch() throws FileUnknownException, UnsupportedOperationException {
+        if(_token == getMyDriveManager().getCurrentSession().getToken()) {
+            File toBeWritten = getMyDriveManager().getCurrentSession().getCurrentDir().getFileByName(_filename);
+            if(toBeWritten != null)
+                toBeWritten.writeContent(_content);
+        }
     }
-
 }

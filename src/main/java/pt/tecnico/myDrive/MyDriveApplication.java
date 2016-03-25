@@ -9,7 +9,9 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
+import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.service.WriteFileService;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,13 +65,13 @@ public class MyDriveApplication{
 		demoPrintPlainFile();
 		demoRemoveDirectory();
 
-		xmlPrint(); // For the purpose of debug, this function drops too much output
+		//xmlPrint(); // For the purpose of debug, this function drops too much output
 
 		demoRemoveFile();
 		//test();			// This will throw an InvalidUsernameException, it only serves as a test.
 	}
 	
-	
+
 	@Atomic
 	public static void setup(){
 		log.trace("MyDriveApplication.setup: Setting up Manager." );

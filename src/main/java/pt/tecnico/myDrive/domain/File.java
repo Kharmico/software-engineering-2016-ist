@@ -153,4 +153,9 @@ public abstract class File extends File_Base {
 		return this.getPermissions() + " " + super.getOwner()
 				+ " " + super.getLastModified() + " " + super.getFilename();
 	}
+
+
+	public abstract void writeContent(String content) throws IsNotPlainFileException;
+
+
 }
