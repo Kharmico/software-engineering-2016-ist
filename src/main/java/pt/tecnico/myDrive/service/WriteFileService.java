@@ -9,7 +9,7 @@ public class WriteFileService extends MyDriveService{
     private String _filename;
     private String _content;
 
-    public WriteFile(long token, String filename, String content){
+    public WriteFileService(long token, String filename, String content){
         _token = token;
         _filename = filename;
         _content = content;
