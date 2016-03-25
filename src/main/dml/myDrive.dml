@@ -2,6 +2,11 @@ package pt.tecnico.myDrive.domain;
 
 class MyDriveManager;
 
+class Session{
+    Long token;
+    DateTime lastAccess;
+}
+
 class FileSystem{
 	Integer idSeed;
 }
@@ -105,22 +110,37 @@ relation UserHasHomeDirectory{
     }
 }
 
-relation MyDriveManagerHasCurrentUser{
+relation SessionHasCurrentUser{
 
-    MyDriveManager playsRole myDriveManager {
-        multiplicity 0..1;
-    }
     User playsRole currentUser{
-		multiplicity 0..1;
-    }
-}
-
-relation MyDriveManagerHasCurrentDirectory{
-
-    MyDriveManager playsRole myDriveManager {
         multiplicity 0..1;
     }
-    Directory playsRole currentDirectory{
-		multiplicity 0..1;
+
+    Session playsRole session{
+        multiplicity 0..1;
     }
 }
+
+relation SessionHasCurrentDirectory{
+
+    Directory playsRole currentDir{
+        multiplicity 0..1;
+    }
+
+    Session playsRole session{
+        multiplicity 0..1;
+    }
+}
+
+relation MyDriveManagerHasSessions{
+
+    MyDriveManager playsRole manager{
+        multiplicity 0..1;
+    }
+
+    Session playsRole session{
+        multiplicity 0..*;
+    }
+}
+
+

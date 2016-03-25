@@ -13,22 +13,20 @@ public class Directory extends Directory_Base {
     }
 
     
-	protected Directory(int id, String filename, String userMask, User owner, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+	protected Directory(int id, String filename, String userMask, User owner, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		if(!filename.equals("/")){
 			throw new InvalidFileNameException(filename);
 		}
 		super.init(id, filename, userMask, owner);
 		this.setParentDirectory(this);
-		this.setMyDriveManager(mdm);
 		this.setFilesystem(fs);
 
 	}
 
 	
-	protected Directory(int id, String filename, String userMask, User owner, Directory father, MyDriveManager mdm, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+	protected Directory(int id, String filename, String userMask, User owner, Directory father, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner);
 		this.setParentDirectory(father);
-		this.setMyDriveManager(mdm);
 		this.setFilesystem(fs);
 	}
 
@@ -102,7 +100,6 @@ public class Directory extends Directory_Base {
 	protected void remove() {
 		super.removeObject();
 		setFilesystem(null);
-		setMyDriveManager(null);
 		deleteDomainObject();
 	}
 
@@ -129,13 +126,6 @@ public class Directory extends Directory_Base {
 			super.setFilesystem(fs);
 	}
 
-	@Override
-	public void setMyDriveManager(MyDriveManager mngr){
-		if(mngr == null){
-			super.setMyDriveManager(null);
-		}else
-			mngr.setCurrentDirectory(this);
-	}
 
 	@Override
 	protected void isCdAble() {}
