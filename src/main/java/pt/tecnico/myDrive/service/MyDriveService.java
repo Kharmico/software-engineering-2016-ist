@@ -16,7 +16,7 @@ public abstract class MyDriveService {
         dispatch();
     }
 
-    static MyDriveManager getPhoneBook() {
+    static MyDriveManager getMyDriveManager() {
         return MyDriveManager.getInstance();
     }
 
