@@ -154,7 +154,7 @@ public class FileSystem extends FileSystem_Base {
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
-	
+	@Deprecated
 	protected Directory absolutePath(String path, User currentUser) throws FileUnknownException{
 		if(path.length() > MAX_PATH_SIZE){
 			// TODO: Implement execption
@@ -163,6 +163,26 @@ public class FileSystem extends FileSystem_Base {
 		}
 		Directory directory = getSlash();
 		String[] FileLocation = path.split("/");
+		for(int i = 1; i < (FileLocation.length - 1) ; i++)
+			directory = changeDirectory(FileLocation[i], directory, currentUser);
+		return directory;
+	}
+
+	// TODO: New method that allows search using relativePaths, this method should be called in the place of the former one.
+	protected Directory absolutePath(String path, User currentUser, Directory currentDirectory) throws FileUnknownException{
+		String resultantPath;
+		if(path.startsWith("/")){
+			resultantPath = path;
+		}else{
+			resultantPath = currentDirectory.getPath() + path;
+		}
+		if((resultantPath.length() > MAX_PATH_SIZE)){
+			// TODO: Implement execption
+			log.trace("path is too big"); // Remove this after the exception implementation is ready. It serves only for debug
+			// throw new PathIsToBigException(path);
+		}
+		Directory directory = getSlash();
+		String[] FileLocation = resultantPath.split("/");
 		for(int i = 1; i < (FileLocation.length - 1) ; i++)
 			directory = changeDirectory(FileLocation[i], directory, currentUser);
 		return directory;
