@@ -20,7 +20,7 @@ public abstract class AbstractServiceTest {
 
     @BeforeClass // run once berfore each test class
     public static void setUpBeforeAll() throws Exception {
-        // run tests with a clean database!!! Granted by dbclean plugin
+        // run tests with a clean database!!! Granted by dbclean plugin on mvn cycle phase
         MyDriveApplication.setup();
     }
 
