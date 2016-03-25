@@ -15,13 +15,12 @@ public class User extends User_Base {
         super();
     }
     
-    protected User(String username, MyDriveManager mdm, FileSystem fs) throws  InvalidUsernameException{
+    protected User(String username, FileSystem fs) throws  InvalidUsernameException{
 		this.checkUsername(username);
 		this.setUsername(username);
 		this.setPassword(username);
 		this.setName(username);
 		this.setUmask(DEFAULT_UMASK);
-		super.setMyDriveManager(mdm);
 		super.setFilesystem(fs);;
     }
     
@@ -63,14 +62,6 @@ public class User extends User_Base {
         else
             fs.addUsers(this);
     }
-
-	@Override
-	public void setMyDriveManager(MyDriveManager mngr) {
-		if (mngr == null)
-			super.setMyDriveManager(null);
-		else
-			mngr.setCurrentUser(this);
-	}
 
     protected void remove(){
     	this.setHomeDirectory(null);

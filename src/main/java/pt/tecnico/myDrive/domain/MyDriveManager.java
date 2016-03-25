@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
@@ -17,15 +18,18 @@ import pt.tecnico.myDrive.exception.UserUnknownException;
 
 // import pt.tecnico.myDrive.exception.InvalidContentException;
 
+import java.math.BigInteger;
+import java.util.Random;
+
 public class MyDriveManager extends MyDriveManager_Base {
 	
 	static final Logger log = LogManager.getRootLogger();
+    private Session currentSession;
     
     private MyDriveManager() {
         FenixFramework.getDomainRoot().setMyDriveManager(this);
         super.setFilesystem(new FileSystem(this));
-        super.setCurrentUser(getFilesystem().getRoot());
-        super.setCurrentDirectory(getCurrentUser().getHomeDirectory());
+        currentSession = new Session(generateToken(),getFilesystem().getRoot(),getFilesystem().getSlash());
     }
     
     public static MyDriveManager getInstance(){
@@ -36,31 +40,19 @@ public class MyDriveManager extends MyDriveManager_Base {
         log.trace("MyDriveManager.getInstance: new MyDriveManager");
         return new MyDriveManager();
     }
-    
-    @Override
-    public void setCurrentDirectory(Directory currentDirectory){
-    	super.setCurrentDirectory(currentDirectory);
-    }
-    
-    @Override
-    public void setCurrentUser(User currentUser){
-    	super.setCurrentUser(currentUser);
-    }
-    
-    
+
     @Override
     public void setFilesystem(FileSystem filesystem){
     	super.setFilesystem(filesystem);
     }
     
     public void remove(){
-    	this.setCurrentDirectory(null);
-    	this.setCurrentUser(null);
     	this.setFilesystem(null);
+        for(Session s : getSessionSet())
+            s.remove();
     	deleteDomainObject();
     }
-    
-    
+
     /* --- Users --- */
     
     public void addUser(String username){
@@ -87,10 +79,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Directory --- */
     
     public void createDirectory(String filename){
-    	
     	try {
-    		super.getFilesystem().createDirectory(filename, 
-    			getCurrentDirectory(), getCurrentUser());
+    		super.getFilesystem().createDirectory(filename,
+    			currentSession.getCurrentDir(), currentSession.getCurrentUser());
     	} catch (InvalidFileNameException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
@@ -104,20 +95,19 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     
     public void changeDirectory(String directoryname){
-    	
     	try {
-    		super.setCurrentDirectory(getFilesystem().changeDirectory(directoryname, 
-    				getCurrentDirectory(),getCurrentUser()));
+    		currentSession.setCurrentDir(getFilesystem().changeDirectory(directoryname,
+    				currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
     	}
+
     }
     
     
     public void AbsolutePath(String path){
-    	
     	try {
-    	super.setCurrentDirectory(getFilesystem().absolutePath(path, getCurrentUser()));
+    		currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser()));
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
     	}
@@ -125,9 +115,8 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     
     public void getDirectoryFilesName(String path) {
-    	
     	try {
-    		System.out.println(getFilesystem().getDirectoryFilesName(path, getCurrentUser()));
+    		System.out.println(getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser()));
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
     	}
@@ -135,9 +124,8 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     
     public void removeFile(String path){
-    	
     	try {
-    		super.getFilesystem().removeFile(path, getCurrentUser());
+    		super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser());
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (IllegalRemovalException ex2) {
@@ -149,10 +137,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Files --- */ 
     
     public void createPlainFile(String filename){
-    	
     	try {
-    		super.getFilesystem().createPlainFile(filename, 
-    				getCurrentDirectory(), getCurrentUser());
+    		super.getFilesystem().createPlainFile(filename,
+    				currentSession.getCurrentDir(), currentSession.getCurrentUser());
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
@@ -166,10 +153,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     
     public void createPlainFile(String filename, String content){
-    	
     	try {
     		super.getFilesystem().createPlainFile(filename,
-    				getCurrentDirectory(), getCurrentUser(), content);
+    				currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
 		} catch (FileAlreadyExistsException ex2) {
@@ -183,10 +169,9 @@ public class MyDriveManager extends MyDriveManager_Base {
  
     
     public void createLinkFile(String filename){
-    	
     	try {
-    		super.getFilesystem().createLinkFile(filename, 
-    			getCurrentDirectory(), getCurrentUser());
+    		super.getFilesystem().createLinkFile(filename,
+    			currentSession.getCurrentDir(), currentSession.getCurrentUser());
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
@@ -196,15 +181,15 @@ public class MyDriveManager extends MyDriveManager_Base {
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
     	}
-    	
+
     }
   
     
     public void createLinkFile(String filename, String content){
     	// TODO: InvalidContentException
-    	try {
-    		super.getFilesystem().createLinkFile(filename, 
-    			getCurrentDirectory(), getCurrentUser(), content);
+		try {
+    		super.getFilesystem().createLinkFile(filename,
+    			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
@@ -214,15 +199,13 @@ public class MyDriveManager extends MyDriveManager_Base {
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
     	}
-    	
     }
  
     
     public void createAppFile(String filename){
-    	
     	try {
     		super.getFilesystem().createAppFile(filename, 
-    			getCurrentDirectory(), getCurrentUser());
+    			currentSession.getCurrentDir(), currentSession.getCurrentUser());
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
@@ -237,9 +220,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public void createAppFile(String filename, String content){
     	// TODO: InvalidContentException
-    	try {
+		try {
     		super.getFilesystem().createAppFile(filename,
-    				getCurrentDirectory(), getCurrentUser(), content);
+    				currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
@@ -253,9 +236,8 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     
     public void printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	
     	try {
-    		System.out.println(super.getFilesystem().printPlainFile(path, getCurrentUser()));
+    		System.out.println(super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser()));
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (IsNotPlainFileException ex2) {
@@ -279,4 +261,47 @@ public class MyDriveManager extends MyDriveManager_Base {
     	super.getFilesystem().xmlExport(element);
         return doc;
     }
+
+    /* --- Login --- */
+
+	/* LOGIC MUST BE CHECKED */
+	/* LOGIC MUST BE CHECKED */
+	/* LOGIC MUST BE CHECKED */
+	/* LOGIC MUST BE CHECKED */
+
+    public void Login(String username, String password){
+        User user = getFilesystem().checkUser(username,password);
+        currentSession = checkForSession(user);
+    }
+
+    private Session checkForSession(User user){
+        removeOldSessions();
+
+        Session output = null;
+        for(Session s : getSessionSet()){
+            if(s.getCurrentUser().equals(user)){
+                output = s;
+                break;
+            }
+        }
+        if(output != null)
+            output.setLastAccess(new DateTime());
+
+        return output == null ? new Session(generateToken(),user,user.getHomeDirectory()) : output;
+    }
+
+    /* Make sure it's unique */
+    /* FIX ME */
+    private long generateToken(){
+        return new BigInteger(64, new Random()).longValue();
+    }
+
+    private void removeOldSessions(){
+        /* FIX ME */
+    }
+
+    public Session getCurrentSession(){
+        return currentSession;
+    }
+
 }

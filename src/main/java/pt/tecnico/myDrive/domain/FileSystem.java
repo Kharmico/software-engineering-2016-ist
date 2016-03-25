@@ -29,7 +29,7 @@ public class FileSystem extends FileSystem_Base {
 
 		try{
 			super.setFsRoot(new Directory(this.generateUniqueId(),
-					"/", root.getUmask(), root, getMyDriveManager(), this));
+					"/", root.getUmask(), root, this));
 
 		}catch(InvalidFileNameException |InvalidMaskException e){
     		/* This exception should not occur it only exists to protect the method against
@@ -39,12 +39,12 @@ public class FileSystem extends FileSystem_Base {
 			e.printStackTrace();
 		}
 
-		Directory home = new Directory(this.generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash(),getMyDriveManager(),this);
+		Directory home = new Directory(this.generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash(), this);
 
 		addToSlash(home);
 
 		Directory rootHomeDirectory = new Directory(this.generateUniqueId(),
-				root.getUsername(), root.getUmask(), root, home,getMyDriveManager(),this);
+				root.getUsername(), root.getUmask(), root, home, this);
 		home.addFile(rootHomeDirectory);
 		root.setHomeDirectory(rootHomeDirectory);
 	}
@@ -77,9 +77,9 @@ public class FileSystem extends FileSystem_Base {
 		try {
 			hasUser(username);
 		}catch (UserUnknownException e){
-			User toCreate = new User(username, getMyDriveManager(), this);
+			User toCreate = new User(username, this);
 			Directory homeDirectory = new Directory(this.generateUniqueId(),
-					username, toCreate.getUmask(), toCreate, getMyDriveManager(),this);
+					username, toCreate.getUmask(), toCreate, this);
 			toCreate.setHomeDirectory(homeDirectory);
 			this.addDirectoryToHome(homeDirectory);
 			super.addUsers(toCreate);
@@ -144,7 +144,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 		Directory beforeLast = absolutePath(path, currentUser);
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
-				currentUser, beforeLast, getMyDriveManager(),this));
+				currentUser, beforeLast, this));
 	}
 
 	
@@ -358,7 +358,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 		finally {
 			if(next == null){
-				next = new Directory(this.generateUniqueId(), name, user.getUmask(), user, current, getSlash().getMyDriveManager(), this);
+				next = new Directory(this.generateUniqueId(), name, user.getUmask(), user, current, this);
 				current.addFile(next);
 			}
 			return next;
@@ -394,7 +394,7 @@ public class FileSystem extends FileSystem_Base {
 				e.getMessage();
 				throw new ImportDocumentException();
 			} catch (UserUnknownException e) {
-				toInsert = new User(username, getMyDriveManager(), this);
+				toInsert = new User(username, this);
 
 				if (node.getChild("password")!= null)
 					toInsert.setPassword(node.getChild("password").getValue());
@@ -410,7 +410,7 @@ public class FileSystem extends FileSystem_Base {
 					toInsert.setHomeDirectory(createDir(createPath(node.getChild("home").getValue()), tokens[tokens.length - 1], toInsert));
 				} else {
 					Directory homeDirectory = new Directory(this.generateUniqueId(), username,
-							toInsert.getUmask(), toInsert, getHomeDirectory(), getMyDriveManager(), this);
+							toInsert.getUmask(), toInsert, getHomeDirectory(), this);
 					toInsert.setHomeDirectory(homeDirectory);
 					this.addDirectoryToHome(homeDirectory);
 				}
@@ -538,5 +538,21 @@ public class FileSystem extends FileSystem_Base {
 		}
 		return el;
 	}
-	
+
+	protected User checkUser(String username, String password){
+		User toFind = null;
+		try{
+			toFind = getUserByUsername(username);
+		}
+		catch(UserUnknownException e){
+		}
+		finally {
+			if(toFind != null)
+				toFind = toFind.getPassword().equals(password) ? toFind : null;
+			return toFind;
+		}
+	}
+
+
+
 }
