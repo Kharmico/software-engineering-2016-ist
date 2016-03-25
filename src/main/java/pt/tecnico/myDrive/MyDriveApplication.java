@@ -62,7 +62,9 @@ public class MyDriveApplication{
 		demoCreateDirectory();
 		demoPrintPlainFile();
 		demoRemoveDirectory();
-		//xmlPrint(); // For the purpose of debug, this function drops too much output
+
+		xmlPrint(); // For the purpose of debug, this function drops too much output
+
 		demoRemoveFile();
 		//test();			// This will throw an InvalidUsernameException, it only serves as a test.
 	}
