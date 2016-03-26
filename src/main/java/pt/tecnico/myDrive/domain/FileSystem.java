@@ -18,7 +18,7 @@ public class FileSystem extends FileSystem_Base {
 	private static final String HOME_DIR = "home";
 	public static final int MAX_PATH_SIZE = 1024;
 
-	protected FileSystem(MyDriveManager mdm) {
+	public FileSystem(MyDriveManager mdm) {
 		super();
 		setMyDriveManager(mdm);
 
@@ -226,7 +226,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+	public void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
@@ -240,7 +240,7 @@ public class FileSystem extends FileSystem_Base {
 	}	
 
 	
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	public void createLinkFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
@@ -254,7 +254,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
@@ -268,7 +268,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	public void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
@@ -282,7 +282,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+	public void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
@@ -339,7 +339,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected Directory getHomeDirectory(){
+	public Directory getHomeDirectory(){
 		return (Directory) this.getSlash().getFileByName(HOME_DIR);
 	}
 

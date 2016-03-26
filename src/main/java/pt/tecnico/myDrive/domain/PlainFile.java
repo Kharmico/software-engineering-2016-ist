@@ -47,7 +47,7 @@ public class PlainFile extends PlainFile_Base {
     }
 
     @Override
-    protected String printContent(){
+	public String printContent(){
     	return this.getContent();
 
     }

@@ -11,11 +11,11 @@ public class User extends User_Base {
 	public static final int MIN_USERNAME_SIZE = 3;
 
 
-	protected User() {
+	public User() {
         super();
     }
     
-    protected User(String username, FileSystem fs) throws  InvalidUsernameException{
+    public User(String username, FileSystem fs) throws  InvalidUsernameException{
 		this.checkUsername(username);
 		this.setUsername(username);
 		this.setPassword(username);

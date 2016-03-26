@@ -292,7 +292,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     /* Make sure it's unique */
     /* FIX ME */
-    private long generateToken(){
+    public long generateToken(){
         return new BigInteger(64, new Random()).longValue();
     }
 

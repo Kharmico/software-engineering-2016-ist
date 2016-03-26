@@ -113,7 +113,7 @@ public abstract class File extends File_Base {
 	
 	protected abstract void isCdAble() throws IsNotDirectoryException;
 	
-	protected abstract String printContent() throws IsNotPlainFileException;
+	public abstract String printContent() throws IsNotPlainFileException;
 	
 	protected abstract void executeApp() throws IsNotAppFileException;
 	
@@ -130,7 +130,7 @@ public abstract class File extends File_Base {
 	protected abstract Element xmlExport();
 
 	
-	protected String getPath(){
+	public String getPath(){
 		String path = "";
 		File file = getFather();
 		while(!file.getFather().equals(file)){
