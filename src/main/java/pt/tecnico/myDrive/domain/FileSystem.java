@@ -141,7 +141,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
+	public void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 		Directory beforeLast = absolutePath(path, currentUser);
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
 				currentUser, beforeLast, this));
