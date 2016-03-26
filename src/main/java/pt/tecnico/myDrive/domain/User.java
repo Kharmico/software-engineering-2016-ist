@@ -15,7 +15,7 @@ public class User extends User_Base {
         super();
     }
     
-    protected User(String username, FileSystem fs) throws  InvalidUsernameException{
+    public User(String username, FileSystem fs) throws  InvalidUsernameException{
 		this.checkUsername(username);
 		this.setUsername(username);
 		this.setPassword(username);

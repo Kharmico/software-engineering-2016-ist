@@ -269,7 +269,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 	/* LOGIC MUST BE CHECKED */
 	/* LOGIC MUST BE CHECKED */
 
-    public void Login(String username, String password){
+    public void login(String username, String password){
         User user = getFilesystem().checkUser(username,password);
         currentSession = checkForSession(user);
     }

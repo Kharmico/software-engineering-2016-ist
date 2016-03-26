@@ -130,7 +130,7 @@ public abstract class File extends File_Base {
 	protected abstract Element xmlExport();
 
 	
-	protected String getPath(){
+	public String getPath(){
 		String path = "";
 		File file = getFather();
 		while(!file.getFather().equals(file)){

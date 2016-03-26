@@ -73,7 +73,7 @@ public class FileSystem extends FileSystem_Base {
 
 	/* Users */
 
-	protected void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException{
+	public void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException{
 		try {
 			hasUser(username);
 		}catch (UserUnknownException e){
