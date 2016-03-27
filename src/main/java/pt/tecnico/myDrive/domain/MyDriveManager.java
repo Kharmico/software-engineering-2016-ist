@@ -291,14 +291,19 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     /* Make sure it's unique */
-    /* FIX ME */
+    /* FIXME */
     public long generateToken(){
         return new BigInteger(64, new Random()).longValue();
     }
 
     private void removeOldSessions(){
-        /* FIX ME */
+        /* FIXME */
     }
+
+	public boolean isTokenValid(long token){
+		// FIXME This method is returning always true while is not properly  implemented
+		return true;
+	}
 
     public Session getCurrentSession(){
         return currentSession;

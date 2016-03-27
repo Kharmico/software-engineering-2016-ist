@@ -30,7 +30,7 @@ public class CreateFileService extends MyDriveService{
         FileSystem fs = getMyDriveManager().getFilesystem();
         Session currSes = getMyDriveManager().getCurrentSession();
     	if(_token == currSes.getToken()) {
-            File toBeCreated = currSes.getCurrentDir().getFileByName(_filename);
+            File toBeCreated = currSes.getCurrentDir().getFileByName(_filename); //FIXME this never returns null. This method should throw exception if the file does not exist
             if(toBeCreated == null){
             	switch(_tipo.toLowerCase()){
             	case "app":
