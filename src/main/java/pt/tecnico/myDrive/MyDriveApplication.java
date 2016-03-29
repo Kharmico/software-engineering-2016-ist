@@ -26,13 +26,15 @@ public class MyDriveApplication{
 	private static MyDriveManager manager;
 	private static final Logger log = LogManager.getRootLogger();
 
-	public static void main(String[] args){
-		log.trace("MyDriveApplication.main: Starting application." );
+	public static void main(String[] args) {
+		try {
+			log.trace("MyDriveApplication.main: Starting application.");
+
 		setup();
 
-		if(args.length == 1) {
+		if (args.length == 1) {
 			File f = new File(args[0]);
-			if(f != null)
+			if (f != null)
 				xmlScan(f);
 		}
 
@@ -45,6 +47,9 @@ public class MyDriveApplication{
 
 		demoRemoveFile();
 		//test();			// This will throw an InvalidUsernameException, it only serves as a test.
+		}finally {
+			FenixFramework.shutdown();
+		}
 	}
 	
 
