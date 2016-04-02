@@ -6,15 +6,7 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
-import pt.tecnico.myDrive.exception.AccessDeniedException;
-import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
-import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IllegalRemovalException;
-import pt.tecnico.myDrive.exception.InvalidFileNameException;
-import pt.tecnico.myDrive.exception.InvalidMaskException;
-import pt.tecnico.myDrive.exception.IsNotPlainFileException;
-import pt.tecnico.myDrive.exception.UserAlreadyExistsException;
-import pt.tecnico.myDrive.exception.UserUnknownException;
+import pt.tecnico.myDrive.exception.*;
 
 // import pt.tecnico.myDrive.exception.InvalidContentException;
 
@@ -94,23 +86,24 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     
-    public void changeDirectory(String directoryname){
+    public void changeDirectory(String directoryname){ //TODO delete this and rename AbsolutePath to this name?
     	try {
     		currentSession.setCurrentDir(getFilesystem().changeDirectory(directoryname,
     				currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
     	}
-
     }
     
     
     public void AbsolutePath(String path){
     	try {
-    		currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser()));
+    		currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
-    	}
+    	}catch (PathIsTooBigException ex) {
+			log.trace(ex.getMessage());
+		}
     }
 
     
