@@ -32,23 +32,25 @@ public class CreateFileService extends MyDriveService{
     	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??
             try{
             	currSes.getCurrentDir().getFileByName(_filename);
-            }catch (FileAlreadyExistsException e){	
+            }catch (FileUnknownException e){
             	switch(_tipo.toLowerCase()){
-            	case "app":
-            		fs.createAppFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
-            		break;
-            	case "link":
-            		fs.createLinkFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
-            		break;
-            	case "plain":
-            		fs.createPlainFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
-            		break;
-            	case "directory":
-            		fs.createDirectory(_filename, currSes.getCurrentDir(), currSes.getCurrentUser());
-            		break;
+                    case "app":
+                        fs.createAppFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        break;
+                    case "link":
+                        System.out.println(_content);
+                        fs.createLinkFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        break;
+                    case "plain":
+                        fs.createPlainFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        break;
+                    case "directory":
+                        fs.createDirectory(_filename, currSes.getCurrentDir(), currSes.getCurrentUser());
+                        break;
             	}
+                return;
             }
-            throw new FileUnknownException(_filename);
+            throw new FileAlreadyExistsException(_filename);
     	}
     }
 }

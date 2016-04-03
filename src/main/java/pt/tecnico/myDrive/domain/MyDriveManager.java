@@ -160,12 +160,12 @@ public class MyDriveManager extends MyDriveManager_Base {
     	}*/
     }
  
-    
+    /*
     public void createLinkFile(String filename){
     	//try {
     		super.getFilesystem().createLinkFile(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	/*} catch (FileUnknownException ex1) {
+    	*//*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -173,9 +173,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}*/
+    	}*//*
 
-    }
+    }*/
   
     
     public void createLinkFile(String filename, String content){

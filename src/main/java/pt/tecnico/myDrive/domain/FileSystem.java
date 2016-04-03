@@ -79,9 +79,9 @@ public class FileSystem extends FileSystem_Base {
 		}catch (UserUnknownException e){
 			User toCreate = new User(username, this);
 			Directory homeDirectory = new Directory(this.generateUniqueId(),
-					username, toCreate.getUmask(), toCreate, this);
-			toCreate.setHomeDirectory(homeDirectory);
+					username, toCreate.getUmask(), toCreate, getHomeDirectory(),this);
 			this.addDirectoryToHome(homeDirectory);
+			toCreate.setHomeDirectory(homeDirectory);
 			super.addUsers(toCreate);
 			return;
 		}
@@ -151,7 +151,7 @@ public class FileSystem extends FileSystem_Base {
     /* Directory */
 
 	public void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
-		Directory beforeLast = absolutePath(path, currentUser);
+		Directory beforeLast = absolutePath(path, currentUser, currentDirectory);
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
 				currentUser, beforeLast, this));
 	}
@@ -181,8 +181,10 @@ public class FileSystem extends FileSystem_Base {
 		if(path.startsWith("/")){
 			resultantPath = path;
 		}else{
-			resultantPath = currentDirectory.getPath() + path;
+			resultantPath = currentDirectory.getPath() + "/" + path;
+
 		}
+		System.out.println(resultantPath);
 		if((resultantPath.length() > MAX_PATH_SIZE)){
 			throw new PathIsTooBigException(path);
 		}
@@ -218,7 +220,7 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
-		Directory d = absolutePath(path, currentUser);	
+		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		//d.checkAccess(currentUser);  ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		for(File f : d.getFilesSet()){
@@ -244,9 +246,10 @@ public class FileSystem extends FileSystem_Base {
 				currentUser, content));
 	}	
 
-	
+	@Deprecated
 	public void createLinkFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
-		Directory d = absolutePath(path, currentUser);
+		// FIXME: This method should be removed, since it's impossible to create link files without content
+		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		for(File f : d.getFilesSet()){
@@ -257,10 +260,9 @@ public class FileSystem extends FileSystem_Base {
 		d.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser));
 	}
-
 	
 	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
-		Directory d = absolutePath(path, currentUser);
+		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		for(File f : d.getFilesSet()){
@@ -274,7 +276,7 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	public void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
-		Directory d = absolutePath(path, currentUser);
+		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		for(File f : d.getFilesSet()){
@@ -288,7 +290,7 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	public void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
-		Directory d = absolutePath(path, currentUser);
+		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		for(File f : d.getFilesSet()){

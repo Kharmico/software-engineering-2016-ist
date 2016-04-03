@@ -35,9 +35,9 @@ public class WriteFileTest extends AbstractServiceTest {
         return file.printContent();
     }
 
-    @Test
+   /* @Test
     public void success() {
-        /*final String content = "hello, i'm a plain file";
+        final String content = "hello, i'm a plain file";
         WriteFileService service = new WriteFileService(12563, "plainfile.txt", content); //TODO token (1st arg)
         service.execute();
 
@@ -45,5 +45,5 @@ public class WriteFileTest extends AbstractServiceTest {
         // check if content was written
         String cntt = getContent("plainfile.txt");
         assertNotSame("Content was not written", cntt, content);
-    */}
+    }*/
 }
