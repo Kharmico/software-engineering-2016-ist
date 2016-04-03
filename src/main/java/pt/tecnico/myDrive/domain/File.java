@@ -131,18 +131,16 @@ public abstract class File extends File_Base {
 
 	
 	public String getPath(){
-		String path = "";
+
+		String path = getFilename();
 		File file = getFather();
 		while(!file.getFather().equals(file)){
-			if(path.equals("")){
-				path = file.getFilename();
-			}else
-				path = file.getFilename() + "/" + path;
-
+			path = file.getFilename() + "/" + path;
 			file = file.getFather();
+			System.out.println(path);
 		}
-
 		path = file.getFilename() + path;
+
 		return path;
 	}
 

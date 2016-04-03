@@ -39,37 +39,40 @@ public class CreateFileTest extends AbstractServiceTest {
         return toReturn;
     }
 
-   /* @Test
+    @Test
     public void successFile(){
         //log.trace(this.getClass().getSimpleName() + ": Calling service");
-       CreateFileService service =
-            new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "thundershock.txt", "plain");
-        //log.trace(this.getClass().getSimpleName() + ": Running service");
+        String filename = "seismic_toss.txt";
+        CreateFileService service =
+            new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename, "plain");
+       // log.trace(this.getClass().getSimpleName() + ": Running service");
         service.execute();
         //log.trace(this.getClass().getSimpleName() + ": Trying to get file");
-        File file = getFile("thundershock.txt");
+        File file = getFile(filename);
         assertNotNull("File was not created", file);
-        assertEquals("Invalid filename", "thundershock.txt", file.getFilename());
+        assertEquals("Invalid filename", filename, file.getFilename());
     }
 
     @Test
     public void successFileWithContent(){
+        String filename = "thundershock.txt";
         CreateFileService service =
-                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "seismictoss.txt",
-                        "plain", "PIKACHUUUUU!!");
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename,
+                        "plain", "PIKACHUUUUU");
         service.execute();
-        File file = getFile("seismictoss.txt");
+        File file = getFile(filename);
         assertNotNull("File was not created", file);
         assertEquals("Invalid content", "PIKACHUUUUU", file.printContent());
     }
 
-    @Test(expected = InvalidFileNameException.class)
+    // This test is useless, since if there is a / in a filename, it will be consider as a part of a relative path
+    /*@Test(expected = InvalidFileNameException.class)
     public void invalidFileName(){
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "thunder/wave.txt", "plain");
         service.execute();
 
-    }
+    }*/
 
     @Test(expected = PathIsTooBigException.class)
     public void fileWithBigPath(){
@@ -97,14 +100,15 @@ public class CreateFileTest extends AbstractServiceTest {
                 "pokedex-entry", directory.getFilename());
     }
 
-    @Test(expected = InvalidContentException.class)
+
+    // Does this test make sense? Am I trying to create directory with content?
+    /*@Test(expected = InvalidContentException.class)
     public void createDirectoryWithContent(){
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "pokedex-entry",
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
-    }
-*/
+    }*/
 
     /* Test Cases */
     /* 1 - Create a plain file in the current directory that the user has permission to write on it */

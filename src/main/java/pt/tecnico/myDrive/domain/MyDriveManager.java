@@ -158,7 +158,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
     	}*/
-    }  
+
+    }
+
     
     public void createLinkFile(String filename, String content){
     	// TODO: InvalidContentException
