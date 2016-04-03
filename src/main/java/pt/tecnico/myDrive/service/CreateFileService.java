@@ -26,7 +26,7 @@ public class CreateFileService extends MyDriveService{
     }
 
     @Override
-    public void dispatch() throws FileAlreadyExistsException, UnsupportedOperationException {
+    public void dispatch() throws FileAlreadyExistsException, UnsupportedOperationException, FileUnknownException {
         FileSystem fs = getMyDriveManager().getFilesystem();
         Session currSes = getMyDriveManager().getCurrentSession();
     	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??

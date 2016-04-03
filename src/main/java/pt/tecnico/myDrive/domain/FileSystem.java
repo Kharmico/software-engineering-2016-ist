@@ -245,20 +245,6 @@ public class FileSystem extends FileSystem_Base {
 	}	
 
 	
-	public void createLinkFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
-		Directory d = absolutePath(path, currentUser);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
-		for(File f : d.getFilesSet()){
-			if(f.getFilename().equals(filename))
-				throw new FileAlreadyExistsException(filename);
-		}
-		
-		d.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
-				currentUser));
-	}
-
-	
 	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
@@ -493,8 +479,6 @@ public class FileSystem extends FileSystem_Base {
 				if (node.getChild("value") != null){
 					this.createLinkFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("value").getValue());
 				}
-				else
-					this.createLinkFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
 			}
 			else
 				throw new ImportDocumentException();

@@ -10,11 +10,6 @@ public class LinkFile extends LinkFile_Base {
         super();
     }
 
-    protected LinkFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException {
-    	super.init(id, filename, userMask, owner);
-    }
-
-
     protected LinkFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException {
     	super.init(id, filename, userMask, owner, content);
 

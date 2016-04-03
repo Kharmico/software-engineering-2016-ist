@@ -14,12 +14,13 @@ import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.User;
 
 public class WriteFileTest extends AbstractServiceTest {
+	private static final Logger log = LogManager.getRootLogger();
 	
 	@Override
     protected void populate() {
         MyDriveManager mdm = MyDriveManager.getInstance();
 
-      //  mdm.getFilesystem().addUsers("Josefina");
+        mdm.getFilesystem().addUsers("Josefina");
 
         mdm.login("root","***");
         Session currentSession = mdm.getCurrentSession();
@@ -37,7 +38,7 @@ public class WriteFileTest extends AbstractServiceTest {
 
     @Test
     public void success() {
-        /*final String content = "hello, i'm a plain file";
+       /* final String content = "hello, i'm a plain file";
         WriteFileService service = new WriteFileService(12563, "plainfile.txt", content); //TODO token (1st arg)
         service.execute();
 
@@ -47,3 +48,11 @@ public class WriteFileTest extends AbstractServiceTest {
         assertNotSame("Content was not written", cntt, content);
     */}
 }
+
+/*
+TEST CASES:
+
+1. Write content on non existing plain file
+2. see permissions
+3. app/linkFile
+*/
