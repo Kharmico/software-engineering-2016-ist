@@ -2,27 +2,31 @@ package pt.tecnico.myDrive.service;
 
 import static org.junit.Assert.assertNotSame;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.domain.User;
 
 public class WriteFileTest extends AbstractServiceTest {
-
-	//long token = fs.getMyDriveManager().getCurrentSession().getToken();
 	
+	@Override
     protected void populate() {
-       /* MyDriveManager mdm = MyDriveManager.getInstance();
+        MyDriveManager mdm = MyDriveManager.getInstance();
 
-        FileSystem fs = new FileSystem(mdm);
-        User usr = new User("Josefina", fs);
-        Directory dir = usr.getHomeDirectory();
-        String path =  dir.getPath();
-        
-        fs.createPlainFile(path, dir, usr, "i'm a plain file");   //FIXME
+      //  mdm.getFilesystem().addUsers("Josefina");
+
+        mdm.login("root","***");
+        Session currentSession = mdm.getCurrentSession();
+
+        currentSession.setCurrentDir(mdm.getFilesystem().getFsRoot());
+
+        mdm.createPlainFile("plainfile.txt","i'm a plain file");
     }
 
     private String getContent(String filename) {
@@ -33,13 +37,13 @@ public class WriteFileTest extends AbstractServiceTest {
 
     @Test
     public void success() {
-        final String content = "hello, i'm a plain file";
-        WriteFileService service = new WriteFileService(12563, "plainFileName", content); //TODO token (1st arg)
+        /*final String content = "hello, i'm a plain file";
+        WriteFileService service = new WriteFileService(12563, "plainfile.txt", content); //TODO token (1st arg)
         service.execute();
 
         
         // check if content was written
-        String cntt = getContent("plainFileName");
+        String cntt = getContent("plainfile.txt");
         assertNotSame("Content was not written", cntt, content);
     */}
 }

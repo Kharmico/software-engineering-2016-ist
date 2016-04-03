@@ -1,9 +1,9 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
 
 public class CreateFileService extends MyDriveService{
 
@@ -29,9 +29,10 @@ public class CreateFileService extends MyDriveService{
     public void dispatch() throws FileAlreadyExistsException, UnsupportedOperationException {
         FileSystem fs = getMyDriveManager().getFilesystem();
         Session currSes = getMyDriveManager().getCurrentSession();
-    	if(_token == currSes.getToken()) { //FIXME Use the new method
-            File toBeCreated = currSes.getCurrentDir().getFileByName(_filename); //FIXME this never returns null. This method should throw exception if the file does not exist
-            if(toBeCreated == null){
+    	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??
+            try{
+            	currSes.getCurrentDir().getFileByName(_filename);
+            }catch (FileAlreadyExistsException e){	
             	switch(_tipo.toLowerCase()){
             	case "app":
             		fs.createAppFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
@@ -47,8 +48,8 @@ public class CreateFileService extends MyDriveService{
             		break;
             	}
             }
-         
-        }
+            throw new FileUnknownException(_filename);
+    	}
     }
 }
 
