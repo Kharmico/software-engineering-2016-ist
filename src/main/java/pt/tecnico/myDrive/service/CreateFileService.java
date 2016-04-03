@@ -45,6 +45,7 @@ public class CreateFileService extends MyDriveService{
                         fs.createPlainFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
                         break;
                     case "directory":
+                        //FIXME: Burp an exeception if content is different from ""
                         fs.createDirectory(_filename, currSes.getCurrentDir(), currSes.getCurrentUser());
                         break;
             	}
