@@ -15,9 +15,6 @@ public class Directory extends Directory_Base {
 
     
 	protected Directory(int id, String filename, String userMask, User owner, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
-		if(!filename.equals("/")){
-			throw new InvalidFileNameException(filename);
-		}
 		super.init(id, filename, userMask, owner);
 		this.setParentDirectory(this);
 		this.setFilesystem(fs);

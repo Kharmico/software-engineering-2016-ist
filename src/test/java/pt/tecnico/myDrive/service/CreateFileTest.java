@@ -19,10 +19,11 @@ public class CreateFileTest extends AbstractServiceTest {
 
     @Override
     protected void populate(){
+        //log.trace(this.getClass().getSimpleName() + ": Getting mydrive");
         MyDriveManager mg = MyDriveManager.getInstance();
-
+        //log.trace(this.getClass().getSimpleName() + ": Add user " + USER_LOGGED);
         mg.getFilesystem().addUsers(USER_LOGGED);
-
+        //log.trace(this.getClass().getSimpleName() + ": Logging in " + USER_LOGGED);
         mg.login("pikachu","pikachu");
 
     }
@@ -38,11 +39,14 @@ public class CreateFileTest extends AbstractServiceTest {
         return toReturn;
     }
 
-    /*@Test
+   /* @Test
     public void successFile(){
+        //log.trace(this.getClass().getSimpleName() + ": Calling service");
        CreateFileService service =
             new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "thundershock.txt", "plain");
+        //log.trace(this.getClass().getSimpleName() + ": Running service");
         service.execute();
+        //log.trace(this.getClass().getSimpleName() + ": Trying to get file");
         File file = getFile("thundershock.txt");
         assertNotNull("File was not created", file);
         assertEquals("Invalid filename", "thundershock.txt", file.getFilename());
@@ -99,8 +103,8 @@ public class CreateFileTest extends AbstractServiceTest {
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "pokedex-entry",
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
-    }*/
-
+    }
+*/
 
     /* Test Cases */
     /* 1 - Create a plain file in the current directory that the user has permission to write on it */

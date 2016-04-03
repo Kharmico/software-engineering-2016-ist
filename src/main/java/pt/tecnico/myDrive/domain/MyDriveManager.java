@@ -71,10 +71,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Directory --- */
     
     public void createDirectory(String filename){
-    	try {
+    	//try {
     		super.getFilesystem().createDirectory(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	} catch (InvalidFileNameException ex1) {
+    	/*} catch (InvalidFileNameException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -82,7 +82,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (FileUnknownException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
     }
     
     
@@ -130,10 +130,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Files --- */ 
     
     public void createPlainFile(String filename){
-    	try {
+    	//try {
     		super.getFilesystem().createPlainFile(filename,
     				currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	} catch (FileUnknownException ex1) {
+    	/*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -141,15 +141,15 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
     }
     
     
     public void createPlainFile(String filename, String content){
-    	try {
+    	//try {
     		super.getFilesystem().createPlainFile(filename,
     				currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
-    	} catch (FileUnknownException ex1) {
+    	/*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
 		} catch (FileAlreadyExistsException ex2) {
 			log.trace(ex2.getMessage());
@@ -157,15 +157,15 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
     }
  
     
     public void createLinkFile(String filename){
-    	try {
+    	//try {
     		super.getFilesystem().createLinkFile(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	} catch (FileUnknownException ex1) {
+    	/*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -173,17 +173,17 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
 
     }
   
     
     public void createLinkFile(String filename, String content){
     	// TODO: InvalidContentException
-		try {
+		//try {
     		super.getFilesystem().createLinkFile(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
-    	} catch (FileUnknownException ex1) {
+    	/*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -191,15 +191,15 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
     }
  
     
     public void createAppFile(String filename){
-    	try {
+    	//try {
     		super.getFilesystem().createAppFile(filename, 
     			currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	} catch (FileUnknownException ex1) {
+    	/*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -207,16 +207,16 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
     }
 
     
     public void createAppFile(String filename, String content){
     	// TODO: InvalidContentException
-		try {
+		//try {
     		super.getFilesystem().createAppFile(filename,
     				currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
-    	} catch (FileUnknownException ex1) {
+    	/*} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (FileAlreadyExistsException ex2) {
     		log.trace(ex2.getMessage());
@@ -224,7 +224,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     		log.trace(ex3.getMessage());
     	} catch (InvalidMaskException ex4) {
     		log.trace(ex4.getMessage());
-    	}
+    	}*/
     }
 
     

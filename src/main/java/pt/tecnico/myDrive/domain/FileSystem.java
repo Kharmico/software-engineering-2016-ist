@@ -232,7 +232,7 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	public void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
-		Directory d = absolutePath(path, currentUser);
+		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
 		for(File f : d.getFilesSet()){
