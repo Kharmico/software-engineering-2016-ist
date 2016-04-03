@@ -29,7 +29,7 @@ public class CreateFileService extends MyDriveService{
     public void dispatch() throws FileAlreadyExistsException, UnsupportedOperationException {
         FileSystem fs = getMyDriveManager().getFilesystem();
         Session currSes = getMyDriveManager().getCurrentSession();
-    	if(_token == currSes.getToken()) {
+    	if(_token == currSes.getToken()) { //FIXME Use the new method
             File toBeCreated = currSes.getCurrentDir().getFileByName(_filename); //FIXME this never returns null. This method should throw exception if the file does not exist
             if(toBeCreated == null){
             	switch(_tipo.toLowerCase()){

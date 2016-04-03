@@ -88,7 +88,7 @@ public class FileSystem extends FileSystem_Base {
 		throw new UserAlreadyExistsException(username);
 	}
 
-	
+	@Override
 	public void addUsers(User user) throws UserAlreadyExistsException {
 		
 		try {
@@ -99,6 +99,15 @@ public class FileSystem extends FileSystem_Base {
 		}
 
 		throw new UserAlreadyExistsException(user.getUsername());
+	}
+
+	@Override
+	public void removeUsers(User user){
+		if(user.isRoot()){
+			throw new IllegalRemovalException("You can't remove root user.");
+		}else {
+			super.removeUsers(user);
+		}
 	}
 	
 
