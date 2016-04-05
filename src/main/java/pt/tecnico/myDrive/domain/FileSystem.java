@@ -218,6 +218,12 @@ public class FileSystem extends FileSystem_Base {
 		return f.printContent();
 	}
 
+	protected String readFile(String fileName,Directory currentDirectory)
+			throws FileUnknownException, IsNotPlainFileException {
+		File f = currentDirectory.getFileByName(fileName);
+		// f.checkAccess(logged); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		return f.printContent();
+	}
 	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
