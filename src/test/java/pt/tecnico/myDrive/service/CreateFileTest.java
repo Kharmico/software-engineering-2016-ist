@@ -24,7 +24,14 @@ public class CreateFileTest extends AbstractServiceTest {
         //log.trace(this.getClass().getSimpleName() + ": Add user " + USER_LOGGED);
         mg.getFilesystem().addUsers(USER_LOGGED);
         //log.trace(this.getClass().getSimpleName() + ": Logging in " + USER_LOGGED);
+        mg.login("root", "***");
+        Directory d = (Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu");
+        mg.getCurrentSession().setCurrentDir(d);
+        mg.createDirectory("gary");
+
         mg.login("pikachu","pikachu");
+
+        mg.createPlainFile("ash.txt");
 
     }
 
@@ -85,6 +92,23 @@ public class CreateFileTest extends AbstractServiceTest {
     public void linkWithoutContent(){
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "thunder.txt", "link");
+        service.execute();
+    }
+
+    /*@Test(expected = AccessDeniedException.class)
+    public void createFileInADirectoryWithoutPermission(){
+        MyDriveManager mg = MyDriveManager.getInstance();
+        Directory d = (Directory) mg.getCurrentSession().getCurrentDir().getFileByName("gary");
+        mg.getCurrentSession().setCurrentDir(d);
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "megapunch.txt", "plain");
+        service.execute();
+    }*/
+
+    @Test(expected = FileAlreadyExistsException.class)
+    public void sameFileTwice(){
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "ash.txt", "plain");
         service.execute();
     }
 
