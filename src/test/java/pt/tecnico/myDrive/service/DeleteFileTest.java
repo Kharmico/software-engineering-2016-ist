@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.FileUnknownException;
 
 
 public class DeleteFileTest extends AbstractServiceTest{
@@ -14,5 +16,22 @@ public class DeleteFileTest extends AbstractServiceTest{
 
     protected void populate() {
         MyDriveManager manager = MyDriveManager.getInstance();
+        manager.addUser("Joao");
+        manager.login("Joao","Joao");
+        Session currentSession = manager.getCurrentSession();
+        manager.createDirectory("teste");
+        manager.createPlainFile("Exame","Isto e apenas um teste");
     }
+
+   /* @Test(expected = FileUnknownException.class)
+    public void nonExistingFile(){
+        service.execute();
+    }*/
+
+    /* Test Cases */
+    /* 1 - Delete inexistente Directory*/
+    /* 2 - Delete Directory as another User with out beeing root*/
+    /* 3 - Delete inexistente File*/
+    /* 4 - Delete File as another User with out beeing root*/
+
 }
