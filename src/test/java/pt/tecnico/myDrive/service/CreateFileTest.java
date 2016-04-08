@@ -42,8 +42,7 @@ public class CreateFileTest extends AbstractServiceTest {
 
     private Directory getDirectory(String filename) {
         Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
-        Directory toReturn = (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created
-        return toReturn;
+        return (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created;
     }
 
     @Test
@@ -84,7 +83,7 @@ public class CreateFileTest extends AbstractServiceTest {
     @Test(expected = PathIsTooBigException.class)
     public void fileWithBigPath(){
         CreateFileService service =
-                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), new String(new char[1024]).replace('\0', 'a'), "plain");
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), new String(new char[1024]).replace('\0', '€'), "plain");
         service.execute();
     }
 
@@ -125,14 +124,14 @@ public class CreateFileTest extends AbstractServiceTest {
     }
 
 
-    // Does this test make sense? Am I trying to create directory with content?
-    /*@Test(expected = InvalidContentException.class)
+
+    @Test(expected = IsNotPlainFileException.class)
     public void createDirectoryWithContent(){
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "pokedex-entry",
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
-    }*/
+    }
 
     /* Test Cases */
     /* 1 - Create a plain file in the current directory that the user has permission to write on it */
