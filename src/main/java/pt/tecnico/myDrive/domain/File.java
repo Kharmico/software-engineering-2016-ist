@@ -109,6 +109,42 @@ public abstract class File extends File_Base {
 		// checkOwner(u);
 		// TODO : implement permissions
 	}
+
+	protected void checkAccessRead(User u){
+		if(u.getUsername().equals(getOwner().getUsername()))
+			if(getPermissions().charAt(0) == '-')
+				throw new AccessDeniedException(u);
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+			if(getPermissions().charAt(4) == '-')
+				throw new AccessDeniedException(u);
+	}
+
+	protected void checkAccessWrite(User u){
+		if(u.getUsername().equals(getOwner().getUsername()))
+			if(getPermissions().charAt(1) == '-')
+				throw new AccessDeniedException(u);
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+			if(getPermissions().charAt(5) == '-')
+				throw new AccessDeniedException(u);
+	}
+
+	protected void checkAccessEx(User u){
+		if(u.getUsername().equals(getOwner().getUsername()))
+			if(getPermissions().charAt(2) == '-')
+				throw new AccessDeniedException(u);
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+			if(getPermissions().charAt(6) == '-')
+				throw new AccessDeniedException(u);
+	}
+
+	protected void checkAccessDelete(User u){
+		if(u.getUsername().equals(getOwner().getUsername()))
+			if(getPermissions().charAt(3) == '-')
+				throw new AccessDeniedException(u);
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+			if(getPermissions().charAt(7) == '-')
+				throw new AccessDeniedException(u);
+	}
 	
 	
 	protected abstract void isCdAble() throws IsNotDirectoryException;
