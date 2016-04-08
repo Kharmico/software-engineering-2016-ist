@@ -1,6 +1,6 @@
 package pt.tecnico.myDrive.service;
 
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,10 +8,11 @@ import org.junit.Test;
 
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
-import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.domain.User;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
 
 public class WriteFileTest extends AbstractServiceTest {
 	private static final Logger log = LogManager.getRootLogger();
@@ -25,37 +26,62 @@ public class WriteFileTest extends AbstractServiceTest {
         mdm.login("root","***");
         Session currentSession = mdm.getCurrentSession();
 
-        currentSession.setCurrentDir(mdm.getFilesystem().getFsRoot());
+        Directory d = (Directory) mdm.getFilesystem().getHomeDirectory().getFileByName("Josefina");
+        currentSession.setCurrentDir(d);
 
-        mdm.createPlainFile("plainfile.txt","i'm a plain file");
+        mdm.createPlainFile("IDoWell.txt","I'm a plain file");
+        mdm.createLinkFile("MeToo.txt", "/Josefina/IDoWell.txt");
+        mdm.createAppFile("MeThree.txt", "I'mAnAppFile");
     }
 
     private String getContent(String filename) {
-    	Directory dir = MyDriveService.getMyDriveManager().getFilesystem().getHomeDirectory();
+    	Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
     	File file = dir.getFileByName(filename); 
         return file.printContent();
     }
 
-   /* @Test
+    @Test
     public void success() {
-        final String content = "hello, i'm a plain file";
+        final String content = "Hello, I'm a plain file and I'm great";
 
-        WriteFileService service = new WriteFileService(12563, "plainfile.txt", content); //TODO token (1st arg)
+        WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoWell.txt", content);
         service.execute();
-
         
-        // check if content was written
-        String cntt = getContent("plainfile.txt");
-        assertNotSame("Content was not written", cntt, content);
-
+        String cntt = getContent("IDoWell.txt");
+        assertSame("Content was written", content, cntt);
+    }
+    
+    @Test(expected = FileUnknownException.class)
+    public void writeOnNonExistingFile() {
+    	final String NonExistingFile = "iNeedException.txt";
+    	WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), NonExistingFile, "I Do not exist :(");
+    	service.execute();
+    }
+    
+    /*
+    @Test(expected = IllegalAddContentException.class)
+    public void wrongContentOnLinkFile(){
+    	//link file can't change its content
+    	WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "MeToo.txt", "Exception, please");
+    	service.execute();
+    }
+    
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissions(){
+    	
     }*/
+    
+    
+    
 }
 
 /*
 TEST CASES:
 
-1. Write content on non existing plain file
-2. see permissions
-3. app/linkFile
+1. Write content on non existing plain file - DONE
+2. Try to change content on link file - DONE, missing exception
+3. See permissions
+4. App file
+5. well succeded writing - DONE
 */
 

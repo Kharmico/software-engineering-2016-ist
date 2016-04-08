@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 import pt.tecnico.myDrive.exception.LinkFileWithoutContentException;
 
 public class LinkFile extends LinkFile_Base {
@@ -30,6 +31,11 @@ public class LinkFile extends LinkFile_Base {
 		
     	// TODO: Returns the file's content that is linked to this entity
     	return "<content>";
+    }
+    
+    @Override
+	public void writeContent(String content) { //TODO: throws IllegalAddContentException
+    	//throw new IllegalAddContentException();
     }
     
     

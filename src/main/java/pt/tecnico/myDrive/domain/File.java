@@ -110,7 +110,7 @@ public abstract class File extends File_Base {
 		// TODO : implement permissions
 	}
 
-	protected void checkAccessRead(User u){
+	protected void checkAccessRead(User u) throws AccessDeniedException {
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(0) == '-')
 				throw new AccessDeniedException(u);
@@ -119,7 +119,7 @@ public abstract class File extends File_Base {
 				throw new AccessDeniedException(u);
 	}
 
-	protected void checkAccessWrite(User u){
+	protected void checkAccessWrite(User u) throws AccessDeniedException{
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(1) == '-')
 				throw new AccessDeniedException(u);
@@ -128,7 +128,7 @@ public abstract class File extends File_Base {
 				throw new AccessDeniedException(u);
 	}
 
-	protected void checkAccessEx(User u){
+	protected void checkAccessEx(User u) throws AccessDeniedException{
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(2) == '-')
 				throw new AccessDeniedException(u);
@@ -137,7 +137,7 @@ public abstract class File extends File_Base {
 				throw new AccessDeniedException(u);
 	}
 
-	protected void checkAccessDelete(User u){
+	protected void checkAccessDelete(User u) throws AccessDeniedException{
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(3) == '-')
 				throw new AccessDeniedException(u);

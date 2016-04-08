@@ -16,7 +16,7 @@ public class LoginUserTest extends AbstractServiceTest {
         mg.addUser("Obi-Wan");
         mg.addUser("R2D2");
     }
-
+/*
     @Test
     public void successLogin(){
         long token;
@@ -39,6 +39,8 @@ public class LoginUserTest extends AbstractServiceTest {
         service.execute();
     }
 
+    */
+    
     /*
     Test Cases
     - Sucessfull login
