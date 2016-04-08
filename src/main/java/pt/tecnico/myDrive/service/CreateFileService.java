@@ -4,6 +4,7 @@ import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 public class CreateFileService extends MyDriveService{
 
@@ -38,14 +39,14 @@ public class CreateFileService extends MyDriveService{
                         fs.createAppFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
                         break;
                     case "link":
-                        System.out.println(_content);
                         fs.createLinkFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
                         break;
                     case "plain":
                         fs.createPlainFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
                         break;
                     case "directory":
-                        //FIXME: Burp an exeception if content is different from ""
+                        if(!(_content.equals("")))
+                        	throw new IsNotPlainFileException(_filename);
                         fs.createDirectory(_filename, currSes.getCurrentDir(), currSes.getCurrentUser());
                         break;
             	}
