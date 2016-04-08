@@ -23,10 +23,19 @@ public class DeleteFileTest extends AbstractServiceTest{
         manager.createPlainFile("Exame","Isto e apenas um teste");
     }
 
-   /* @Test(expected = FileUnknownException.class)
+    /*
+   @Test(expected = FileUnknownException.class)
+    public void success(){
+        long token;
+        DeleteFileService service = new  DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"Exame");
+        service.execute();
+        token = service.result();
+    }
+
+    @Test(expected = FileUnknownException.class)
     public void nonExistingFile(){
         DeleteFileService service =
-                new DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"Exame");
+                new DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"ProvaIntermedia");
         service.execute();
     }
 
