@@ -114,7 +114,7 @@ public abstract class File extends File_Base {
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(0) == '-')
 				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root"))))
 			if(getPermissions().charAt(4) == '-')
 				throw new AccessDeniedException(u);
 	}
@@ -123,7 +123,7 @@ public abstract class File extends File_Base {
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(1) == '-')
 				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root"))))
 			if(getPermissions().charAt(5) == '-')
 				throw new AccessDeniedException(u);
 	}
@@ -132,7 +132,7 @@ public abstract class File extends File_Base {
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(2) == '-')
 				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root"))))
 			if(getPermissions().charAt(6) == '-')
 				throw new AccessDeniedException(u);
 	}
@@ -141,7 +141,7 @@ public abstract class File extends File_Base {
 		if(u.getUsername().equals(getOwner().getUsername()))
 			if(getPermissions().charAt(3) == '-')
 				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root")))
+		if(!(u.getUsername().equals(getOwner().getUsername()) && !(u.getUsername().equals("root"))))
 			if(getPermissions().charAt(7) == '-')
 				throw new AccessDeniedException(u);
 	}
