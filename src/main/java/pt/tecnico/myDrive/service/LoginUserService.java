@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.MyDriveException;
 
 /**

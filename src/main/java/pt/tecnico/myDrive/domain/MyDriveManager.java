@@ -8,12 +8,10 @@ import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.*;
 
-// import pt.tecnico.myDrive.exception.InvalidContentException;
-
 import java.math.BigInteger;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Random;
+
+// import pt.tecnico.myDrive.exception.InvalidContentException;
 
 public class MyDriveManager extends MyDriveManager_Base {
 	

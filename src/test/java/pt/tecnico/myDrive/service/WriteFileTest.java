@@ -1,18 +1,16 @@
 package pt.tecnico.myDrive.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IllegalAddContentException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class WriteFileTest extends AbstractServiceTest {
 	private static final Logger log = LogManager.getRootLogger();
@@ -44,7 +42,8 @@ public class WriteFileTest extends AbstractServiceTest {
     public void success() {
         final String content = "Hello, I'm a plain file and I'm great";
 
-        WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoWell.txt", content);
+        WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),
+                "IDoWell.txt", content);
         service.execute();
         
         String cntt = getContent("IDoWell.txt");
