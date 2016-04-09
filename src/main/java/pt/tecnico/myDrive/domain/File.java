@@ -72,7 +72,7 @@ public abstract class File extends File_Base {
     }
 	
 	
-	protected Directory getFather(){
+	public Directory getFather(){
 	    return super.getParentDirectory();
 	}
 

@@ -72,7 +72,7 @@ public class Directory extends Directory_Base {
 				+ " " + super.getLastModified() + " .";
 	}
 
-	private String getFatherLs(){
+	public String getFatherLs(){
 		return this.getPermissions() + " " + super.getOwner()
 				+ " " + super.getLastModified() + " ..";
 	}
