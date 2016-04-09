@@ -151,6 +151,14 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
+    @Test(expected = UnknownTypeException.class)
+    public void createWrongFileType(){
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "pokedex-entry",
+                        "pokemon", "#025\nElectric\nMouse Pokemon");
+        service.execute();
+    }
+
         /*
     @Test(expected = InvalidTokenException.class)
     public void createFileWithInvalidUserToken(){
@@ -159,6 +167,7 @@ public class CreateFileTest extends AbstractServiceTest {
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
     }
+
 
     */
 // TODO: Remvoe dis
