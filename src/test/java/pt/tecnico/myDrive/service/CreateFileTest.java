@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.*;
 
 public class CreateFileTest extends AbstractServiceTest {
@@ -72,7 +71,8 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
         File file = getFile(filename);
         assertNotNull("File was not created", file);
-        assertEquals("Invalid content", "PIKACHUUUUU", file.printContent());
+        assertEquals("Invalid content", "PIKACHUUUUU",
+                file.printContent(MyDriveManager.getInstance().getCurrentSession().getCurrentUser()));
     }
 
     @Test
@@ -85,7 +85,8 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
         File file = getFile(filename);
         assertNotNull("File was not created", file);
-        assertEquals("Invalid content", content, file.printContent());
+        assertEquals("Invalid content", content,
+                file.printContent(MyDriveManager.getInstance().getCurrentSession().getCurrentUser()));
     }
 
     @Test
@@ -99,7 +100,8 @@ public class CreateFileTest extends AbstractServiceTest {
     @Test(expected = PathIsTooBigException.class)
     public void fileWithBigPath(){
         CreateFileService service =
-                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), new String(new char[1024]).replace('\0', '€'), "plain");
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),
+                        new String(new char[1024]).replace('\0', '€'), "plain");
         service.execute();
     }
 
@@ -159,7 +161,7 @@ public class CreateFileTest extends AbstractServiceTest {
     }
 
     */
-
+// TODO: Remvoe dis
     /* Test Cases */
     /* 1 - Create a plain file in the current directory that the user has permission to write on it */
     /* 2 - Create a plain file in the current directory with an invalid filename ex: ola/adues */

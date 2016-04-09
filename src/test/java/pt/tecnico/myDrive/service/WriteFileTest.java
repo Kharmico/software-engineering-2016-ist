@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,8 +11,6 @@ import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.exception.AccessDeniedException;
-import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.IllegalAddContentException;
 
@@ -31,14 +30,14 @@ public class WriteFileTest extends AbstractServiceTest {
         currentSession.setCurrentDir(d);
 
         mdm.createPlainFile("IDoWell.txt","I'm a plain file");
-        mdm.createLinkFile("MeToo.txt", "/Josefina/IDoWell.txt");
+        mdm.createLinkFile("MeToo.txt", "/home/Josefina/IDoWell.txt");
         mdm.createAppFile("MeThree.txt", "I'mAnAppFile");
     }
 
     private String getContent(String filename) {
     	Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
     	File file = dir.getFileByName(filename); 
-        return file.printContent();
+        return file.printContent(MyDriveManager.getInstance().getCurrentSession().getCurrentUser());
     }
 
     @Test
@@ -60,12 +59,15 @@ public class WriteFileTest extends AbstractServiceTest {
     }
     
     
-    @Test(expected = IllegalAddContentException.class)
-    public void wrongContentOnLinkFile(){
-    	//link file can't change its content
-    	WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "MeToo.txt", "Exception, please");
+    /*@Test
+    public void writeContentOnLinkFile(){
+    	// link file can't change its content
+        String content = "Exception, please";
+        WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),
+                "MeToo.txt", content);
     	service.execute();
-    }
+        assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt"));
+    }*/
     
     /*
     

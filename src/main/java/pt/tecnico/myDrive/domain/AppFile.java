@@ -23,7 +23,7 @@ public class AppFile extends AppFile_Base {
     }
     
     @Override
-    public void writeContent(String content) throws InvalidContentException{
+    public void writeContent(String content, User logged) throws InvalidContentException{
     	if(content.contains(" ") || content.contains("\n")){
     		throw new InvalidContentException(content);
     	}else{
@@ -33,7 +33,7 @@ public class AppFile extends AppFile_Base {
     }
     
     @Override
-    protected void executeApp(){
+    protected void executeApp(User logged){
     	// TODO
     }
 
