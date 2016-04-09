@@ -89,8 +89,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public void changeDirectory(String directoryname){ //TODO delete this and rename AbsolutePath to this name?
     	try {
-    		currentSession.setCurrentDir(getFilesystem().changeDirectory(directoryname,
-    				currentSession.getCurrentDir(), currentSession.getCurrentUser()));
+    		currentSession.setCurrentDir(getFilesystem().absolutePath(directoryname,
+    				currentSession.getCurrentUser(), currentSession.getCurrentDir()));
+			currentSession.setCurrentDir(getFilesystem().changeDirectory(directoryname, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
     	}
