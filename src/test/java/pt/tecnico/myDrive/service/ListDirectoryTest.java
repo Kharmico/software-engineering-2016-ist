@@ -56,7 +56,7 @@ public class ListDirectoryTest extends AbstractServiceTest {
         assertNotNull("Nothing listed", out);
         assertEquals("Wrong output form", expected, out);
     }
-    /*
+    /* //TODO remove comments
     @Test(expected = InvalidTokenException.class)
     public void invalidToken(){
         ListDirectoryService service = new ListDirectoryService(token+1);
