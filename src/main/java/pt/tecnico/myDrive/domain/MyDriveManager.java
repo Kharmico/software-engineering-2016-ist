@@ -108,13 +108,13 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     
     public void getDirectoryFilesName(String path) {
-    	//try {
+    	try {
 			String out;
 			out = getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser());
     		System.out.println(out);
-    	/*} catch (FileUnknownException ex) {
+    	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
-    	}*/
+    	}
     }
 
     

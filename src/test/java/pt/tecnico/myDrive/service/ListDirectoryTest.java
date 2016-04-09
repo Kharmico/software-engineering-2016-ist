@@ -4,6 +4,7 @@ import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -19,9 +20,9 @@ public class ListDirectoryTest extends AbstractServiceTest {
         mg.login("root","***");
         Session currentSession = mg.getCurrentSession();
 
-        currentSession.setCurrentDir(mg.getFilesystem().getFsRoot());
+        currentSession.setCurrentDir(mg.getFilesystem().getHomeDirectory());
         mg.createDirectory("DeathStar");
-        currentSession.setCurrentDir((Directory)mg.getFilesystem().getFsRoot().getFileByName("DeathStar"));
+        currentSession.setCurrentDir((Directory)mg.getFilesystem().getHomeDirectory().getFileByName("DeathStar"));
 
         mg.createPlainFile("DarthVader.txt","The is strong in this one");
         mg.createPlainFile("Emperor.txt","Good, good, let the hate flow thrugh you");
@@ -39,11 +40,11 @@ public class ListDirectoryTest extends AbstractServiceTest {
         assertNotNull("Nothing listed", out);
         assertEquals("Wrong output form", "DarthVader.txt\nEmperor.txt\nTieFighters\nStormtroopers\n", out);
     }
-/*
-    @Test(expected = WrongPasswordException.class)
-    public void wrongPassword(){
-        LoginUserService service = new LoginUserService("Obi-Wan", "Kenobi");
+
+    @Test(expected = InvalidTokenException.class)
+    public void invalidToken(){
+        ListDirectoryService service = new ListDirectoryService(token+1);
         service.execute();
     }
-    */
+
 }
