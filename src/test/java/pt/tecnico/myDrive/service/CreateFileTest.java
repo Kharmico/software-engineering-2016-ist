@@ -88,14 +88,13 @@ public class CreateFileTest extends AbstractServiceTest {
         assertEquals("Invalid content", content, file.printContent());
     }
 
-    // This test is useless, since if there is a / in a filename, it will be consider as a part of a relative path
-    /*@Test(expected = InvalidFileNameException.class)
-    public void invalidFileName(){
+    @Test
+    public void successLinkWithContent(){
         CreateFileService service =
-                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "thunder/wave.txt", "plain");
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "trainer.link", "link"
+                , "/home/pikachu/ash.txt");
         service.execute();
-
-    }*/
+    }
 
     @Test(expected = PathIsTooBigException.class)
     public void fileWithBigPath(){
@@ -111,7 +110,7 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
-    /*@Test(expected = AccessDeniedException.class)
+    @Test(expected = AccessDeniedException.class)
     public void createFileInADirectoryWithoutPermission(){
         MyDriveManager mg = MyDriveManager.getInstance();
         Directory d = (Directory) mg.getCurrentSession().getCurrentDir().getFileByName("gary");
@@ -119,7 +118,7 @@ public class CreateFileTest extends AbstractServiceTest {
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "megapunch.txt", "plain");
         service.execute();
-    }*/
+    }
 
     @Test(expected = FileAlreadyExistsException.class)
     public void sameFileTwice(){
