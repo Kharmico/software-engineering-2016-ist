@@ -26,31 +26,15 @@ public class CreateFileService extends MyDriveService{
     }
 
     @Override
-    public void dispatch() throws FileAlreadyExistsException, UnsupportedOperationException, FileUnknownException {
+    public void dispatch() throws UnsupportedOperationException, FileAlreadyExistsException {
         Session currSes = getMyDriveManager().getCurrentSession();
     	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??
-            try{
-            	currSes.getCurrentDir().getFileByName(_filename);
-            }catch (FileUnknownException e){
-            	switch(_tipo.toLowerCase()){
-                    case "app":
-                        getMyDriveManager().createAppFile(_filename, _content);
-                        break;
-                    case "link":
-                        getMyDriveManager().createLinkFile(_filename, _content);
-                        break;
-                    case "plain":
-                    	getMyDriveManager().createPlainFile(_filename, _content);
-                        break;
-                    case "directory":
-                        if(!(_content.equals("")))
-                        	throw new IsNotPlainFileException(_filename);
-                        getMyDriveManager().createDirectory(_filename);
-                        break;
-            	}
-                return;
-            }
-            throw new FileAlreadyExistsException(_filename);
+           /*try{
+        	   currSes.getCurrentDir().getFileByName(_filename);
+           } catch (FileUnknownException e){
+        	 */  getMyDriveManager().createFile(_tipo,_filename, _content);
+           //}
+           //return;
     	}
     }
 }
