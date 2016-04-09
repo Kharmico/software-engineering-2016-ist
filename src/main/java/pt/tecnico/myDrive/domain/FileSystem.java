@@ -236,14 +236,14 @@ public class FileSystem extends FileSystem_Base {
 		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
 		File f = d.getFileByName(filename);
 		f.checkAccessRead(currentUser);
-		return f.printContent();
+		return f.printContent(currentUser);
 	}
 
 	protected String readFile(String fileName,Directory currentDirectory, User currentUser)
 			throws FileUnknownException, IsNotPlainFileException {
 		File f = currentDirectory.getFileByName(fileName);
 		f.checkAccessRead(currentUser);
-		return f.printContent();
+		return f.printContent(currentUser);
 	}
 	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {

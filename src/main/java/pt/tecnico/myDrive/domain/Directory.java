@@ -3,7 +3,6 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 
 public class Directory extends Directory_Base {
@@ -137,12 +136,12 @@ public class Directory extends Directory_Base {
 	protected void isCdAble() {}
 
 	@Override
-	public String printContent() throws IsNotPlainFileException {
+	public String printContent(User logged) throws IsNotPlainFileException {
 		throw new IsNotPlainFileException(this.getFilename());
 	}
 
 	@Override
-	public void executeApp() throws IsNotAppFileException {
+	public void executeApp(User logged) throws IsNotAppFileException {
 		throw new IsNotAppFileException(this.getFilename());
 
 	}
@@ -197,7 +196,7 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public void writeContent(String content) throws IsNotPlainFileException{
+	public void writeContent(String content, User logged) throws IsNotPlainFileException{
 		throw new IsNotPlainFileException(getFilename());
 	}
 
