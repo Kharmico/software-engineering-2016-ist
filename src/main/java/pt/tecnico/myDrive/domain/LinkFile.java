@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
+
+import pt.tecnico.myDrive.exception.IllegalAddContentException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
@@ -34,8 +36,8 @@ public class LinkFile extends LinkFile_Base {
     }
     
     @Override
-	public void writeContent(String content) { //TODO: throws IllegalAddContentException
-    	//throw new IllegalAddContentException();
+	public void writeContent(String content) throws IllegalAddContentException {
+    	throw new IllegalAddContentException(content);
     }
     
     
