@@ -143,9 +143,11 @@ public abstract class File extends File_Base {
 	
 	protected abstract void isCdAble() throws IsNotDirectoryException;
 	
-	public abstract String printContent() throws IsNotPlainFileException;
-	
-	protected abstract void executeApp() throws IsNotAppFileException;
+	public abstract String printContent(User logged) throws IsNotPlainFileException;
+
+	public abstract void writeContent(String content, User logged) throws IsNotPlainFileException;
+
+	protected abstract void executeApp(User logged) throws IsNotAppFileException;
 	
 	protected abstract void addFile(File toAdd) throws UnsupportedOperationException;
 	
@@ -181,9 +183,5 @@ public abstract class File extends File_Base {
 		return this.getPermissions() + " " + super.getOwner()
 				+ " " + super.getLastModified() + " " + super.getFilename();
 	}
-
-
-	public abstract void writeContent(String content) throws IsNotPlainFileException;
-
 
 }

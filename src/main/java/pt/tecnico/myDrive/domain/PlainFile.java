@@ -47,13 +47,13 @@ public class PlainFile extends PlainFile_Base {
     }
 
     @Override
-	public String printContent(){
+	public String printContent(User logged){
     	return this.getContent();
 
     }
     
     @Override
-    protected void executeApp() throws IsNotAppFileException{
+    protected void executeApp(User logged) throws IsNotAppFileException{
     	throw new IsNotAppFileException(this.getFilename());
     }
 
@@ -115,7 +115,7 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 	@Override
-	public void writeContent(String content) throws IsNotPlainFileException{
+	public void writeContent(String content, User logged) throws IsNotPlainFileException{
 		setContent(content);
 	}
     

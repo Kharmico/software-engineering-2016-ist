@@ -88,36 +88,60 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* --- Files --- */ 
     
-    public void createPlainFile(String filename){
+    public void createFile(String tipo, String filename, String content) throws IsNotPlainFileException, FileAlreadyExistsException {
+    	switch(tipo.toLowerCase()){
+        	case "app":
+        		createAppFile(filename, content);
+        		break;
+        	case "link":
+        		createLinkFile(filename, content);
+        		break;
+        	case "plain":
+        		createPlainFile(filename, content);
+        		break;
+        	case "directory":
+        		if(!(content.equals("")))
+        			throw new IsNotPlainFileException(filename);
+        		createDirectory(filename);
+        		break;
+    	}
+    }
+    
+    /* CREATEs */
+    
+    public void createPlainFile(String filename) throws FileAlreadyExistsException{
 		super.getFilesystem().createPlainFile(filename,
     		currentSession.getCurrentDir(), currentSession.getCurrentUser());
     }
     
     
-    public void createPlainFile(String filename, String content){
+    public void createPlainFile(String filename, String content) throws FileAlreadyExistsException{
     	super.getFilesystem().createPlainFile(filename,
     		currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
 
     
-    public void createLinkFile(String filename, String content){
+    public void createLinkFile(String filename, String content) throws FileAlreadyExistsException{
     	// TODO: InvalidContentException
     	super.getFilesystem().createLinkFile(filename,
     		currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
  
     
-    public void createAppFile(String filename){
+    public void createAppFile(String filename) throws FileAlreadyExistsException{
     	super.getFilesystem().createAppFile(filename,
     		currentSession.getCurrentDir(), currentSession.getCurrentUser());
     }
 
     
-    public void createAppFile(String filename, String content){
+    public void createAppFile(String filename, String content) throws FileAlreadyExistsException{
     	// TODO: InvalidContentException
 		super.getFilesystem().createAppFile(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
+    
+    
+    
 
 	public String readFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
 		return super.getFilesystem().readFile(filename,currentSession.getCurrentDir(), currentSession.getCurrentUser());
