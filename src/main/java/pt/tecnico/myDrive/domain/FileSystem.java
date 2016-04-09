@@ -150,7 +150,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	public void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
+	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 		Directory beforeLast = absolutePath(path, currentUser, currentDirectory);
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
 				currentUser, beforeLast, this));
@@ -260,7 +260,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -274,7 +274,7 @@ public class FileSystem extends FileSystem_Base {
 	}	
 
 	
-	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -288,7 +288,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -302,7 +302,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
