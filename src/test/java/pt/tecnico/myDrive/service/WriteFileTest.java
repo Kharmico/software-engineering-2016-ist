@@ -13,6 +13,7 @@ import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.IllegalAddContentException;
 
 public class WriteFileTest extends AbstractServiceTest {
 	private static final Logger log = LogManager.getRootLogger();
@@ -58,7 +59,7 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute();
     }
     
-    /*
+    
     @Test(expected = IllegalAddContentException.class)
     public void wrongContentOnLinkFile(){
     	//link file can't change its content
@@ -66,10 +67,23 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute();
     }
     
+    /*
+    
+    @Test(expected = InvalidTokenException.class)
+    public void invalidToken(){
+    	WriteFileService service = new WriteFileService(-1, "IDoWell.txt", "lol");
+    	service.execute;
+    
+    }
+    
+    
     @Test(expected = AccessDeniedException.class)
     public void noPermissions(){
     	
-    }*/
+    }
+    
+   
+    */
     
     
     
@@ -83,5 +97,7 @@ TEST CASES:
 3. See permissions
 4. App file
 5. well succeded writing - DONE
+6. Invalid Token
+7. Root
 */
 

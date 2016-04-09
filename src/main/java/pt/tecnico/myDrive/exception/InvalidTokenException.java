@@ -7,18 +7,18 @@ public class InvalidTokenException extends MyDriveException{
 
     private static final long serialVersionUID = 1L;
 
-    private final String invalidToken;
+    private final long invalidToken;
 
-    public InvalidTokenException(String password) {
-        invalidToken = password;
+    public InvalidTokenException(long token) {
+        invalidToken = token;
     }
 
-    public String getInvalidToken(){
+    public long getInvalidToken(){
         return invalidToken;
     }
 
     @Override
-    public String getMessage() {
-        return "Session is not active.";
+    public String getMessage(){
+        return invalidToken + " is not valid.";
     }
 }

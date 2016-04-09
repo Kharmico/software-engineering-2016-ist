@@ -17,6 +17,6 @@ public class ReadFileService extends MyDriveService{
         }
     }
 
-    public String content(){return _content;}
+    public String result(){return _content;}
 
 }

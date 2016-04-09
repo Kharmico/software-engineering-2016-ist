@@ -155,13 +155,34 @@ public class FileSystem extends FileSystem_Base {
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
 				currentUser, beforeLast, this));
 	}
-
 	
 	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser) throws FileUnknownException{
 		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
 		if(!currentDirectory.hasFile(directoryName))
 			throw new FileUnknownException(directoryName);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
+	}
+
+	public Directory getLastDirectory(String directoryname, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
+		System.out.println("---------------" + directoryname);
+
+		if(directoryname.equals("."))
+			return currentDir;
+
+		if(directoryname.equals(".."))
+			return currentDir.getFather();
+
+		Directory beforeLast = absolutePath(directoryname, currentUser, currentDir);
+
+		String delims = "/";
+		String[] tokens = directoryname.split(delims);
+
+		String name = tokens.length == 0 ? directoryname : tokens[tokens.length - 1];
+
+		beforeLast.changeDirectory(name,currentUser);
+
+		return (Directory) beforeLast.getFileByName(name);
+
 	}
 
 	@Deprecated
