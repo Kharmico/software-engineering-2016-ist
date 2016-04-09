@@ -150,17 +150,39 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	public void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
+	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 		Directory beforeLast = absolutePath(path, currentUser, currentDirectory);
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
 				currentUser, beforeLast, this));
 	}
-
 	
 	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser) throws FileUnknownException{
+		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
 		if(!currentDirectory.hasFile(directoryName))
 			throw new FileUnknownException(directoryName);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
+	}
+
+	public Directory getLastDirectory(String directoryname, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
+		System.out.println("---------------" + directoryname);
+
+		if(directoryname.equals("."))
+			return currentDir;
+
+		if(directoryname.equals(".."))
+			return currentDir.getFather();
+
+		Directory beforeLast = absolutePath(directoryname, currentUser, currentDir);
+
+		String delims = "/";
+		String[] tokens = directoryname.split(delims);
+
+		String name = tokens.length == 0 ? directoryname : tokens[tokens.length - 1];
+
+		beforeLast.changeDirectory(name,currentUser);
+
+		return (Directory) beforeLast.getFileByName(name);
+
 	}
 
 	@Deprecated
@@ -196,8 +218,8 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected String getDirectoryFilesName(String path, User currentUser) throws FileUnknownException{
-		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
+	protected String getDirectoryFilesName(String path, User currentUser, Directory currentDir) throws FileUnknownException{
+		return absolutePath(path, getRoot(), currentDir).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
 
 	
@@ -208,27 +230,26 @@ public class FileSystem extends FileSystem_Base {
 
     /* Files */
 
-	protected String printPlainFile(String path, User currentUser) throws FileUnknownException, IsNotPlainFileException {
-		Directory d = absolutePath(path, currentUser);
+	protected String printPlainFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotPlainFileException {
+		Directory d = absolutePath(path, currentUser, currentDir);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		
 		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
 		File f = d.getFileByName(filename);
-		// f.checkAccess(logged); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		f.checkAccessRead(currentUser);
 		return f.printContent();
 	}
 
-	protected String readFile(String fileName,Directory currentDirectory)
+	protected String readFile(String fileName,Directory currentDirectory, User currentUser)
 			throws FileUnknownException, IsNotPlainFileException {
 		File f = currentDirectory.getFileByName(fileName);
-		// f.checkAccess(logged); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		f.checkAccessRead(currentUser);
 		return f.printContent();
 	}
 	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		//d.checkAccess(currentUser);  ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -239,10 +260,10 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -253,10 +274,10 @@ public class FileSystem extends FileSystem_Base {
 	}	
 
 	
-	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -267,10 +288,10 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -281,10 +302,10 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -295,9 +316,10 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser) throws FileUnknownException, IsNotDirectoryException {
+	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotDirectoryException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
-		Directory currentDirectory = absolutePath(path, currentUser);
+		Directory currentDirectory = absolutePath(path, currentUser, currentDir);
+		currentDirectory.getFileByName(toRemove).checkAccessDelete(currentUser);
 		try{
 			if(currentDirectory.getFileByName(toRemove).isEmpty()){
 				currentDirectory.getFileByName(toRemove).remove();

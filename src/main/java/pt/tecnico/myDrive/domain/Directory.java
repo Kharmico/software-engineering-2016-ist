@@ -43,7 +43,7 @@ public class Directory extends Directory_Base {
    
     protected Directory changeDirectory(String dirname, User currentUser) throws AccessDeniedException, IsNotDirectoryException{
     	File file = getFileByName(dirname);
-    	file.checkAccess(currentUser);
+    	file.checkAccessRead(currentUser);
     	file.isCdAble();
     	return (Directory) file;
     }
@@ -59,14 +59,23 @@ public class Directory extends Directory_Base {
 
 
 	public String getDirectoryFilesName() {
-		String ls = this.toString() + " .\n" +
-				getFather().toString() + " ..\n";
+		String ls = this.getSelfLs() + "\n" +
+				this.getFatherLs() + "\n";
 		for (File file: super.getFilesSet()){
 			ls = ls + file.toString() + "\n";
 		}
 		return ls;
 	}
 
+	private String getSelfLs(){
+		return this.getPermissions() + " " + super.getOwner()
+				+ " " + super.getLastModified() + " .";
+	}
+
+	public String getFatherLs(){
+		return this.getPermissions() + " " + super.getOwner()
+				+ " " + super.getLastModified() + " ..";
+	}
 
 	public File getFileByName(String name) throws FileUnknownException {
 		for (File file: super.getFilesSet())

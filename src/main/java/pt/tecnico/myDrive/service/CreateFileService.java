@@ -36,18 +36,18 @@ public class CreateFileService extends MyDriveService{
             }catch (FileUnknownException e){
             	switch(_tipo.toLowerCase()){
                     case "app":
-                        fs.createAppFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        getMyDriveManager().createAppFile(_filename, _content);
                         break;
                     case "link":
-                        fs.createLinkFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        getMyDriveManager().createLinkFile(_filename, _content);
                         break;
                     case "plain":
-                        fs.createPlainFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                    	getMyDriveManager().createPlainFile(_filename, _content);
                         break;
                     case "directory":
                         if(!(_content.equals("")))
                         	throw new IsNotPlainFileException(_filename);
-                        fs.createDirectory(_filename, currSes.getCurrentDir(), currSes.getCurrentUser());
+                        getMyDriveManager().createDirectory(_filename);
                         break;
             	}
                 return;

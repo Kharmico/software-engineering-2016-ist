@@ -8,6 +8,7 @@ import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
 
 
 public class DeleteFileTest extends AbstractServiceTest{
@@ -17,10 +18,15 @@ public class DeleteFileTest extends AbstractServiceTest{
     protected void populate() {
         MyDriveManager manager = MyDriveManager.getInstance();
         manager.addUser("Joao");
+        manager.addUser("Pedro");
         manager.login("Joao","Joao");
         Session currentSession = manager.getCurrentSession();
         manager.createDirectory("teste");
+        currentSession.getCurrentDir().setPermissions("rwxdr---");
         manager.createPlainFile("Exame","Isto e apenas um teste");
+        manager.login("Pedro","Pedro");
+        manager.AbsolutePath("/home/Joao");
+        currentSession = manager.getCurrentSession();
     }
 
     /*
@@ -40,11 +46,28 @@ public class DeleteFileTest extends AbstractServiceTest{
     }
 
     @Test(expected = FileUnknownException.class)
-    public void nonExistingFile(){
+    public void nonExistingDir() {
         DeleteFileService service =
-                new DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"teste");
+                new DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "coiso");
         service.execute();
-    }*/
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void permissionDD() {
+        DeleteFileService service =
+                new DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "teste");
+        service.execute();
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void permissionDF() {
+        DeleteFileService service =
+                new DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "Exame");
+        service.execute();
+    }
+    */
+
+
 
     /* Test Cases */
     /* 1 - Delete inexistente Directory*/
