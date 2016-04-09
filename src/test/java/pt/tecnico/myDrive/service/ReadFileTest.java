@@ -2,6 +2,7 @@ package pt.tecnico.myDrive.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pt.tecnico.myDrive.domain.MyDriveManager;
 
 public class ReadFileTest extends AbstractServiceTest {
 	private static final String USER_LOGGED = "charmander";
