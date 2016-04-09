@@ -197,8 +197,8 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected String getDirectoryFilesName(String path, User currentUser) throws FileUnknownException{
-		return absolutePath(path, getRoot()).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
+	protected String getDirectoryFilesName(String path, User currentUser, Directory currentDir) throws FileUnknownException{
+		return absolutePath(path, getRoot(), currentDir).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
 	}
 
 	
@@ -209,8 +209,8 @@ public class FileSystem extends FileSystem_Base {
 
     /* Files */
 
-	protected String printPlainFile(String path, User currentUser) throws FileUnknownException, IsNotPlainFileException {
-		Directory d = absolutePath(path, currentUser);
+	protected String printPlainFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotPlainFileException {
+		Directory d = absolutePath(path, currentUser, currentDir);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
 		File f = d.getFileByName(filename);
@@ -295,9 +295,9 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser) throws FileUnknownException, IsNotDirectoryException {
+	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotDirectoryException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
-		Directory currentDirectory = absolutePath(path, currentUser);
+		Directory currentDirectory = absolutePath(path, currentUser, currentDir);
 		currentDirectory.getFileByName(toRemove).checkAccessDelete(currentUser);
 		try{
 			if(currentDirectory.getFileByName(toRemove).isEmpty()){

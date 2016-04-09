@@ -111,7 +111,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     public void getDirectoryFilesName(String path) {
     	try {
 			String out;
-			out = getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser());
+			out = getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     		System.out.println(out);
     	} catch (FileUnknownException ex) {
     		log.trace(ex.getMessage());
@@ -121,7 +121,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public void removeFile(String path){
     	try {
-    		super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser());
+    		super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (IllegalRemovalException ex2) {
@@ -226,7 +226,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public void printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
     	try {
-    		System.out.println(super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser()));
+    		System.out.println(super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
     	} catch (FileUnknownException ex1) {
     		log.trace(ex1.getMessage());
     	} catch (IsNotPlainFileException ex2) {
