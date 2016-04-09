@@ -23,7 +23,7 @@ public class ChangeDirectoryService extends  MyDriveService {
     @Override
     public void dispatch() throws IsNotDirectoryException, InvalidMaskException, InvalidTokenException {
         if(_token == getMyDriveManager().getCurrentSession().getToken()) {
-            getMyDriveManager().AbsolutePath(_path);
+            getMyDriveManager().changeDirectory(_path);
         }
     }
 }

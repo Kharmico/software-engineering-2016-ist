@@ -11,6 +11,7 @@ import pt.tecnico.myDrive.exception.*;
 // import pt.tecnico.myDrive.exception.InvalidContentException;
 
 import java.math.BigInteger;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -87,14 +88,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     
-    public void changeDirectory(String directoryname){ //TODO delete this and rename AbsolutePath to this name?
-    	try {
-    		currentSession.setCurrentDir(getFilesystem().absolutePath(directoryname,
-    				currentSession.getCurrentUser(), currentSession.getCurrentDir()));
-			currentSession.setCurrentDir(getFilesystem().changeDirectory(directoryname, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
-    	} catch (FileUnknownException ex) {
-    		log.trace(ex.getMessage());
-    	}
+    public void changeDirectory(String directoryname) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{ //TODO delete this and rename AbsolutePath to this name?
+		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryname, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     }
     
     
