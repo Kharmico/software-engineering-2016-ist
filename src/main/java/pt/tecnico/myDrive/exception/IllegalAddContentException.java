@@ -13,7 +13,7 @@ public class IllegalAddContentException extends MyDriveException{
         illegalContent = content;
     }
 
-    public String getIllegalAddContent(){
+    public String getIllegalContent(){
         return illegalContent;
     }
 
