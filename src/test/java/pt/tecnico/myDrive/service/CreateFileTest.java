@@ -29,6 +29,10 @@ public class CreateFileTest extends AbstractServiceTest {
         mg.getCurrentSession().setCurrentDir(d);
         mg.createDirectory("gary");
 
+        // Setting gary directory mask to block reading writing from another user
+        ((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu"))
+                .getFileByName("gary").setPermissions("rwxd----");
+
         mg.login("pikachu","pikachu");
 
         mg.createPlainFile("ash.txt");
