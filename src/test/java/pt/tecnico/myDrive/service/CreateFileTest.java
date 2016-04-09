@@ -146,6 +146,7 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
+        /*
     @Test(expected = InvalidTokenException.class)
     public void createFileWithInvalidUserToken(){
         CreateFileService service =
@@ -154,7 +155,7 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
-
+    */
 
     /* Test Cases */
     /* 1 - Create a plain file in the current directory that the user has permission to write on it */

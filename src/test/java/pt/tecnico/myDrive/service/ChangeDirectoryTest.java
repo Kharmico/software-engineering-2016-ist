@@ -10,6 +10,7 @@ import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 import pt.tecnico.myDrive.exception.IsNotDirectoryException;
 
 public class ChangeDirectoryTest extends AbstractServiceTest {
@@ -24,27 +25,25 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         mg.login("root","***");
         Session currentSession = mg.getCurrentSession();
 
-        currentSession.setCurrentDir(mg.getFilesystem().getFsRoot());
         mg.createDirectory("teste");
-        currentSession.setCurrentDir((Directory)mg.getFilesystem().getFsRoot().getFileByName("teste"));
+        currentSession.setCurrentDir((Directory)mg.getCurrentSession().getCurrentDir().getFileByName("teste"));
 
         mg.createPlainFile("readme.txt","15 de Abril");
         mg.createDirectory("eclipse");
 
     }
 
-    /*
+
     @Test
     public void sucess(){
-
         ChangeDirectoryService service =
             new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/teste/eclipse");
         service.execute();
         assertEquals("Change to a directory that exists","/teste/eclipse",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
-    */
 
-    /*
+
+
     @Test(expected = FileUnknownException.class)
     public void invalidDirectory(){
         ChangeDirectoryService service =
@@ -52,36 +51,36 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         service.execute();
 
     }
-    */
 
-    /*
+
+
     @Test
     public void sucessFather(){
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"..");
         assertEquals("Return father","/",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
-    */
 
-    /*
+
+
     @Test
     public void sucessItSelf(){
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),".");
         assertEquals("Return itself","/teste/",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
-    */
 
-     /*
+
+
     @Test(expected = IsNotDirectoryException.class)
     public void invalidChangeToPlainFile(){
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/teste/readme.txt");
         service.execute();
     }
-    */
 
-    /*
+
+
     @Test(expected = InvalidMaskException.class)
     public void noPermissions(){
         MyDriveManager.getInstance().login("Marco","Marco");
@@ -89,9 +88,9 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/teste/eclipse");
         service.execute();
     }
-    */
 
     /*
+
     @Test(expected = InvalidTokenException.class)
     public void noValidToken(){
         MyDriveManager.getInstance().login("Marco","Marco");
@@ -100,8 +99,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
                 new ChangeDirectoryService(token,"/teste/eclipse");
         service.execute();
     }
-    */
 
+    */
 
     /* Test Cases */
     /* 1 - changeDirectory to a directory that exists in the current directory and i have permission */
