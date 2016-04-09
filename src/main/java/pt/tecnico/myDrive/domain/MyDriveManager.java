@@ -11,6 +11,7 @@ import pt.tecnico.myDrive.exception.*;
 // import pt.tecnico.myDrive.exception.InvalidContentException;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MyDriveManager extends MyDriveManager_Base {
@@ -296,6 +297,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     public Session getCurrentSession(){
         return currentSession;
     }
+
 
 
 }
