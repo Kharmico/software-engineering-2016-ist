@@ -45,7 +45,7 @@ public class CreateFileTest extends AbstractServiceTest {
 
     private Directory getDirectory(String filename) {
         Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
-        return (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created;
+        return (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created it
     }
 
     @Test
@@ -159,7 +159,7 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
-        /*
+    /*
     @Test(expected = InvalidTokenException.class)
     public void createFileWithInvalidUserToken(){
         CreateFileService service =
