@@ -39,7 +39,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         ChangeDirectoryService service =
             new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/teste/eclipse");
         service.execute();
-        assertEquals("Change to a directory that exists","/teste/eclipse",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
+        assertEquals("Change to a directory that exists","/home/root/teste/eclipse",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
 
 
@@ -49,7 +49,6 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/teste/java");
         service.execute();
-
     }
 
 
@@ -58,7 +57,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     public void sucessFather(){
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"..");
-        assertEquals("Return father","/",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
+        service.execute();
+        assertEquals("Return father","/home",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
 
 
@@ -67,7 +67,8 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     public void sucessItSelf(){
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),".");
-        assertEquals("Return itself","/teste/",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
+        service.execute();
+        assertEquals("Return itself","/home/teste/",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
 
 
