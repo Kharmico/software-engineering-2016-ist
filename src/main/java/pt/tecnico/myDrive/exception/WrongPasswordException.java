@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.exception;
 
-
+/**
+ * Thrown when a password is wrong
+ */
 public class WrongPasswordException extends MyDriveException{
 
     private static final long serialVersionUID = 1L;
@@ -11,7 +13,7 @@ public class WrongPasswordException extends MyDriveException{
         wrongPassword = password;
     }
 
-    public String getOverSizeLimitPath(){
+    public String getWrongPassword(){
         return wrongPassword;
     }
 
