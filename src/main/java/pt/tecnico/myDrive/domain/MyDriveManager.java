@@ -76,10 +76,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     
-    public void getDirectoryFilesName(String path) {
-		String out;
-		out = getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
-		System.out.println(out);
+    public String getDirectoryFilesName(String path) {
+		return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
     
@@ -126,8 +124,8 @@ public class MyDriveManager extends MyDriveManager_Base {
 	}
 
 
-    public void printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-  		System.out.println(super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
+    public String printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+  		return super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
     
