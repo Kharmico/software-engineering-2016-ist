@@ -91,6 +91,17 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     }
     */
 
+    /*
+    @Test(expected = InvalidTokenException.class)
+    public void noValidToken(){
+        MyDriveManager.getInstance().login("Marco","Marco");
+        long token = MyDriveManager.getInstance().getCurrentSession().getToken() + 1;
+        ChangeDirectoryService service =
+                new ChangeDirectoryService(token,"/teste/eclipse");
+        service.execute();
+    }
+    */
+
 
     /* Test Cases */
     /* 1 - changeDirectory to a directory that exists in the current directory and i have permission */
@@ -99,4 +110,5 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     /* 4 - ChangeDirectory to itself */
     /* 5 - ChangeDirectory to a plainfile */
     /* 6 - ChangeDirectory to a directory that i don't have permission to */
+    /* 7 - ChangeDirectory with wrong token */
 }
