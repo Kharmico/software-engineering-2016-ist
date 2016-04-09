@@ -50,41 +50,19 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Users --- */
     
     public void addUser(String username){
-    	
-    	try {
     		super.getFilesystem().addUsers(username);
-    	} catch (UserAlreadyExistsException ex) {
-    		log.trace(ex.getMessage());
-    	}
     }
     
     public void removeUser(String username){
-    	
-    	try {
-    		super.getFilesystem().removeUsers(username);
-    	} catch (UserUnknownException ex1) {
-			log.trace(ex1.getMessage());
-    	} catch (IllegalRemovalException ex2) {
-    		log.trace(ex2.getMessage());
-    	}
+    	super.getFilesystem().removeUsers(username);
     }
     
     
     /* --- Directory --- */
     
     public void createDirectory(String filename){
-    	//try {
-    		super.getFilesystem().createDirectory(filename,
-    			currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	/*} catch (InvalidFileNameException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (FileAlreadyExistsException ex2) {
-    		log.trace(ex2.getMessage());
-    	} catch (InvalidMaskException ex3) {
-    		log.trace(ex3.getMessage());
-    	} catch (FileUnknownException ex4) {
-    		log.trace(ex4.getMessage());
-    	}*/
+    	super.getFilesystem().createDirectory(filename,
+    		currentSession.getCurrentDir(), currentSession.getCurrentUser());
     }
     
     
@@ -94,120 +72,53 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     
     public void AbsolutePath(String path){
-    	try {
-    		currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
-    	} catch (FileUnknownException ex) {
-    		log.trace(ex.getMessage());
-    	}catch (PathIsTooBigException ex) {
-			log.trace(ex.getMessage());
-		}
+    	currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
     }
 
     
     public void getDirectoryFilesName(String path) {
-    	try {
-			String out;
-			out = getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
-    		System.out.println(out);
-    	} catch (FileUnknownException ex) {
-    		log.trace(ex.getMessage());
-    	}
+		String out;
+		out = getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
+		System.out.println(out);
     }
 
     
     public void removeFile(String path){
-    	try {
-    		super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
-    	} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (IllegalRemovalException ex2) {
-    		log.trace(ex2.getMessage());
-    	}
+    	super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
     }
     
     
     /* --- Files --- */ 
     
     public void createPlainFile(String filename){
-    	//try {
-    		super.getFilesystem().createPlainFile(filename,
-    				currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	/*} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (FileAlreadyExistsException ex2) {
-    		log.trace(ex2.getMessage());
-    	} catch (InvalidFileNameException ex3) {
-    		log.trace(ex3.getMessage());
-    	} catch (InvalidMaskException ex4) {
-    		log.trace(ex4.getMessage());
-    	}*/
+		super.getFilesystem().createPlainFile(filename,
+    		currentSession.getCurrentDir(), currentSession.getCurrentUser());
     }
     
     
     public void createPlainFile(String filename, String content){
-    	//try {
-    		super.getFilesystem().createPlainFile(filename,
-    				currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
-    	/*} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-		} catch (FileAlreadyExistsException ex2) {
-			log.trace(ex2.getMessage());
-		} catch (InvalidFileNameException ex3) {
-    		log.trace(ex3.getMessage());
-    	} catch (InvalidMaskException ex4) {
-    		log.trace(ex4.getMessage());
-    	}*/
-
+    	super.getFilesystem().createPlainFile(filename,
+    		currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
 
     
     public void createLinkFile(String filename, String content){
     	// TODO: InvalidContentException
-		//try {
-    		super.getFilesystem().createLinkFile(filename,
-    			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
-    	/*} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (FileAlreadyExistsException ex2) {
-    		log.trace(ex2.getMessage());
-    	} catch (InvalidFileNameException ex3) {
-    		log.trace(ex3.getMessage());
-    	} catch (InvalidMaskException ex4) {
-    		log.trace(ex4.getMessage());
-    	}*/
+    	super.getFilesystem().createLinkFile(filename,
+    		currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
  
     
     public void createAppFile(String filename){
-    	//try {
-    		super.getFilesystem().createAppFile(filename, 
-    			currentSession.getCurrentDir(), currentSession.getCurrentUser());
-    	/*} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (FileAlreadyExistsException ex2) {
-    		log.trace(ex2.getMessage());
-    	} catch (InvalidFileNameException ex3) {
-    		log.trace(ex3.getMessage());
-    	} catch (InvalidMaskException ex4) {
-    		log.trace(ex4.getMessage());
-    	}*/
+    	super.getFilesystem().createAppFile(filename,
+    		currentSession.getCurrentDir(), currentSession.getCurrentUser());
     }
 
     
     public void createAppFile(String filename, String content){
     	// TODO: InvalidContentException
-		//try {
-    		super.getFilesystem().createAppFile(filename,
-    				currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
-    	/*} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (FileAlreadyExistsException ex2) {
-    		log.trace(ex2.getMessage());
-    	} catch (InvalidFileNameException ex3) {
-    		log.trace(ex3.getMessage());
-    	} catch (InvalidMaskException ex4) {
-    		log.trace(ex4.getMessage());
-    	}*/
+		super.getFilesystem().createAppFile(filename,
+    			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
 
 	public String readFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
@@ -216,13 +127,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
 
     public void printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-    	try {
-    		System.out.println(super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
-    	} catch (FileUnknownException ex1) {
-    		log.trace(ex1.getMessage());
-    	} catch (IsNotPlainFileException ex2) {
-    		log.trace(ex2.getMessage());
-    	}
+  		System.out.println(super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
     }
 
     
