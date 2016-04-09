@@ -150,7 +150,7 @@ public class CreateFileTest extends AbstractServiceTest {
     @Test(expected = InvalidTokenException.class)
     public void createFileWithInvalidUserToken(){
         CreateFileService service =
-                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken() + 1, "pokedex-entry",
+                new CreateFileService(-1, "pokedex-entry",
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
     }
