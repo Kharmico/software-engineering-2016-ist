@@ -15,5 +15,5 @@ public class Session extends Session_Base {
     public void remove(){
         deleteDomainObject();
     }
-
+    
 }

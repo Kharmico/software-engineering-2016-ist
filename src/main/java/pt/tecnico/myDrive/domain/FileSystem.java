@@ -536,20 +536,15 @@ public class FileSystem extends FileSystem_Base {
 		return el;
 	}
 
-	protected User checkUser(String username, String password){
-		User toFind = null;
-		try{
-			toFind = getUserByUsername(username);
-		}
-		catch(UserUnknownException e){
-		}
-		finally {
-			if(toFind != null)
-				toFind = toFind.getPassword().equals(password) ? toFind : null;
-			return toFind;
-		}
+	protected User checkUser(String username, String password) throws UserUnknownException, WrongPasswordException{
+		User toFind = getUserByUsername(username);
+		checkUserPass(toFind, password);
+		return toFind;
 	}
 
-
+	private void checkUserPass(User user, String password) throws WrongPasswordException {
+		if(!user.getPassword().equals(password))
+			throw new WrongPasswordException(user.getPassword());
+	}
 
 }

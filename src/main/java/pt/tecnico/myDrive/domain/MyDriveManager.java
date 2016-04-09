@@ -249,31 +249,45 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     /* --- Login --- */
-
-	/* LOGIC MUST BE CHECKED */
-	/* LOGIC MUST BE CHECKED */
-	/* LOGIC MUST BE CHECKED */
-	/* LOGIC MUST BE CHECKED */
-
-    public void login(String username, String password){
-        User user = getFilesystem().checkUser(username,password);
-        currentSession = checkForSession(user);
+    // log.warn() in usage of invalid token
+    
+    public Long login(String username, String password) throws UserUnknownException, WrongPasswordException {
+    	User user = getFilesystem().checkUser(username,password);
+    	
+    	
+    	Session currentSession = null;
+    	long token;
+    	
+    	
+    	removeOldSessions();
+    	
+    	do{ token = generateToken(); } while (token != 0);
+    	
+        currentSession = new Session(generateToken(),user,user.getHomeDirectory());
+        return currentSession.getToken();
     }
 
-    private Session checkForSession(User user){
-        removeOldSessions();
-
-        Session output = null;
+    public boolean checkForSession(long token){
+    	boolean activeSession = false;
+        //Session output = null;
+        
         for(Session s : getSessionSet()){
-            if(s.getCurrentUser().equals(user)){
-                output = s;
-                break;
+            if(s.getToken() == token){
+                if(isTokenValid(token)){
+                	if(dateTime + 2 == currentDateTime){
+                		activeSession = true;
+                		s.setLastAccess(currentDateTime);
+                		break;
+                	}
+                }
             }
         }
-        if(output != null)
+        
+      /*  if(output != null)
             output.setLastAccess(new DateTime());
-
-        return output == null ? new Session(generateToken(),user,user.getHomeDirectory()) : output;
+        else output = new Session(generateToken(),user,user.getHomeDirectory());
+       */
+        return activeSession;
     }
 
     /* Make sure it's unique */
@@ -283,11 +297,17 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     private void removeOldSessions(){
+    	for(Session s : getSessionSet()){
+    		
+    	}
         /* FIXME */
+    	
+    	//DateTime - session.DateTime < 0;
     }
 
 	public boolean isTokenValid(long token){
 		// FIXME This method is returning always true while is not properly  implemented
+		// 0 = not found, 1 = exists (valid), -1 = exists (not-valid)
 		return true;
 	}
 
