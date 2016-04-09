@@ -316,17 +316,21 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotDirectoryException {
+	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, AccessDeniedException, IsNotDirectoryException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
 		Directory currentDirectory = absolutePath(path, currentUser, currentDir);
-		currentDirectory.getFileByName(toRemove).checkAccessDelete(currentUser);
+		File fileToRemove = currentDirectory.getFileByName(toRemove);
 		try{
-			if(currentDirectory.getFileByName(toRemove).isEmpty()){
-				currentDirectory.getFileByName(toRemove).remove();
-			} //else    TODO: Permissions allowance!!!
-				//throw new IllegalRemovalException(toRemove); AccessDeniedException
+			fileToRemove.checkAccessDelete(currentUser);
+			
+			if(fileToRemove.isEmpty()){
+				fileToRemove.remove();
+			}
+			else {
+				throw new IllegalRemovalException(toRemove);
+			}
 		} catch (IsNotDirectoryException e){
-			currentDirectory.getFileByName(toRemove).remove();
+			fileToRemove.remove();
 		}
 	}
 	
