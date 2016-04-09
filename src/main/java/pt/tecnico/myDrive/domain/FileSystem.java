@@ -214,21 +214,21 @@ public class FileSystem extends FileSystem_Base {
 		
 		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
 		File f = d.getFileByName(filename);
-		// f.checkAccess(logged); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		f.checkAccessRead(currentUser);
 		return f.printContent();
 	}
 
-	protected String readFile(String fileName,Directory currentDirectory)
+	protected String readFile(String fileName,Directory currentDirectory, User currentUser)
 			throws FileUnknownException, IsNotPlainFileException {
 		File f = currentDirectory.getFileByName(fileName);
-		// f.checkAccess(logged); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		f.checkAccessRead(currentUser);
 		return f.printContent();
 	}
 	
 	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		//d.checkAccess(currentUser);  ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -242,7 +242,7 @@ public class FileSystem extends FileSystem_Base {
 	public void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -256,7 +256,7 @@ public class FileSystem extends FileSystem_Base {
 	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -270,7 +270,7 @@ public class FileSystem extends FileSystem_Base {
 	public void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -284,7 +284,7 @@ public class FileSystem extends FileSystem_Base {
 	public void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		// d.checkAccess(currentUser); ----> TODO:  For now, this is useless!  Uncomment when checkAccess is implemented
+		d.checkAccessWrite(currentUser);
 		for(File f : d.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
@@ -298,6 +298,7 @@ public class FileSystem extends FileSystem_Base {
 	protected void removeFile(String path, User currentUser) throws FileUnknownException, IsNotDirectoryException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
 		Directory currentDirectory = absolutePath(path, currentUser);
+		currentDirectory.getFileByName(toRemove).checkAccessDelete(currentUser);
 		try{
 			if(currentDirectory.getFileByName(toRemove).isEmpty()){
 				currentDirectory.getFileByName(toRemove).remove();
