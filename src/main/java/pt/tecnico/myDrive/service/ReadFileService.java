@@ -13,11 +13,11 @@ public class ReadFileService extends MyDriveService{
 
     public void dispatch(){
         if(_token == getMyDriveManager().getCurrentSession().getToken()){
-            String filecontent = getMyDriveManager().getCurrentSession().getCurrentDir().getFileByName(_filename).printContent();
-            _content = filecontent;
+            _content = getMyDriveManager().getCurrentSession().getCurrentDir().getFileByName(_filename).printContent();
         }
     }
 
-    public String contente(){return _content;}
+
+    public String content(){return _content;}
 
 }
