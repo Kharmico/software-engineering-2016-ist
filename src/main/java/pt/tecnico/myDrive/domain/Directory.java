@@ -43,7 +43,7 @@ public class Directory extends Directory_Base {
    
     protected Directory changeDirectory(String dirname, User currentUser) throws AccessDeniedException, IsNotDirectoryException{
     	File file = getFileByName(dirname);
-    	file.checkAccess(currentUser);
+    	file.checkAccessRead(currentUser);
     	file.isCdAble();
     	return (Directory) file;
     }

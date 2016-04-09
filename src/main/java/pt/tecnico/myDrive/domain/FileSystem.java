@@ -158,6 +158,7 @@ public class FileSystem extends FileSystem_Base {
 
 	
 	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser) throws FileUnknownException{
+		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
 		if(!currentDirectory.hasFile(directoryName))
 			throw new FileUnknownException(directoryName);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
@@ -211,7 +212,6 @@ public class FileSystem extends FileSystem_Base {
 	protected String printPlainFile(String path, User currentUser) throws FileUnknownException, IsNotPlainFileException {
 		Directory d = absolutePath(path, currentUser);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
-		
 		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
 		File f = d.getFileByName(filename);
 		f.checkAccessRead(currentUser);
