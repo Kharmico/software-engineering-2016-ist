@@ -22,7 +22,7 @@ public class CreateFileTest extends AbstractServiceTest {
         //log.trace(this.getClass().getSimpleName() + ": Getting mydrive");
         MyDriveManager mg = MyDriveManager.getInstance();
         //log.trace(this.getClass().getSimpleName() + ": Add user " + USER_LOGGED);
-        mg.getFilesystem().addUsers(USER_LOGGED);
+        mg.addUser(USER_LOGGED);
         //log.trace(this.getClass().getSimpleName() + ": Logging in " + USER_LOGGED);
         mg.login("root", "***");
         Directory d = (Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu");
@@ -69,6 +69,19 @@ public class CreateFileTest extends AbstractServiceTest {
         File file = getFile(filename);
         assertNotNull("File was not created", file);
         assertEquals("Invalid content", "PIKACHUUUUU", file.printContent());
+    }
+
+    @Test
+    public void successAppFileWithContent(){
+        String filename = "quick_attack.exe";
+        String content = "Pokedex.Pikachu.beCute";
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename,
+                        "app", content);
+        service.execute();
+        File file = getFile(filename);
+        assertNotNull("File was not created", file);
+        assertEquals("Invalid content", content, file.printContent());
     }
 
     // This test is useless, since if there is a / in a filename, it will be consider as a part of a relative path
@@ -132,6 +145,16 @@ public class CreateFileTest extends AbstractServiceTest {
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
     }
+
+    @Test(expected = InvalidTokenException.class)
+    public void createFileWithInvalidUserToken(){
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken() + 1, "pokedex-entry",
+                        "directory", "#025\nElectric\nMouse Pokemon");
+        service.execute();
+    }
+
+
 
     /* Test Cases */
     /* 1 - Create a plain file in the current directory that the user has permission to write on it */
