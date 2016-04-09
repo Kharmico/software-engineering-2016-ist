@@ -318,7 +318,13 @@ public class FileSystem extends FileSystem_Base {
 			fileToRemove.remove();
 		}
 	}
-	
+
+	protected void writeContent(String path, User currentUser, Directory currentDirectory, String content){
+		Directory d = absolutePath(path, currentUser, currentDirectory);
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		d.getFileByName(filename).checkAccessWrite(currentUser);
+		d.getFileByName(filename).writeContent(content, currentUser);
+	}
 	
     /* Uniques Ids */
     private int generateUniqueId(){
