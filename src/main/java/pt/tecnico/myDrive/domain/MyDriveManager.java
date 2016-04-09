@@ -148,23 +148,14 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Login --- */
     // log.warn() in usage of invalid token
     
-    public Long login(String username, String password) throws UserUnknownException, WrongPasswordException {
+    public long login(String username, String password) throws UserUnknownException, WrongPasswordException {
     	User user = getFilesystem().checkUser(username,password);
-    	
-    	
-    	Session currentSession = null;
-    	long token;
-    	
-    	
-    	removeOldSessions();
-    	
-    	do{ token = generateToken(); } while (token != 0);
-    	
+        removeOldSessions();
         currentSession = new Session(generateToken(),user,user.getHomeDirectory());
         return currentSession.getToken();
     }
 
-    public boolean checkForSession(long token){
+    /*public boolean checkForSession(long token){
     	boolean activeSession = false;
         //Session output = null;
         
@@ -180,38 +171,35 @@ public class MyDriveManager extends MyDriveManager_Base {
             }
         }
         
-      /*  if(output != null)
+       if(output != null)
             output.setLastAccess(new DateTime());
         else output = new Session(generateToken(),user,user.getHomeDirectory());
-       */
-        return activeSession;
-    }
 
-    /* Make sure it's unique */
-    /* FIXME */
-    public long generateToken(){
-        return new BigInteger(64, new Random()).longValue();
+        return activeSession;
+    }*/
+
+    private long generateToken(){
+        boolean notFound = true;
+        long token = 0;
+        while(notFound) {
+            token = new BigInteger(64, new Random()).longValue();
+            notFound = false;
+            for(Session s : getSessionSet()) {
+                if(s.getToken() == token && notFound == false)
+                    notFound = true;
+            }
+        }
+        return token;
     }
 
     private void removeOldSessions(){
-    	for(Session s : getSessionSet()){
-    		
+        for(Session s : getSessionSet()){
+            if((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= 7200000)
+                s.remove();
     	}
-        /* FIXME */
-    	
-    	//DateTime - session.DateTime < 0;
     }
-
-	public boolean isTokenValid(long token){
-		// FIXME This method is returning always true while is not properly  implemented
-		// 0 = not found, 1 = exists (valid), -1 = exists (not-valid)
-		return true;
-	}
 
     public Session getCurrentSession(){
         return currentSession;
     }
-
-
-
 }
