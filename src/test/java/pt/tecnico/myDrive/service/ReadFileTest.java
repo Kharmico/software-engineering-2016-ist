@@ -10,7 +10,11 @@ public class ReadFileTest extends AbstractServiceTest {
 	
 	@Override
 	protected void populate() {
+		MyDriveManager mg = MyDriveManager.getInstance();
 		
+		mg.addUser(USER_LOGGED);
+		
+		mg.login("root", "***");
 	}
 	
 }
