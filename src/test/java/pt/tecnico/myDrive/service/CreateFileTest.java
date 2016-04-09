@@ -29,6 +29,10 @@ public class CreateFileTest extends AbstractServiceTest {
         mg.getCurrentSession().setCurrentDir(d);
         mg.createDirectory("gary");
 
+        // Setting gary directory mask to block reading writing from another user
+        ((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu"))
+                .getFileByName("gary").setPermissions("rwxd----");
+
         mg.login("pikachu","pikachu");
 
         mg.createPlainFile("ash.txt");
@@ -150,7 +154,7 @@ public class CreateFileTest extends AbstractServiceTest {
     @Test(expected = InvalidTokenException.class)
     public void createFileWithInvalidUserToken(){
         CreateFileService service =
-                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken() + 1, "pokedex-entry",
+                new CreateFileService(-1, "pokedex-entry",
                         "directory", "#025\nElectric\nMouse Pokemon");
         service.execute();
     }
