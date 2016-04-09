@@ -150,7 +150,7 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	public void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
+	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 		Directory beforeLast = absolutePath(path, currentUser, currentDirectory);
 		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
 				currentUser, beforeLast, this));
@@ -260,7 +260,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -274,7 +274,7 @@ public class FileSystem extends FileSystem_Base {
 	}	
 
 	
-	public void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -288,7 +288,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);;
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -302,7 +302,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	public void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws FileUnknownException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = path.substring(path.lastIndexOf("/") + 1);
 		d.checkAccessWrite(currentUser);
@@ -316,17 +316,21 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotDirectoryException {
+	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, AccessDeniedException, IsNotDirectoryException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
 		Directory currentDirectory = absolutePath(path, currentUser, currentDir);
-		currentDirectory.getFileByName(toRemove).checkAccessDelete(currentUser);
+		File fileToRemove = currentDirectory.getFileByName(toRemove);
 		try{
-			if(currentDirectory.getFileByName(toRemove).isEmpty()){
-				currentDirectory.getFileByName(toRemove).remove();
-			} //else    TODO: Permissions allowance!!!
-				//throw new IllegalRemovalException(toRemove); AccessDeniedException
+			fileToRemove.checkAccessDelete(currentUser);
+			
+			if(fileToRemove.isEmpty()){
+				fileToRemove.remove();
+			}
+			else {
+				throw new IllegalRemovalException(toRemove);
+			}
 		} catch (IsNotDirectoryException e){
-			currentDirectory.getFileByName(toRemove).remove();
+			fileToRemove.remove();
 		}
 	}
 	
@@ -558,20 +562,15 @@ public class FileSystem extends FileSystem_Base {
 		return el;
 	}
 
-	protected User checkUser(String username, String password){
-		User toFind = null;
-		try{
-			toFind = getUserByUsername(username);
-		}
-		catch(UserUnknownException e){
-		}
-		finally {
-			if(toFind != null)
-				toFind = toFind.getPassword().equals(password) ? toFind : null;
-			return toFind;
-		}
+	protected User checkUser(String username, String password) throws UserUnknownException, WrongPasswordException{
+		User toFind = getUserByUsername(username);
+		checkUserPass(toFind, password);
+		return toFind;
 	}
 
-
+	private void checkUserPass(User user, String password) throws WrongPasswordException {
+		if(!user.getPassword().equals(password))
+			throw new WrongPasswordException(user.getPassword());
+	}
 
 }

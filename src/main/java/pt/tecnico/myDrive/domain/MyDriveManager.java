@@ -146,52 +146,60 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     /* --- Login --- */
-
-	/* LOGIC MUST BE CHECKED */
-	/* LOGIC MUST BE CHECKED */
-	/* LOGIC MUST BE CHECKED */
-	/* LOGIC MUST BE CHECKED */
-
-    public void login(String username, String password){
-        User user = getFilesystem().checkUser(username,password);
-        currentSession = checkForSession(user);
+    // log.warn() in usage of invalid token
+    
+    public long login(String username, String password) throws UserUnknownException, WrongPasswordException {
+    	User user = getFilesystem().checkUser(username,password);
+        removeOldSessions();
+        currentSession = new Session(generateToken(),user,user.getHomeDirectory());
+        return currentSession.getToken();
     }
 
-    private Session checkForSession(User user){
-        removeOldSessions();
-
-        Session output = null;
+    /*public boolean checkForSession(long token){
+    	boolean activeSession = false;
+        //Session output = null;
+        
         for(Session s : getSessionSet()){
-            if(s.getCurrentUser().equals(user)){
-                output = s;
-                break;
+            if(s.getToken() == token){
+                if(isTokenValid(token)){
+                	if(dateTime + 2 == currentDateTime){
+                		activeSession = true;
+                		s.setLastAccess(currentDateTime);
+                		break;
+                	}
+                }
             }
         }
-        if(output != null)
+        
+       if(output != null)
             output.setLastAccess(new DateTime());
+        else output = new Session(generateToken(),user,user.getHomeDirectory());
 
-        return output == null ? new Session(generateToken(),user,user.getHomeDirectory()) : output;
-    }
+        return activeSession;
+    }*/
 
-    /* Make sure it's unique */
-    /* FIXME */
-    public long generateToken(){
-        return new BigInteger(64, new Random()).longValue();
+    private long generateToken(){
+        boolean notFound = true;
+        long token = 0;
+        while(notFound) {
+            token = new BigInteger(64, new Random()).longValue();
+            notFound = false;
+            for(Session s : getSessionSet()) {
+                if(s.getToken() == token && notFound == false)
+                    notFound = true;
+            }
+        }
+        return token;
     }
 
     private void removeOldSessions(){
-        /* FIXME */
+        for(Session s : getSessionSet()){
+            if((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= 7200000)
+                s.remove();
+    	}
     }
-
-	public boolean isTokenValid(long token){
-		// FIXME This method is returning always true while is not properly  implemented
-		return true;
-	}
 
     public Session getCurrentSession(){
         return currentSession;
     }
-
-
-
 }

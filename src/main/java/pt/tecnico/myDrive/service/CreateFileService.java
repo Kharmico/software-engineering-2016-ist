@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
@@ -28,7 +27,6 @@ public class CreateFileService extends MyDriveService{
 
     @Override
     public void dispatch() throws FileAlreadyExistsException, UnsupportedOperationException, FileUnknownException {
-        FileSystem fs = getMyDriveManager().getFilesystem();
         Session currSes = getMyDriveManager().getCurrentSession();
     	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??
             try{
@@ -36,18 +34,18 @@ public class CreateFileService extends MyDriveService{
             }catch (FileUnknownException e){
             	switch(_tipo.toLowerCase()){
                     case "app":
-                        fs.createAppFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        getMyDriveManager().createAppFile(_filename, _content);
                         break;
                     case "link":
-                        fs.createLinkFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                        getMyDriveManager().createLinkFile(_filename, _content);
                         break;
                     case "plain":
-                        fs.createPlainFile(_filename, currSes.getCurrentDir(), currSes.getCurrentUser(), _content);
+                    	getMyDriveManager().createPlainFile(_filename, _content);
                         break;
                     case "directory":
                         if(!(_content.equals("")))
                         	throw new IsNotPlainFileException(_filename);
-                        fs.createDirectory(_filename, currSes.getCurrentDir(), currSes.getCurrentUser());
+                        getMyDriveManager().createDirectory(_filename);
                         break;
             	}
                 return;
@@ -56,9 +54,3 @@ public class CreateFileService extends MyDriveService{
     	}
     }
 }
-
-/*Cria um ficheiro na diretoria corrente. Este servico recebe o token, o nome a atribuir ao
-ficheiro, o tipo de ficheiro a criar e, eventualmente, um conteudo. Notar que a criacao de
-uma diretoria nao recebe conteudo, enquanto um ficheiro de ligacao (link)
-recebe obrigatoriamente um caminho. No caso dos restantes tipos de ficheiros, o conteudo e opcional. 
-O ficheiro e criado com as permissoes correspondentes a mascara do utilizador que o criou.*/
