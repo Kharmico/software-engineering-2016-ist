@@ -215,15 +215,10 @@ public class MyDriveManager extends MyDriveManager_Base {
     	}*/
     }
 
-	public void readFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-		try {
-			System.out.println(super.getFilesystem().readFile(filename,currentSession.getCurrentDir(), currentSession.getCurrentUser()));
-		} catch (FileUnknownException ex1) {
-			log.trace(ex1.getMessage());
-		} catch (IsNotPlainFileException ex2) {
-			log.trace(ex2.getMessage());
-		}
+	public String readFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+			return super.getFilesystem().readFile(filename,currentSession.getCurrentDir(), currentSession.getCurrentUser();
 	}
+
 
     public void printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
     	try {
