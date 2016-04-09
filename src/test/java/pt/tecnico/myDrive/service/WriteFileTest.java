@@ -29,7 +29,7 @@ public class WriteFileTest extends AbstractServiceTest {
         Directory d = (Directory) mdm.getFilesystem().getHomeDirectory().getFileByName("Josefina");
         currentSession.setCurrentDir(d);
 
-        mdm.createPlainFile("IDoWell.txt","I'm a plain file");
+        mdm.createPlainFile("IDoWell.txt", "I'm a plain file");
         mdm.createLinkFile("MeToo.txt", "/home/Josefina/IDoWell.txt");
         mdm.createAppFile("MeThree.txt", "I'mAnAppFile");
     }
@@ -59,15 +59,14 @@ public class WriteFileTest extends AbstractServiceTest {
     }
     
     
-    /*@Test
+    @Test
     public void writeContentOnLinkFile(){
-    	// link file can't change its content
         String content = "Exception, please";
         WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),
                 "MeToo.txt", content);
     	service.execute();
         assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt"));
-    }*/
+    }
     
     /*
     

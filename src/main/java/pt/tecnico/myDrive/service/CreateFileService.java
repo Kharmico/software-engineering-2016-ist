@@ -2,8 +2,6 @@ package pt.tecnico.myDrive.service;
 
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.FileAlreadyExistsException;
-import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 public class CreateFileService extends MyDriveService{
 
@@ -29,12 +27,7 @@ public class CreateFileService extends MyDriveService{
     public void dispatch() throws UnsupportedOperationException, FileAlreadyExistsException {
         Session currSes = getMyDriveManager().getCurrentSession();
     	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??
-           /*try{
-        	   currSes.getCurrentDir().getFileByName(_filename);
-           } catch (FileUnknownException e){
-        	 */  getMyDriveManager().createFile(_tipo,_filename, _content);
-           //}
-           //return;
+           getMyDriveManager().createFile(_tipo,_filename, _content);
     	}
     }
 }

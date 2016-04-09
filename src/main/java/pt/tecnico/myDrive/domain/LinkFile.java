@@ -28,20 +28,28 @@ public class LinkFile extends LinkFile_Base {
     
     @Override
 	public String printContent(User logged){
-    	return super.getFather().getFilesystem().absolutePath(super.getContent(), logged, getFather())
+    	return getFilesystem().absolutePath(super.getContent(), logged, getFather())
                 .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).printContent(logged);
     }
     
     @Override
 	public void writeContent(String content, User logged) throws IllegalAddContentException {
-       super.getFather().getFilesystem().absolutePath(super.getContent(), logged, getFather())
+       getFilesystem().absolutePath(super.getContent(), logged, getFather())
                .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).writeContent(content, logged);
     }
 
     @Override
     public void executeApp(User logged) throws IllegalAddContentException {
-        super.getFather().getFilesystem().absolutePath(super.getContent(), logged, getFather())
+        getFilesystem().absolutePath(super.getContent(), logged, getFather())
                 .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).executeApp(logged);
+    }
+
+    private FileSystem getFilesystem(){
+        Directory dir = getFather();
+        while(!dir.getFather().equals(dir)){
+            dir = dir.getFather();
+        }
+        return dir.getFilesystem();
     }
     
     

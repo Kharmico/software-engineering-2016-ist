@@ -164,7 +164,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	public Directory getLastDirectory(String directoryname, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-		System.out.println("---------------" + directoryname);
+		//System.out.println("---------------" + directoryname);
 
 		if(directoryname.equals("."))
 			return currentDir;
@@ -206,7 +206,7 @@ public class FileSystem extends FileSystem_Base {
 			resultantPath = currentDirectory.getPath() + "/" + path;
 
 		}
-		System.out.println(resultantPath);
+		//System.out.println(resultantPath);
 		if((resultantPath.length() > MAX_PATH_SIZE)){
 			throw new PathIsTooBigException(path);
 		}
