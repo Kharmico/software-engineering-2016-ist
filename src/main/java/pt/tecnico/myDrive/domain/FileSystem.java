@@ -185,28 +185,13 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	@Deprecated
-	protected Directory absolutePath(String path, User currentUser) throws FileUnknownException, PathIsTooBigException{ //TODO delete this?
-		if(path.length() > MAX_PATH_SIZE){
-			throw new PathIsTooBigException(path);
-		}
-		Directory directory = getSlash();
-		String[] FileLocation = path.split("/");
-		for(int i = 1; i < (FileLocation.length - 1) ; i++)
-			directory = changeDirectory(FileLocation[i], directory, currentUser);
-		return directory;
-	}
-
-	// TODO: New method that allows search using relativePaths, this method should be called in the place of the former one.
 	protected Directory absolutePath(String path, User currentUser, Directory currentDirectory) throws FileUnknownException, PathIsTooBigException{
 		String resultantPath;
 		if(path.startsWith("/")){
 			resultantPath = path;
 		}else{
 			resultantPath = currentDirectory.getPath() + "/" + path;
-
 		}
-		//System.out.println(resultantPath);
 		if((resultantPath.length() > MAX_PATH_SIZE)){
 			throw new PathIsTooBigException(path);
 		}
@@ -333,7 +318,13 @@ public class FileSystem extends FileSystem_Base {
 			fileToRemove.remove();
 		}
 	}
-	
+
+	protected void writeContent(String path, User currentUser, Directory currentDirectory, String content){
+		Directory d = absolutePath(path, currentUser, currentDirectory);
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		d.getFileByName(filename).checkAccessWrite(currentUser);
+		d.getFileByName(filename).writeContent(content, currentUser);
+	}
 	
     /* Uniques Ids */
     private int generateUniqueId(){

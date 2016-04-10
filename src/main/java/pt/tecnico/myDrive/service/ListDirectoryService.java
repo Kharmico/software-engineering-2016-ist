@@ -15,7 +15,7 @@ public class ListDirectoryService extends MyDriveService{
     public void dispatch() {
         Session currSes = getMyDriveManager().getCurrentSession();
      	if(_token == currSes.getToken()){   //FIXME
-     		out = currSes.getCurrentDir().getDirectoryFilesName();
+            out = getMyDriveManager().getDirectoryFilesName();
      	}
     }
 

@@ -8,12 +8,10 @@ import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.*;
 
-// import pt.tecnico.myDrive.exception.InvalidContentException;
-
 import java.math.BigInteger;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Random;
+
+// import pt.tecnico.myDrive.exception.InvalidContentException;
 
 public class MyDriveManager extends MyDriveManager_Base {
 	
@@ -66,8 +64,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     
-    public void changeDirectory(String directoryname) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{ //TODO delete this and rename AbsolutePath to this name?
-		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryname, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
+    public void changeDirectory(String directoryName) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{ //TODO delete this and rename AbsolutePath to this name?
+		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryName, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     }
     
     
@@ -75,16 +73,23 @@ public class MyDriveManager extends MyDriveManager_Base {
     	currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
     }
 
-    
+    @Deprecated
     public String getDirectoryFilesName(String path) {
 		return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
+    }
+
+    public String getDirectoryFilesName() {
+        return getFilesystem().getDirectoryFilesName(currentSession.getCurrentDir().getPath(), currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
     
     public void removeFile(String path){
     	super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
     }
-    
+
+    public void writeContent(String path, String content){
+        getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
+    }
     
     /* --- Files --- */ 
     

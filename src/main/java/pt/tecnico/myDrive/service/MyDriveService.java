@@ -3,7 +3,6 @@ package pt.tecnico.myDrive.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import pt.ist.fenixframework.Atomic;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.MyDriveException;

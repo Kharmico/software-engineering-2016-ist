@@ -1,11 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-
-import pt.tecnico.myDrive.exception.IllegalAddContentException;
-import pt.tecnico.myDrive.exception.InvalidFileNameException;
-import pt.tecnico.myDrive.exception.InvalidMaskException;
-import pt.tecnico.myDrive.exception.LinkFileWithoutContentException;
+import pt.tecnico.myDrive.exception.*;
 
 public class LinkFile extends LinkFile_Base {
 
@@ -25,7 +21,7 @@ public class LinkFile extends LinkFile_Base {
     private boolean invalidContent(String content){
         return content == null || content.isEmpty();
     }
-    
+
     @Override
 	public String printContent(User logged){
     	return getFilesystem().absolutePath(super.getContent(), logged, getFather())
@@ -33,13 +29,13 @@ public class LinkFile extends LinkFile_Base {
     }
     
     @Override
-	public void writeContent(String content, User logged) throws IllegalAddContentException {
+	public void writeContent(String content, User logged)  {
        getFilesystem().absolutePath(super.getContent(), logged, getFather())
                .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).writeContent(content, logged);
     }
 
     @Override
-    public void executeApp(User logged) throws IllegalAddContentException {
+    public void executeApp(User logged) {
         getFilesystem().absolutePath(super.getContent(), logged, getFather())
                 .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).executeApp(logged);
     }

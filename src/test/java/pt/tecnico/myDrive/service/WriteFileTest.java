@@ -1,18 +1,18 @@
 package pt.tecnico.myDrive.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
 
 public class WriteFileTest extends AbstractServiceTest {
 	private static final Logger log = LogManager.getRootLogger();
@@ -29,12 +29,14 @@ public class WriteFileTest extends AbstractServiceTest {
 
         Directory d = (Directory) mdm.getFilesystem().getHomeDirectory().getFileByName("Josefina");
         currentSession.setCurrentDir(d);
-
+        
         mdm.createPlainFile("IDoWell.txt", "I'm a plain file");
         mdm.createLinkFile("MeToo.txt", "/home/Josefina/IDoWell.txt");
         
         mdm.login("Josefina", "Josefina");
         mdm.createAppFile("MeThree.txt", "I'mAnAppFile");
+        
+        
     }
 
     private String getContent(String filename) {
@@ -66,6 +68,7 @@ public class WriteFileTest extends AbstractServiceTest {
     
     @Test
     public void writeContentOnLinkFile(){
+    	
         String content = "Exception, please";
         WriteFileService service = 
         		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "MeToo.txt", content);

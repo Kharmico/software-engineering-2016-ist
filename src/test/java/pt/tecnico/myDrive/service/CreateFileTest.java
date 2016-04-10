@@ -1,15 +1,15 @@
 package pt.tecnico.myDrive.service;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class CreateFileTest extends AbstractServiceTest {
     private static final Logger log = LogManager.getRootLogger();
@@ -45,7 +45,7 @@ public class CreateFileTest extends AbstractServiceTest {
 
     private Directory getDirectory(String filename) {
         Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
-        return (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created;
+        return (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created it
     }
 
     @Test
@@ -159,7 +159,7 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
-        /*
+    /*
     @Test(expected = InvalidTokenException.class)
     public void createFileWithInvalidUserToken(){
         CreateFileService service =

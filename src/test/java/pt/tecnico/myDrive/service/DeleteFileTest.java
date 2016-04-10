@@ -1,14 +1,9 @@
 package pt.tecnico.myDrive.service;
 
-import static org.junit.Assert.assertNotSame;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.AccessDeniedException;
 
 
 public class DeleteFileTest extends AbstractServiceTest{

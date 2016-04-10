@@ -33,7 +33,7 @@ public class PlainFile extends PlainFile_Base {
 
     
     @Override
-    public void setContent(String content) {
+	public void setContent(String content) throws IllegalAddContentException {
     	super.setContent(content);
     }
     

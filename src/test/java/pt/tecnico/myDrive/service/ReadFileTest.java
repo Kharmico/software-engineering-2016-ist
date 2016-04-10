@@ -1,15 +1,8 @@
 package pt.tecnico.myDrive.service;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pt.tecnico.myDrive.domain.Directory;
-import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.domain.Session;
-import pt.tecnico.myDrive.exception.*;
 
 public class ReadFileTest extends AbstractServiceTest {
 	private static final String USER_LOGGED = "charmander";
@@ -18,7 +11,11 @@ public class ReadFileTest extends AbstractServiceTest {
 	
 	@Override
 	protected void populate() {
+		MyDriveManager mg = MyDriveManager.getInstance();
 		
+		mg.addUser(USER_LOGGED);
+		
+		mg.login("root", "***");
 	}
 	
 }
