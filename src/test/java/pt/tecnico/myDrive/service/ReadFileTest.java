@@ -3,10 +3,12 @@ package pt.tecnico.myDrive.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.Directory;
-import pt.tecnico.myDrive.exception.*;
+import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 import static org.junit.Assert.assertEquals;
 

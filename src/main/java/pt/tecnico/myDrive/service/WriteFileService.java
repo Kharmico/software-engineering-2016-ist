@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 
 public class WriteFileService extends MyDriveService{

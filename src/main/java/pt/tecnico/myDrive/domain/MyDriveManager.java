@@ -11,11 +11,11 @@ import pt.tecnico.myDrive.exception.*;
 import java.math.BigInteger;
 import java.util.Random;
 
-// import pt.tecnico.myDrive.exception.InvalidContentException;
 
 public class MyDriveManager extends MyDriveManager_Base {
-	
-	static final Logger log = LogManager.getRootLogger();
+
+    private static final Logger log = LogManager.getRootLogger();
+    private static final int TIMEOUT_SESSION_TIME = 7200000;     // Two hours
     private Session currentSession;
     
     private MyDriveManager() {
@@ -50,10 +50,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     public void addUser(String username){
     		super.getFilesystem().addUsers(username);
     }
-    
-    public void removeUser(String username){
-    	super.getFilesystem().removeUsers(username);
-    }
+
+
     
     
     /* --- Directory --- */
@@ -69,15 +67,8 @@ public class MyDriveManager extends MyDriveManager_Base {
 		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryName, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     }
     
-    
-    public void AbsolutePath(String path){
-    	currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
-    }
 
-    @Deprecated
-    public String getDirectoryFilesName(String path) {
-		return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
-    }
+
 
     public String getDirectoryFilesName(long token) throws InvalidTokenException{
         checkForSession(token);
@@ -96,9 +87,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* --- Files --- */ 
     
-    public void createFile(String tipo, String filename, long token) throws InvalidTokenException, UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
+    public void createFile(String type, String filename, long token) throws InvalidTokenException, UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
     	checkForSession(token);
-        switch(tipo.toLowerCase()){
+        switch(type.toLowerCase()){
         	case "app":
         		createAppFile(filename);
         		break;
@@ -111,13 +102,13 @@ public class MyDriveManager extends MyDriveManager_Base {
         		createDirectory(filename);
         		break;
         	default:
-        		throw new UnknownTypeException(tipo);
+        		throw new UnknownTypeException(type);
     	}
     }
     
-    public void createFile(String tipo, String filename, String content, long token) throws InvalidTokenException, UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
+    public void createFile(String type, String filename, String content, long token) throws InvalidTokenException, UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
         checkForSession(token);
-        switch(tipo.toLowerCase()){
+        switch(type.toLowerCase()){
         	case "app":
         		createAppFile(filename, content);
         		break;
@@ -130,7 +121,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         	case "directory":
         		throw new IsNotPlainFileException(filename);
         	default:
-        		throw new UnknownTypeException(tipo);
+        		throw new UnknownTypeException(type);
     	}
     }
     
@@ -173,11 +164,6 @@ public class MyDriveManager extends MyDriveManager_Base {
 	}
 
 
-    public String printPlainFile(String path) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-  		return super.getFilesystem().printPlainFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
-    }
-
-    
     /* --- ImportXML --- */
     
     public void xmlImport(Element element) throws IllegalStateException {
@@ -214,15 +200,18 @@ public class MyDriveManager extends MyDriveManager_Base {
                 break;
             }
         }
-        if(!activeSession)
+        if(!activeSession) {
+            log.warn("Invalid Token",
+                    "An invalid token was used. If this message appears to much, maybe someone is trying to hack the filesystem.");
             throw new InvalidTokenException(token);
+        }
     }
 
     private long generateToken(){
         boolean notFound = true;
         long token = 0;
         while(notFound) {
-            // Integers can be negative so to grant unicity for tests we only consider the positives
+            // Integers can be negative so to assure unicity for tests we only consider the positive ones
             long randomLong = new BigInteger(64, new Random()).longValue();
             token = randomLong < 0 ? -randomLong : randomLong;
             notFound = false;
@@ -236,7 +225,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     private void removeOldSessions(){
         for(Session s : getSessionSet()){
-            if((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= 7200000)
+            if((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= TIMEOUT_SESSION_TIME)
                 s.remove();
     	}
     }

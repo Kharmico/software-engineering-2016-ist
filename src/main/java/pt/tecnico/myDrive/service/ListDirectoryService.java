@@ -1,7 +1,5 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.domain.Session;
-
 public class ListDirectoryService extends MyDriveService{
 
     private long _token;

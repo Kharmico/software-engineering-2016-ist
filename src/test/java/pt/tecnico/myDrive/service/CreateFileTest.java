@@ -1,7 +1,5 @@
 package pt.tecnico.myDrive.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
@@ -12,17 +10,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class CreateFileTest extends AbstractServiceTest {
-    private static final Logger log = LogManager.getRootLogger();
 
     private static final String USER_LOGGED = "pikachu";
 
     @Override
     protected void populate(){
-        //log.trace(this.getClass().getSimpleName() + ": Getting mydrive");
         MyDriveManager mg = MyDriveManager.getInstance();
-        //log.trace(this.getClass().getSimpleName() + ": Add user " + USER_LOGGED);
         mg.addUser(USER_LOGGED);
-        //log.trace(this.getClass().getSimpleName() + ": Logging in " + USER_LOGGED);
         mg.login("root", "***");
         Directory d = (Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu");
         mg.getCurrentSession().setCurrentDir(d);
@@ -50,13 +44,10 @@ public class CreateFileTest extends AbstractServiceTest {
 
     @Test
     public void successFile(){
-        //log.trace(this.getClass().getSimpleName() + ": Calling service");
         String filename = "seismic_toss.txt";
         CreateFileService service =
             new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename, "plain");
-       // log.trace(this.getClass().getSimpleName() + ": Running service");
         service.execute();
-        //log.trace(this.getClass().getSimpleName() + ": Trying to get file");
         File file = getFile(filename);
         assertNotNull("File was not created", file);
         assertEquals("Invalid filename", filename, file.getFilename());
@@ -162,6 +153,14 @@ public class CreateFileTest extends AbstractServiceTest {
         CreateFileService service =
                 new CreateFileService(-1, "pokedex-entry",
                         "directory", "#025\nElectric\nMouse Pokemon");
+        service.execute();
+    }
+
+    @Test(expected = FileAlreadyExistsException.class)
+    public void createFileThatAlreadyExists(){
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "ash.txt",
+                        "plain");
         service.execute();
     }
 

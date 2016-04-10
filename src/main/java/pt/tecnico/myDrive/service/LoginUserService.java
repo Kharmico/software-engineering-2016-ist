@@ -6,7 +6,7 @@ public class LoginUserService extends MyDriveService {
 
     private String mUsername;
     private String mPassword;
-    private long resultToken;
+    private long mResultToken;
 
     public LoginUserService(String username, String password){
         mUsername = username;
@@ -15,10 +15,10 @@ public class LoginUserService extends MyDriveService {
     @Override
     public void dispatch() throws MyDriveException {
         MyDriveService.getMyDriveManager().login(mUsername, mPassword);
-        resultToken = MyDriveService.getMyDriveManager().getCurrentSession().getToken();
+        mResultToken = MyDriveService.getMyDriveManager().getCurrentSession().getToken();
     }
 
     public final long result(){
-        return resultToken;
+        return mResultToken;
     }
 }

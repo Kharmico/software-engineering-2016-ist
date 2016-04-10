@@ -1,8 +1,6 @@
 package pt.tecnico.myDrive.service;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.MyDriveManager;
@@ -12,7 +10,7 @@ import pt.tecnico.myDrive.exception.*;
 import static org.junit.Assert.assertEquals;
 
 public class ChangeDirectoryTest extends AbstractServiceTest {
-    protected static final Logger log = LogManager.getRootLogger();
+
 
     @Override
     protected void populate(){

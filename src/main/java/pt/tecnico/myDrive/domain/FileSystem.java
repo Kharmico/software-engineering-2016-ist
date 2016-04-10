@@ -90,21 +90,19 @@ public class FileSystem extends FileSystem_Base {
 
 	@Override
 	public void addUsers(User user) throws UserAlreadyExistsException {
-		
 		try {
 			hasUser(user.getUsername());
 		}catch (UserUnknownException e) {
 			super.addUsers(user);
 			return;
 		}
-
 		throw new UserAlreadyExistsException(user.getUsername());
 	}
 
 	@Override
 	public void removeUsers(User user){
 		if(user.isRoot()){
-			throw new IllegalRemovalException("You can't remove root user.");
+			throw new IllegalRemovalException("You can't remove the root user.");
 		}else {
 			super.removeUsers(user);
 		}
@@ -116,19 +114,12 @@ public class FileSystem extends FileSystem_Base {
 		if(username.equals(ROOT_USER))
 			throw new IllegalRemovalException(username);
 		else{
-			// Should we remove the user home dir?  If not, new owner = root?! - check next sprint
 			User toRemove = getUserByUsername(username);
 			toRemove.remove();
 			super.removeUsers(toRemove);
 		}
 	}
-	
-	
-	protected String getUserMask(String username) throws UserUnknownException {
-		return getUserByUsername(username).getUmask();
-	}
 
-	
 	private User getUserByUsername(String username) throws UserUnknownException {
 		for (User user: super.getUsersSet()){
 			if (user.getUsername().equals(username))
@@ -150,33 +141,31 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	protected void createDirectory(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
+	protected void createDirectory(String path, Directory currentDirectory, User currentUser)
+			throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
+
 		Directory beforeLast = absolutePath(path, currentUser, currentDirectory);
-		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1), currentUser.getUmask(),
-				currentUser, beforeLast, this));
+		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1),
+				currentUser.getUmask(),	currentUser, beforeLast, this));
 	}
 	
-	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser) throws FileUnknownException{
+	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser)
+			throws FileUnknownException{
+
 		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
 		if(!currentDirectory.hasFile(directoryName))
 			throw new FileUnknownException(directoryName);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
-	public Directory getLastDirectory(String directoryname, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-		// FIXME: I believe this is useless now that getFilesByNames considers this cases
-		if(directoryname.equals("."))
-			return currentDir;
+	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
 
-		if(directoryname.equals(".."))
-			return currentDir.getFather();
-
-		Directory beforeLast = absolutePath(directoryname, currentUser, currentDir);
+		Directory beforeLast = absolutePath(path, currentUser, currentDir);
 
 		String delims = "/";
-		String[] tokens = directoryname.split(delims);
+		String[] tokens = path.split(delims);
 
-		String name = tokens.length == 0 ? directoryname : tokens[tokens.length - 1];
+		String name = tokens.length == 0 ? path : tokens[tokens.length - 1];
 
 		beforeLast.changeDirectory(name,currentUser);
 
@@ -214,18 +203,12 @@ public class FileSystem extends FileSystem_Base {
 
     /* Files */
 
-	protected String printPlainFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, IsNotPlainFileException {
-		Directory d = absolutePath(path, currentUser, currentDir);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		//d.hasFile(filename); ---------> Why is this here??? Seems pointless, useless!!!
-		File f = d.getFileByName(filename);
-		f.checkAccessRead(currentUser);
-		return f.printContent(currentUser);
-	}
 
-	protected String readFile(String fileName,Directory currentDirectory, User currentUser)
+	protected String readFile(String path, Directory currentDirectory, User currentUser)
 			throws FileUnknownException, IsNotPlainFileException {
-		File f = currentDirectory.getFileByName(fileName);
+		Directory d = absolutePath(path, currentUser, currentDirectory);
+		String filename = path.substring(path.lastIndexOf("/") + 1);
+		File f = d.getFileByName(filename);
 		f.checkAccessRead(currentUser);
 		return f.printContent(currentUser);
 	}
