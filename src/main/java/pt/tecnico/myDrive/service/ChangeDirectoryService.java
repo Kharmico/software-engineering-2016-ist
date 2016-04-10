@@ -15,11 +15,8 @@ public class ChangeDirectoryService extends  MyDriveService {
         _path = path;
     }
 
-
     @Override
     public void dispatch() throws IsNotDirectoryException, InvalidMaskException, InvalidTokenException {
-        if(_token == getMyDriveManager().getCurrentSession().getToken()) {
-            getMyDriveManager().changeDirectory(_path);
-        }
+        getMyDriveManager().changeDirectory(_path,_token);
     }
 }

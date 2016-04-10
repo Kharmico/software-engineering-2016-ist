@@ -64,7 +64,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     
-    public void changeDirectory(String directoryName) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{ //TODO delete this and rename AbsolutePath to this name?
+    public void changeDirectory(String directoryName, long token) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{
+        checkForSession(token);
 		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryName, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     }
     
@@ -198,31 +199,22 @@ public class MyDriveManager extends MyDriveManager_Base {
     	User user = getFilesystem().checkUser(username,password);
         removeOldSessions();
         currentSession = new Session(generateToken(),user,user.getHomeDirectory());
+        getSessionSet().add(currentSession);
         return currentSession.getToken();
     }
 
-    /*public boolean checkForSession(long token) throws InvalidTokenException{
+    public void checkForSession(long token) throws InvalidTokenException{
     	boolean activeSession = false;
-        //Session output = null;
-        
         for(Session s : getSessionSet()){
             if(s.getToken() == token){
-                if(isTokenValid(token)){
-                	if(dateTime + 2 == currentDateTime){
-                		activeSession = true;
-                		s.setLastAccess(currentDateTime);
-                		break;
-                	}
-                }
+                activeSession = true;
+                s.setLastAccess(new DateTime());
+                break;
             }
         }
-        
-       if(output != null)
-            output.setLastAccess(new DateTime());
-        else output = new Session(generateToken(),user,user.getHomeDirectory());
-
-        return activeSession;
-    }*/
+        if(!activeSession)
+            throw new InvalidTokenException(token);
+    }
 
     private long generateToken(){
         boolean notFound = true;
