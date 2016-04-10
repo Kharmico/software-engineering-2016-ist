@@ -7,10 +7,12 @@ import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+
 
 public class WriteFileTest extends AbstractServiceTest {
 	private static final Logger log = LogManager.getRootLogger();
@@ -20,53 +22,67 @@ public class WriteFileTest extends AbstractServiceTest {
         MyDriveManager mdm = MyDriveManager.getInstance();
 
         mdm.getFilesystem().addUsers("Josefina");
+        mdm.getFilesystem().addUsers("Josefo");
 
         mdm.login("root","***");
-        Session currentSession = mdm.getCurrentSession();
 
-        Directory d = (Directory) mdm.getFilesystem().getHomeDirectory().getFileByName("Josefina");
-        currentSession.setCurrentDir(d);
+        Directory d = (Directory) mdm.getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina");
+        mdm.getCurrentSession().setCurrentDir(d);
 
         mdm.createPlainFile("IDoWell.txt", "I'm a plain file");
         mdm.createLinkFile("MeToo.txt", "/home/Josefina/IDoWell.txt");
+
+        mdm.login("Josefina", "Josefina");
         mdm.createAppFile("MeThree.txt", "I'mAnAppFile");
+
     }
 
-    private String getContent(String filename) {
-    	Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
+    private String getContent(String filename, Directory dir) {
     	File file = dir.getFileByName(filename); 
         return file.printContent(MyDriveManager.getInstance().getCurrentSession().getCurrentUser());
     }
 
     @Test
     public void success() {
-        final String content = "Hello, I'm a plain file and I'm great";
-
-        WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),
-                "IDoWell.txt", content);
+       final String content = "Hello, I'm a plain file and I'm great";
+        MyDriveManager.getInstance().login("root","***");
+        WriteFileService service = 
+        		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina/IDoWell.txt", content);
         service.execute();
         
-        String cntt = getContent("IDoWell.txt");
-        assertSame("Content was written", content, cntt);
+        String cntt = getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina"));
+        assertEquals("Content was written", content, cntt);
     }
-    
     @Test(expected = FileUnknownException.class)
     public void writeOnNonExistingFile() {
     	final String NonExistingFile = "iNeedException.txt";
-    	WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), NonExistingFile, "I Do not exist :(");
+    	WriteFileService service = 
+    			new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), NonExistingFile, "I Do not exist :(");
     	service.execute();
     }
-    
-    
+
     @Test
     public void writeContentOnLinkFile(){
         String content = "Exception, please";
-        WriteFileService service = new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),
-                "MeToo.txt", content);
+        MyDriveManager.getInstance().login("root","***");
+        WriteFileService service = 
+        		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina/MeToo.txt", content);
     	service.execute();
-        assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt"));
+        assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina")));
     }
     
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissions(){
+    	MyDriveManager mdm = MyDriveManager.getInstance();
+    	mdm.login("Josefo","Josefo");
+    	Directory dir = (Directory) mdm.getFilesystem().getHomeDirectory().getFileByName("Josefina");
+    	mdm.getCurrentSession().setCurrentDir(dir);
+    	
+    	WriteFileService service = 
+    			new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"MeThree.txt","Exception!!!!");
+    	service.execute();
+    }
+
     /*
     
     @Test(expected = InvalidTokenException.class)
@@ -75,16 +91,7 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute;
     
     }
-    
-    
-    @Test(expected = AccessDeniedException.class)
-    public void noPermissions(){
-    	
-    }
-    
-   
     */
-    
     
     
 }

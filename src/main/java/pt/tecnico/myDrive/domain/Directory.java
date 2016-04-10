@@ -77,10 +77,16 @@ public class Directory extends Directory_Base {
 	}
 
 	public File getFileByName(String name) throws FileUnknownException {
-		for (File file: super.getFilesSet())
-			if (file.getFilename().equals(name))
-				return file;
-		throw new FileUnknownException(name);
+		if(name.equals(".")){
+			return this;
+		}else if(name.equals("..")){
+			return getFather();
+		}else {
+			for (File file : super.getFilesSet())
+				if (file.getFilename().equals(name))
+					return file;
+			throw new FileUnknownException(name);
+		}
 	}
 
 	

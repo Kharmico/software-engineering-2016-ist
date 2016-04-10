@@ -64,8 +64,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
     
     
-    public void changeDirectory(String directoryname) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{ //TODO delete this and rename AbsolutePath to this name?
-		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryname, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
+    public void changeDirectory(String directoryName) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{ //TODO delete this and rename AbsolutePath to this name?
+		currentSession.setCurrentDir(getFilesystem().getLastDirectory(directoryName, currentSession.getCurrentDir(), currentSession.getCurrentUser()));
     }
     
     
@@ -73,18 +73,43 @@ public class MyDriveManager extends MyDriveManager_Base {
     	currentSession.setCurrentDir(getFilesystem().absolutePath(path, currentSession.getCurrentUser(), currentSession.getCurrentDir()));
     }
 
-    
+    @Deprecated
     public String getDirectoryFilesName(String path) {
 		return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
+    public String getDirectoryFilesName() {
+        return getFilesystem().getDirectoryFilesName(currentSession.getCurrentDir().getPath(), currentSession.getCurrentUser(), currentSession.getCurrentDir());
+    }
+
     
-    public void removeFile(String path){
+    public void removeFile(String path) throws AccessDeniedException, FileUnknownException{
     	super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
     }
-    
+
+    public void writeContent(String path, String content){
+        getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
+    }
     
     /* --- Files --- */ 
+    
+    public void createFile(String tipo, String filename) throws UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
+    	switch(tipo.toLowerCase()){
+        	case "app":
+        		createAppFile(filename);
+        		break;
+        	case "link":
+        		throw new LinkFileWithoutContentException(filename);
+        	case "plain":
+        		createPlainFile(filename);
+        		break;
+        	case "directory":
+        		createDirectory(filename);
+        		break;
+        	default:
+        		throw new UnknownTypeException(tipo);
+    	}
+    }
     
     public void createFile(String tipo, String filename, String content) throws UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
     	switch(tipo.toLowerCase()){
@@ -98,10 +123,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         		createPlainFile(filename, content);
         		break;
         	case "directory":
-        		if(!(content.equals("")))
-        			throw new IsNotPlainFileException(filename);
-        		createDirectory(filename);
-        		break;
+        		throw new IsNotPlainFileException(filename);
         	default:
         		throw new UnknownTypeException(tipo);
     	}
