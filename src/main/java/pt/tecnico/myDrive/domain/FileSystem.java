@@ -188,9 +188,11 @@ public class FileSystem extends FileSystem_Base {
 		return directory;
 	}
 
-	// FIXME
-	String getDirectoryFilesName(String path, User currentUser, Directory currentDir) throws FileUnknownException{
-		return absolutePath(path, getRoot(), currentDir).getFileByName(getLastPathToken(path)).getDirectoryFilesName();
+	String getDirectoryFilesName(String path, User currentUser, Directory currentDir)
+			throws FileUnknownException, AccessDeniedException{
+		File target = absolutePath(path, getRoot(), currentDir).getFileByName(getLastPathToken(path));
+		target.checkAccessRead(currentUser);
+		return target.getDirectoryFilesName();
 	}
 
 	
