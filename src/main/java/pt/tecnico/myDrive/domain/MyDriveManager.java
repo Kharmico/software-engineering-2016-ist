@@ -195,9 +195,11 @@ public class MyDriveManager extends MyDriveManager_Base {
     	boolean activeSession = false;
         for(Session s : getSessionSet()){
             if(s.getToken() == token){
-                activeSession = true;
-                s.setLastAccess(new DateTime());
-                break;
+                if((new DateTime().getMillis() - s.getLastAccess().getMillis()) < TIMEOUT_SESSION_TIME) {
+                    activeSession = true;
+                    s.setLastAccess(new DateTime());
+                    break;
+                }
             }
         }
         if(!activeSession) {
