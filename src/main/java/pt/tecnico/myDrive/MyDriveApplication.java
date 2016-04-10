@@ -20,9 +20,6 @@ import java.io.PrintStream;
 
 public class MyDriveApplication{
 
-
-	private static final String DEBUG_1024_DIR = new String(new char[1025]).replace('\0', 'a');
-
 	private static MyDriveManager manager;
 	private static final Logger log = LogManager.getRootLogger();
 
@@ -32,21 +29,21 @@ public class MyDriveApplication{
 
 		setup();
 
-		/*if (args.length == 1) {
+		if (args.length == 1) {
 			File f = new File(args[0]);
 			if (f != null)
 				xmlScan(f);
 		}
 
-		demoCreatePlainFile();
+		/*demoCreatePlainFile();
 		demoCreateDirectory();
 		demoPrintPlainFile();
 		demoRemoveDirectory();
 
 		xmlPrint(); // For the purpose of debug, this function drops too much output
 
-		demoRemoveFile();*/
-		//test();			// This will throw an InvalidUsernameException, it only serves as a test.
+		demoRemoveFile();*//*
+		//test();			// This will throw an InvalidUsernameException, it only serves as a test.*/
 		}finally {
 			FenixFramework.shutdown();
 		}
@@ -96,12 +93,12 @@ public class MyDriveApplication{
 		manager.removeFile("/home/README");
 	}
 	*/
-	@Atomic
+	/*@Atomic
 	public static void test(){
 		manager.createPlainFile(DEBUG_1024_DIR, "lista de utilizadores");
 		manager.addUser("o");
 	}
-	
+	*/
 	@Atomic
 	public static void xmlPrint() {
 		log.trace("MyDriveApplication.xmlPrint: " + FenixFramework.getDomainRoot());

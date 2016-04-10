@@ -21,8 +21,8 @@ public class User extends User_Base {
 		this.setPassword(username);
 		this.setName(username);
 		this.setUmask(DEFAULT_UMASK);
-		super.setFilesystem(fs);;
-    }
+		super.setFilesystem(fs);
+	}
     
 
     @Override

@@ -1,12 +1,16 @@
 package pt.tecnico.myDrive.domain;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
 
 import java.util.ArrayList;
 
 public class Directory extends Directory_Base {
-    
+
+	private static final Logger log = LogManager.getRootLogger();
+
     protected Directory() {
         super();
 
@@ -21,10 +25,9 @@ public class Directory extends Directory_Base {
 	}
 
 	
-	protected Directory(int id, String filename, String userMask, User owner, Directory father, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+	protected Directory(int id, String filename, String userMask, User owner, Directory father) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner);
 		this.setParentDirectory(father);
-		//this.setFilesystem(fs);
 	}
 
 	
@@ -77,27 +80,21 @@ public class Directory extends Directory_Base {
 	}
 
 	public File getFileByName(String name) throws FileUnknownException {
-		if(name.equals(".")){
-			return this;
-		}else if(name.equals("..")){
-			return getFather();
-		}else {
-			for (File file : super.getFilesSet())
-				if (file.getFilename().equals(name))
-					return file;
-			throw new FileUnknownException(name);
+		switch (name) {
+			case ".":
+				return this;
+			case "..":
+				return getFather();
+			default:
+				for (File file : super.getFilesSet())
+					if (file.getFilename().equals(name))
+						return file;
+				throw new FileUnknownException(name);
 		}
 	}
 
-	
-	protected File getFileById(Integer id) throws IDUnknownException{
-		for (File file: super.getFilesSet())
-			if (file.getId().equals(id))
-				return file;
-		throw new IDUnknownException(id);
-	}
 
-	protected boolean hasFile(String filename) {
+	private boolean hasFile(String filename) {
 		try{
 			getFileByName(filename);
 		}catch (FileUnknownException e){
@@ -115,13 +112,7 @@ public class Directory extends Directory_Base {
 	}
 
 
-	@Override
-    public void setParentDirectory(Directory parentDirectory){
-    	super.setParentDirectory(parentDirectory);
-    	
-    }
-    
-    /* Fenixframework binary relations setters */
+	/* Fenix framework binary relations setters */
 
 	@Override
 	public void setUser(User user){
@@ -129,12 +120,6 @@ public class Directory extends Directory_Base {
 			super.setUser(null);
 		}else
 			user.setHomeDirectory(this);
-	}
-
-	@Override
-	public void setFilesystem(FileSystem fs){
-		if(fs == null)
-			super.setFilesystem(fs);
 	}
 
 
@@ -152,12 +137,12 @@ public class Directory extends Directory_Base {
 
 	}
 
-	protected ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
-		ArrayList<File> allfiles = new ArrayList<File>();
+	ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
+		ArrayList<File> allFiles = new ArrayList<>();
 
 		if(noDirectories()) {
-			allfiles.addAll(getFilesSet());
-			return allfiles;
+			allFiles.addAll(getFilesSet());
+			return allFiles;
 		}
 
 		// Getting all files present in slash (includes directories)
@@ -167,13 +152,19 @@ public class Directory extends Directory_Base {
 				if(!file.equals(this)){
 					file.isCdAble();
 					Directory next = (Directory) file;
-					allfiles.addAll(next.getAllFiles());}
+					allFiles.addAll(next.getAllFiles());}
 			}
-			catch (IsNotDirectoryException e) {}
-			finally { allfiles.add(file); }
+			catch (IsNotDirectoryException e) {
+				/* This exception should not occur it only exists to protect the method against
+    		* bad programming
+    		*/
+				log.trace(e.getMessage());
+				e.printStackTrace();
+			}
+			finally { allFiles.add(file); }
 		}
 
-		return allfiles;
+		return allFiles;
 
 	}
 
@@ -182,7 +173,13 @@ public class Directory extends Directory_Base {
 			try {
 				f.isCdAble();
 				return false;
-			} catch (IsNotDirectoryException e) {}
+			} catch (IsNotDirectoryException e) {
+				/* This exception should not occur it only exists to protect the method against
+    			* bad programming
+    			*/
+				log.trace(e.getMessage());
+				e.printStackTrace();
+			}
 		}
 		return true;
 	}

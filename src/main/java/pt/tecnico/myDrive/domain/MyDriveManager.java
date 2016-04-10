@@ -181,7 +181,6 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     /* --- Login --- */
-    // log.warn() in usage of invalid token
     
     public long login(String username, String password) throws UserUnknownException, WrongPasswordException {
     	User user = getFilesystem().checkUser(username,password);
@@ -204,7 +203,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         }
         if(!activeSession) {
             log.warn("Invalid Token",
-                    "An invalid token was used. If this message appears to much, maybe someone is trying to hack the filesystem.");
+                    "An invalid token was used. If this message appears too much, maybe someone is trying to hack the filesystem.");
             throw new InvalidTokenException(token);
         }
     }
@@ -218,7 +217,7 @@ public class MyDriveManager extends MyDriveManager_Base {
             token = randomLong < 0 ? -randomLong : randomLong;
             notFound = false;
             for(Session s : getSessionSet()) {
-                if(s.getToken() == token && notFound == false)
+                if(s.getToken() == token && !notFound)
                     notFound = true;
             }
         }

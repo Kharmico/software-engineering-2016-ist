@@ -31,17 +31,8 @@ public class PlainFile extends PlainFile_Base {
     	this.setContent(content);
     }
 
-    
-    @Override
-	public void setContent(String content) throws IllegalAddContentException {
-    	super.setContent(content);
-    }
-    
-    public String getContent(){
-    	return super.getContent();
-    }
-    
-    @Override
+
+	@Override
     protected void isCdAble() throws IsNotDirectoryException {
     	throw new IsNotDirectoryException(this.getFilename()); 
     }

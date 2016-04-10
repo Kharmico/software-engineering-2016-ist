@@ -1,16 +1,13 @@
 package pt.tecnico.myDrive.domain;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.*;
 
 public abstract class File extends File_Base {
 
-	static final Logger log = LogManager.getRootLogger();
-	public static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
+	private static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
 
 	protected File(){
 		super();     
@@ -24,14 +21,8 @@ public abstract class File extends File_Base {
         setLastModified(new DateTime());	
 
 	}
-	
-	
-	@Override
-	public void setId(Integer id){
-		super.setId(id);
-	}
-	
-	
+
+
 	@Override
 	public void setFilename(String filename) throws InvalidFileNameException {
 		if(filename != null && filename.matches(INVALID_FILENAME_REGEX) ){
@@ -40,13 +31,7 @@ public abstract class File extends File_Base {
 		
 		super.setFilename(filename);
 	}
-	
-	
-	@Override
-	public void setOwner(User owner){
-		super.setOwner(owner);
-	}
-	
+
 
 	public void setPermissions(String umask) throws InvalidMaskException{
 		if(umask.length() != 8){
@@ -55,14 +40,8 @@ public abstract class File extends File_Base {
 		super.setOwnerPermissions(umask.substring(0, 4));
         super.setOthersPermissions(umask.substring(4, 8));
 	}
-	
-	
-	@Override
-	public void setLastModified(DateTime date){
-		super.setLastModified(date);
-	}
-	
-	
+
+
 	@Override
     public void setParentDirectory(Directory parentDirectory){
 		if(parentDirectory == null){
