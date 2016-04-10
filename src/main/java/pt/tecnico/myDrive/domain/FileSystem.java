@@ -164,8 +164,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	public Directory getLastDirectory(String directoryname, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-		//System.out.println("---------------" + directoryname);
-
+		// FIXME: I believe this is useless now that getFilesByNames considers this cases
 		if(directoryname.equals("."))
 			return currentDir;
 
@@ -325,7 +324,7 @@ public class FileSystem extends FileSystem_Base {
 		d.getFileByName(filename).checkAccessWrite(currentUser);
 		d.getFileByName(filename).writeContent(content, currentUser);
 	}
-	
+
     /* Uniques Ids */
     private int generateUniqueId(){
     	Integer idSeed = super.getIdSeed();
