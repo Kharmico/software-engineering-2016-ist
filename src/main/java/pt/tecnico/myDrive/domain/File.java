@@ -163,6 +163,8 @@ public abstract class File extends File_Base {
 
 	
 	public String getPath(){
+		if(getFilename().equals("/"))
+			return getFilename();
 
 		String path = getFilename();
 		File file = getFather();

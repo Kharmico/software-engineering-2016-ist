@@ -154,8 +154,6 @@ public class FileSystem extends FileSystem_Base {
 			throws FileUnknownException{
 
 		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
-		if(!currentDirectory.hasFile(directoryName))
-			throw new FileUnknownException(directoryName);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
