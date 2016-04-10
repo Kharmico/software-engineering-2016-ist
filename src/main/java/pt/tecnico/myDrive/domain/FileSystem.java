@@ -308,14 +308,17 @@ public class FileSystem extends FileSystem_Base {
 
 		fileToRemove.checkAccessDelete(currentUser);
 
-		if(fileToRemove.isEmpty()){
-			fileToRemove.remove();
-		}
-		else {
-			for (File f : getRecursiveRemovalContent(currentDir, currentUser)) {
+		try {
+			fileToRemove.isEmpty();
+			for (File f : getRecursiveRemovalContent((Directory) fileToRemove, currentUser)) {
 				f.checkAccessDelete(currentUser);
 				f.remove();
 			}
+		}
+		catch(IsNotDirectoryException e){
+		}
+		finally {
+			fileToRemove.remove();
 		}
 	}
 
