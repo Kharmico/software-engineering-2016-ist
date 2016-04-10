@@ -9,6 +9,7 @@ import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -91,6 +92,11 @@ public class DeleteFileTest extends AbstractServiceTest{
         assertEquals("Remove directory with no content","estrelas sufix.txt teste",getDirectoryFilesNames(MyDriveManager.getInstance().getCurrentSession().getCurrentDir()));
     }
 
+    @Test(expected = InvalidTokenException.class)
+    public void invalidTokenDeleteFile(){
+         DeleteFileService service = new  DeleteFileService(-1,"sufix.txt");
+         service.execute();
+     }
 
     /* Test Cases */
     /* 1 - Delete a file that does exist and I have permission */
@@ -99,6 +105,7 @@ public class DeleteFileTest extends AbstractServiceTest{
     /* 4 - Delete a file as root */
     /* 5 - Delete a directory with content */
     /* 6 - Delete a directory without content */
+    /* 7 - Delete a file with wrong token */
 
 
 }

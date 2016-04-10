@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.service;
 
-import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 // removeFile in domain is to do the remove files+dirs
 public class DeleteFileService extends MyDriveService {
@@ -14,12 +16,8 @@ public class DeleteFileService extends MyDriveService {
 	}
 	
 	@Override
-	public void dispatch() /*throws*/ {
-		Session currentSession = getMyDriveManager().getCurrentSession();
-		
-		if(_token == currentSession.getToken()){
-			getMyDriveManager().removeFile(_filename);
-		}
+	public void dispatch() throws InvalidTokenException, AccessDeniedException, FileUnknownException {
+		getMyDriveManager().removeFile(_filename, _token);
 	}
 	
 }

@@ -41,7 +41,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         service.execute();
         assertEquals("Change to a directory that exists","/home/root/teste/eclipse",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
-    
+
     @Test(expected = FileUnknownException.class)
     public void invalidDirectory(){
         ChangeDirectoryService service =

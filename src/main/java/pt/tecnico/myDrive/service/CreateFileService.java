@@ -25,11 +25,8 @@ public class CreateFileService extends MyDriveService{
 
     @Override
     public void dispatch() throws UnsupportedOperationException, FileAlreadyExistsException {
-        Session currSes = getMyDriveManager().getCurrentSession();
-    	if(_token == currSes.getToken()) { //FIXME Use the new method -- ??
-    		if(_content.equals(""))
-    			getMyDriveManager().createFile(_tipo, _filename);
-    		else { getMyDriveManager().createFile(_tipo,_filename, _content); }
-    	}
+        if(_content.equals(""))
+            getMyDriveManager().createFile(_tipo, _filename, _token);
+        else { getMyDriveManager().createFile(_tipo,_filename, _content, _token); }
     }
 }

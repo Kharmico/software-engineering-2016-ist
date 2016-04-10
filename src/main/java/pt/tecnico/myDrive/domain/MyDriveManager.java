@@ -79,23 +79,26 @@ public class MyDriveManager extends MyDriveManager_Base {
 		return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
-    public String getDirectoryFilesName() {
+    public String getDirectoryFilesName(long token) throws InvalidTokenException{
+        checkForSession(token);
         return getFilesystem().getDirectoryFilesName(currentSession.getCurrentDir().getPath(), currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
-    
-    public void removeFile(String path) throws AccessDeniedException, FileUnknownException{
-    	super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
+    public void removeFile(String path, long token) throws InvalidTokenException, AccessDeniedException, FileUnknownException{
+    	checkForSession(token);
+        super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
     }
 
-    public void writeContent(String path, String content){
+    public void writeContent(String path, String content, long token){
+        checkForSession(token);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
     
     /* --- Files --- */ 
     
-    public void createFile(String tipo, String filename) throws UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
-    	switch(tipo.toLowerCase()){
+    public void createFile(String tipo, String filename, long token) throws InvalidTokenException, UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
+    	checkForSession(token);
+        switch(tipo.toLowerCase()){
         	case "app":
         		createAppFile(filename);
         		break;
@@ -112,8 +115,9 @@ public class MyDriveManager extends MyDriveManager_Base {
     	}
     }
     
-    public void createFile(String tipo, String filename, String content) throws UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
-    	switch(tipo.toLowerCase()){
+    public void createFile(String tipo, String filename, String content, long token) throws InvalidTokenException, UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
+        checkForSession(token);
+        switch(tipo.toLowerCase()){
         	case "app":
         		createAppFile(filename, content);
         		break;
@@ -162,12 +166,10 @@ public class MyDriveManager extends MyDriveManager_Base {
 		super.getFilesystem().createAppFile(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
-    
-    
-    
 
-	public String readFile(String filename) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
-		return super.getFilesystem().readFile(filename,currentSession.getCurrentDir(), currentSession.getCurrentUser());
+	public String readFile(String filename, long token) throws FileUnknownException, IsNotPlainFileException, AccessDeniedException{
+		checkForSession(token);
+        return super.getFilesystem().readFile(filename,currentSession.getCurrentDir(), currentSession.getCurrentUser());
 	}
 
 
@@ -220,7 +222,9 @@ public class MyDriveManager extends MyDriveManager_Base {
         boolean notFound = true;
         long token = 0;
         while(notFound) {
-            token = new BigInteger(64, new Random()).longValue();
+            // Integers can be negative so to grant unicity for tests we only consider the positives
+            long randomLong = new BigInteger(64, new Random()).longValue();
+            token = randomLong < 0 ? -randomLong : randomLong;
             notFound = false;
             for(Session s : getSessionSet()) {
                 if(s.getToken() == token && notFound == false)

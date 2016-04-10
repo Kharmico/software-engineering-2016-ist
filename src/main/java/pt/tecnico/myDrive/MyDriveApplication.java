@@ -32,7 +32,7 @@ public class MyDriveApplication{
 
 		setup();
 
-		if (args.length == 1) {
+		/*if (args.length == 1) {
 			File f = new File(args[0]);
 			if (f != null)
 				xmlScan(f);
@@ -45,7 +45,7 @@ public class MyDriveApplication{
 
 		xmlPrint(); // For the purpose of debug, this function drops too much output
 
-		demoRemoveFile();
+		demoRemoveFile();*/
 		//test();			// This will throw an InvalidUsernameException, it only serves as a test.
 		}finally {
 			FenixFramework.shutdown();
@@ -59,7 +59,7 @@ public class MyDriveApplication{
 		manager = MyDriveManager.getInstance();
 	}
 
-	
+	/*
 	@Atomic
 	public static void demoCreatePlainFile(){
 		log.trace("MyDriveApplication.demoCreatePlainFile: Creating /home/README." );
@@ -95,7 +95,7 @@ public class MyDriveApplication{
 		log.trace("MyDriveApplication.demoRemoveFile: Removing /home/README." );
 		manager.removeFile("/home/README");
 	}
-
+	*/
 	@Atomic
 	public static void test(){
 		manager.createPlainFile(DEBUG_1024_DIR, "lista de utilizadores");

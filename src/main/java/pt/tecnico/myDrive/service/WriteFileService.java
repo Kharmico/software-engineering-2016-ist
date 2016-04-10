@@ -17,10 +17,6 @@ public class WriteFileService extends MyDriveService{
 
     @Override
     public void dispatch() throws FileUnknownException, UnsupportedOperationException {
-        if(_token == getMyDriveManager().getCurrentSession().getToken()) {
-            getMyDriveManager().writeContent(_filename, _content);
-            //File toBeWritten = getMyDriveManager().getCurrentSession().getCurrentDir().getFileByName(_filename);
-            //toBeWritten.writeContent(_content, getMyDriveManager().getCurrentSession().getCurrentUser());
-        }
+        getMyDriveManager().writeContent(_filename, _content, _token);
     }
 }

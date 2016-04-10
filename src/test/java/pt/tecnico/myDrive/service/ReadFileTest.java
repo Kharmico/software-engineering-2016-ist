@@ -99,7 +99,6 @@ public class ReadFileTest extends AbstractServiceTest {
     
     @Test
     public void readEmptyPlain() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "ember.txt");
     	service.execute();
     	assertEquals(service.result(), null);
@@ -107,7 +106,6 @@ public class ReadFileTest extends AbstractServiceTest {
     
     @Test
     public void readPlainWithContent() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "burn.txt");
     	service.execute();
     	assertEquals(service.result(), "in hell");
@@ -124,7 +122,6 @@ public class ReadFileTest extends AbstractServiceTest {
     
     @Test
     public void readEmptyApp() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "firespin.txt");
     	service.execute();
     	assertEquals(service.result(), null);
@@ -132,7 +129,6 @@ public class ReadFileTest extends AbstractServiceTest {
     
     @Test
     public void readAppWithContent() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "inferno.txt");
     	service.execute();
     	assertEquals(service.result(), "destroy.world");
@@ -149,14 +145,12 @@ public class ReadFileTest extends AbstractServiceTest {
     
     @Test(expected = FileUnknownException.class)
     public void invalidLinkReference() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "firefly.txt");
     	service.execute();
     }
     
     @Test
     public void linkReferenceToPlain() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "fly.txt");
     	service.execute();
     	assertEquals(service.result(), "in hell");
@@ -164,14 +158,12 @@ public class ReadFileTest extends AbstractServiceTest {
     
     @Test(expected = AccessDeniedException.class)
     public void notPermittedPlainByLinkReference() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "heatwave.txt");
     	service.execute();
     }
    
     @Test
     public void linkReferenceToApp() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "airslash.txt");
     	service.execute();
     	assertEquals(service.result(), "destroy.world");
@@ -179,7 +171,6 @@ public class ReadFileTest extends AbstractServiceTest {
 
     @Test
     public void linkReferenceToLink() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "blitz.txt");
     	service.execute();
     	assertEquals(service.result(), "in hell");
@@ -187,30 +178,26 @@ public class ReadFileTest extends AbstractServiceTest {
    
     @Test(expected = AccessDeniedException.class)
     public void notPermittedLinkByLinkReference() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "flying.txt");
     	service.execute();
     }
-     
-		
-     
+
     @Test(expected = IsNotPlainFileException.class)
     public void directoryNotReadableByLinkReference() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "mewtwo.txt");
     	service.execute();
     }
     
     @Test(expected = AccessDeniedException.class)
     public void notPermittedDirectoryByLinkReference() {
-    	
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "mew.txt");
     	service.execute();
     }
     
-/*    @Test(expected = InvalidTokenException.class)
+	@Test(expected = InvalidTokenException.class)
     public void readFileInactiveSession() {
-    	
-    } */
+		ReadFileService service = new ReadFileService(-1, "burn.txt");
+		service.execute();
+    }
     
 }

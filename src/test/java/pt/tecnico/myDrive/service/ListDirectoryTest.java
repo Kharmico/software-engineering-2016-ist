@@ -5,6 +5,7 @@ import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -14,6 +15,7 @@ public class ListDirectoryTest extends AbstractServiceTest {
 
     private long token;
     private String expected;
+
     @Override
     protected void populate() {
         MyDriveManager mg = MyDriveManager.getInstance();
@@ -46,7 +48,6 @@ public class ListDirectoryTest extends AbstractServiceTest {
         token = mg.getInstance().getCurrentSession().getToken();
     }
 
-
     @Test
     public void successLogin(){
         ListDirectoryService service = new ListDirectoryService(token);
@@ -55,11 +56,11 @@ public class ListDirectoryTest extends AbstractServiceTest {
         assertNotNull("Nothing listed", out);
         assertEquals("Wrong output form", expected, out);
     }
-    /* //TODO remove comments
+
     @Test(expected = InvalidTokenException.class)
     public void invalidToken(){
-        ListDirectoryService service = new ListDirectoryService(token+1);
+        ListDirectoryService service = new ListDirectoryService(-1);
         service.execute();
     }
-    */
+
 }

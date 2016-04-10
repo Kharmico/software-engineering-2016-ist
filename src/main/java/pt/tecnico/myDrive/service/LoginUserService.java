@@ -2,9 +2,6 @@ package pt.tecnico.myDrive.service;
 
 import pt.tecnico.myDrive.exception.MyDriveException;
 
-/**
- * Created by xxlxpto on 03-04-2016.
- */
 public class LoginUserService extends MyDriveService {
 
     private String mUsername;

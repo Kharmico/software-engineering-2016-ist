@@ -13,9 +13,7 @@ public class ReadFileService extends MyDriveService{
 
     @Override
     public void dispatch(){
-        if(_token == getMyDriveManager().getCurrentSession().getToken()){
-           _content = getMyDriveManager().readFile(_filename);
-        }
+        _content = getMyDriveManager().readFile(_filename,_token);
     }
 
     public String result(){return _content;}

@@ -5,7 +5,7 @@ import pt.tecnico.myDrive.domain.Session;
 public class ListDirectoryService extends MyDriveService{
 
     private long _token;
-    private String out;
+    private String _out;
    
     public ListDirectoryService(long token){
     	_token = token;
@@ -13,14 +13,11 @@ public class ListDirectoryService extends MyDriveService{
     
     @Override
     public void dispatch() {
-        Session currSes = getMyDriveManager().getCurrentSession();
-     	if(_token == currSes.getToken()){   //FIXME
-            out = getMyDriveManager().getDirectoryFilesName();
-     	}
+        _out = getMyDriveManager().getDirectoryFilesName(_token);
     }
 
     public final String result(){
-        return out;
+        return _out;
     }
 }
 

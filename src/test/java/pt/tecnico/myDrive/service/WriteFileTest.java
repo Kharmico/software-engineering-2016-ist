@@ -9,6 +9,7 @@ import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -83,28 +84,23 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute();
     }
 
-    /*
-    
     @Test(expected = InvalidTokenException.class)
     public void invalidToken(){
     	WriteFileService service = new WriteFileService(-1, "IDoWell.txt", "lol");
-    	service.execute;
-    
+    	service.execute();
     }
-    */
-    
     
 }
 
-/*
-TEST CASES:
+    /*
+    TEST CASES:
 
-1. Write content on non existing plain file - DONE
-2. Try to change content on link file - DONE, missing exception
-3. See permissions
-4. App file
-5. well succeded writing - DONE
-6. Invalid Token
-7. Root
-*/
+    1. Write content on non existing plain file - DONE
+    2. Try to change content on link file - DONE, missing exception
+    3. See permissions
+    4. App file
+    5. well succeded writing - DONE
+    6. Invalid Token
+    7. Root
+    */
 
