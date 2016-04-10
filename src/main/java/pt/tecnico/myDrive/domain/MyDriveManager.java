@@ -93,6 +93,24 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* --- Files --- */ 
     
+    public void createFile(String tipo, String filename) throws UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
+    	switch(tipo.toLowerCase()){
+        	case "app":
+        		createAppFile(filename);
+        		break;
+        	case "link":
+        		throw new LinkFileWithoutContentException(filename);
+        	case "plain":
+        		createPlainFile(filename);
+        		break;
+        	case "directory":
+        		createDirectory(filename);
+        		break;
+        	default:
+        		throw new UnknownTypeException(tipo);
+    	}
+    }
+    
     public void createFile(String tipo, String filename, String content) throws UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
     	switch(tipo.toLowerCase()){
         	case "app":
@@ -105,10 +123,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         		createPlainFile(filename, content);
         		break;
         	case "directory":
-        		if(!(content.equals("")))
-        			throw new IsNotPlainFileException(filename);
-        		createDirectory(filename);
-        		break;
+        		throw new IsNotPlainFileException(filename);
         	default:
         		throw new UnknownTypeException(tipo);
     	}
