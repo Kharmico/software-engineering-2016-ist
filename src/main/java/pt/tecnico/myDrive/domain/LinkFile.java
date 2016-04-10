@@ -51,7 +51,7 @@ public class LinkFile extends LinkFile_Base {
     
     @Override
     public String toString(){
-    	return toString() + " -> " + super.getContent();
+    	return super.toString() + " -> " + super.getContent();
     }
 
     @Override

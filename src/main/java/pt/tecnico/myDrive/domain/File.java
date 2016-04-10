@@ -169,7 +169,6 @@ public abstract class File extends File_Base {
 		while(!file.getFather().equals(file)){
 			path = file.getFilename() + "/" + path;
 			file = file.getFather();
-			System.out.println(path);
 		}
 		path = file.getFilename() + path;
 
