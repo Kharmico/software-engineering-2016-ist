@@ -179,7 +179,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         return currentSession.getToken();
     }
 
-    /*public boolean checkForSession(long token){
+    /*public boolean checkForSession(long token) throws InvalidTokenException{
     	boolean activeSession = false;
         //Session output = null;
         
