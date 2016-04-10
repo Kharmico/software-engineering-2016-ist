@@ -83,7 +83,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     
-    public void removeFile(String path){
+    public void removeFile(String path) throws AccessDeniedException, FileUnknownException{
     	super.getFilesystem().removeFile(path, getCurrentSession().getCurrentUser(), getCurrentSession().getCurrentDir());
     }
 

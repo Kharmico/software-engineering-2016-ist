@@ -164,8 +164,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	public Directory getLastDirectory(String directoryname, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-		//System.out.println("---------------" + directoryname);
-
+		// FIXME: I believe this is useless now that getFilesByNames considers this cases
 		if(directoryname.equals("."))
 			return currentDir;
 
@@ -301,22 +300,39 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, AccessDeniedException, IsNotDirectoryException {
+	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, AccessDeniedException {
 		String toRemove = path.substring(path.lastIndexOf("/") + 1);
 		Directory currentDirectory = absolutePath(path, currentUser, currentDir);
 		File fileToRemove = currentDirectory.getFileByName(toRemove);
-		try{
-			fileToRemove.checkAccessDelete(currentUser);
-			
-			if(fileToRemove.isEmpty()){
-				fileToRemove.remove();
-			}
-			else {
-				throw new IllegalRemovalException(toRemove);
-			}
-		} catch (IsNotDirectoryException e){
+
+		fileToRemove.checkAccessDelete(currentUser);
+
+		if(fileToRemove.isEmpty()){
 			fileToRemove.remove();
 		}
+		else {
+			for (File f : getRecursiveRemovalContent(currentDir, currentUser)) {
+				f.checkAccessDelete(currentUser);
+				f.remove();
+			}
+		}
+	}
+
+	private ArrayList<File> getRecursiveRemovalContent(Directory currentDir, User currentUser){
+		ArrayList<File> toBeRemoved = new ArrayList<File>();
+
+		for(File f : currentDir.getFilesSet()){
+			if(!f.equals(currentDir.getFather()) && !f.equals(currentDir)) {
+				try {
+					f.isCdAble();
+					toBeRemoved.addAll(getRecursiveRemovalContent((Directory) f, currentUser));
+				} catch (IsNotDirectoryException e) {
+				} finally {
+					toBeRemoved.add(f);
+				}
+			}
+		}
+		return toBeRemoved;
 	}
 
 	protected void writeContent(String path, User currentUser, Directory currentDirectory, String content){
@@ -325,7 +341,7 @@ public class FileSystem extends FileSystem_Base {
 		d.getFileByName(filename).checkAccessWrite(currentUser);
 		d.getFileByName(filename).writeContent(content, currentUser);
 	}
-	
+
     /* Uniques Ids */
     private int generateUniqueId(){
     	Integer idSeed = super.getIdSeed();
