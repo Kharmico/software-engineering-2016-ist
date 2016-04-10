@@ -12,11 +12,12 @@ import java.util.Vector;
 
 public class FileSystem extends FileSystem_Base {
 
-	static final Logger log = LogManager.getRootLogger();
+	private static final Logger log = LogManager.getRootLogger();
 
 	private static final String ROOT_USER = Root.ROOT_USERNAME;
 	private static final String HOME_DIR = "home";
-	public static final int MAX_PATH_SIZE = 1024;
+	private static final int MAX_PATH_SIZE = 1024;
+	private static final String PATH_DELIM = "/";
 
 	public FileSystem(MyDriveManager mdm) {
 		super();
@@ -29,7 +30,7 @@ public class FileSystem extends FileSystem_Base {
 
 		try{
 			super.setFsRoot(new Directory(this.generateUniqueId(),
-					"/", root.getUmask(), root, this));
+					PATH_DELIM, root.getUmask(), root, this));
 
 		}catch(InvalidFileNameException |InvalidMaskException e){
     		/* This exception should not occur it only exists to protect the method against
@@ -50,12 +51,12 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected Directory getSlash(){
+	Directory getSlash(){
 		return super.getFsRoot();
 	}
 
 	
-	protected void addToSlash(File file){
+	private void addToSlash(File file){
 		super.getFsRoot().addFile(file);
 	}
 
@@ -141,15 +142,15 @@ public class FileSystem extends FileSystem_Base {
     
     /* Directory */
 
-	protected void createDirectory(String path, Directory currentDirectory, User currentUser)
+	void createDirectory(String path, Directory currentDirectory, User currentUser)
 			throws InvalidFileNameException, FileAlreadyExistsException, InvalidMaskException, FileUnknownException {
 
 		Directory beforeLast = absolutePath(path, currentUser, currentDirectory);
-		beforeLast.addFile(new Directory(this.generateUniqueId(), path.substring(path.lastIndexOf("/")+1),
+		beforeLast.addFile(new Directory(this.generateUniqueId(), getLastPathToken(path),
 				currentUser.getUmask(),	currentUser, beforeLast, this));
 	}
 	
-	protected Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser)
+	private Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser)
 			throws FileUnknownException{
 
 		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
@@ -159,11 +160,9 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-
 		Directory beforeLast = absolutePath(path, currentUser, currentDir);
 
-		String delims = "/";
-		String[] tokens = path.split(delims);
+		String[] tokens = path.split(PATH_DELIM);
 
 		String name = tokens.length == 0 ? path : tokens[tokens.length - 1];
 
@@ -173,26 +172,27 @@ public class FileSystem extends FileSystem_Base {
 
 	}
 
-	protected Directory absolutePath(String path, User currentUser, Directory currentDirectory) throws FileUnknownException, PathIsTooBigException{
+	Directory absolutePath(String path, User currentUser, Directory currentDirectory) throws FileUnknownException, PathIsTooBigException{
 		String resultantPath;
-		if(path.startsWith("/")){
+
+		if(path.startsWith(PATH_DELIM)){
 			resultantPath = path;
 		}else{
-			resultantPath = currentDirectory.getPath() + "/" + path;
+			resultantPath = currentDirectory.getPath() + PATH_DELIM + path;
 		}
 		if((resultantPath.length() > MAX_PATH_SIZE)){
 			throw new PathIsTooBigException(path);
 		}
 		Directory directory = getSlash();
-		String[] FileLocation = resultantPath.split("/");
-		for(int i = 1; i < (FileLocation.length - 1) ; i++)
-			directory = changeDirectory(FileLocation[i], directory, currentUser);
+		String[] fileLocation = resultantPath.split(PATH_DELIM);
+		for(int i = 1; i < (fileLocation.length - 1) ; i++)
+			directory = changeDirectory(fileLocation[i], directory, currentUser);
 		return directory;
 	}
 
-	
-	protected String getDirectoryFilesName(String path, User currentUser, Directory currentDir) throws FileUnknownException{
-		return absolutePath(path, getRoot(), currentDir).getFileByName(path.substring(path.lastIndexOf("/")+1)).getDirectoryFilesName();
+	// FIXME
+	String getDirectoryFilesName(String path, User currentUser, Directory currentDir) throws FileUnknownException{
+		return absolutePath(path, getRoot(), currentDir).getFileByName(getLastPathToken(path)).getDirectoryFilesName();
 	}
 
 	
@@ -204,115 +204,136 @@ public class FileSystem extends FileSystem_Base {
     /* Files */
 
 
-	protected String readFile(String path, Directory currentDirectory, User currentUser)
+	String readFile(String path, Directory currentDirectory, User currentUser)
 			throws FileUnknownException, IsNotPlainFileException {
-		Directory d = absolutePath(path, currentUser, currentDirectory);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		File f = d.getFileByName(filename);
+
+		Directory directory = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		File f = directory.getFileByName(filename);
 		f.checkAccessRead(currentUser);
 		return f.printContent(currentUser);
 	}
 	
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
-		Directory d = absolutePath(path, currentUser, currentDirectory);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		d.checkAccessWrite(currentUser);
-		for(File f : d.getFilesSet()){
+	void createPlainFile(String path, Directory currentDirectory, User currentUser)
+			throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+
+		Directory directory = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		directory.checkAccessWrite(currentUser);
+
+		for(File f : directory.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
 		}
 		
-		d.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
+		directory.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser));
 	}
 
 	
-	protected void createPlainFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
-		Directory d = absolutePath(path, currentUser, currentDirectory);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		d.checkAccessWrite(currentUser);
-		for(File f : d.getFilesSet()){
+	void createPlainFile(String path, Directory currentDirectory, User currentUser, String content)
+			throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException {
+
+		Directory directory = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		directory.checkAccessWrite(currentUser);
+
+		for(File f : directory.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
 		}
 		
-		d.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
+		directory.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser, content));
 	}	
 
 	
-	protected void createLinkFile(String path, Directory currentDirectory, User currentUser, String content) throws LinkFileWithoutContentException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
-		Directory d = absolutePath(path, currentUser, currentDirectory);;
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		d.checkAccessWrite(currentUser);
-		for(File f : d.getFilesSet()){
+	void createLinkFile(String path, Directory currentDirectory, User currentUser, String content)
+			throws LinkFileWithoutContentException, InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+
+		Directory directory = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		directory.checkAccessWrite(currentUser);
+
+		for(File f : directory.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
 		}
 		
-		d.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
+		directory.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser, content));
 	}
 
 	
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
-		Directory d = absolutePath(path, currentUser, currentDirectory);;
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		d.checkAccessWrite(currentUser);
-		for(File f : d.getFilesSet()){
+	void createAppFile(String path, Directory currentDirectory, User currentUser)
+			throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException{
+
+		Directory directory = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		directory.checkAccessWrite(currentUser);
+
+		for(File f : directory.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
 		}
 		
-		d.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
+		directory.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser));
 	}
 
 	
-	protected void createAppFile(String path, Directory currentDirectory, User currentUser, String content) throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
-		Directory d = absolutePath(path, currentUser, currentDirectory);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
-		d.checkAccessWrite(currentUser);
-		for(File f : d.getFilesSet()){
+	void createAppFile(String path, Directory currentDirectory, User currentUser, String content)
+			throws InvalidFileNameException, InvalidMaskException, FileAlreadyExistsException, InvalidContentException{
+
+		Directory directory = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		directory.checkAccessWrite(currentUser);
+
+		for(File f : directory.getFilesSet()){
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
 		}
 		
-		d.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
+		directory.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
 				currentUser, content));
 	}
 
 
-	protected void removeFile(String path, User currentUser, Directory currentDir) throws FileUnknownException, AccessDeniedException {
-		String toRemove = path.substring(path.lastIndexOf("/") + 1);
-		Directory currentDirectory = absolutePath(path, currentUser, currentDir);
-		File fileToRemove = currentDirectory.getFileByName(toRemove);
+	void removeFile(String path, User currentUser, Directory currentDir)
+			throws FileUnknownException, AccessDeniedException {
+
+		File fileToRemove = absolutePath(path, currentUser, currentDir).getFileByName(getLastPathToken(path));
 
 		fileToRemove.checkAccessDelete(currentUser);
 
 		try {
 			fileToRemove.isEmpty();
-			for (File f : getRecursiveRemovalContent((Directory) fileToRemove, currentUser)) {
+			for (File f : getRecursiveRemovalContent((Directory) fileToRemove)) {
 				f.checkAccessDelete(currentUser);
 				f.remove();
 			}
 		}
 		catch(IsNotDirectoryException e){
-		}
-		finally {
+			//
+		} finally {
 			fileToRemove.remove();
 		}
 	}
 
-	private ArrayList<File> getRecursiveRemovalContent(Directory currentDir, User currentUser){
+	private String getLastPathToken(String path) {
+		return path.substring(path.lastIndexOf(PATH_DELIM) + 1);
+	}
+
+	private ArrayList<File> getRecursiveRemovalContent(Directory currentDir){
 		ArrayList<File> toBeRemoved = new ArrayList<File>();
 
 		for(File f : currentDir.getFilesSet()){
 			if(!f.equals(currentDir.getFather()) && !f.equals(currentDir)) {
 				try {
 					f.isCdAble();
-					toBeRemoved.addAll(getRecursiveRemovalContent((Directory) f, currentUser));
+					toBeRemoved.addAll(getRecursiveRemovalContent((Directory) f));
 				} catch (IsNotDirectoryException e) {
+					// 	in case of delete plainfiles
 				} finally {
 					toBeRemoved.add(f);
 				}
@@ -321,9 +342,9 @@ public class FileSystem extends FileSystem_Base {
 		return toBeRemoved;
 	}
 
-	protected void writeContent(String path, User currentUser, Directory currentDirectory, String content){
+	void writeContent(String path, User currentUser, Directory currentDirectory, String content){
 		Directory d = absolutePath(path, currentUser, currentDirectory);
-		String filename = path.substring(path.lastIndexOf("/") + 1);
+		String filename = getLastPathToken(path);
 		d.getFileByName(filename).checkAccessWrite(currentUser);
 		d.getFileByName(filename).writeContent(content, currentUser);
 	}
@@ -348,7 +369,7 @@ public class FileSystem extends FileSystem_Base {
 	
      /* ImportXML */
 
-	protected void xmlImport(Element element) throws ImportDocumentException {
+	void xmlImport(Element element) throws ImportDocumentException {
 		this.xmlImportUser(element.getChildren("user"));
 		this.xmlImportDir(element.getChildren("dir"));
 		this.xmlImportPlain(element.getChildren("plain"));
@@ -370,8 +391,9 @@ public class FileSystem extends FileSystem_Base {
 			file.isCdAble();
 			next = (Directory) current.getFileByName(name);
 		}
-		catch (FileUnknownException e) {}
-		catch (IsNotDirectoryException e){
+		catch (FileUnknownException e) {
+
+		} catch (IsNotDirectoryException e){
 			throw new ImportDocumentException();
 		}
 		finally {
@@ -379,14 +401,15 @@ public class FileSystem extends FileSystem_Base {
 				next = new Directory(this.generateUniqueId(), name, user.getUmask(), user, current, this);
 				current.addFile(next);
 			}
-			return next;
+
 		}
+		return next;
 	}
 
 	
 	/*  Creates the path until last token */
 	private Directory createPath(String path) throws ImportDocumentException {
-		String delims = "/";
+		String delims = PATH_DELIM;
 		String[] tokens = path.split(delims);
 		Directory current = getSlash();
 
@@ -404,7 +427,7 @@ public class FileSystem extends FileSystem_Base {
 	private void xmlImportUser(List<Element> user) throws ImportDocumentException {
 		for (Element node : user) {
 			String username = node.getAttributeValue("username");
-			User toInsert = null;
+			User toInsert;
 
 			try {
 				toInsert = this.getUserByUsername(username);
@@ -424,7 +447,7 @@ public class FileSystem extends FileSystem_Base {
 					toInsert.setUmask(node.getChild("mask").getValue());
 
 				if (node.getChild("home") != null) {
-					String[] tokens = node.getChild("home").getValue().split("/");
+					String[] tokens = node.getChild("home").getValue().split(PATH_DELIM);
 					toInsert.setHomeDirectory(createDir(createPath(node.getChild("home").getValue()), tokens[tokens.length - 1], toInsert));
 				} else {
 					Directory homeDirectory = new Directory(this.generateUniqueId(), username,
@@ -474,12 +497,12 @@ public class FileSystem extends FileSystem_Base {
 		for (Element node : plain) {
 			Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path") != null) {
-				Directory beforeLast = createPath(node.getChild("path").getValue() + "/" + input.get(1));
+				Directory beforeLast = createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1));
 				if (node.getChild("contents") != null){
-					this.createPlainFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("contents").getValue());
+					this.createPlainFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("contents").getValue());
 				}
 				else
-					this.createPlainFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
+					this.createPlainFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
 			}
 			else
 				throw new ImportDocumentException();
@@ -491,7 +514,7 @@ public class FileSystem extends FileSystem_Base {
 		for (Element node : dir) {
 			Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path") != null)
-				createDir(createPath(node.getChild("path").getValue() + "/" + input.get(1)), input.get(1), this.getUserByUsername(input.get(2)));
+				createDir(createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1)), input.get(1), this.getUserByUsername(input.get(2)));
 			else
 				throw new ImportDocumentException();
 		}
@@ -502,9 +525,9 @@ public class FileSystem extends FileSystem_Base {
 		for (Element node : link) {
 			Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path") != null) {
-				Directory beforeLast = createPath(node.getChild("path").getValue() + "/" + input.get(1));
+				Directory beforeLast = createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1));
 				if (node.getChild("value") != null){
-					this.createLinkFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("value").getValue());
+					this.createLinkFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("value").getValue());
 				}
 			}
 			else
@@ -517,11 +540,11 @@ public class FileSystem extends FileSystem_Base {
 		for (Element node : app) {
 			Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path") != null) {
-				Directory beforeLast = createPath(node.getChild("path").getValue() + "/" + input.get(1));
+				Directory beforeLast = createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1));
 				if (node.getChild("method") != null)
-					this.createAppFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("method").getValue());
+					this.createAppFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("method").getValue());
 				else
-					this.createAppFile(node.getChild("path").getValue() + "/" + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
+					this.createAppFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
 			}
 			else
 				throw new ImportDocumentException();
@@ -531,14 +554,13 @@ public class FileSystem extends FileSystem_Base {
 	
 	/* Export XML */
 
-	protected Element xmlExport(Element el){
-		ArrayList<File> allfiles = new ArrayList<File>();
+	Element xmlExport(Element el){
 
 		for(User usr : getUsersSet()) {
 			if (!usr.isRoot())
 				el.addContent(usr.xmlExport());
 		}
-		allfiles = getSlash().getAllFiles();
+		ArrayList<File> allfiles = getSlash().getAllFiles();
 
 		/* Remove files that were created by users */
 		for(File f : getHomeDirectory().getFilesSet()){
@@ -555,7 +577,7 @@ public class FileSystem extends FileSystem_Base {
 		return el;
 	}
 
-	protected User checkUser(String username, String password) throws UserUnknownException, WrongPasswordException{
+	User checkUser(String username, String password) throws UserUnknownException, WrongPasswordException{
 		User toFind = getUserByUsername(username);
 		checkUserPass(toFind, password);
 		return toFind;
