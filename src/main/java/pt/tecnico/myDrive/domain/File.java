@@ -126,7 +126,7 @@ public abstract class File extends File_Base {
 
 	public abstract void writeContent(String content, User logged) throws IsNotPlainFileException;
 
-	protected abstract void executeApp(User logged) throws IsNotAppFileException;
+	protected abstract void executeFile(User logged) throws IsNotAppFileException;
 	
 	protected abstract void addFile(File toAdd) throws UnsupportedOperationException;
 	
@@ -137,6 +137,8 @@ public abstract class File extends File_Base {
 	protected abstract Directory changeDirectory(String dirname, User currentUser);
 
 	protected abstract boolean isEmpty() throws IsNotDirectoryException;
+	
+	protected abstract void writeContentFromPlainFile(User logged, String[] array);
 	
 	protected abstract Element xmlExport();
 

@@ -44,10 +44,36 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    protected void executeApp(User logged) throws IsNotAppFileException{
-    	throw new IsNotAppFileException(this.getFilename());
+    protected void executeFile(User logged) throws FileUnknownException, IsNotAppFileException{
+    	int i = 0;
+    	String[] realContent = this.getContent().split(" ");
+    	String[] arrayContent = new String[realContent.length]; 
+    	
+    	for(i = 0; i < realContent.length; i++){
+    		if(realContent[i] != "/n"){
+    			arrayContent[i] = realContent[i];
+    		} 
+    		else {
+    			getFilesystem().absolutePath(arrayContent[0], logged, getFather()).
+    				getFileByName(arrayContent[0].substring(arrayContent[0].lastIndexOf("/") + 1)).writeContentFromPlainFile(logged, arrayContent);
+    			arrayContent = new String[realContent.length];
+    		}
+    	}
+    }
+   
+    private FileSystem getFilesystem(){
+        Directory dir = getFather();
+        while(!dir.getFather().equals(dir)){
+            dir = dir.getFather();
+        }
+        return dir.getFilesystem();
     }
 
+    @Override
+    protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws IsNotAppFileException {
+    	throw new IsNotAppFileException(this.getFilename());
+    }
+    
 	@Override
 	protected void addFile(File toAdd) throws IsNotDirectoryException{
 		throw new IsNotDirectoryException(toAdd.getFilename());

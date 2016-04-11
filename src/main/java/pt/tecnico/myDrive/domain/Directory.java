@@ -132,10 +132,14 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public void executeApp(User logged) throws IsNotAppFileException {
+	public void executeFile(User logged) throws IsNotAppFileException {
 		throw new IsNotAppFileException(this.getFilename());
-
 	}
+	
+    @Override
+    protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws IsNotAppFileException {
+    	throw new IsNotAppFileException(this.getFilename());
+    }
 
 	ArrayList<File> getAllFiles(){ // Auxiliary function to get all existing files (includes directories)
 		ArrayList<File> allFiles = new ArrayList<>();

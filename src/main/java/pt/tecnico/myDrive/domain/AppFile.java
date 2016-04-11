@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.domain;
 
+
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
@@ -33,8 +34,20 @@ public class AppFile extends AppFile_Base {
     }
     
     @Override
-    protected void executeApp(User logged){
-    	// TODO
+    protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws InvalidContentException{
+    	int i = 0;
+    	String path = "";
+    	for(i = 0; i < arrayContent.length-1; i++){
+    		path += arrayContent[i] + ".";
+    	}
+    	path += arrayContent[arrayContent.length];
+    	
+    	this.writeContent(path, logged);
+    }
+    
+    @Override
+    protected void executeFile(User logged){
+    	//FIXME
     }
 
     @Override

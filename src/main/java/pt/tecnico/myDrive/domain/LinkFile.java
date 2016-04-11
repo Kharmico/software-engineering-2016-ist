@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
+import pt.tecnico.myDrive.exception.IsNotAppFileException;
 import pt.tecnico.myDrive.exception.LinkFileWithoutContentException;
 
 public class LinkFile extends LinkFile_Base {
@@ -37,9 +38,9 @@ public class LinkFile extends LinkFile_Base {
     }
 
     @Override
-    public void executeApp(User logged) {
+    public void executeFile(User logged) {
         getFilesystem().absolutePath(super.getContent(), logged, getFather())
-                .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).executeApp(logged);
+                .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).executeFile(logged);
     }
 
     private FileSystem getFilesystem(){
@@ -48,6 +49,11 @@ public class LinkFile extends LinkFile_Base {
             dir = dir.getFather();
         }
         return dir.getFilesystem();
+    }
+    
+    @Override
+    protected void writeContentFromPlainFile(User logger, String[] array) throws IsNotAppFileException{
+    	//FIXME pls
     }
     
     
