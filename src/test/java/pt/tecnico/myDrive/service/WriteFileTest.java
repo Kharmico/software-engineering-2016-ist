@@ -6,6 +6,7 @@ import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import static org.junit.Assert.assertEquals;
@@ -39,15 +40,24 @@ public class WriteFileTest extends AbstractServiceTest {
     }
 
     @Test
-    public void success() {
-       final String content = "Hello, I'm a plain file and I'm great";
+    public void successWithFileOwners(){
+    	WriteFileService service = 
+    			new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "MeThree.txt", "I'm.An.APPle.File!");
+    	service.execute();
+    	
+    	assertEquals(getContent("MeThree.txt", MyDriveManager.getInstance().getCurrentSession().getCurrentDir()), "I'm.An.APPle.File!");
+    }
+    
+    @Test
+    public void rootCanWriteAnywhere() {
+       final String content = "I am gROOT!";
         MyDriveManager.getInstance().login("root","***");
         WriteFileService service = 
         		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina/IDoWell.txt", content);
         service.execute();
         
         String cntt = getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina"));
-        assertEquals("Content was written", content, cntt);
+        assertEquals("Content was not written", content, cntt);
     }
     @Test(expected = FileUnknownException.class)
     public void writeOnNonExistingFile() {
@@ -85,17 +95,25 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute();
     }
     
+    @Test(expected = InvalidContentException.class)
+    public void invalidContentAppFile() {
+    	WriteFileService service =
+    			new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"MeThree.txt", "I am gRoot!");
+    	service.execute();
+    }
+    
 }
 
     /*
     TEST CASES:
 
     1. Write content on non existing plain file - DONE
-    2. Try to change content on link file - DONE, missing exception
-    3. See permissions
-    4. App file
+    2. Try to change content on link file - DONE
+    3. See permissions - DONE
+    4. App file - DONE
     5. well succeded writing - DONE
-    6. Invalid Token
-    7. Root
+    6. Invalid Token - DONE
+    7. Root - DONE
+    8. success on normal users with their own - DONE
     */
 
