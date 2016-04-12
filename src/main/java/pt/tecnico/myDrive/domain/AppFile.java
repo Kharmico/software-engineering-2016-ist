@@ -33,9 +33,8 @@ public class AppFile extends AppFile_Base {
     	
     }
     
-    @Override
     protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws InvalidContentException{
-    	int i = 0;
+    	int i = 1;
     	String path = "";
     	for(i = 1; i < arrayContent.length-1; i++){
     		path += arrayContent[i] + ".";
