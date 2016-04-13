@@ -49,13 +49,13 @@ public class PlainFile extends PlainFile_Base {
     	String appContent = "";
     	
     	while(realContent != ""){
-	    	appContent = realContent.substring(0,realContent.indexOf("/n"));
+	    	appContent = realContent.substring(0,realContent.indexOf("\n"));
 	    	String[] arrayApp = appContent.split(" ");
 	    	
 	    	getFilesystem().absolutePath(arrayApp[0], logged, getFather()).
 				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).writeContentFromPlainFile(logged, arrayApp);
 	    	
-	    	realContent = realContent.substring(realContent.indexOf("/n"));
+	    	realContent = realContent.substring(realContent.indexOf("\n"));
     	}
     }
    
