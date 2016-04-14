@@ -27,23 +27,13 @@ public class MyDriveApplication{
 		try {
 			log.trace("MyDriveApplication.main: Starting application.");
 
-		setup();
+			setup();
 
-		if (args.length == 1) {
-			File f = new File(args[0]);
-			if (f != null)
-				xmlScan(f);
-		}
-
-		/*demoCreatePlainFile();
-		demoCreateDirectory();
-		demoPrintPlainFile();
-		demoRemoveDirectory();
-
-		xmlPrint(); // For the purpose of debug, this function drops too much output
-
-		demoRemoveFile();*//*
-		//test();			// This will throw an InvalidUsernameException, it only serves as a test.*/
+			if (args.length == 1) {
+				File f = new File(args[0]);
+				if (f != null)
+					xmlScan(f);
+			}
 		}finally {
 			FenixFramework.shutdown();
 		}
@@ -56,49 +46,7 @@ public class MyDriveApplication{
 		manager = MyDriveManager.getInstance();
 	}
 
-	/*
-	@Atomic
-	public static void demoCreatePlainFile(){
-		log.trace("MyDriveApplication.demoCreatePlainFile: Creating /home/README." );
-		manager.createPlainFile("/home/README", "lista de utilizadores");
 
-
-	}
-
-	
-	@Atomic
-	public static void demoCreateDirectory(){
-		log.trace("MyDriveApplication.demoCreateDirectory: Creating /usr/local/bin." );
-		manager.createDirectory("/usr/local/bin");
-	}
-
-	
-	@Atomic
-	public static void demoPrintPlainFile(){
-		log.trace("MyDriveApplication.demoPrintPlainFile: Printing /home/README." );
-		manager.printPlainFile("/home/README");
-	}
-
-	
-	@Atomic
-	public static void demoRemoveDirectory(){
-		log.trace("MyDriveApplication.demoRemoveDirectory: Removing /usr/local/bin." );
-		manager.removeFile("/usr/local/bin");
-	}
-
-	
-	@Atomic
-	public static void demoRemoveFile(){
-		log.trace("MyDriveApplication.demoRemoveFile: Removing /home/README." );
-		manager.removeFile("/home/README");
-	}
-	*/
-	/*@Atomic
-	public static void test(){
-		manager.createPlainFile(DEBUG_1024_DIR, "lista de utilizadores");
-		manager.addUser("o");
-	}
-	*/
 	@Atomic
 	public static void xmlPrint() {
 		log.trace("MyDriveApplication.xmlPrint: " + FenixFramework.getDomainRoot());
