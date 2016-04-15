@@ -164,16 +164,4 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
-
-    // TODO: Remvoe dis
-    /* Test Cases */
-    /* 1 - Create a plain file in the current directory that the user has permission to write on it */
-    /* 2 - Create a plain file in the current directory with an invalid filename ex: ola/adues */
-    /* !!!!!3 - Create a plain file in the current directory that exists and I have permission to enter on it,
-     *   but I don't have permission to write on it ||CAN I TEST DIS?|| I cant do this, i would need to change directory,
-      *   and I can't test another service here   */
-    /* 4 - Create a plain file with a filename bigger than 1024 characters */
-    /* 5 - Create a link file without any content */
-    /* 6 - Create a directory in the current directory that the user has permission to write on it */
-    /* 7 - Create a directory with content in the current directory that the user has permission to write on it */
 }

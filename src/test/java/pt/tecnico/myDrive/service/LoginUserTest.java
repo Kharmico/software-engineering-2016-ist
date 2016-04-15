@@ -39,11 +39,4 @@ public class LoginUserTest extends AbstractServiceTest {
         service.execute();
     }
 
-    
-    /*
-    Test Cases
-    - Sucessfull login
-    - NonExisting Username
-    - Wrong Password
-    */
 }

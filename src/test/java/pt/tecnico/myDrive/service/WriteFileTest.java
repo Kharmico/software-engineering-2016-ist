@@ -103,17 +103,3 @@ public class WriteFileTest extends AbstractServiceTest {
     }
     
 }
-
-    /*
-    TEST CASES:
-
-    1. Write content on non existing plain file - DONE
-    2. Try to change content on link file - DONE
-    3. See permissions - DONE
-    4. App file - DONE
-    5. well succeded writing - DONE
-    6. Invalid Token - DONE
-    7. Root - DONE
-    8. success on normal users with their own - DONE
-    */
-

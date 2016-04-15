@@ -93,14 +93,4 @@ public class DeleteFileTest extends AbstractServiceTest{
          service.execute();
      }
 
-    /* Test Cases */
-    /* 1 - Delete a file that does exist and I have permission */
-    /* 2 - Delete a file that does not exist */
-    /* 3 - Delete a file that does exist but I don't have permission */
-    /* 4 - Delete a file as root */
-    /* 5 - Delete a directory with content */
-    /* 6 - Delete a directory without content */
-    /* 7 - Delete a file with wrong token */
-
-
 }

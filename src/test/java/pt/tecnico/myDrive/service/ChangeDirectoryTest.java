@@ -98,13 +98,4 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
         assertEquals("Change to /","/",MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath());
     }
 
-    /* Test Cases */
-    /* 1 - changeDirectory to a directory that exists in the current directory and i have permission */
-    /* 2 - changeDirectory to a directory that doesn't exist */
-    /* 3 - ChangeDirectory to father */
-    /* 4 - ChangeDirectory to itself */
-    /* 5 - ChangeDirectory to a plainfile */
-    /* 6 - ChangeDirectory to a directory that i don't have permission to */
-    /* 7 - ChangeDirectory with wrong token */
-    /* 8 - ChangeDirectory to / */
 }
