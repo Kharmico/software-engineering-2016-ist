@@ -75,7 +75,6 @@ public class WriteFileTest extends AbstractServiceTest {
         WriteFileService service = 
         		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina/MeToo.txt", content);
     	service.execute();
-        //assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina")));
     }
     
     @Test(expected = AccessDeniedException.class)
