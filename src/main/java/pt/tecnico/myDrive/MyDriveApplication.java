@@ -9,9 +9,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
-import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.service.WriteFileService;
 
 import java.io.File;
 import java.io.IOException;

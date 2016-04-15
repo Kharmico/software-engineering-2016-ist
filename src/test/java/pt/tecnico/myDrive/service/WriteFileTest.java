@@ -6,6 +6,7 @@ import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
+import pt.tecnico.myDrive.exception.IllegalAddContentException;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 
@@ -67,14 +68,14 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute();
     }
 
-    @Test
+    @Test(expected = IllegalAddContentException.class)
     public void writeContentOnLinkFile(){
         String content = "Exception, please";
         MyDriveManager.getInstance().login("root","***");
         WriteFileService service = 
         		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina/MeToo.txt", content);
     	service.execute();
-        assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina")));
+        //assertEquals("Link file is not pointing to the right file.", content, getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina")));
     }
     
     @Test(expected = AccessDeniedException.class)

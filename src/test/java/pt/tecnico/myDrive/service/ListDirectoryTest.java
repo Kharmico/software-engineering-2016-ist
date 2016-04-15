@@ -45,7 +45,7 @@ public class ListDirectoryTest extends AbstractServiceTest {
                 "rwxdr-x- root " + stormtroopers.getLastModified() + " Stormtroopers\n" +
                 "rwxdr-x- root " + darthVader.getLastModified() + " DarthVader.txt\n";
 
-        token = mg.getInstance().getCurrentSession().getToken();
+        token = mg.getCurrentSession().getToken();
     }
 
     @Test
