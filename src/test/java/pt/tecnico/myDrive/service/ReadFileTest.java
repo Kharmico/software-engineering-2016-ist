@@ -16,10 +16,7 @@ public class ReadFileTest extends AbstractServiceTest {
 	private static final String USER_LOGGED = "charmander";
 	protected static final Logger log = LogManager.getRootLogger();
 	
-	// dirs = tackle splash
-	// plain = ember burn takedown
-	// app = firespin flamethrower inferno
-	// link = firefly-n fly-n heatwave-p airslash-p blitz-a flying-a catering-l mewtwo-l harden-l mew-d signals-d
+
 	@Override
 	protected void populate() {
 		MyDriveManager mg = MyDriveManager.getInstance();
@@ -27,7 +24,7 @@ public class ReadFileTest extends AbstractServiceTest {
 		mg.addUser(USER_LOGGED);
 		mg.addUser("charizard");
 		
-		/* --- Non permitted Files --- */
+		/* --- Non permitted Files for User charmander --- */
 		mg.login("root", "***");
 		
 		Directory diraux = (Directory) mg.getFilesystem().getHomeDirectory().getFileByName("charizard");
@@ -37,46 +34,34 @@ public class ReadFileTest extends AbstractServiceTest {
 		((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("charizard"))
         .getFileByName("tackle").setPermissions("rwxd----");
 		
-		mg.createPlainFile("takedown.txt"); //no perm
+		mg.createPlainFile("takedown.txt");
 		((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("charizard"))
         .getFileByName("takedown.txt").setPermissions("rwxd----");
 		
-		mg.createAppFile("flamethrower.txt"); //no perm
+		mg.createAppFile("flamethrower.txt");
 		((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("charizard"))
         .getFileByName("flamethrower.txt").setPermissions("rwxd----");
 		
-		mg.createLinkFile("catering.txt", "/home/charizard"); //no perm
+		mg.createLinkFile("catering.txt", "/home/charizard");
 		((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("charizard"))
         .getFileByName("catering.txt").setPermissions("rwxd----");
 		
-		/* --- User Charmander Files --- */
+		/* --- User charmander Files --- */
 		mg.login("charmander", "charmander");
 		
-		// dirs = --tackle-- splash
-		// plain = ember burn --takedown--
-		// app = firespin --flamethrower-- inferno
-		// link = firefly-n fly heatwave-p airslash-p blitz-a flying-a --catering-l-- mewtwo-l harden-l mew-d signals-d
-		
-		// dir = notplain, no perm
-		// plain = no content, content, no perm
-		// app = no content, content, no perm
-		// link = invalid, plain, plain no perm, app, link, link no perm, dir, dir no perm
 		mg.createDirectory("splash");
-		
-		mg.createPlainFile("ember.txt"); //no content
-		mg.createPlainFile("burn.txt", "in hell"); //with content
-		
-		mg.createAppFile("firespin.txt"); //no content
-		mg.createAppFile("inferno.txt", "destroy.world"); //with content
-		
-		mg.createLinkFile("firefly.txt", "/home/charmander/cenas"); //invalid reference
-		mg.createLinkFile("fly.txt", "/home/charmander/burn.txt"); //plain
-		mg.createLinkFile("heatwave.txt", "/home/charizard/takedown"); //plain no perm
-		mg.createLinkFile("airslash.txt", "/home/charmander/inferno.txt"); //app
-		mg.createLinkFile("blitz.txt", "/home/charmander/fly.txt"); //link
-		mg.createLinkFile("flying.txt", "/home/charizard/catering.txt"); //link no perm
-		mg.createLinkFile("mewtwo.txt", "/home/charmander/splash"); //dir
-		mg.createLinkFile("mew.txt", "/home/charizard/tackle"); //dir no perm
+		mg.createPlainFile("ember.txt");
+		mg.createPlainFile("burn.txt", "in hell");
+		mg.createAppFile("firespin.txt");
+		mg.createAppFile("inferno.txt", "destroy.world");
+		mg.createLinkFile("firefly.txt", "/home/charmander/cenas");
+		mg.createLinkFile("fly.txt", "/home/charmander/burn.txt");
+		mg.createLinkFile("heatwave.txt", "/home/charizard/takedown");
+		mg.createLinkFile("airslash.txt", "/home/charmander/inferno.txt");
+		mg.createLinkFile("blitz.txt", "/home/charmander/fly.txt");
+		mg.createLinkFile("flying.txt", "/home/charizard/catering.txt");
+		mg.createLinkFile("mewtwo.txt", "/home/charmander/splash");
+		mg.createLinkFile("mew.txt", "/home/charizard/tackle");
 		
 	}
 	
@@ -103,14 +88,14 @@ public class ReadFileTest extends AbstractServiceTest {
     public void readEmptyPlain() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "ember.txt");
     	service.execute();
-    	assertEquals(service.result(), null);
+    	assertEquals(null, service.result());
     }
     
     @Test
     public void readPlainWithContent() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "burn.txt");
     	service.execute();
-    	assertEquals(service.result(), "in hell");
+    	assertEquals("in hell", service.result());
     }
     
     @Test(expected = AccessDeniedException.class)
@@ -126,14 +111,14 @@ public class ReadFileTest extends AbstractServiceTest {
     public void readEmptyApp() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "firespin.txt");
     	service.execute();
-    	assertEquals(service.result(), null);
+    	assertEquals(null, service.result());
     }
     
     @Test
     public void readAppWithContent() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "inferno.txt");
     	service.execute();
-    	assertEquals(service.result(), "destroy.world");
+    	assertEquals("destroy.world", service.result());
     }
     
     @Test(expected = AccessDeniedException.class)
@@ -155,7 +140,7 @@ public class ReadFileTest extends AbstractServiceTest {
     public void linkReferenceToPlain() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "fly.txt");
     	service.execute();
-    	assertEquals(service.result(), "in hell");
+    	assertEquals("in hell", service.result());
     }
     
     @Test(expected = AccessDeniedException.class)
@@ -168,14 +153,14 @@ public class ReadFileTest extends AbstractServiceTest {
     public void linkReferenceToApp() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "airslash.txt");
     	service.execute();
-    	assertEquals(service.result(), "destroy.world");
+    	assertEquals("destroy.world", service.result());
     }
 
     @Test
     public void linkReferenceToLink() {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "blitz.txt");
     	service.execute();
-    	assertEquals(service.result(), "in hell");
+    	assertEquals("in hell", service.result());
     }
    
     @Test(expected = AccessDeniedException.class)
@@ -195,11 +180,11 @@ public class ReadFileTest extends AbstractServiceTest {
     	ReadFileService service = new ReadFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "mew.txt");
     	service.execute();
     }
-    
-	@Test(expected = InvalidTokenException.class)
+
+    @Test(expected = InvalidTokenException.class)
     public void readFileInactiveSession() {
 		ReadFileService service = new ReadFileService(-1, "burn.txt");
 		service.execute();
     }
-    
+
 }
