@@ -18,6 +18,11 @@ class User{
 	String umask;
 }
 
+class EnvironmentVariable{
+	String name;
+	String value;
+}
+
 class File{
 	Integer id;
 	String filename;
@@ -131,6 +136,17 @@ relation SessionHasCurrentDirectory{
 
     Session playsRole session{
         multiplicity 0..1;
+    }
+}
+
+relation MyDriveManagerHasEnvironmentVariables{
+
+    MyDriveManager playsRole manager{
+        multiplicity 1;
+    }
+
+    EnvironmentVariable playsRole var{
+        multiplicity *;
     }
 }
 
