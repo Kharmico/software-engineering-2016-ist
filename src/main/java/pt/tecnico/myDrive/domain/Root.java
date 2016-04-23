@@ -1,5 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
+import pt.tecnico.myDrive.exception.IllegalRemovalException;
+
 public class Root extends Root_Base {
     
 	private static final String ROOT_UMASK = "rwxdr-x-";
@@ -13,6 +15,11 @@ public class Root extends Root_Base {
         super.setPassword(ROOT_PASSWORD);
         super.setName(ROOT_NAME);
         super.setUmask(ROOT_UMASK);
+    }
+
+    @Override
+    public void remove(){
+        throw new IllegalRemovalException("You can't remove " + ROOT_NAME);
     }
     
     @Override

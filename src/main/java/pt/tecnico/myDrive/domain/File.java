@@ -84,7 +84,7 @@ public abstract class File extends File_Base {
 		generalPermissionChecker(u, 1, 5);
 	}
 
-	protected void checkAccessEx(User u) throws AccessDeniedException{
+	void checkAccessEx(User u) throws AccessDeniedException{
 		generalPermissionChecker(u, 2, 6);
 	}
 
@@ -100,6 +100,8 @@ public abstract class File extends File_Base {
 		}
 		else if(!u.isRoot()) {
 			if (getPermissions().charAt(otherPermIndex) == '-')
+				throw new AccessDeniedException(u);
+			else if(u.isGuest())
 				throw new AccessDeniedException(u);
 		}
 	}

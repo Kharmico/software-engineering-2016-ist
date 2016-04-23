@@ -102,8 +102,8 @@ public class FileSystem extends FileSystem_Base {
 
 	@Override
 	public void removeUsers(User user){
-		if(user.isRoot()){
-			throw new IllegalRemovalException("You can't remove the root user.");
+		if(user.isRoot() || user.isGuest()){
+			throw new IllegalRemovalException("You can't remove " + user.getName());
 		}else {
 			super.removeUsers(user);
 		}
