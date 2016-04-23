@@ -32,7 +32,7 @@ public class User extends User_Base {
     
     @Override //FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
 	public void setPassword(String password) /*throws PasswordIsTooWeakException*/ {
-		checkPassordStrenght(password);
+		checkPasswordStrength(password);
     	super.setPassword(password);
     }
     
@@ -70,7 +70,7 @@ public class User extends User_Base {
     }
 
 	//FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
-    private void checkPassordStrenght(String password) /*throws PasswordIsTooWeakException*/{
+    private void checkPasswordStrength(String password) /*throws PasswordIsTooWeakException*/{
 		if( password.length() < 8 || !password.equals("***") || !password.equals("")){
 			//throw new PasswordIsTooWeakException;
 		}
