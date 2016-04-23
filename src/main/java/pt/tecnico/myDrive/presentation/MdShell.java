@@ -11,7 +11,7 @@ public class MdShell extends Shell {
 
     public MdShell() { // add commands here
         super("MyDrive");
-//        new CreatePerson(this);
+        new ChangeWorkingDirectoryCommand(this);
 //        new CreateContact(this);
 //        new RemovePerson(this);
 //        new RemoveContact(this);
