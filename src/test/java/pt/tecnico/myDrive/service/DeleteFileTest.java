@@ -4,6 +4,7 @@ import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
@@ -68,6 +69,10 @@ public class DeleteFileTest extends AbstractServiceTest{
     public void deleteAsRoot(){
         DeleteFileService service = new DeleteFileService(MyDriveManager.getInstance().login("root","***"),"/home/Pedro/noperm");
         service.execute();
+        System.out.println("=============RESULT SET:=============");
+        for(Session s : MyDriveManager.getInstance().getSessionSet())
+            System.out.println(s.getCurrentUser());
+        System.out.println("=====================================");
         assertEquals("Remove file as root","",getDirectoryFilesNames((Directory)MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Pedro")));
     }
 

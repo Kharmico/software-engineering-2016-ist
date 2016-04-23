@@ -22,6 +22,8 @@ public class MyDriveManager extends MyDriveManager_Base {
         FenixFramework.getDomainRoot().setMyDriveManager(this);
         super.setFilesystem(new FileSystem(this));
         currentSession = new Session(generateToken(), getFilesystem().getGuest(), getFilesystem().getSlash());
+        addSession(currentSession);
+        System.out.println("Numero de sessoes criacao: " + getSessionSet().size());
     }
     
     public static MyDriveManager getInstance(){
@@ -183,14 +185,20 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Login --- */
     
     public long login(String username, String password) throws UserUnknownException, WrongPasswordException {
-    	User user = getFilesystem().checkUser(username,password);
+        System.out.println("===========LOGIN=========");
+        System.out.println("Numero de sessoes pre login: " + getSessionSet().size());
+    	User user = getFilesystem().checkUser(username, password);
+        System.out.println("User loggin in: " + user.getUsername());
         removeOldSessions();
-        currentSession = new Session(generateToken(),user,user.getHomeDirectory());
-        getSessionSet().add(currentSession);
+        currentSession = new Session(generateToken(), user, user.getHomeDirectory());
+        System.out.println("User session in: " + currentSession.getCurrentUser());
+        addSession(currentSession);
+        System.out.println("Numero de sessoes: " + getSessionSet().size());
+        System.out.println("========================");
         return currentSession.getToken();
     }
 
-    public void checkForSession(long token) throws InvalidTokenException{
+    private void checkForSession(long token) throws InvalidTokenException{
     	boolean activeSession = false;
         for(Session s : getSessionSet()){
             if(s.getToken() == token){
@@ -225,9 +233,15 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     private void removeOldSessions(){
+        System.out.println("Removing older sessions...");
         for(Session s : getSessionSet()){
-            if((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= TIMEOUT_SESSION_TIME)
+//            System.out.println(s.getCurrentUser());
+            // FIXME: Diogo: o codigo rebenta aqui ao fazer um acesso ao user da session. null pointer
+            if(/*!s.getCurrentUser().equals(getFilesystem().getGuest()) &&*/ ((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= TIMEOUT_SESSION_TIME)){
+               /* removeSession(s);*/
                 s.remove();
+            }/*else
+                System.out.println("Nao apago a sessao deste " + s.getCurrentUser().getUsername());*/
     	}
     }
 

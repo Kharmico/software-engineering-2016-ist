@@ -594,6 +594,7 @@ public class FileSystem extends FileSystem_Base {
 
 	User checkUser(String username, String password) throws UserUnknownException, WrongPasswordException{
 		User toFind = getUserByUsername(username);
+		System.out.println("procurando user: " + toFind.getUsername());
 		checkUserPass(toFind, password);
 		return toFind;
 	}
