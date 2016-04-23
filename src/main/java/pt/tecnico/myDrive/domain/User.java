@@ -30,8 +30,9 @@ public class User extends User_Base {
     	super.setUsername(username);
     }
     
-    @Override
-	public void setPassword(String password){
+    @Override //FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
+	public void setPassword(String password) /*throws PasswordIsTooWeakException*/ {
+		checkPassordStrenght(password);
     	super.setPassword(password);
     }
     
@@ -67,8 +68,14 @@ public class User extends User_Base {
     	this.setHomeDirectory(null);
     	deleteDomainObject();
     }
-    
-    
+
+	//FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
+    private void checkPassordStrenght(String password) /*throws PasswordIsTooWeakException*/{
+		if( password.length() < 8 || !password.equals("***") || !password.equals("")){
+			//throw new PasswordIsTooWeakException;
+		}
+	}
+
 	protected boolean isRoot() {
 		return false;
 	}
