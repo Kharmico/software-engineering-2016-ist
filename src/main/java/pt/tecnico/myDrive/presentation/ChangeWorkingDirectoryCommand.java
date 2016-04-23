@@ -14,6 +14,7 @@ public class ChangeWorkingDirectoryCommand extends MdCommand {
         if (args.length < 1)
             throw new RuntimeException("USAGE: " + name() + " <path>");
         // FIXME: We should get the token elsewhere, in this case we are breaking the layers to get it.
+        System.out.println(MyDriveManager.getInstance().getCurrentSession().getToken());
         new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(), args[0]).execute();
     }
 }

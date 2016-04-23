@@ -38,6 +38,8 @@ class AppFile extends PlainFile;
 
 class Root extends User;
 
+class Guest extends User;
+
 relation MyDriveManagerHasFileSystem{
 
     MyDriveManager playsRole myDriveManager{

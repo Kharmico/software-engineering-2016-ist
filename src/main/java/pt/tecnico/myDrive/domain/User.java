@@ -7,8 +7,8 @@ import pt.tecnico.myDrive.exception.InvalidUsernameException;
 public class User extends User_Base {
 
 	private static final String DEFAULT_UMASK = "rwxd----";
-	public static final String INVALID_USERNAME_REGEX = "^[a-zA-Z0-9]*$";
-	public static final int MIN_USERNAME_SIZE = 3;
+	private static final String INVALID_USERNAME_REGEX = "^[a-zA-Z0-9]*$";
+	private static final int MIN_USERNAME_SIZE = 3;
 
 
 	public User() {
@@ -70,6 +70,10 @@ public class User extends User_Base {
     
     
 	protected boolean isRoot() {
+		return false;
+	}
+
+	protected boolean isGuest(){
 		return false;
 	}
 	
