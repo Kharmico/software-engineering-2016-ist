@@ -150,7 +150,7 @@ public class FileSystem extends FileSystem_Base {
 		return getUserByUsername(GUEST_USER);
 	}
 
-    
+
     /* Directory */
 
 	void createDirectory(String path, Directory currentDirectory, User currentUser)

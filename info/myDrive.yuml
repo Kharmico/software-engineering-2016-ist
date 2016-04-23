@@ -2,6 +2,7 @@
 [Session| Long token; DateTime lastAccess;]
 [FileSystem| Integer idSeed;]
 [User| String username; String password; String name; String umask;]
+[EnvironmentVariable| String name; String value;]
 [File| Integer id; String filename; DateTime lastModified; String ownerPermissions; String othersPermissions;]
 [File]^-[PlainFile]
 [PlainFile| String content;]
@@ -13,6 +14,8 @@
 [AppFile]
 [User]^-[Root]
 [Root]
+[User]^-[Guest]
+[Guest]
 [MyDriveManager]0..1 myDriveManager - filesystem 0..1[FileSystem] // MyDriveManagerHasFileSystem
 [.pt.ist.fenixframework.DomainRoot]0..1 rootFenix - myDriveManager 0..1[MyDriveManager] // DomainRootHasMyDriveManager
 [FileSystem]0..1 filesystem - users 1..*[User] // FileSystemHasUsers
@@ -22,4 +25,5 @@
 [User]0..1 user - homeDirectory 0..1[Directory] // UserHasHomeDirectory
 [User]0..1 currentUser - session 0..1[Session] // SessionHasCurrentUser
 [Directory]0..1 currentDir - session 0..1[Session] // SessionHasCurrentDirectory
+[MyDriveManager]1 manager - var *[EnvironmentVariable] // MyDriveManagerHasEnvironmentVariables
 [MyDriveManager]0..1 manager - session 0..*[Session] // MyDriveManagerHasSessions
