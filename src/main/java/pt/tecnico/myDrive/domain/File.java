@@ -71,55 +71,39 @@ public abstract class File extends File_Base {
 	}
 	
 	
-	protected String getPermissions(){
+	String getPermissions(){
 		return super.getOwnerPermissions() + super.getOthersPermissions(); 
 	}
 
-	
-	protected void checkOwner(User u) throws AccessDeniedException{
-		if(!u.equals(super.getOwner()) || !u.isRoot()){
-			throw new AccessDeniedException(u);
-		}
+
+	void checkAccessRead(User u) throws AccessDeniedException {
+		generalPermissionChecker(u, 0, 4);
 	}
 
-
-	protected void checkAccessRead(User u) throws AccessDeniedException {
-		if(u.getUsername().equals(getOwner().getUsername()))
-			if(getPermissions().charAt(0) == '-')
-				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername())) && !(u.getUsername().equals("root")))
-			if(getPermissions().charAt(4) == '-')
-				throw new AccessDeniedException(u);
-	}
-
-	protected void checkAccessWrite(User u) throws AccessDeniedException{
-		if(u.getUsername().equals(getOwner().getUsername()))
-			if(getPermissions().charAt(1) == '-')
-				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername())) && !(u.getUsername().equals("root")))
-			if(getPermissions().charAt(5) == '-')
-				throw new AccessDeniedException(u);
+	void checkAccessWrite(User u) throws AccessDeniedException{
+		generalPermissionChecker(u, 1, 5);
 	}
 
 	protected void checkAccessEx(User u) throws AccessDeniedException{
-		if(u.getUsername().equals(getOwner().getUsername()))
-			if(getPermissions().charAt(2) == '-')
-				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername())) && !(u.getUsername().equals("root")))
-			if(getPermissions().charAt(6) == '-')
-				throw new AccessDeniedException(u);
+		generalPermissionChecker(u, 2, 6);
 	}
 
-	protected void checkAccessDelete(User u) throws AccessDeniedException{
-		if(u.getUsername().equals(getOwner().getUsername()))
-			if(getPermissions().charAt(3) == '-')
-				throw new AccessDeniedException(u);
-		if(!(u.getUsername().equals(getOwner().getUsername())) && !(u.getUsername().equals("root")))
-			if(getPermissions().charAt(7) == '-')
-				throw new AccessDeniedException(u);
+	void checkAccessDelete(User u) throws AccessDeniedException{
+		generalPermissionChecker(u, 3, 7);
 	}
 	
-	
+	private void generalPermissionChecker(User u, int ownPermIndex, int otherPermIndex)
+			throws AccessDeniedException{
+		if(u.equals(getOwner())) {
+			if (getPermissions().charAt(ownPermIndex) == '-')
+				throw new AccessDeniedException(u);
+		}
+		else if(!u.isRoot()) {
+			if (getPermissions().charAt(otherPermIndex) == '-')
+				throw new AccessDeniedException(u);
+		}
+	}
+
 	protected abstract void isCdAble() throws IsNotDirectoryException;
 	
 	public abstract String printContent(User logged) throws IsNotPlainFileException;

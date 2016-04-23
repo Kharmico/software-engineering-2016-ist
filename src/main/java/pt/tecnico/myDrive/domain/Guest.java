@@ -1,10 +1,10 @@
 package pt.tecnico.myDrive.domain;
 
 public class Guest extends Guest_Base {
-    private static final String GUEST_UMASK = "rwxdr-x-";
-    private static final String GUEST_NAME = "Super User";
-    private static final String GUEST_PASSWORD = "***";
-    private static final String GUEST_USERNAME = "root";
+    private static final String GUEST_UMASK = "rxwdr-x-";
+    private static final String GUEST_NAME = "Guest";
+    private static final String GUEST_PASSWORD = "";
+    private static final String GUEST_USERNAME = "nobody";
 
     public Guest() {
         super();
