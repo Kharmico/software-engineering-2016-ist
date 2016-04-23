@@ -64,7 +64,7 @@ public class MyDriveManager extends MyDriveManager_Base {
                 return;
             }
         }
-        super.getVarSet().add(new EnvironmentVariable(name, value));
+        super.getVarSet().add(new EnvironmentVariable(name, value, this));
     }
 
     public String listEnvironmentVariables(long token) throws InvalidTokenException{
