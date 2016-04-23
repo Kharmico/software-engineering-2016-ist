@@ -8,7 +8,6 @@ public class Root extends Root_Base {
 	static final String ROOT_USERNAME = "root";
 
 	public Root() {
-		// TODO : REFACTOR
         super();
         super.setUsername(ROOT_USERNAME);
         super.setPassword(ROOT_PASSWORD);
