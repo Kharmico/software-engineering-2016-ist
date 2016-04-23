@@ -15,6 +15,7 @@ public class FileSystem extends FileSystem_Base {
 	private static final Logger log = LogManager.getRootLogger();
 
 	private static final String ROOT_USER = Root.ROOT_USERNAME;
+	private static final String GUEST_USER = Guest.GUEST_USERNAME;
 	private static final String HOME_DIR = "home";
 	private static final int MAX_PATH_SIZE = 1024;
 	private static final String PATH_DELIM = "/";
@@ -40,14 +41,20 @@ public class FileSystem extends FileSystem_Base {
 			e.printStackTrace();
 		}
 
-		Directory home = new Directory(this.generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash());
+		Directory home = new Directory(generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash());
 
 		addToSlash(home);
 
-		Directory rootHomeDirectory = new Directory(this.generateUniqueId(),
+		Directory rootHomeDirectory = new Directory(generateUniqueId(),
 				root.getUsername(), root.getUmask(), root, home);
 		home.addFile(rootHomeDirectory);
 		root.setHomeDirectory(rootHomeDirectory);
+
+		Guest guest = new Guest();
+		Directory guestHomeDirectory = new Directory(generateUniqueId(),
+				guest.getUsername(), guest.getUmask(), guest, home);
+		guest.setHomeDirectory(guestHomeDirectory);
+		addUsers(guest);
 	}
 
 
@@ -137,6 +144,10 @@ public class FileSystem extends FileSystem_Base {
 
 	protected User getRoot() throws UserUnknownException {
 		return getUserByUsername(ROOT_USER);
+	}
+
+	protected User getGuest() throws UserUnknownException {
+		return getUserByUsername(GUEST_USER);
 	}
 
     

@@ -21,7 +21,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     private MyDriveManager() {
         FenixFramework.getDomainRoot().setMyDriveManager(this);
         super.setFilesystem(new FileSystem(this));
-        currentSession = new Session(generateToken(),getFilesystem().getRoot(),getFilesystem().getSlash());
+        currentSession = new Session(generateToken(), getFilesystem().getGuest(), getFilesystem().getSlash());
     }
     
     public static MyDriveManager getInstance(){

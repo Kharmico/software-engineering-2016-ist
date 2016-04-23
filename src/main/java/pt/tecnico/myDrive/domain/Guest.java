@@ -6,7 +6,7 @@ public class Guest extends Guest_Base {
     private static final String GUEST_UMASK = "rxwdr-x-";
     private static final String GUEST_NAME = "Guest";
     private static final String GUEST_PASSWORD = "";
-    private static final String GUEST_USERNAME = "nobody";
+    static final String GUEST_USERNAME = "nobody";
 
     public Guest() {
         super();
