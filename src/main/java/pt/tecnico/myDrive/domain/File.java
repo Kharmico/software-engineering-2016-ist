@@ -27,9 +27,7 @@ public abstract class File extends File_Base {
 
 	protected void assignExtension(String filename, String classname){
 		String[] tokens = filename.split("\\.");
-		if(tokens.length > 2)
-			throw new BadFileNameException(filename);
-		else if(tokens.length == 2)
+		if(tokens.length == 2)
 			_extension = tokens[1];
 		else{
 			tokens = classname.split("\\.");
