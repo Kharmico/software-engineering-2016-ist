@@ -4,7 +4,7 @@ public class ListDirectoryService extends MyDriveService{
 
     private long _token;
     private String _out = "";
-    private String _path = "";
+    private String _path = ".";
    
     public ListDirectoryService(long token){
     	_token = token;
@@ -17,10 +17,7 @@ public class ListDirectoryService extends MyDriveService{
     
     @Override
     public void dispatch() {
-    	if(!_path.equals(""))
-    		getMyDriveManager().changeDirectory(_path, _token);
-    
-    	_out = getMyDriveManager().getDirectoryFilesName(_token);
+    	_out = getMyDriveManager().getDirectoryFilesName(_path, _token);
     }
 
     public final String result(){

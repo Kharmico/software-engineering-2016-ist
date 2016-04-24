@@ -5,16 +5,22 @@ import pt.tecnico.myDrive.service.ListDirectoryService;
 
 public class ListCommand extends MdCommand {
 
-    public ListCommand(Shell sh) { super(sh, "ls", "it returns all files existing in the working directory. Path is optional"); }
+    public ListCommand(MdShell sh) { super(sh, "ls", "it returns all files existing in the working directory. Path is optional"); }
     @Override
     void execute(String[] args) {
-        if (args.length < 1)
+        if (args.length > 1)
             throw new RuntimeException("USAGE: " + name() + " <path> (path is optional)");
-        // FIXME: We should get the token elsewhere, in this case we are breaking the layers to get it.
-        else if (args.length == 1)
-        	new ListDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken()).execute();
-        else
-        	new ListDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(), args[1]).execute();
+        else if (args.length == 1) {
+            ListDirectoryService listDirectoryService = new ListDirectoryService(((MdShell) shell()).getCurrentToken(),
+                    args[0]);
+            listDirectoryService.execute();
+            shell().println(listDirectoryService.result());
+        }
+        else {
+            ListDirectoryService listDirectoryService = new ListDirectoryService(((MdShell) shell()).getCurrentToken());
+            listDirectoryService.execute();
+            shell().println(listDirectoryService.result());
+        }
     }
 }
 

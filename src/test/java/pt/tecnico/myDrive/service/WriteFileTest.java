@@ -17,9 +17,10 @@ public class WriteFileTest extends AbstractServiceTest {
 
         mdm.getFilesystem().addUsers("Josefina");
         mdm.getFilesystem().addUsers("Josefo");
-
+       // mdm.login("Josefina", "Josefina");
+       // log.debug(mdm.getCurrentSession().getCurrentDir().getPath());
         mdm.login("root","***");
-
+       // log.debug(mdm.getCurrentSession().getCurrentDir().getPath());
         Directory d = (Directory) mdm.getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina");
         mdm.getCurrentSession().setCurrentDir(d);
 
