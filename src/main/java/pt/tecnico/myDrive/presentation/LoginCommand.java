@@ -17,6 +17,10 @@ public class LoginCommand extends MdCommand {
             lus.execute();
             _returnedToken = lus.result();
         }
-
     }
+
+    public long getReturnedToken(){
+        return _returnedToken;
+    }
+
 }
