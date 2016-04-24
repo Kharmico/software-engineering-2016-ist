@@ -16,6 +16,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     private static final Logger log = LogManager.getRootLogger();
     private static final int TIMEOUT_SESSION_TIME = 7200000;     // Two hours
+    private static final int TIMEOUT_ROOT_SESSION_TIME = 600000; // Ten minutes
     private Session currentSession;
     
     private MyDriveManager() {
@@ -106,6 +107,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         checkForSession(token);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
+   
     
     /* --- Files --- */ 
     
@@ -222,12 +224,24 @@ public class MyDriveManager extends MyDriveManager_Base {
     private void checkForSession(long token) throws InvalidTokenException{
     	boolean activeSession = false;
         for(Session s : getSessionSet()){
-            if(s.getToken() == token){
+            if(s.getToken() == token && !(s.getCurrentUser().isRoot())){
                 if((new DateTime().getMillis() - s.getLastAccess().getMillis()) < TIMEOUT_SESSION_TIME) {
                     activeSession = true;
                     s.setLastAccess(new DateTime());
                     break;
                 }
+            }
+            else if(s.getToken() == token && s.getCurrentUser().isRoot()){
+            	if((new DateTime().getMillis() - s.getLastAccess().getMillis()) < TIMEOUT_ROOT_SESSION_TIME){
+            		activeSession = true;
+            		s.setLastAccess(new DateTime());
+            		break;
+            	}
+            	else {
+            		login(s.getCurrentUser().getName(), s.getCurrentUser().getPassword());
+            		activeSession = true;
+            		break;
+            	}
             }
         }
         if(!activeSession) {
