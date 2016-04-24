@@ -7,6 +7,7 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.*;
+import pt.tecnico.myDrive.presentation.Sys;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     private MyDriveManager() {
         FenixFramework.getDomainRoot().setMyDriveManager(this);
         super.setFilesystem(new FileSystem(this));
-        currentSession = new Session(generateToken(), getFilesystem().getGuest(), getFilesystem().getSlash());
+        currentSession = new Session(generateToken(), getFilesystem().getGuest(), getFilesystem().getSlash(),this);
         addSession(currentSession);
         System.out.println("Numero de sessoes criacao: " + getSessionSet().size());
     }
@@ -205,16 +206,17 @@ public class MyDriveManager extends MyDriveManager_Base {
     /* --- Login --- */
     
     public long login(String username, String password) throws UserUnknownException, WrongPasswordException {
-        System.out.println("===========LOGIN=========");
-        System.out.println("Numero de sessoes pre login: " + getSessionSet().size());
     	User user = getFilesystem().checkUser(username, password);
-        System.out.println("User loggin in: " + user.getUsername());
         removeOldSessions();
-        currentSession = new Session(generateToken(), user, user.getHomeDirectory());
-        System.out.println("User session in: " + currentSession.getCurrentUser());
+        for(Session s : getSessionSet()){
+            if(s.getCurrentUser().equals(user)) {
+                s.setLastAccess(new DateTime());
+                currentSession = s;
+                return currentSession.getToken();
+            }
+        }
+        currentSession = new Session(generateToken(), user, user.getHomeDirectory(),this);
         addSession(currentSession);
-        System.out.println("Numero de sessoes: " + getSessionSet().size());
-        System.out.println("========================");
         return currentSession.getToken();
     }
 
@@ -253,15 +255,11 @@ public class MyDriveManager extends MyDriveManager_Base {
     }
 
     private void removeOldSessions(){
-        System.out.println("Removing older sessions...");
         for(Session s : getSessionSet()){
-//            System.out.println(s.getCurrentUser());
-            // FIXME: Diogo: o codigo rebenta aqui ao fazer um acesso ao user da session. null pointer
-            if(/*!s.getCurrentUser().equals(getFilesystem().getGuest()) &&*/ ((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= TIMEOUT_SESSION_TIME)){
-               /* removeSession(s);*/
+            if(!s.getCurrentUser().equals(getFilesystem().getGuest()) && ((new DateTime().getMillis() - s.getLastAccess().getMillis()) >= TIMEOUT_SESSION_TIME)){
+               removeSession(s);
                 s.remove();
-            }/*else
-                System.out.println("Nao apago a sessao deste " + s.getCurrentUser().getUsername());*/
+            }
     	}
     }
 

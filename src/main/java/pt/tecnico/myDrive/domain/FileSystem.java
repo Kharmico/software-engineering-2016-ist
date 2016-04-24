@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
+import pt.tecnico.myDrive.presentation.Sys;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,7 +129,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
-	private User getUserByUsername(String username) throws UserUnknownException {
+	protected User getUserByUsername(String username) throws UserUnknownException {
 		for (User user: super.getUsersSet()){
 			if (user.getUsername().equals(username))
 				return user;
@@ -137,7 +138,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	private void hasUser(String username) throws UserUnknownException {
+	protected void hasUser(String username) throws UserUnknownException {
 		this.getUserByUsername(username);
 	}
 
@@ -169,6 +170,9 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
+		if(path.equals("/"))
+			return getSlash();
+
 		Directory beforeLast = absolutePath(path, currentUser, currentDir);
 
 		String[] tokens = path.split(PATH_DELIM);
@@ -594,7 +598,7 @@ public class FileSystem extends FileSystem_Base {
 
 	User checkUser(String username, String password) throws UserUnknownException, WrongPasswordException{
 		User toFind = getUserByUsername(username);
-		System.out.println("procurando user: " + toFind.getUsername());
+		//System.out.println("procurando user: " + toFind.getUsername());
 		checkUserPass(toFind, password);
 		return toFind;
 	}

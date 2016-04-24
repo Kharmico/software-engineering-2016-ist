@@ -38,7 +38,7 @@ public class DeleteFileTest extends AbstractServiceTest{
     }
 
 
-    private String getDirectoryFilesNames(Directory dir){
+  private String getDirectoryFilesNames(Directory dir){
         String output = "";
         for(File f : dir.getFilesSet())
             output += f.getFilename() + " ";
@@ -64,15 +64,10 @@ public class DeleteFileTest extends AbstractServiceTest{
         service.execute();
     }
 
-
     @Test
     public void deleteAsRoot(){
         DeleteFileService service = new DeleteFileService(MyDriveManager.getInstance().login("root","***"),"/home/Pedro/noperm");
         service.execute();
-        System.out.println("=============RESULT SET:=============");
-        for(Session s : MyDriveManager.getInstance().getSessionSet())
-            System.out.println(s.getCurrentUser());
-        System.out.println("=====================================");
         assertEquals("Remove file as root","",getDirectoryFilesNames((Directory)MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Pedro")));
     }
 

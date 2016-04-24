@@ -3,6 +3,8 @@ package pt.tecnico.myDrive.domain;
 class MyDriveManager;
 
 class Session{
+    String username;
+    String dir;
     Long token;
     DateTime lastAccess;
 }
@@ -113,28 +115,6 @@ relation UserHasHomeDirectory{
     }
 
     Directory playsRole homeDirectory{
-        multiplicity 0..1;
-    }
-}
-
-relation SessionHasCurrentUser{
-
-    User playsRole currentUser{
-        multiplicity 0..1;
-    }
-
-    Session playsRole session{
-        multiplicity 0..1;
-    }
-}
-
-relation SessionHasCurrentDirectory{
-
-    Directory playsRole currentDir{
-        multiplicity 0..1;
-    }
-
-    Session playsRole session{
         multiplicity 0..1;
     }
 }
