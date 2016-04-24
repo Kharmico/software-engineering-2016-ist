@@ -27,22 +27,22 @@ public abstract class File extends File_Base {
 
 	protected void assignExtension(String filename, String classname){
 		String[] tokens = filename.split("\\.");
-		if(tokens.length == 2)
-			_extension = tokens[1];
+		if(tokens.length >= 2)
+			_extension = tokens[tokens.length-1];
 		else{
 			tokens = classname.split("\\.");
 			switch(tokens[tokens.length-1].toLowerCase()){
 				case "appfile":
-					_extension = "";
+					setExtension("");
 					break;
 				case "linkfile":
-					_extension = "link";
+					setExtension("link");
 					break;
 				case "plainfile":
-					_extension = "plain";
+					setExtension("plain");
 					break;
 				case "directory":
-					_extension = "directory";
+					setExtension("directory");
 					break;
 			}
 		}
@@ -63,7 +63,6 @@ public abstract class File extends File_Base {
 		if(filename != null && filename.matches(INVALID_FILENAME_REGEX) ){
 			throw new InvalidFileNameException(filename);
 		}
-		
 		super.setFilename(filename);
 	}
 
