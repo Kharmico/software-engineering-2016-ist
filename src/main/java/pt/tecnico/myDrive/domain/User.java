@@ -4,6 +4,8 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
 
+import java.util.LinkedHashMap;
+
 public class User extends User_Base {
 
 	private static final String DEFAULT_UMASK = "rwxd----";
@@ -102,10 +104,18 @@ public class User extends User_Base {
 		return usr_el;
 	}
 
-
 	@Override
 	public String toString(){
 		return getUsername();
+	}
+
+	/* THE LIST ITSELF ALREADY EXISTS, IF WE GET THE SET WE ALREADY GET ALL EXTENSIONS ITERATING */
+	public LinkedHashMap<File,String> getUserExtensions(){
+		LinkedHashMap<File,String> output = new LinkedHashMap<File,String>();
+		for(File f : getFileSet()){
+			output.put(f,f.getExtension());
+		}
+		return output;
 	}
 
 

@@ -1,12 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import org.jdom2.Element;
-
-import pt.tecnico.myDrive.exception.IllegalAddContentException;
-import pt.tecnico.myDrive.exception.InvalidFileNameException;
-import pt.tecnico.myDrive.exception.InvalidMaskException;
-import pt.tecnico.myDrive.exception.IsNotAppFileException;
-import pt.tecnico.myDrive.exception.LinkFileWithoutContentException;
+import pt.tecnico.myDrive.exception.*;
 
 public class LinkFile extends LinkFile_Base {
 

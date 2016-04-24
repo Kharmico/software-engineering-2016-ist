@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
-import pt.tecnico.myDrive.presentation.Sys;
 
 import java.util.ArrayList;
 import java.util.Collections;

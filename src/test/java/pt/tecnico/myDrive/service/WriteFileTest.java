@@ -1,16 +1,10 @@
 package pt.tecnico.myDrive.service;
 
 import org.junit.Test;
-import org.junit.runners.model.MultipleFailureException;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.exception.AccessDeniedException;
-import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IllegalAddContentException;
-import pt.tecnico.myDrive.exception.InvalidContentException;
-import pt.tecnico.myDrive.exception.InvalidTokenException;
-import pt.tecnico.myDrive.presentation.Sys;
+import pt.tecnico.myDrive.exception.*;
 
 import static org.junit.Assert.assertEquals;
 

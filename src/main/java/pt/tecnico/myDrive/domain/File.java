@@ -8,6 +8,7 @@ import pt.tecnico.myDrive.exception.*;
 public abstract class File extends File_Base {
 
 	private static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
+	private String _extension;
 
 	protected File(){
 		super();     
@@ -18,10 +19,46 @@ public abstract class File extends File_Base {
         setFilename(filename);
 		setPermissions(userMask);
 		setOwner(owner);
-        setLastModified(new DateTime());	
-
+        setLastModified(new DateTime());
+		assignExtension(filename, getClass().getName());
 	}
 
+	/* Extensions */
+
+	protected void assignExtension(String filename, String classname){
+		String[] tokens = filename.split("\\.");
+		if(tokens.length > 2)
+			throw new BadFileNameException(filename);
+		else if(tokens.length == 2)
+			_extension = tokens[1];
+		else{
+			tokens = classname.split("\\.");
+			switch(tokens[tokens.length-1].toLowerCase()){
+				case "appfile":
+					_extension = "";
+					break;
+				case "linkfile":
+					_extension = "link";
+					break;
+				case "plainfile":
+					_extension = "plain";
+					break;
+				case "directory":
+					_extension = "directory";
+					break;
+			}
+		}
+	}
+
+	protected String getExtension(){
+		return _extension;
+	}
+
+	protected void setExtension(String extension){
+		_extension = extension;
+	}
+
+	/* END - EXTENSIONS */
 
 	@Override
 	public void setFilename(String filename) throws InvalidFileNameException {

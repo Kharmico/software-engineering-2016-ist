@@ -1,9 +1,15 @@
 package pt.tecnico.myDrive.presentation;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.io.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
-import java.lang.reflect.*;
 /**
  * Created by xxlxpto on 23-04-2016.
  */

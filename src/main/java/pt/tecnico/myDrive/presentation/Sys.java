@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.presentation;
+
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by xxlxpto on 23-04-2016.

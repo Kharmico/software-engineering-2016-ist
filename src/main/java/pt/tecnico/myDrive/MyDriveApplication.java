@@ -32,6 +32,7 @@ public class MyDriveApplication{
 				if (f != null)
 					xmlScan(f);
 			}
+
 		}finally {
 			FenixFramework.shutdown();
 		}
@@ -43,7 +44,6 @@ public class MyDriveApplication{
 		log.trace("MyDriveApplication.setup: Setting up Manager." );
 		manager = MyDriveManager.getInstance();
 	}
-
 
 	@Atomic
 	public static void xmlPrint() {

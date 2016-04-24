@@ -7,7 +7,6 @@ import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.*;
-import pt.tecnico.myDrive.presentation.Sys;
 
 import java.math.BigInteger;
 import java.util.Random;
