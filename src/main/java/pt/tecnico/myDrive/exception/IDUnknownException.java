@@ -18,6 +18,6 @@ public class IDUnknownException extends MyDriveException {
 
 	@Override
 	public String getMessage() {
-		return "'" + unmatchedID + "' does not exist.";
+		return "ID '" + unmatchedID + "' does not exist.";
 	}
 }

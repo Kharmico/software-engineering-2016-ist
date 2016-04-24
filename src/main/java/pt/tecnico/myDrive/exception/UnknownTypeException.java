@@ -19,6 +19,7 @@ public class UnknownTypeException extends MyDriveException {
 	
 	@Override
 	public String getMessage() {
-		return "'" + nonExistingType + "' does not exist. Types that exist: app, link, plain, directory";
+		return "The type '" + nonExistingType + "' does not exist.\n" +
+				"Types that exist: app, link, plain, directory";
 	}
 }
