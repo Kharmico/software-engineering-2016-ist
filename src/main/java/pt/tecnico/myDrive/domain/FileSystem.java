@@ -48,12 +48,14 @@ public class FileSystem extends FileSystem_Base {
 		Directory rootHomeDirectory = new Directory(generateUniqueId(),
 				root.getUsername(), root.getUmask(), root, home);
 		home.addFile(rootHomeDirectory);
-		root.setHomeDirectory(rootHomeDirectory);
+		//root.setHomeDirectory(rootHomeDirectory);
+		root.setHomeDirectory((Directory) home.getFileByName(ROOT_USER));
 
 		Guest guest = new Guest();
 		Directory guestHomeDirectory = new Directory(generateUniqueId(),
 				guest.getUsername(), guest.getUmask(), guest, home);
-		guest.setHomeDirectory(guestHomeDirectory);
+		home.addFile(guestHomeDirectory);
+		guest.setHomeDirectory((Directory) home.getFileByName(GUEST_USER));
 		addUsers(guest);
 	}
 
@@ -187,9 +189,11 @@ public class FileSystem extends FileSystem_Base {
 	Directory absolutePath(String path, User currentUser, Directory currentDirectory) throws FileUnknownException, PathIsTooBigException{
 		String resultantPath;
 
-		if(path.startsWith(PATH_DELIM)){
+		if(path.equals(PATH_DELIM)){
+			return getFsRoot();
+		} else if(path.startsWith(PATH_DELIM)){
 			resultantPath = path;
-		}else{
+		} else{
 			resultantPath = currentDirectory.getPath() + PATH_DELIM + path;
 		}
 		if((resultantPath.length() > MAX_PATH_SIZE)){
@@ -204,7 +208,8 @@ public class FileSystem extends FileSystem_Base {
 
 	String getDirectoryFilesName(String path, User currentUser, Directory currentDir)
 			throws FileUnknownException, AccessDeniedException{
-		File target = absolutePath(path, getRoot(), currentDir).getFileByName(getLastPathToken(path));
+		log.debug(absolutePath(path, getRoot(), currentDir).getPath());
+		File target = absolutePath(path, currentUser, currentDir).getFileByName(getLastPathToken(path));
 		target.checkAccessRead(currentUser);
 		return target.getDirectoryFilesName();
 	}
@@ -335,7 +340,10 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	private String getLastPathToken(String path) {
-		return path.substring(path.lastIndexOf(PATH_DELIM) + 1);
+		if(path.equals(PATH_DELIM))
+			return ".";
+		else
+			return path.substring(path.lastIndexOf(PATH_DELIM) + 1);
 	}
 
 	private ArrayList<File> getRecursiveRemovalContent(Directory currentDir){
