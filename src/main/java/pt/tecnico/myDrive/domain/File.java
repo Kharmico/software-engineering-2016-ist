@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.domain;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom2.Element;
 import org.joda.time.DateTime;
 import pt.tecnico.myDrive.exception.*;
@@ -8,6 +10,7 @@ import pt.tecnico.myDrive.exception.*;
 public abstract class File extends File_Base {
 
 	private static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
+	private static final Logger log = LogManager.getRootLogger();
 	private String _extension;
 
 	protected File(){
@@ -128,6 +131,9 @@ public abstract class File extends File_Base {
 	
 	private void generalPermissionChecker(User u, int ownPermIndex, int otherPermIndex)
 			throws AccessDeniedException{
+		if(u.getUsername() == null){
+			log.debug("USERNAME A NULL NAS PERMISSOES");
+		}
 		if(u.equals(getOwner())) {
 			if (getPermissions().charAt(ownPermIndex) == '-')
 				throw new AccessDeniedException(u);

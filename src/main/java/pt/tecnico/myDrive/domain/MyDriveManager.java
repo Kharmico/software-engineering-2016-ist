@@ -93,9 +93,9 @@ public class MyDriveManager extends MyDriveManager_Base {
 
 
 
-    public String getDirectoryFilesName(long token) throws InvalidTokenException{
+    public String getDirectoryFilesName(String path, long token) throws InvalidTokenException{
         checkForSession(token);
-        return getFilesystem().getDirectoryFilesName(currentSession.getCurrentDir().getPath(), currentSession.getCurrentUser(), currentSession.getCurrentDir());
+        return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
     public void removeFile(String path, long token) throws InvalidTokenException, AccessDeniedException, FileUnknownException{
@@ -105,6 +105,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public void writeContent(String path, String content, long token){
         checkForSession(token);
+        log.debug("WRITE", path);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
    
