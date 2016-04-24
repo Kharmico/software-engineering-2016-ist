@@ -3,15 +3,24 @@ package pt.tecnico.myDrive.service;
 public class ListDirectoryService extends MyDriveService{
 
     private long _token;
-    private String _out;
+    private String _out = "";
+    private String _path = "";
    
     public ListDirectoryService(long token){
     	_token = token;
     }
     
+    public ListDirectoryService(long token, String path){
+    	_token = token;
+    	_path = path;
+    }
+    
     @Override
     public void dispatch() {
-        _out = getMyDriveManager().getDirectoryFilesName(_token);
+    	if(!_path.equals(""))
+    		getMyDriveManager().changeDirectory(_path, _token);
+    
+    	_out = getMyDriveManager().getDirectoryFilesName(_token);
     }
 
     public final String result(){

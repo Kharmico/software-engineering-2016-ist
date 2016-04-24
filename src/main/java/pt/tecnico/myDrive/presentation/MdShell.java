@@ -13,10 +13,10 @@ public class MdShell extends Shell {
         super("MyDrive");
         new ChangeWorkingDirectoryCommand(this);
         new LoginCommand(this);
+        new ListCommand(this);
 //        new CreateContact(this);
 //        new RemovePerson(this);
 //        new RemoveContact(this);
-//        new List(this);
 //        new Import(this);
 //        new Export(this);
     }
