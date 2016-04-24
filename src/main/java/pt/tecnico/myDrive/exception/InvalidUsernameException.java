@@ -20,6 +20,7 @@ public class InvalidUsernameException extends MyDriveException {
 	
 	@Override
 	public String getMessage(){
-		return "'" + invalidUsername + "' is not a valid username. It should be only numbers or letters and be at least 3 chars long.";
+		return "'" + invalidUsername + "' is not a valid username.\n" +
+				"It should be only numbers or letters and at least 3 characters long.";
 	}
 }

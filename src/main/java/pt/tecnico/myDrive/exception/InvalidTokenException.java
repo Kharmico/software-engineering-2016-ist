@@ -19,6 +19,6 @@ public class InvalidTokenException extends MyDriveException{
 
     @Override
     public String getMessage(){
-        return invalidToken + " is not valid.";
+        return "Token '" + invalidToken + "' is not valid.";
     }
 }

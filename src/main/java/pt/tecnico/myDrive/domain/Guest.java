@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
 import pt.tecnico.myDrive.exception.IllegalRemovalException;
+import pt.tecnico.myDrive.exception.IllegalGuestPasswordChangeException;
 
 public class Guest extends Guest_Base {
     private static final String GUEST_UMASK = "rxwdr-x-";
@@ -18,8 +19,7 @@ public class Guest extends Guest_Base {
 
     @Override
     public void setPassword(String password){
-        //FIXME : when the exception is implemented uncomment this
-        //throw new IllegalGuestPasswordChangeException(this);
+        throw new IllegalGuestPasswordChangeException();
     }
 
     @Override

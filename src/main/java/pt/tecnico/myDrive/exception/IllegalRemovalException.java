@@ -15,6 +15,6 @@ public class IllegalRemovalException extends MyDriveException {
 	
 	@Override
 	public String getMessage() {
-		return "It is not possible to remove '" + removal;
+		return "You do not have permissions to remove '" + removal;
 	}
 }

@@ -22,6 +22,6 @@ public class AccessDeniedException extends MyDriveException {
 
 	@Override
 	public String getMessage() {
-		return "User '" + conflictingUser + "' has not the permissions to do this operation";
+		return "User '" + conflictingUser + "' does not have permissions to do this operation";
 	}
 }
