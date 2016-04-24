@@ -14,6 +14,8 @@ public class MdShell extends Shell {
         new ChangeWorkingDirectoryCommand(this);
         new LoginCommand(this);
         new ListCommand(this);
+        //new EnvironmentCommand(this);
+        //new KeyCommand(this);
 //        new CreateContact(this);
 //        new RemovePerson(this);
 //        new RemoveContact(this);
