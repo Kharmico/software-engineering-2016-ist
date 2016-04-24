@@ -1,6 +1,7 @@
 package pt.tecnico.myDrive.service;
 
 import org.junit.Test;
+import org.junit.runners.model.MultipleFailureException;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
@@ -9,6 +10,7 @@ import pt.tecnico.myDrive.exception.FileUnknownException;
 import pt.tecnico.myDrive.exception.IllegalAddContentException;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
+import pt.tecnico.myDrive.presentation.Sys;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,18 +50,19 @@ public class WriteFileTest extends AbstractServiceTest {
     	
     	assertEquals(getContent("MeThree.txt", MyDriveManager.getInstance().getCurrentSession().getCurrentDir()), "I'm.An.APPle.File!");
     }
-    
+
     @Test
     public void rootCanWriteAnywhere() {
-       final String content = "I am gROOT!";
+        final String content = "I am gROOT!";
         MyDriveManager.getInstance().login("root","***");
-        WriteFileService service = 
+        WriteFileService service =
         		new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina/IDoWell.txt", content);
         service.execute();
-        
+
         String cntt = getContent("IDoWell.txt",(Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina"));
         assertEquals("Content was not written", content, cntt);
     }
+
     @Test(expected = FileUnknownException.class)
     public void writeOnNonExistingFile() {
     	final String NonExistingFile = "iNeedException.txt";
@@ -101,5 +104,5 @@ public class WriteFileTest extends AbstractServiceTest {
     			new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"MeThree.txt", "I am gRoot!");
     	service.execute();
     }
-    
+
 }
