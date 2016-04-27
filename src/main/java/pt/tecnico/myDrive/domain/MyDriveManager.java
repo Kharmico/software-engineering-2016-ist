@@ -93,7 +93,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
 
 
-    public String getDirectoryFilesName(String path, long token) throws InvalidTokenException{
+    public String getDirectoryFilesName(String path, long token) throws InvalidTokenException, AccessDeniedException{
         checkForSession(token);
         return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }

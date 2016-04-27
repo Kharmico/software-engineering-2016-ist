@@ -1,5 +1,8 @@
 package pt.tecnico.myDrive.service;
 
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
+
 public class ListDirectoryService extends MyDriveService{
 
     private long _token;
@@ -16,8 +19,8 @@ public class ListDirectoryService extends MyDriveService{
     }
     
     @Override
-    public void dispatch() {
-    	_out = getMyDriveManager().getDirectoryFilesName(_path, _token);
+    public void dispatch()  throws InvalidTokenException, AccessDeniedException {
+        _out = getMyDriveManager().getDirectoryFilesName(_path, _token);
     }
 
     public final String result(){

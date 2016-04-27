@@ -5,7 +5,9 @@ import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
+import pt.tecnico.myDrive.presentation.Sys;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -20,7 +22,9 @@ public class ListDirectoryTest extends AbstractServiceTest {
     protected void populate() {
         MyDriveManager mg = MyDriveManager.getInstance();
         mg.login("root","***");
+
         Session currentSession = mg.getCurrentSession();
+        mg.getFilesystem().addUsers("Rebels");
 
         currentSession.setCurrentDir(mg.getFilesystem().getHomeDirectory());
         mg.createDirectory("DeathStar");
@@ -49,7 +53,7 @@ public class ListDirectoryTest extends AbstractServiceTest {
     }
 
     @Test
-    public void successLogin(){
+    public void successListDir(){
         ListDirectoryService service = new ListDirectoryService(token);
         service.execute();
         String out = service.result();
@@ -58,9 +62,19 @@ public class ListDirectoryTest extends AbstractServiceTest {
     }
 
     @Test(expected = InvalidTokenException.class)
-    public void invalidToken(){
+    public void invalidTokenListDir(){
         ListDirectoryService service = new ListDirectoryService(-1);
         service.execute();
     }
+    /*
+    @Test(expected = AccessDeniedException.class)
+    public void accessDeniedListDir(){
+        MyDriveManager.getInstance().createDirectory("MillenniumFalcon");
+        Directory millenniumFalcon = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("MillenniumFalcon");
+        millenniumFalcon.setPermissions("--------");
+        MyDriveManager.getInstance().login("Rebels","Rebels");
+        ListDirectoryService service = new ListDirectoryService(token);
+        service.execute();
+    }*/
 
 }

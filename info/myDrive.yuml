@@ -1,5 +1,5 @@
 [MyDriveManager]
-[Session| Long token; DateTime lastAccess;]
+[Session| String username; String dir; Long token; DateTime lastAccess;]
 [FileSystem| Integer idSeed;]
 [User| String username; String password; String name; String umask;]
 [EnvironmentVariable| String name; String value;]
@@ -23,7 +23,5 @@
 [FileSystem]0..1 filesystem - fsRoot 0..1[Directory] // FileSystemHasDirectory
 [Directory]1..1 parentDirectory - files *[File] // DirectoryHasFiles
 [User]0..1 user - homeDirectory 0..1[Directory] // UserHasHomeDirectory
-[User]0..1 currentUser - session 0..1[Session] // SessionHasCurrentUser
-[Directory]0..1 currentDir - session 0..1[Session] // SessionHasCurrentDirectory
 [MyDriveManager]1 manager - var *[EnvironmentVariable] // MyDriveManagerHasEnvironmentVariables
 [MyDriveManager]0..1 manager - session 0..*[Session] // MyDriveManagerHasSessions
