@@ -13,7 +13,6 @@ public class ChangeWorkingDirectoryCommand extends MdCommand {
     void execute(String[] args) {
         if (args.length < 1)
             throw new RuntimeException("USAGE: " + name() + " <path>");
-        System.out.println(MyDriveManager.getInstance().getCurrentSession().getToken());
         new ChangeDirectoryService(((MdShell) shell()).getCurrentToken(), args[0]).execute();
     }
 }

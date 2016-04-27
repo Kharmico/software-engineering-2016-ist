@@ -11,9 +11,6 @@ public class MdShell extends Shell {
 
     public static void main(String[] args) throws Exception {
         MdShell sh = new MdShell();
-        LoginUserService lus = new LoginUserService("nobody", "");
-        lus.execute();
-        sh.setCurrentToken(lus.result());
         sh.execute();
     }
     void setCurrentToken(long token){
@@ -24,8 +21,15 @@ public class MdShell extends Shell {
         return currentToken;
     }
 
+    void init(){
+        LoginUserService lus = new LoginUserService("nobody", "");
+        lus.execute();
+        setCurrentToken(lus.result());
+    }
+
     public MdShell() { // add commands here
         super("MyDrive");
+        init();
         new ChangeWorkingDirectoryCommand(this);
         new LoginCommand(this);
         new ListCommand(this);

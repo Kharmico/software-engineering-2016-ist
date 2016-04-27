@@ -5,7 +5,7 @@ import pt.tecnico.myDrive.service.LoginUserService;
 
 public class LoginCommand extends MdCommand {
 
-    public LoginCommand(MdShell sh) { super(sh, "login", "does the login service"); }
+    public LoginCommand(MdShell sh) { super(sh, "login", "does the login service");}
 
     @Override
     void execute(String[] args) {
