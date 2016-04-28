@@ -26,19 +26,19 @@ public abstract class Shell {
         out = new PrintWriter(w, flush);
 
         new Command(this, "quit", "Quit the command interpreter") {
-            void execute(String[] args) {
+            public void execute(String[] args) {
                 System.out.println(name+" quit");
                 System.exit(0);
             }
         };
         new Command(this, "exec", "execute an external command") {
-            void execute(String[] args) {
+            public void execute(String[] args) {
                 try { Sys.output(out); Sys.main(args);
                 } catch (Exception e) { throw new RuntimeException(""+e); }
             }
         };
         new Command(this, "run", "run a class method") {
-            void execute(String[] args) {
+            public void execute(String[] args) {
                 try {
                     if (args.length > 0)
                         shell().run(args[0], Arrays.copyOfRange(args, 1, args.length));
@@ -47,7 +47,7 @@ public abstract class Shell {
             }
         };
         new Command(this, "help", "this command help") {
-            void execute(String[] args) {
+            public void execute(String[] args) {
                 if (args.length == 0) {
                     for (String s: shell().list()) System.out.println(s);
                     System.out.println(name()+" name (for command details)");

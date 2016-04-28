@@ -10,7 +10,7 @@ public class KeyCommand extends MdCommand {
 
 
     @Override
-    void execute(String args[]) {
+    public void execute(String args[]) {
 
         if(args.length < 1)
             throw new RuntimeException("USAGE: " + name() + " <username>");

@@ -8,7 +8,7 @@ public class WriteCommand extends MdCommand {
     public WriteCommand(MdShell sh) { super(sh, "update", "changes the content of a specific file given by a path with the given text"); }
 
     @Override
-    void execute(String[] args) {
+    public void execute(String[] args) {
         if (args.length < 3)
             throw new RuntimeException("USAGE: " + name() + " path text");
         else{

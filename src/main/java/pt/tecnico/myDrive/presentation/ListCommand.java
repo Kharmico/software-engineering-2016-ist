@@ -7,7 +7,7 @@ public class ListCommand extends MdCommand {
 
     public ListCommand(MdShell sh) { super(sh, "ls", "it returns all files existing in the working directory. Path is optional"); }
     @Override
-    void execute(String[] args) {
+    public void execute(String[] args) {
         if (args.length > 1)
             throw new RuntimeException("USAGE: " + name() + " <path> (path is optional)");
         else if (args.length == 1) {
