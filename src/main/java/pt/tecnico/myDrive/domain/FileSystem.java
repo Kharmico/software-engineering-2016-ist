@@ -244,9 +244,8 @@ public class FileSystem extends FileSystem_Base {
 			if(f.getFilename().equals(filename))
 				throw new FileAlreadyExistsException(filename);
 		}
-		
 		directory.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
-				currentUser));
+				currentUser, directory));
 	}
 
 	
@@ -263,7 +262,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 		
 		directory.addFile(new PlainFile(this.generateUniqueId(), filename, currentUser.getUmask(),
-				currentUser, content));
+				currentUser, content, directory));
 	}	
 
 	
@@ -280,7 +279,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 		
 		directory.addFile(new LinkFile(this.generateUniqueId(), filename, currentUser.getUmask(),
-				currentUser, content));
+				currentUser, content, directory));
 	}
 
 	
@@ -297,7 +296,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 		
 		directory.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
-				currentUser));
+				currentUser, directory));
 	}
 
 	
@@ -314,7 +313,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 		
 		directory.addFile(new AppFile(this.generateUniqueId(), filename, currentUser.getUmask(),
-				currentUser, content));
+				currentUser, content, directory));
 	}
 
 

@@ -16,13 +16,24 @@ public abstract class File extends File_Base {
 	protected File(){
 		super();     
     }
-	
+
+	@Deprecated
 	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
+		setId(id);
+		setFilename(filename);
+		setPermissions(userMask);
+		setOwner(owner);
+		setLastModified(new DateTime());
+		assignExtension(filename, getClass().getName());
+	}
+
+	protected void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
         setId(id);		
         setFilename(filename);
 		setPermissions(userMask);
 		setOwner(owner);
         setLastModified(new DateTime());
+		setParentDirectory(parentDirectory);
 		assignExtension(filename, getClass().getName());
 	}
 
@@ -81,10 +92,11 @@ public abstract class File extends File_Base {
 
 	@Override
     public void setParentDirectory(Directory parentDirectory){
-		if(parentDirectory == null){
-			super.setParentDirectory(null);
-		}else
-			parentDirectory.addFile(this);
+//		if(parentDirectory == null){
+//			super.setParentDirectory(null);
+//		}else
+//			parentDirectory.addFile(this);
+		super.setParentDirectory(parentDirectory);
     }
 	
 	

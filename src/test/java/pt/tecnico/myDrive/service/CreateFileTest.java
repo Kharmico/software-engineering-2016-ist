@@ -103,6 +103,14 @@ public class CreateFileTest extends AbstractServiceTest {
         service.execute();
     }
 
+    @Test(expected = LoopLinkFileException.class)
+    public void linkWithLoop(){
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "yellow.link",
+                        "link", "/home/pikachu/yellow.link");
+        service.execute();
+    }
+
     @Test(expected = AccessDeniedException.class)
     public void createFileInADirectoryWithoutPermission(){
         MyDriveManager mg = MyDriveManager.getInstance();

@@ -13,21 +13,20 @@ public class Directory extends Directory_Base {
 
     protected Directory() {
         super();
-
     }
 
     
 	protected Directory(int id, String filename, String userMask, User owner, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
-		super.init(id, filename, userMask, owner);
-		this.setParentDirectory(this);
+		super.init(id, filename, userMask, owner, this);
+		//this.setParentDirectory(this);
 		this.setFilesystem(fs);
 
 	}
 
 	
 	protected Directory(int id, String filename, String userMask, User owner, Directory father) throws InvalidFileNameException, InvalidMaskException{
-		super.init(id, filename, userMask, owner);
-		this.setParentDirectory(father);
+		super.init(id, filename, userMask, owner, father);
+		//this.setParentDirectory(father);
 	}
 
 	
