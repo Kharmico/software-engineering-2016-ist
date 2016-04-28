@@ -11,8 +11,14 @@ public class ChangeWorkingDirectoryCommand extends MdCommand {
     public ChangeWorkingDirectoryCommand(MdShell sh) { super(sh, "cwd", "it changes the working directory"); }
     @Override
     public void execute(String[] args) {
-        if (args.length < 1)
+        ChangeDirectoryService cds;
+        if (args.length > 1)
             throw new RuntimeException("USAGE: " + name() + " <path>");
-        new ChangeDirectoryService(((MdShell) shell()).getCurrentToken(), args[0]).execute();
+        else if (args.length == 1)
+            cds = new ChangeDirectoryService(((MdShell) shell()).getCurrentToken(), args[0]);
+        else
+            cds = new ChangeDirectoryService(((MdShell) shell()).getCurrentToken());
+        cds.execute();
+        shell().println(cds.result());
     }
 }
