@@ -21,4 +21,14 @@ public class SystemTest extends AbstractServiceTest {
         new LoginCommand(sh).execute(new String[] { "root" , "***" });
         new ListCommand(sh).execute(new String[] { "." });
     }
+//    @Test
+//    public void cwdSuccess() {
+//        new LoginCommand(sh).execute(new String[] { "root" , "***" });
+//        new ChangeWorkingDirectoryCommand(sh).execute(new String[] { "/" });
+//        new ChangeWorkingDirectoryCommand(sh).execute(new String[] { "home" });
+//        new ChangeWorkingDirectoryCommand(sh).execute(new String[] { "root" });
+//        new ChangeWorkingDirectoryCommand(sh).execute(new String[] { ".." });
+//        new ChangeWorkingDirectoryCommand(sh).execute(new String[] { ".." });
+//        new ChangeWorkingDirectoryCommand(sh).execute(new String[] {  });
+//    }
 }
