@@ -9,13 +9,13 @@ public class AccessDeniedException extends MyDriveException {
 
 	private static final long serialVersionUID = 1L;
 
-	private final User conflictingUser;
+	private final String conflictingUser;
 
 	public AccessDeniedException(User user) {
-		conflictingUser = user;
+		conflictingUser = user.getUsername();
 	}
 	
-	public User getConflictingUser(){
+	public String getConflictingUser(){
 		return conflictingUser;
 	}
 	

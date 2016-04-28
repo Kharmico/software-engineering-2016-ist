@@ -41,6 +41,9 @@ public class FileSystem extends FileSystem_Base {
 			e.printStackTrace();
 		}
 
+		System.out.println(getFsRoot().getFilesSet().size());
+		System.out.println(getSlash().getFilesSet().size());
+
 		Directory home = new Directory(generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash());
 
 		addToSlash(home);
@@ -174,6 +177,11 @@ public class FileSystem extends FileSystem_Base {
 		if(path.equals("/"))
 			return getSlash();
 
+		if(path.equals("."))
+			return currentDir;
+		else if(path.equals(".."))
+			return currentDir.getFather();
+
 		Directory beforeLast = absolutePath(path, currentUser, currentDir);
 
 		String[] tokens = path.split(PATH_DELIM);
@@ -194,7 +202,7 @@ public class FileSystem extends FileSystem_Base {
 		} else if(path.startsWith(PATH_DELIM)){
 			resultantPath = path;
 		} else{
-			resultantPath = currentDirectory.getPath() + PATH_DELIM + path;
+			resultantPath = currentDirectory.getPath().equals(PATH_DELIM) ? currentDirectory.getPath() + path : currentDirectory.getPath() + PATH_DELIM + path;
 		}
 		if((resultantPath.length() > MAX_PATH_SIZE)){
 			throw new PathIsTooBigException(path);
@@ -208,6 +216,10 @@ public class FileSystem extends FileSystem_Base {
 
 	String getDirectoryFilesName(String path, User currentUser, Directory currentDir)
 			throws FileUnknownException, AccessDeniedException{
+		if(path.equals("."))
+			return currentDir.getDirectoryFilesName();
+		else if(path.equals(".."))
+			return currentDir.getFather().getDirectoryFilesName();
 		log.debug(absolutePath(path, getRoot(), currentDir).getPath());
 		File target = absolutePath(path, currentUser, currentDir).getFileByName(getLastPathToken(path));
 		target.checkAccessRead(currentUser);
