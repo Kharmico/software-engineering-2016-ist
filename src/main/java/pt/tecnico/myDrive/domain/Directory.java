@@ -63,7 +63,7 @@ public class Directory extends Directory_Base {
 		String ls = this.getSelfLs() + "\n" +
 				this.getFatherLs() + "\n";
 		for (File file: super.getFilesSet()){
-			if(!file.getFilename().equals(getFilename()))
+			if(!file.equals(this))
 				ls = ls + file.toString() + "\n";
 		}
 		return ls;

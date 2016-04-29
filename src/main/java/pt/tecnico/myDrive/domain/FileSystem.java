@@ -41,9 +41,6 @@ public class FileSystem extends FileSystem_Base {
 			e.printStackTrace();
 		}
 
-		System.out.println(getFsRoot().getFilesSet().size());
-		System.out.println(getSlash().getFilesSet().size());
-
 		Directory home = new Directory(generateUniqueId(), HOME_DIR, root.getUmask(), root, getSlash());
 
 		addToSlash(home);

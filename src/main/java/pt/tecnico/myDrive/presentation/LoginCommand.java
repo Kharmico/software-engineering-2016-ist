@@ -14,7 +14,7 @@ public class LoginCommand extends MdCommand {
         else {
             LoginUserService lus = args.length == 1 ? new LoginUserService(args[0], args[0]) : new LoginUserService(args[0], args[1]);
             lus.execute();
-            ((MdShell) shell()).setCurrentToken(lus.result());
+            ((MdShell) shell()).addSession(args[0],lus.result());
         }
     }
 
