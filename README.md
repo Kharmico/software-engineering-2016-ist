@@ -1,7 +1,7 @@
 
   M Y D R I V E
 
-  Equipa 9
+  Team 9
 
-  Engenharia de Software, IST 2016
+  Software Engineering, IST 2016
 
