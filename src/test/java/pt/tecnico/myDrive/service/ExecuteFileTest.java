@@ -8,7 +8,17 @@ import pt.tecnico.myDrive.exception.*;
 public class ExecuteFileTest extends AbstractServiceTest {
 
     @Override
-    public void populate() {}
+    public void populate() {
+        MyDriveManager manager = MyDriveManager.getInstance();
+        manager.addUser("Joao");
+        manager.addUser("Pedro");
+
+        manager.login("Joao","Joao");
+        manager.createAppFile("noperm");
+
+        manager.login("Pedro","Pedro");
+        manager.createAppFile("sufix");
+    }
 
 }
 
