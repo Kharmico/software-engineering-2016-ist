@@ -22,3 +22,7 @@ public class ExecuteCommand extends MdCommand{
     }
 }
 
+/*Execute: do path {args]
+Executa o ficheiro contido na diretoria indicada pelo caminho (path),
+com os argumentos args.*/
+
