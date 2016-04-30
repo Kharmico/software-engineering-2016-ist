@@ -11,11 +11,15 @@ public class ExecuteCommand extends MdCommand{
 
     @Override
     public void execute(String[] args) {
-        String path = args[1];
-        String arg = "";
-        for(int i = 2; i < args.length; i++){
-            arg += " ";
-            arg += args[i];
+        if (args.length < 3)
+            throw new RuntimeException("USAGE: " + name() + " path text");
+        else {
+            String path = args[1];
+            String arg = "";
+            for (int i = 2; i < args.length; i++) {
+                arg += " ";
+                arg += args[i];
+            }
         }
      //   ExecuteFileService executeFileService = new ExecuteFileService(((MdShell) shell()).getCurrentToken(), path, arg);
      //   executeFileService.execute();
