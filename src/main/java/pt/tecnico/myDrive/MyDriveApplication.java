@@ -37,7 +37,10 @@ public class MyDriveApplication{
 			FenixFramework.shutdown();
 		}
 	}
-	
+
+	public static void test(){
+		System.out.println("tested");
+	}
 
 	@Atomic
 	public static void setup(){
