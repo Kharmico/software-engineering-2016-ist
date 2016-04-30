@@ -7,6 +7,7 @@ public class ExecuteCommand extends MdCommand{
 
     public ExecuteCommand(MdShell sh){super(sh, "do", "execute the file given by a path with the args");}
 
-   
+    @Override
+    public void execute(String[] args) {}
 }
 
