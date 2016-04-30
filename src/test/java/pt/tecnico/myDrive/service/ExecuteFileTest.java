@@ -11,3 +11,10 @@ public class ExecuteFileTest extends AbstractServiceTest {
     public void populate() {}
 
 }
+
+/*
+1. Pedir para executar um  ficheiro sem especificar a path;
+2. Pedir para executar um ficheiro sem argumentos;
+3. Pedir para executar um ficheiro sem ter permissoes para tal;
+4. Executar um ficheiro que nao é uma aplicacao;
+ */
