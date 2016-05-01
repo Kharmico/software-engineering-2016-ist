@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.domain;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 import pt.tecnico.myDrive.exception.InvalidUsernameException;
+import pt.tecnico.myDrive.exception.PasswordIsTooWeakException;
 
 import java.util.LinkedHashMap;
 
@@ -17,7 +18,7 @@ public class User extends User_Base {
         super();
     }
     
-    public User(String username, FileSystem fs) throws  InvalidUsernameException{
+    public User(String username, FileSystem fs) throws  InvalidUsernameException, PasswordIsTooWeakException{
 		this.checkUsername(username);
 		this.setUsername(username);
 		this.setPassword(username);
@@ -32,8 +33,8 @@ public class User extends User_Base {
     	super.setUsername(username);
     }
     
-    @Override //FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
-	public void setPassword(String password) /*throws PasswordIsTooWeakException*/ {
+    @Override
+	public void setPassword(String password) throws PasswordIsTooWeakException {
 		checkPasswordStrength(password);
     	super.setPassword(password);
     }

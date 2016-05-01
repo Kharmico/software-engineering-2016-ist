@@ -51,7 +51,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     /* --- Users --- */
     
-    public void addUser(String username){
+    public void addUser(String username) throws UserAlreadyExistsException , InvalidUsernameException, PasswordIsTooWeakException{
     		super.getFilesystem().addUsers(username);
     }
 
@@ -200,7 +200,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     /* --- ImportXML --- */
     
-    public void xmlImport(Element element) throws IllegalStateException {
+    public void xmlImport(Element element) throws IllegalStateException, PasswordIsTooWeakException {
     	super.getFilesystem().xmlImport(element);
     }
     

@@ -82,7 +82,7 @@ public class FileSystem extends FileSystem_Base {
 
 	/* Users */
 
-	public void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException{
+	public void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException, PasswordIsTooWeakException{
 		try {
 			hasUser(username);
 		}catch (UserUnknownException e){
@@ -98,7 +98,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	@Override
-	public void addUsers(User user) throws UserAlreadyExistsException {
+	public void addUsers(User user) throws UserAlreadyExistsException, PasswordIsTooWeakException {
 		try {
 			hasUser(user.getUsername());
 		}catch (UserUnknownException e) {
@@ -401,7 +401,7 @@ public class FileSystem extends FileSystem_Base {
 	
      /* ImportXML */
 
-	void xmlImport(Element element) throws ImportDocumentException {
+	void xmlImport(Element element) throws ImportDocumentException, PasswordIsTooWeakException {
 		this.xmlImportUser(element.getChildren("user"));
 		this.xmlImportDir(element.getChildren("dir"));
 		this.xmlImportPlain(element.getChildren("plain"));
@@ -460,7 +460,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	private void xmlImportUser(List<Element> user) throws ImportDocumentException {
+	private void xmlImportUser(List<Element> user) throws ImportDocumentException, PasswordIsTooWeakException {
 		for (Element node : user) {
 			String username = node.getAttributeValue("username");
 			User toInsert;
