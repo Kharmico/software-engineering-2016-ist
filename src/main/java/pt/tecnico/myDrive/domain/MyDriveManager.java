@@ -22,7 +22,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     private MyDriveManager() {
         FenixFramework.getDomainRoot().setMyDriveManager(this);
         super.setFilesystem(new FileSystem(this));
-        currentSession = new Session(generateToken(), getFilesystem().getGuest(), getFilesystem().getSlash(),this);
+        currentSession = new Session(generateToken(), getFilesystem().getGuest(),
+                getFilesystem().getGuest().getHomeDirectory(),this);
         addSession(currentSession);
         System.out.println("Numero de sessoes criacao: " + getSessionSet().size());
     }
@@ -50,7 +51,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     /* --- Users --- */
     
-    public void addUser(String username){
+    public void addUser(String username) throws UserAlreadyExistsException , InvalidUsernameException, PasswordIsTooWeakException{
     		super.getFilesystem().addUsers(username);
     }
 
@@ -87,7 +88,12 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public String changeDirectory(String directoryName, long token) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{
         checkForSession(token);
-        Directory toChange = getFilesystem().getLastDirectory(directoryName, currentSession.getCurrentDir(), currentSession.getCurrentUser());
+        log.debug("TARGET DIR: " + directoryName);
+        Directory toChange;
+        if(directoryName.equals(getCurrentSession().getCurrentUser().getHomeDirectory().getPath()))
+            toChange = getCurrentSession().getCurrentUser().getHomeDirectory();
+        else
+            toChange = getFilesystem().getLastDirectory(directoryName, currentSession.getCurrentDir(), currentSession.getCurrentUser());
 		currentSession.setCurrentDir(toChange);
         return toChange.getPath();
     }
@@ -97,6 +103,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public String getDirectoryFilesName(String path, long token) throws InvalidTokenException, AccessDeniedException{
         checkForSession(token);
+        //log.debug("Current Dir: " + currentSession.getCurrentDir().getPath());
         return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
@@ -107,7 +114,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public void writeContent(String path, String content, long token){
         checkForSession(token);
-        log.debug("WRITE", path);
+        //log.debug("WRITE", path);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
    
@@ -193,7 +200,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     /* --- ImportXML --- */
     
-    public void xmlImport(Element element) throws IllegalStateException {
+    public void xmlImport(Element element) throws IllegalStateException, PasswordIsTooWeakException {
     	super.getFilesystem().xmlImport(element);
     }
     

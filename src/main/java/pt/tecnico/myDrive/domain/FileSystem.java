@@ -48,7 +48,6 @@ public class FileSystem extends FileSystem_Base {
 		Directory rootHomeDirectory = new Directory(generateUniqueId(),
 				root.getUsername(), root.getUmask(), root, home);
 		home.addFile(rootHomeDirectory);
-		//root.setHomeDirectory(rootHomeDirectory);
 		root.setHomeDirectory((Directory) home.getFileByName(ROOT_USER));
 
 		Guest guest = new Guest();
@@ -83,7 +82,7 @@ public class FileSystem extends FileSystem_Base {
 
 	/* Users */
 
-	public void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException{
+	public void addUsers(String username) throws UserAlreadyExistsException , InvalidUsernameException, PasswordIsTooWeakException{
 		try {
 			hasUser(username);
 		}catch (UserUnknownException e){
@@ -99,7 +98,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	@Override
-	public void addUsers(User user) throws UserAlreadyExistsException {
+	public void addUsers(User user) throws UserAlreadyExistsException, PasswordIsTooWeakException {
 		try {
 			hasUser(user.getUsername());
 		}catch (UserUnknownException e) {
@@ -139,7 +138,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected void hasUser(String username) throws UserUnknownException {
+	private void hasUser(String username) throws UserUnknownException {
 		this.getUserByUsername(username);
 	}
 
@@ -165,19 +164,22 @@ public class FileSystem extends FileSystem_Base {
 	
 	private Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser)
 			throws FileUnknownException{
-
 		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
 	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-		if(path.equals("/"))
+		if(path.equals("/")) {
+			getSlash().checkAccessRead(currentUser);
 			return getSlash();
-
+		}
+		// FIXME: DIOGO: maybe else if?
 		if(path.equals("."))
 			return currentDir;
-		else if(path.equals(".."))
+		else if(path.equals("..")) {
+			currentDir.getFather().checkAccessRead(currentUser);
 			return currentDir.getFather();
+		}
 
 		Directory beforeLast = absolutePath(path, currentUser, currentDir);
 
@@ -399,7 +401,7 @@ public class FileSystem extends FileSystem_Base {
 	
      /* ImportXML */
 
-	void xmlImport(Element element) throws ImportDocumentException {
+	void xmlImport(Element element) throws ImportDocumentException, PasswordIsTooWeakException {
 		this.xmlImportUser(element.getChildren("user"));
 		this.xmlImportDir(element.getChildren("dir"));
 		this.xmlImportPlain(element.getChildren("plain"));
@@ -458,7 +460,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	private void xmlImportUser(List<Element> user) throws ImportDocumentException {
+	private void xmlImportUser(List<Element> user) throws ImportDocumentException, PasswordIsTooWeakException {
 		for (Element node : user) {
 			String username = node.getAttributeValue("username");
 			User toInsert;

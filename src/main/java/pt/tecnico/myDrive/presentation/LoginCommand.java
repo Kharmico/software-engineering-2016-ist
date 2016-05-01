@@ -12,7 +12,7 @@ public class LoginCommand extends MdCommand {
         if (args.length <= 0 || args.length > 3)
             throw new RuntimeException("USAGE: " + name() + " username <password>");
         else {
-            LoginUserService lus = args.length == 1 ? new LoginUserService(args[0], args[0]) : new LoginUserService(args[0], args[1]);
+            LoginUserService lus = args.length == 1 ? new LoginUserService(args[0], "") : new LoginUserService(args[0], args[1]);
             lus.execute();
             ((MdShell) shell()).addSession(args[0],lus.result());
         }

@@ -18,7 +18,9 @@ public class Session extends Session_Base {
     }
 
     public Directory getCurrentDir(){
-        return getManager().getFilesystem().getLastDirectory(getDir(),getManager().getFilesystem().getSlash(),getManager().getFilesystem().getUserByUsername(getUsername()));
+        return getManager().getFilesystem()
+                .getLastDirectory(getDir(), getManager().getFilesystem().getSlash(), getManager().getFilesystem()
+                        .getRoot());
     }
 
     public void setCurrentDir(Directory dir){
