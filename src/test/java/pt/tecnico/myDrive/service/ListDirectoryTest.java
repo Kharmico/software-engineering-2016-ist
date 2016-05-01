@@ -24,7 +24,6 @@ public class ListDirectoryTest extends AbstractServiceTest {
         mg.login("root","***");
 
         Session currentSession = mg.getCurrentSession();
-        mg.getFilesystem().addUsers("Rebels");
 
         currentSession.setCurrentDir(mg.getFilesystem().getHomeDirectory());
         mg.createDirectory("DeathStar");
@@ -66,15 +65,25 @@ public class ListDirectoryTest extends AbstractServiceTest {
         ListDirectoryService service = new ListDirectoryService(-1);
         service.execute();
     }
-    /*
+
     @Test(expected = AccessDeniedException.class)
     public void accessDeniedListDir(){
+        Session currentSession = MyDriveManager.getInstance().getCurrentSession();
+        currentSession.setCurrentDir(MyDriveManager.getInstance().getFilesystem().getHomeDirectory());
         MyDriveManager.getInstance().createDirectory("MillenniumFalcon");
         Directory millenniumFalcon = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("MillenniumFalcon");
         millenniumFalcon.setPermissions("--------");
-        MyDriveManager.getInstance().login("Rebels","Rebels");
+        currentSession.setCurrentDir((Directory)MyDriveManager.getInstance().getFilesystem().getHomeDirectory().getFileByName("MillenniumFalcon"));
+        MyDriveManager.getInstance().createDirectory("HanSolo");
+        Directory hanSolo = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("HanSolo");
+        hanSolo.setPermissions("--------");
+        MyDriveManager.getInstance().createDirectory("Chewbacca");
+        Directory chewbacca = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("Chewbacca");
+        chewbacca.setPermissions("--------");
+        MyDriveManager.getInstance().getFilesystem().addUsers("Empire");
+        MyDriveManager.getInstance().login("Empire","Empire");
         ListDirectoryService service = new ListDirectoryService(token);
         service.execute();
-    }*/
+    }
 
 }
