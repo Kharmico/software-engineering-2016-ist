@@ -164,15 +164,16 @@ public class FileSystem extends FileSystem_Base {
 	
 	private Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser)
 			throws FileUnknownException{
-
 		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
 	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
-		if(path.equals("/"))
+		if(path.equals("/")) {
+			getSlash().checkAccessRead(currentUser);
 			return getSlash();
-
+		}
+		// FIXME: DIOGO: maybe else if?
 		if(path.equals("."))
 			return currentDir;
 		else if(path.equals("..")) {
