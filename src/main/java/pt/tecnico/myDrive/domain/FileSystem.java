@@ -48,7 +48,6 @@ public class FileSystem extends FileSystem_Base {
 		Directory rootHomeDirectory = new Directory(generateUniqueId(),
 				root.getUsername(), root.getUmask(), root, home);
 		home.addFile(rootHomeDirectory);
-		//root.setHomeDirectory(rootHomeDirectory);
 		root.setHomeDirectory((Directory) home.getFileByName(ROOT_USER));
 
 		Guest guest = new Guest();
@@ -139,7 +138,7 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 	
-	protected void hasUser(String username) throws UserUnknownException {
+	private void hasUser(String username) throws UserUnknownException {
 		this.getUserByUsername(username);
 	}
 
@@ -176,8 +175,10 @@ public class FileSystem extends FileSystem_Base {
 
 		if(path.equals("."))
 			return currentDir;
-		else if(path.equals(".."))
+		else if(path.equals("..")) {
+			currentDir.getFather().checkAccessRead(currentUser);
 			return currentDir.getFather();
+		}
 
 		Directory beforeLast = absolutePath(path, currentUser, currentDir);
 

@@ -22,7 +22,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     private MyDriveManager() {
         FenixFramework.getDomainRoot().setMyDriveManager(this);
         super.setFilesystem(new FileSystem(this));
-        currentSession = new Session(generateToken(), getFilesystem().getGuest(), getFilesystem().getSlash(),this);
+        currentSession = new Session(generateToken(), getFilesystem().getGuest(),
+                getFilesystem().getGuest().getHomeDirectory(),this);
         addSession(currentSession);
         System.out.println("Numero de sessoes criacao: " + getSessionSet().size());
     }
@@ -97,6 +98,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public String getDirectoryFilesName(String path, long token) throws InvalidTokenException, AccessDeniedException{
         checkForSession(token);
+        //log.debug("Current Dir: " + currentSession.getCurrentDir().getPath());
         return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
@@ -107,7 +109,7 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public void writeContent(String path, String content, long token){
         checkForSession(token);
-        log.debug("WRITE", path);
+        //log.debug("WRITE", path);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
    
