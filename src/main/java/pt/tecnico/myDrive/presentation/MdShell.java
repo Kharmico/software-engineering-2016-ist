@@ -10,7 +10,8 @@ import java.util.LinkedHashMap;
  */
 public class MdShell extends Shell {
     private String currentUser;
-    private LinkedHashMap<String,Long> sessions = new LinkedHashMap<>();
+    //private long currentToken;  -> imagine various sessions for the same username...
+    private LinkedHashMap<String,Long> sessions = new LinkedHashMap<>(); //Can only be of active sessions!!!
 
     public static void main(String[] args) throws Exception {
         MdShell sh = new MdShell();
@@ -55,8 +56,8 @@ public class MdShell extends Shell {
         new ChangeWorkingDirectoryCommand(this);
         new LoginCommand(this);
         new ListCommand(this);
-        //new EnvironmentCommand(this);
-        //new KeyCommand(this);
+        new EnvironmentCommand(this);
+        new KeyCommand(this);
 //        new CreateContact(this);
 //        new RemovePerson(this);
 //        new RemoveContact(this);
