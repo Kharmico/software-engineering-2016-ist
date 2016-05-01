@@ -5,9 +5,9 @@ public class ExecuteFileService extends MyDriveService {
 
     private long _token;
     private String _path;
-    private String _args[];
+    private String _args;
 
-    public ExecuteFileService(long token, String path, String args[]) {
+    public ExecuteFileService(long token, String path, String args) {
         _token = token;
         _path = path;
         _args = args;
@@ -15,7 +15,7 @@ public class ExecuteFileService extends MyDriveService {
 
     @Override
     public void dispatch() {
-        //getMyDriveManager().executeFile(_token, _path, _args);
+        getMyDriveManager().executePlainFile(_path, _args, _token);
     }
 
 }
