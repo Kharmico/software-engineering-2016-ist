@@ -38,10 +38,6 @@ public class MyDriveApplication{
 		}
 	}
 
-	public static void test(){
-		System.out.println("tested");
-	}
-
 	@Atomic
 	public static void setup(){
 		log.trace("MyDriveApplication.setup: Setting up Manager." );

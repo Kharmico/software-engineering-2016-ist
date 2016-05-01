@@ -9,14 +9,15 @@ public class WriteCommand extends MdCommand {
 
     @Override
     public void execute(String[] args) {
-        if (args.length < 3)
+        if (args.length < 2)
             throw new RuntimeException("USAGE: " + name() + " path text");
         else{
-            String filename = args[1];
+            String filename = args[0];
             String content = "";
-            for(int i = 2; i < args.length; i++){
-                content += " ";
+            for(int i = 1; i < args.length; i++){
                 content += args[i];
+                if(i != args.length -1)
+                    content += " ";
             }
             WriteFileService writeFileService = new WriteFileService(((MdShell) shell()).getCurrentToken(), filename, content);
             writeFileService.execute();

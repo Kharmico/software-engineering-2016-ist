@@ -220,7 +220,7 @@ public class FileSystem extends FileSystem_Base {
 			return currentDir.getDirectoryFilesName();
 		else if(path.equals(".."))
 			return currentDir.getFather().getDirectoryFilesName();
-		log.debug(absolutePath(path, getRoot(), currentDir).getPath());
+		//log.debug(absolutePath(path, getRoot(), currentDir).getPath());
 		File target = absolutePath(path, currentUser, currentDir).getFileByName(getLastPathToken(path));
 		target.checkAccessRead(currentUser);
 		return target.getDirectoryFilesName();

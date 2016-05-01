@@ -17,16 +17,6 @@ public abstract class File extends File_Base {
 		super();     
     }
 
-	@Deprecated
-	protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
-		setId(id);
-		setFilename(filename);
-		setPermissions(userMask);
-		setOwner(owner);
-		setLastModified(new DateTime());
-		assignExtension(filename, getClass().getName());
-	}
-
 	protected void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
         setId(id);		
         setFilename(filename);
@@ -39,7 +29,7 @@ public abstract class File extends File_Base {
 
 	/* Extensions */
 
-	protected void assignExtension(String filename, String classname){
+	private void assignExtension(String filename, String classname){
 		String[] tokens = filename.split("\\.");
 		if(tokens.length >= 2)
 			_extension = tokens[tokens.length-1];
@@ -62,11 +52,11 @@ public abstract class File extends File_Base {
 		}
 	}
 
-	protected String getExtension(){
+	String getExtension(){
 		return _extension;
 	}
 
-	protected void setExtension(String extension){
+	private void setExtension(String extension){
 		_extension = extension;
 	}
 

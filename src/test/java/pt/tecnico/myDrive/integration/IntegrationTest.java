@@ -47,8 +47,8 @@ public class IntegrationTest extends AbstractServiceTest{
         assertEquals(lsresult[1],"rwxd---- Ricardo ..");
         assertEquals(lsresult[2],"rwxd---- Ricardo Novo Plain");
         assertEquals(lsresult[3],"rwxd---- Ricardo Novo Link -> Nova App");
-        assertEquals(lsresult[4],"rwxd---- Ricardo Nova App 2 -> pt.tecnico.myDrive.domain.Directory");
-        assertEquals(lsresult[5],"rwxd---- Ricardo Nova App -> pt.tecnico.myDrive.domain.Directory.getPath()");
+        assertEquals(lsresult[4],"rwxd---- Ricardo Nova App 2");
+        assertEquals(lsresult[5],"rwxd---- Ricardo Nova App");
         assertEquals(lsresult[6],"rwxd---- Ricardo AMS");
 
         new WriteFileService(lus.result(),"Nova App","pt.tecnico.myDrive.domain.Directory.getFilename()").dispatch();

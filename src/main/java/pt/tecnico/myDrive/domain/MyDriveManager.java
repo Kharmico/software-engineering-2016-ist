@@ -78,7 +78,7 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public String changeDirectory(String directoryName, long token) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{
         checkForSession(token);
-        log.debug("TARGET DIR: " + directoryName);
+        //log.debug("TARGET DIR: " + directoryName);
         Directory toChange;
         if(directoryName.equals(getCurrentSession().getCurrentUser().getHomeDirectory().getPath()))
             toChange = getCurrentSession().getCurrentUser().getHomeDirectory();

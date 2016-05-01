@@ -11,12 +11,12 @@ public class ExecuteCommand extends MdCommand{
 
     @Override
     public void execute(String[] args) {
-        if (args.length < 3)
-            throw new RuntimeException("USAGE: " + name() + " path text");
+        if (args.length < 1)
+            throw new RuntimeException("USAGE: " + name() + " path [args]");
         else {
-            String path = args[1];
+            String path = args[0];
             String arg = "";
-            for (int i = 2; i < args.length; i++) {
+            for (int i = 1; i < args.length; i++) {
                 arg += " ";
                 arg += args[i];
             }

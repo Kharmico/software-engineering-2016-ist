@@ -20,16 +20,6 @@ public class PlainFile extends PlainFile_Base {
 
 	}
 
-	@Deprecated
-	protected PlainFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException {
-    	this.init(id, filename, userMask, owner);
-    }
-
-	@Deprecated
-	protected PlainFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
-    	this.init(id, filename, userMask, owner, content);
-
-    }
 
 	@Override
 	protected void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
@@ -41,18 +31,6 @@ public class PlainFile extends PlainFile_Base {
 		init(id, filename, userMask, owner, parentDirectory);
 		this.setContent(content);
 	}
-
-    @Override
-	@Deprecated
-    protected void init(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException{
-    	super.init(id, filename, userMask, owner);
-    }
-
-	@Deprecated
-    protected void init(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException {
-    	init(id, filename, userMask, owner);
-    	this.setContent(content);
-    }
 
 
 	@Override

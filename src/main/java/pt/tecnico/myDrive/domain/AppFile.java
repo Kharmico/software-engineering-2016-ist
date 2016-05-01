@@ -22,16 +22,6 @@ public class AppFile extends AppFile_Base {
         super.init(id, filename, userMask, owner, content, parentDirectory);
 
     }
-
-    @Deprecated
-    protected AppFile(int id, String filename, String userMask, User owner) throws InvalidFileNameException, InvalidMaskException {
-    	super.init(id, filename, userMask, owner);
-    }
-    @Deprecated
-    protected AppFile(int id, String filename, String userMask, User owner, String content) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
-    	super.init(id, filename, userMask, owner, content);
-
-    }
     
     @Override
     public void writeContent(String content, User logged) throws InvalidContentException{
@@ -72,8 +62,4 @@ public class AppFile extends AppFile_Base {
         return pf_el;
     }
 
-    @Override
-    public String toString(){
-        return super.toString() + " -> " + getContent();
-    }
 }

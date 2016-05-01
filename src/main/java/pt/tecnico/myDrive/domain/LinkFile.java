@@ -20,17 +20,6 @@ public class LinkFile extends LinkFile_Base {
 
     }
 
-    @Deprecated
-    protected LinkFile(int id, String filename, String userMask, User owner, String content) throws
-            InvalidFileNameException, InvalidMaskException, LinkFileWithoutContentException, LoopLinkFileException {
-    	if(invalidContent(content)){
-            throw new LinkFileWithoutContentException(filename + " link has an invalid content.");
-        }/*else if(loopContent(content, filename)){
-            throw new LoopLinkFileException(filename);
-        }*/
-        super.init(id, filename, userMask, owner, content);
-
-    }
 
     private boolean invalidContent(String content){
         return content == null || content.isEmpty();
