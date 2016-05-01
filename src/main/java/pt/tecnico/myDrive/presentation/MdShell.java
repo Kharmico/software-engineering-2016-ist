@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.presentation;
 
+import pt.tecnico.myDrive.exception.UserUnknownException;
 import pt.tecnico.myDrive.service.LoginUserService;
 
 import java.util.ArrayList;
@@ -36,7 +37,10 @@ public class MdShell extends Shell {
     }
 
     void setCurrentUser(String username){
-        currentUser = username;
+        if(sessions.get(currentUser) == null)
+            throw new UserUnknownException(username);
+        else
+            currentUser = username;
     }
 
     public LinkedHashMap<String,Long> getSessions(){
