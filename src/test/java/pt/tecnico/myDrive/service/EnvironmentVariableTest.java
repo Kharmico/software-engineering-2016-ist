@@ -29,13 +29,13 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
         return MyDriveManager.getInstance().listEnvironmentVariables(token);
     }
 
-	/*
+	
 	@Test
 	public void successNewEnvVar(){
 		String value = "ItsMeMario";
 		String writtenValue = "";
-		EnvironmentVariableService service = 
-				new EnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoNotExistButIWill", value);
+		AddEnvironmentVariableService service = 
+				new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoNotExistButIWill", value);
 		service.execute();
 		writtenValue = getValue(MyDriveManager.getInstance().getCurrentSession().getToken()).toLowerCase();
 		
@@ -46,8 +46,8 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
 	public void successExistingVar(){
 		String value = "NewValue";
 		String writtenValue = "";
-		EnvironmentVariableService service = 
-				new EnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "EnVarTest1", value);
+		AddEnvironmentVariableService service = 
+				new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "EnVarTest1", value);
 		service.execute();
 		writtenValue = getValue(MyDriveManager.getInstance().getCurrentSession().getToken()).toLowerCase();
 		
@@ -57,9 +57,9 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
 	
     @Test(expected = InvalidTokenException.class)
     public void invalidToken(){
-    	EnvironmentVariableService service = new EnvironmentVariableService(-1, "EnVarTest3", "t0k3n");
+    	AddEnvironmentVariableService service = new AddEnvironmentVariableService(-1, "EnVarTest3", "t0k3n");
     	service.execute();
     }
 	
-	*/
+	
 }
