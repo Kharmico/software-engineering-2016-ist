@@ -41,7 +41,7 @@ public class IntegrationTest extends AbstractServiceTest{
 
         ListDirectoryService ls = new ListDirectoryService(lus.result());
         ls.dispatch();
-        String[] lsresult = parseLs(ls.result(),"Ricardo");
+        String[] lsresult = parseLs(ls.result());
         assertTrue(lsresult.length == 7);
         assertEquals(lsresult[0],"rwxd---- Ricardo .");
         assertEquals(lsresult[1],"rwxd---- Ricardo ..");
@@ -76,7 +76,7 @@ public class IntegrationTest extends AbstractServiceTest{
 
         ls = new ListDirectoryService(lus.result());
         ls.dispatch();
-        lsresult = parseLs(ls.result(),"Ricardo");
+        lsresult = parseLs(ls.result());
         assertTrue(lsresult.length == 2);
         assertEquals(lsresult[0],"rwxd---- Ricardo .");
         assertEquals(lsresult[1],"rwxdr-x- root ..");
@@ -127,7 +127,7 @@ public class IntegrationTest extends AbstractServiceTest{
 
         ls = new ListDirectoryService(lus.result());
         ls.dispatch();
-        lsresult = parseLs(ls.result(),"root");
+        lsresult = parseLs(ls.result());
         assertTrue(lsresult.length == 3);
         assertEquals(lsresult[0],"rwxdr-x- root .");
         assertEquals(lsresult[1],"rwxdr-x- root ..");
@@ -137,7 +137,7 @@ public class IntegrationTest extends AbstractServiceTest{
 
     }
 
-    public String[] parseLs(String result, String username){
+    public String[] parseLs(String result){
         String[] tokens = result.split("\\n");
         String[] output = new String[tokens.length];
         // 9 it's the permissions + space

@@ -37,10 +37,7 @@ public class MdShell extends Shell {
     }
 
     void setCurrentUser(String username){
-        if(sessions.get(currentUser) == null)
-            throw new UserUnknownException(username);
-        else
-            currentUser = username;
+        currentUser = username;
     }
 
     public LinkedHashMap<String,Long> getSessions(){
