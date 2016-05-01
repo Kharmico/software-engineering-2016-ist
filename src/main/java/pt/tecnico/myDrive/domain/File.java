@@ -165,7 +165,7 @@ public abstract class File extends File_Base {
 
 	public abstract void writeContent(String content, User logged) throws IsNotPlainFileException;
 
-	protected abstract void executeFile(User logged) throws IsNotAppFileException;
+	protected abstract void executeFile(User logged, String args) throws IsNotPlainFileException;
 	
 	protected abstract void addFile(File toAdd) throws UnsupportedOperationException;
 	

@@ -97,9 +97,6 @@ public class MyDriveManager extends MyDriveManager_Base {
 		currentSession.setCurrentDir(toChange);
         return toChange.getPath();
     }
-    
-
-
 
     public String getDirectoryFilesName(String path, long token) throws InvalidTokenException, AccessDeniedException{
         checkForSession(token);
@@ -116,6 +113,11 @@ public class MyDriveManager extends MyDriveManager_Base {
         checkForSession(token);
         //log.debug("WRITE", path);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
+    }
+    
+    public void executePlainFile(String path, String args, long token){
+    	checkForSession(token);
+    	getFilesystem().executeFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), args);
     }
    
     

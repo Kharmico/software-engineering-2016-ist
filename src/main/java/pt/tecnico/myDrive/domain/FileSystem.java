@@ -380,6 +380,13 @@ public class FileSystem extends FileSystem_Base {
 		d.getFileByName(filename).checkAccessWrite(currentUser);
 		d.getFileByName(filename).writeContent(content, currentUser);
 	}
+	
+	void executeFile(String path, User currentUser, Directory currentDirectory, String args){
+		Directory d = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
+		d.getFileByName(filename).checkAccessEx(currentUser);
+		d.getFileByName(filename).executeFile(currentUser, args);
+	}
 
     /* Uniques Ids */
     private int generateUniqueId(){

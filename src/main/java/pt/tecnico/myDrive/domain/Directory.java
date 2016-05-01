@@ -132,8 +132,8 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public void executeFile(User logged) throws IsNotAppFileException {
-		throw new IsNotAppFileException(this.getFilename());
+	public void executeFile(User logged, String args) throws IsNotPlainFileException {
+		throw new IsNotPlainFileException(this.getFilename());
 	}
 	
     @Override

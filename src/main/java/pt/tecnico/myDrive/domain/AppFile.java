@@ -55,7 +55,7 @@ public class AppFile extends AppFile_Base {
     }
     
     @Override
-    protected void executeFile(User logged){
+    protected void executeFile(User logged, String args){
     	//FIXME
     }
 

@@ -67,7 +67,7 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    protected void executeFile(User logged) throws FileUnknownException, IsNotAppFileException{
+    protected void executeFile(User logged, String args) throws FileUnknownException, IsNotAppFileException{
     	String realContent = this.getContent();
     	String appContent = "";
     	
