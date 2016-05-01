@@ -75,8 +75,8 @@ public class Directory extends Directory_Base {
 	}
 
 	public String getFatherLs(){
-		return this.getPermissions() + " " + super.getOwner()
-				+ " " + super.getLastModified() + " ..";
+		return getFather().getPermissions() + " " + getFather().getOwner()
+				+ " " + getFather().getLastModified() + " ..";
 	}
 
 	public File getFileByName(String name) throws FileUnknownException {

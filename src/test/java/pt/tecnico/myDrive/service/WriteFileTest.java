@@ -100,4 +100,11 @@ public class WriteFileTest extends AbstractServiceTest {
     	service.execute();
     }
 
+    @Test(expected = IsNotPlainFileException.class)
+    public void writeDirectory(){
+        MyDriveManager.getInstance().login("root","***");
+    	WriteFileService service = 
+    			new WriteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/Josefina", "Exception!");
+    	service.execute();
+    }
 }

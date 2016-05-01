@@ -143,9 +143,10 @@ public abstract class File extends File_Base {
 	
 	private void generalPermissionChecker(User u, int ownPermIndex, int otherPermIndex)
 			throws AccessDeniedException{
-		if(u.getUsername() == null){
-			log.debug("USERNAME A NULL NAS PERMISSOES");
-		}
+		/*log.debug("User: " + u.getUsername());
+		log.debug("Directory Owner: " + getOwner().getUsername());
+		log.debug("Home: " + u.getHomeDirectory().getPath());
+		log.debug("Directory to be accessed: " + this.getPath());*/
 		if(u.equals(getOwner())) {
 			if (getPermissions().charAt(ownPermIndex) == '-')
 				throw new AccessDeniedException(u);
