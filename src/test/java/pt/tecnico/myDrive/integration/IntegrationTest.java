@@ -74,13 +74,12 @@ public class IntegrationTest extends AbstractServiceTest{
 
         new DeleteFileService(lus.result(),"/home/Ricardo/Nova Pasta").dispatch();
 
-        // FIXME: diogo check this
-       /* ls = new ListDirectoryService(lus.result());
+        ls = new ListDirectoryService(lus.result());
         ls.dispatch();
         lsresult = parseLs(ls.result(),"Ricardo");
         assertTrue(lsresult.length == 2);
         assertEquals(lsresult[0],"rwxd---- Ricardo .");
-        assertEquals(lsresult[1],"rwxd---- Ricardo ..");*/
+        assertEquals(lsresult[1],"rwxdr-x- root ..");
 
         lus = new LoginUserService("nobody","");
         lus.dispatch();
@@ -144,7 +143,7 @@ public class IntegrationTest extends AbstractServiceTest{
         // 9 it's the permissions + space
         // 31 it's the date + space
         for(int i = 0; i < tokens.length; i++)
-            output[i] = tokens[i].substring(0,9 + username.length()) + " " + tokens[i].substring(9 + username.length() + 31);
+            output[i] = tokens[i].substring(0, 9 + tokens[i].split(" ")[1].length()) + " " + tokens[i].substring(9 + tokens[i].split(" ")[1].length() + 31);
         return output;
     }
 
