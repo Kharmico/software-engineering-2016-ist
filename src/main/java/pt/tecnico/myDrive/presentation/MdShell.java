@@ -59,10 +59,7 @@ public class MdShell extends Shell {
         new ListCommand(this);
         new EnvironmentCommand(this);
         new KeyCommand(this);
-//        new CreateContact(this);
-//        new RemovePerson(this);
-//        new RemoveContact(this);
-//        new Import(this);
-//        new Export(this);
+        new ExecuteCommand(this);
+        new WriteCommand(this);
     }
 }
