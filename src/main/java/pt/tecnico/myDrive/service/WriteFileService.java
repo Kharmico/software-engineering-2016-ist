@@ -16,7 +16,6 @@ public class WriteFileService extends MyDriveService{
 
     @Override
     public void dispatch() throws FileUnknownException, UnsupportedOperationException {
-        System.out.println("DISPATCH    ");
         getMyDriveManager().writeContent(_filename, _content, _token);
     }
 }

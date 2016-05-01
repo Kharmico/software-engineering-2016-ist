@@ -3,6 +3,10 @@ package pt.tecnico.myDrive.service;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 
+
+/*List Directory
+Lists the current directory. This service receives a token.
+It returns the relevant characteristics of each file in the current directory*/
 public class ListDirectoryService extends MyDriveService{
 
     private long _token;
@@ -28,6 +32,3 @@ public class ListDirectoryService extends MyDriveService{
     }
 }
 
-/*List Directory
-Efetua a listagem completa da diretoria corrente.  Este serviço recebe o token.
-O serviço devolve as carateristicas relevantes de cada ficheiro na diretoria corrente*/
