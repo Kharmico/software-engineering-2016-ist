@@ -109,7 +109,7 @@ public class IntegrationTest extends AbstractServiceTest{
         new AddEnvironmentVariableService(lus.result(),"$HOME","/home").dispatch();
         AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"$ROOT","/home/root");
         ev.dispatch();
-        assertTrue(MyDriveManager.getInstance().getVarSet().size() == 2);
+        assertTrue(MyDriveManager.getInstance().getCurrentSession().getVarSet().size() == 2);
         assertEquals("$ROOT = /home/root\n$HOME = /home\n",ev.result());
 
 

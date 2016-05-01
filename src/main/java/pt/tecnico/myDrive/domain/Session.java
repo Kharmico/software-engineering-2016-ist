@@ -31,6 +31,22 @@ public class Session extends Session_Base {
         return getManager().getFilesystem().getUserByUsername(getUsername());
     }
 
+    public void addEnvironmentVariable(String name, String value) {
+        for(EnvironmentVariable var : super.getVarSet()){
+            if(var.getName().equals(name)){
+                var.setValue(value);
+                return;
+            }
+        }
+        super.getVarSet().add(new EnvironmentVariable(name, value, this));
+    }
 
+    public String listEnvironmentVariables() {
+        String list = "";
+        for(EnvironmentVariable var : super.getVarSet()){
+            list += var.toString() + "\n";
+        }
+        return list;
+    }
     
 }

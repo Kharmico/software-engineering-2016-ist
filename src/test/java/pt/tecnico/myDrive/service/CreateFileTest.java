@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.service;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
+import pt.tecnico.myDrive.domain.Guest;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.*;
 
@@ -85,6 +86,17 @@ public class CreateFileTest extends AbstractServiceTest {
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "trainer.link", "link"
                 , "/home/pikachu/ash.txt");
+        service.execute();
+    }
+
+    @Test
+    public void successFileByGuest(){
+        MyDriveManager.getInstance().login("nobody","");
+        MyDriveManager.getInstance().getCurrentSession().setCurrentDir((Directory)MyDriveManager.getInstance().getFilesystem().getHomeDirectory().getFileByName("nobody"));
+        String filename = "GameShark.txt";
+        CreateFileService service =
+                new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename,
+                        "plain", "Infinite MasterBalls: 958D8046A7151D708BB602F78CEB681A");
         service.execute();
     }
 

@@ -60,22 +60,12 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public void addEnvironmentVariable(String name, String value, long token) throws InvalidTokenException{
         checkForSession(token);
-        for(EnvironmentVariable var : super.getVarSet()){
-            if(var.getName().equals(name)){
-                var.setValue(value);
-                return;
-            }
-        }
-        super.getVarSet().add(new EnvironmentVariable(name, value, this));
+        getCurrentSession().addEnvironmentVariable(name, value);
     }
 
     public String listEnvironmentVariables(long token) throws InvalidTokenException{
         checkForSession(token);
-        String list = "";
-        for(EnvironmentVariable var : super.getVarSet()){
-            list += var.toString() + "\n";
-        }
-        return list;
+        return getCurrentSession().listEnvironmentVariables();
     }
     
     /* --- Directory --- */

@@ -23,5 +23,5 @@
 [FileSystem]0..1 filesystem - fsRoot 0..1[Directory] // FileSystemHasDirectory
 [Directory]1..1 parentDirectory - files *[File] // DirectoryHasFiles
 [User]0..1 user - homeDirectory 0..1[Directory] // UserHasHomeDirectory
-[MyDriveManager]1 manager - var *[EnvironmentVariable] // MyDriveManagerHasEnvironmentVariables
+[Session]1 session - var *[EnvironmentVariable] // SessionHasEnvironmentVariables
 [MyDriveManager]0..1 manager - session 0..*[Session] // MyDriveManagerHasSessions
