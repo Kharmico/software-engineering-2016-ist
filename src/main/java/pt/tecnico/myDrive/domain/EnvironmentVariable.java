@@ -6,10 +6,10 @@ public class EnvironmentVariable extends EnvironmentVariable_Base {
         super();
     }
 
-    public EnvironmentVariable(String name, String value, MyDriveManager manager) {
+    public EnvironmentVariable(String name, String value, Session session) {
         super.setName(name);
         super.setValue(value);
-        super.setManager(manager);
+        super.setSession(session);
     }
 
     @Override

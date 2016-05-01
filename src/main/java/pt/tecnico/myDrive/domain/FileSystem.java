@@ -209,7 +209,8 @@ public class FileSystem extends FileSystem_Base {
 		Directory directory = getSlash();
 		String[] fileLocation = resultantPath.split(PATH_DELIM);
 		for(int i = 1; i < (fileLocation.length - 1) ; i++)
-			directory = changeDirectory(fileLocation[i], directory, currentUser);
+			directory = changeDirectory(fileLocation[i], directory, getRoot());
+		directory.checkAccessRead(currentUser);
 		return directory;
 	}
 

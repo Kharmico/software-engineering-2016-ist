@@ -154,8 +154,9 @@ public abstract class File extends File_Base {
 		else if(!u.isRoot()) {
 			if (getPermissions().charAt(otherPermIndex) == '-')
 				throw new AccessDeniedException(u);
-			else if(u.isGuest())
+			else if(u.isGuest()) {
 				throw new AccessDeniedException(u);
+			}
 		}
 	}
 
