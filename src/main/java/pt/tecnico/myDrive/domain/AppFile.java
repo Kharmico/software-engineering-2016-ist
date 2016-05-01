@@ -52,11 +52,12 @@ public class AppFile extends AppFile_Base {
     	path += arrayContent[arrayContent.length];
     	
     	this.writeContent(path, logged);
+    	this.executeFile(logged, this.getContent());
     }
     
     @Override
     protected void executeFile(User logged, String args){
-    	//FIXME
+    	//FIXME: you can execute from its content or directly from service
     }
 
     @Override
