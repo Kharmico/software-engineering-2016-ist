@@ -108,12 +108,12 @@ public class IntegrationTest extends AbstractServiceTest{
         es.dispatch();
         */
 
-        new AddEnvironmentVariableService(lus.result(),"$HOME","/home").dispatch();
-        AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"$ROOT","/home/root");
+        new AddEnvironmentVariableService(lus.result(),"HOME","/home").dispatch();
+        AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"ROOT","/home/root");
         ev.dispatch();
         assertTrue(MyDriveManager.getInstance().getCurrentSession().getVarSet().size() == 2);
-        assertEquals("/home",ev.result().get("$HOME"));
-        assertEquals("/home/root",ev.result().get("$ROOT"));
+        assertEquals("/home",ev.result().get("HOME"));
+        assertEquals("/home/root",ev.result().get("ROOT"));
 
 
         cd = new ChangeDirectoryService(lus.result(),".");
