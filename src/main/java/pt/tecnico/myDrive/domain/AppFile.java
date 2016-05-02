@@ -1,8 +1,12 @@
 package pt.tecnico.myDrive.domain;
 
 
+import java.lang.reflect.Method;
+
+import org.apache.commons.lang.StringUtils;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidContentException;
+import pt.tecnico.myDrive.exception.InvalidExecuteException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
 
@@ -34,55 +38,29 @@ public class AppFile extends AppFile_Base {
     }
     
     @Override
-    protected void executeFile(User logged, String[] args){
-    	//package.class.method(args)
-    	//package.class
-    	/*String pack = "pt.tecnico.myDrive.domain";
+    protected void executeFile(User logged, String[] args) throws InvalidExecuteException{
+        String defPackageExt = "pt.tecnico.myDrive";
+        String folder = this.getContent().substring(defPackageExt.length()+1,getContent().length());
+
+        if(StringUtils.countMatches(folder,".") == 2){
+            defPackageExt += "." + folder.substring(0,folder.indexOf("."));
+        }
     	
-    	String[] tokens = this.getContent().substring(pack.length()+1).split("\\.");
-    	
-    	String classname;
-    	String method;
-    	if(tokens.length == 2){
-    		classname = tokens[0];
-    		method = tokens[1];
-    	}
-    	else{
-    		classname = tokens[0];
-    		method = "main";
-    	}
-    	Class cl = null;
+    	String[] tokens = this.getContent().substring(defPackageExt.length()+1).split("\\.");
+
+        String classname = tokens[0];
+        String method = tokens.length == 2 ? tokens[1] : "main";
+
     	try {
-			cl = Class.forName(pack+"."+classname);
-			
-			
-			  // get the constructor with one parameter
-	          java.lang.reflect.Constructor constructor =
-	             cl.getConstructor(new Class[] {String.class});
+            Class<?> cls = Class.forName(defPackageExt+"."+classname);
+            Method meth = cls.getMethod(method, String[].class);
+            meth.invoke(null, (Object) args);
 
-	          // create an instance
-	          Object invoker=constructor.newInstance(new Object[]{"REAL'S HOWTO"});
-
-			 // the method has no argument
-	          Class  arguments[] = new Class[] { };
-
-	          
-	          java.lang.reflect.Method objMethod =
-		             cl.getMethod(method, arguments);
-	          
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"+ cl);
-		}*/
-   
-    	
-    	
-    	
-    	//FIXME: you can execute from its content or directly from service
+            throw new InvalidExecuteException(e.getMessage());
+		}
     }
-
+    
     @Override
     public Element xmlExport(){
         Element pf_el = new Element("app");
