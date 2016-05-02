@@ -18,12 +18,12 @@ public class IntegrationTest extends AbstractServiceTest{
     @Override
     protected void populate() {
         MyDriveManager mg = MyDriveManager.getInstance();
-        mg.addUser("Ricardo");
+        mg.addUser("Ricardino");
     }
 
     @Test
     public void sucess() throws Exception{
-        LoginUserService lus = new LoginUserService("Ricardo","Ricardo");
+        LoginUserService lus = new LoginUserService("Ricardino","Ricardino");
         lus.dispatch();
         assertTrue(MyDriveManager.getInstance().getCurrentSession().getToken() == lus.result());
 
@@ -31,7 +31,7 @@ public class IntegrationTest extends AbstractServiceTest{
 
         ChangeDirectoryService cd = new ChangeDirectoryService(lus.result(),"Nova Pasta");
         cd.dispatch();
-        assertEquals("/home/Ricardo/Nova Pasta",cd.result());
+        assertEquals("/home/Ricardino/Nova Pasta",cd.result());
 
         new CreateFileService(lus.result(),"AMS","directory","").dispatch();
         new CreateFileService(lus.result(),"Nova App","app","pt.tecnico.myDrive.domain.Directory.getPath()").dispatch();
@@ -43,13 +43,13 @@ public class IntegrationTest extends AbstractServiceTest{
         ls.dispatch();
         String[] lsresult = parseLs(ls.result());
         assertTrue(lsresult.length == 7);
-        assertEquals(lsresult[0],"rwxd---- Ricardo .");
-        assertEquals(lsresult[1],"rwxd---- Ricardo ..");
-        assertEquals(lsresult[2],"rwxd---- Ricardo Novo Plain");
-        assertEquals(lsresult[3],"rwxd---- Ricardo Novo Link -> Nova App");
-        assertEquals(lsresult[4],"rwxd---- Ricardo Nova App 2");
-        assertEquals(lsresult[5],"rwxd---- Ricardo Nova App");
-        assertEquals(lsresult[6],"rwxd---- Ricardo AMS");
+        assertEquals(lsresult[0],"rwxd---- Ricardino .");
+        assertEquals(lsresult[1],"rwxd---- Ricardino ..");
+        assertEquals(lsresult[2],"rwxd---- Ricardino Novo Plain");
+        assertEquals(lsresult[3],"rwxd---- Ricardino Novo Link -> Nova App");
+        assertEquals(lsresult[4],"rwxd---- Ricardino Nova App 2");
+        assertEquals(lsresult[5],"rwxd---- Ricardino Nova App");
+        assertEquals(lsresult[6],"rwxd---- Ricardino AMS");
 
         new WriteFileService(lus.result(),"Nova App","pt.tecnico.myDrive.domain.Directory.getFilename()").dispatch();
 
@@ -68,17 +68,17 @@ public class IntegrationTest extends AbstractServiceTest{
         assertEquals("pt.tecnico.myDrive.domain.Directory.getFilename()",rs.result());
 
 
-        cd = new ChangeDirectoryService(lus.result(),"/home/Ricardo");
+        cd = new ChangeDirectoryService(lus.result(),"/home/Ricardino");
         cd.dispatch();
-        assertEquals("/home/Ricardo",cd.result());
+        assertEquals("/home/Ricardino",cd.result());
 
-        new DeleteFileService(lus.result(),"/home/Ricardo/Nova Pasta").dispatch();
+        new DeleteFileService(lus.result(),"/home/Ricardino/Nova Pasta").dispatch();
 
         ls = new ListDirectoryService(lus.result());
         ls.dispatch();
         lsresult = parseLs(ls.result());
         assertTrue(lsresult.length == 2);
-        assertEquals(lsresult[0],"rwxd---- Ricardo .");
+        assertEquals(lsresult[0],"rwxd---- Ricardino .");
         assertEquals(lsresult[1],"rwxdr-x- root ..");
 
         lus = new LoginUserService("nobody","");

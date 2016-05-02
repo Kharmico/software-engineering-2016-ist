@@ -2,6 +2,8 @@ package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
 
+import java.util.LinkedHashMap;
+
 public class Session extends Session_Base {
 
     public Session(long token, User currentUser, Directory currentDir, MyDriveManager mgm) {
@@ -41,10 +43,10 @@ public class Session extends Session_Base {
         super.getVarSet().add(new EnvironmentVariable(name, value, this));
     }
 
-    public String listEnvironmentVariables() {
-        String list = "";
+    public LinkedHashMap<String, String> listEnvironmentVariables() {
+        LinkedHashMap<String, String> list = new LinkedHashMap<>();
         for(EnvironmentVariable var : super.getVarSet()){
-            list += var.toString() + "\n";
+            list.put(var.getName(), var.getValue());
         }
         return list;
     }
