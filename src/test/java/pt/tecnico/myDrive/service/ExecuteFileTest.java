@@ -1,5 +1,6 @@
 package pt.tecnico.myDrive.service;
 
+import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 
 public class ExecuteFileTest extends AbstractServiceTest {
