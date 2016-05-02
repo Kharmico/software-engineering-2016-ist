@@ -9,6 +9,7 @@ import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.exception.*;
 
 import java.math.BigInteger;
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 
@@ -63,7 +64,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         getCurrentSession().addEnvironmentVariable(name, value);
     }
 
-    public String listEnvironmentVariables(long token) throws InvalidTokenException{
+    public LinkedHashMap<String, String> listEnvironmentVariables(long token) throws InvalidTokenException{
         checkForSession(token);
         return getCurrentSession().listEnvironmentVariables();
     }
