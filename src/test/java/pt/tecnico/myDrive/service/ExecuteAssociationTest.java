@@ -11,18 +11,18 @@ import pt.tecnico.myDrive.exception.InvalidTokenException;
 /* This test involves the usage of mock-ups
  * to test the association between files
  * and their extensions.
- */ /*
+ */
 @RunWith(JMockit.class)
 public class ExecuteAssociationTest extends AbstractServiceTest {
 
     @Override
     public void populate() {}
 
-/*
-    @Test(expected = InvalidTokenException.class)
-    public void success() {
 
-    /*    System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
+    @Test//(expected = InvalidTokenException.class)
+    public void success() {
+    /*
+        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
         System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
         System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
         System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
@@ -60,11 +60,11 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
         
         
 
-//        ExecuteFileService execFile = new ExecuteFileService("cenas", "cenas", 123123123);
-  //      execFile.execute();
+        ExecuteFileService execFile = new ExecuteFileService("cenas", "cenas", 123123123);
+       execFile.execute();*/
 
     }
     
     
-}*/
+}
 

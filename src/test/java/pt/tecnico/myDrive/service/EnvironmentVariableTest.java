@@ -24,7 +24,7 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
 	    mdm.addEnvironmentVariable("EnvVarTest3", "Falhei", token);	//FIXME: is there any exception? or error?
 	    
 	}
-	
+	/*
     private String getValue(long token) {
         return MyDriveManager.getInstance().listEnvironmentVariables(token);
     }
@@ -61,5 +61,5 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
     	service.execute();
     }
 	
-	
+	*/
 }
