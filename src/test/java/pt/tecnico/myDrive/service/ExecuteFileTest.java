@@ -1,9 +1,7 @@
 package pt.tecnico.myDrive.service;
 
-import org.junit.*;
-import mockit.*;
+import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.exception.*;
 
 public class ExecuteFileTest extends AbstractServiceTest {
 
@@ -17,7 +15,13 @@ public class ExecuteFileTest extends AbstractServiceTest {
         manager.createAppFile("noperm");
 
         manager.login("Pedrocas","Pedrocas");
-        manager.createAppFile("sufix");
+        manager.createAppFile("sufix", "pt.tecnico.myDrive.domain.Directory.putas()");
+    }
+    
+    @Test
+    public void success(){
+    	ExecuteFileService service = new ExecuteFileService("/home/Pedrocas/sufix", null, MyDriveManager.getInstance().getCurrentSession().getToken());
+    	service.execute();
     }
 
 }

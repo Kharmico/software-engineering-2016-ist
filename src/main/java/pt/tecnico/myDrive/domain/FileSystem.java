@@ -129,7 +129,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
-	protected User getUserByUsername(String username) throws UserUnknownException {
+	User getUserByUsername(String username) throws UserUnknownException {
 		for (User user: super.getUsersSet()){
 			if (user.getUsername().equals(username))
 				return user;
@@ -143,11 +143,11 @@ public class FileSystem extends FileSystem_Base {
 	}
 
 
-	protected User getRoot() throws UserUnknownException {
+	User getRoot() throws UserUnknownException {
 		return getUserByUsername(ROOT_USER);
 	}
 
-	protected User getGuest() throws UserUnknownException {
+	User getGuest() throws UserUnknownException {
 		return getUserByUsername(GUEST_USER);
 	}
 
@@ -382,7 +382,7 @@ public class FileSystem extends FileSystem_Base {
 		d.getFileByName(filename).writeContent(content, currentUser);
 	}
 	
-	void executeFile(String path, User currentUser, Directory currentDirectory, String args){
+	void executeFile(String path, User currentUser, Directory currentDirectory, String[] args){
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = getLastPathToken(path);
 		d.getFileByName(filename).checkAccessEx(currentUser);

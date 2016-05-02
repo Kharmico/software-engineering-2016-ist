@@ -16,14 +16,14 @@ public class Directory extends Directory_Base {
     }
 
     
-	protected Directory(int id, String filename, String userMask, User owner, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
+	Directory(int id, String filename, String userMask, User owner, FileSystem fs) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner, this);
 		this.setFilesystem(fs);
 
 	}
 
 	
-	protected Directory(int id, String filename, String userMask, User owner, Directory father) throws InvalidFileNameException, InvalidMaskException{
+	Directory(int id, String filename, String userMask, User owner, Directory father) throws InvalidFileNameException, InvalidMaskException{
 		super.init(id, filename, userMask, owner, father);
 	}
 
@@ -130,7 +130,7 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public void executeFile(User logged, String args) throws IsNotPlainFileException {
+	public void executeFile(User logged, String[] args) throws IsNotPlainFileException {
 		throw new IsNotPlainFileException(this.getFilename());
 	}
 	

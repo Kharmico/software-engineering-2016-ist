@@ -1,8 +1,9 @@
 package pt.tecnico.myDrive.service;
 
-import mockit.*;
+import mockit.Mock;
+import mockit.MockUp;
 import mockit.integration.junit4.JMockit;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
@@ -21,11 +22,11 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
     @Test(expected = InvalidTokenException.class)
     public void success() {
-
+        String[] coisasToPass = {"cenas", "coisas"};
 
         new MockUp<MyDriveManager>() {
-            @Mock(invocations = 1)
-            void executePlainFile(String _path, String _args, long _token) {
+            @Mock
+            void executePlainFile(String _path, String[] _args, long _token) {
                 throw new InvalidTokenException(_token);
             }
         };
@@ -33,11 +34,11 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
         new MockUp<ExecuteFileService>() {
 
             String _pathToFile;
-            String _argsToPass;
+            String[] _argsToPass;
             long _tok;
 
             @Mock(invocations = 1)
-            void $init(String pathToFile, String argsToPass, long tok) {
+            void $init(String pathToFile, String[] argsToPass, long tok) {
                 _pathToFile = pathToFile;
                 _argsToPass = argsToPass;
                 _tok = tok;
@@ -49,11 +50,14 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
                 mg.executePlainFile(_pathToFile, _argsToPass, _tok);
             }
         };
+        
+        
 
-        ExecuteFileService execFile = new ExecuteFileService("cenas", "cenas", 123123123);
-        execFile.execute();
-
+        ExecuteFileService execFile = new ExecuteFileService("cenas", coisasToPass, 123123123);
+       execFile.execute();
 
     }
-
+    
+    
 }
+

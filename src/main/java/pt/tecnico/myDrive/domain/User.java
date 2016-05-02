@@ -26,35 +26,20 @@ public class User extends User_Base {
 		this.setUmask(DEFAULT_UMASK);
 		super.setFilesystem(fs);
 	}
-    
 
-    @Override
-	public void setUsername(String username){
-    	super.setUsername(username);
-    }
-    
-    @Override
+
+	@Override
 	public void setPassword(String password) throws PasswordIsTooWeakException {
 		checkPasswordStrength(password);
     	super.setPassword(password);
     }
-    
-    @Override
-	public void setName(String name){
-    	super.setName(name);
-    }
-    
-    @Override
+
+	@Override
 	public void setUmask(String umask) throws InvalidMaskException {
     	if(umask.length() != 8) {
     		throw new InvalidMaskException(umask);
     	}
     	super.setUmask(umask);
-    }
-    
-    @Override 
-    public void setHomeDirectory(Directory homeDirectory){
-    	super.setHomeDirectory(homeDirectory);
     }
     
     /* FenixFramework binary relations setters */
@@ -79,21 +64,21 @@ public class User extends User_Base {
 		}
 	}
 
-	protected boolean isRoot() {
+	boolean isRoot() {
 		return false;
 	}
 
-	protected boolean isGuest(){
+	boolean isGuest(){
 		return false;
 	}
 	
-	protected void checkUsername(String username) throws InvalidUsernameException{
+	private void checkUsername(String username) throws InvalidUsernameException{
         if(username.length() < MIN_USERNAME_SIZE || !username.matches(INVALID_USERNAME_REGEX) || username.equals(Root.ROOT_USERNAME)){
         	throw new InvalidUsernameException(username);
         }
 	}
 
-	protected Element xmlExport(){
+	Element xmlExport(){
 		Element usr_el = new Element("user");
 		usr_el.setAttribute("username", getUsername());
 
@@ -112,7 +97,7 @@ public class User extends User_Base {
 
 	/* THE LIST ITSELF ALREADY EXISTS, IF WE GET THE SET WE ALREADY GET ALL EXTENSIONS ITERATING */
 	public LinkedHashMap<File,String> getUserExtensions(){
-		LinkedHashMap<File,String> output = new LinkedHashMap<File,String>();
+		LinkedHashMap<File,String> output = new LinkedHashMap<>();
 		for(File f : getFileSet()){
 			output.put(f,f.getExtension());
 		}

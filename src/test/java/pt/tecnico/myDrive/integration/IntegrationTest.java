@@ -1,11 +1,8 @@
 package pt.tecnico.myDrive.integration;
 
+import mockit.integration.junit4.JMockit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import mockit.Mock;
-import mockit.MockUp;
-import mockit.integration.junit4.JMockit;
-import pt.tecnico.myDrive.domain.EnvironmentVariable;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.service.*;
 
@@ -106,11 +103,12 @@ public class IntegrationTest extends AbstractServiceTest{
         es.dispatch();
         */
 
-        new AddEnvironmentVariableService(lus.result(),"$HOME","/home").dispatch();
-        AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"$ROOT","/home/root");
+        new AddEnvironmentVariableService(lus.result(),"HOME","/home").dispatch();
+        AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"ROOT","/home/root");
         ev.dispatch();
         assertTrue(MyDriveManager.getInstance().getCurrentSession().getVarSet().size() == 2);
-        assertEquals("$ROOT = /home/root\n$HOME = /home\n",ev.result());
+        assertEquals("/home",ev.result().get("HOME"));
+        assertEquals("/home/root",ev.result().get("ROOT"));
 
 
         cd = new ChangeDirectoryService(lus.result(),".");

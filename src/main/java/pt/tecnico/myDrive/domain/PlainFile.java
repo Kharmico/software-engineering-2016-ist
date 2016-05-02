@@ -10,24 +10,18 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 
-	protected PlainFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+	PlainFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
 		this.init(id, filename, userMask, owner, parentDirectory);
 	}
 
 
-	protected PlainFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
+	PlainFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
 		this.init(id, filename, userMask, owner, content, parentDirectory);
 
 	}
 
 
-	@Override
-	protected void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
-		super.init(id, filename, userMask, owner, parentDirectory);
-	}
-
-
-	protected void init(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+	void init(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
 		init(id, filename, userMask, owner, parentDirectory);
 		this.setContent(content);
 	}
@@ -45,17 +39,17 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    protected void executeFile(User logged, String args) throws FileUnknownException, IsNotAppFileException{
+    protected void executeFile(User logged, String[] args) throws FileUnknownException, IsNotAppFileException{
     	String realContent = this.getContent();
-    	String appContent = "";
+    	String appArgs = "";
     	
-    	while(realContent != ""){
-	    	appContent = realContent.substring(0,realContent.indexOf("\n"));
-	    	String[] arrayApp = appContent.split(" ");
+    	while(!realContent.equals("")){
+	    	appArgs = realContent.substring(0,realContent.indexOf("\n"));
+	    	String[] arrayApp = appArgs.split(" ");
 	    	
 	    	getFilesystem().absolutePath(arrayApp[0], logged, getFather()).
-				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).writeContentFromPlainFile(logged, arrayApp);
-	    	
+				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).executeFile(logged, arrayApp);
+
 	    	realContent = realContent.substring(realContent.indexOf("\n"));
     	}
     }
@@ -120,7 +114,7 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 
-	protected Element generalFileExport(Element el){
+	Element generalFileExport(Element el){
 		el.setAttribute("id", getId().toString());
 		el.addContent(new Element("name").setText(getFilename()));
 		el.addContent(new Element("owner").setText(getOwner().getUsername()));

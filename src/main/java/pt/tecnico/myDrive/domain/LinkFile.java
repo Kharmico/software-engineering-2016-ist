@@ -9,7 +9,7 @@ public class LinkFile extends LinkFile_Base {
         super();
     }
 
-    protected LinkFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws
+    LinkFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws
             InvalidFileNameException, InvalidMaskException, LinkFileWithoutContentException, LoopLinkFileException {
         if(invalidContent(content)){
             throw new LinkFileWithoutContentException(filename + " link has an invalid content.");
@@ -41,7 +41,7 @@ public class LinkFile extends LinkFile_Base {
     }
 
     @Override
-    public void executeFile(User logged, String args) {
+    public void executeFile(User logged, String[] args) {
         getFilesystem().absolutePath(super.getContent(), logged, getFather())
                 .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).executeFile(logged, args);
     }

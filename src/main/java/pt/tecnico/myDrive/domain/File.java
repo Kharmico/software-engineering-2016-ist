@@ -17,7 +17,7 @@ public abstract class File extends File_Base {
 		super();     
     }
 
-	protected void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
+	void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
         setId(id);		
         setFilename(filename);
 		setPermissions(userMask);
@@ -80,22 +80,12 @@ public abstract class File extends File_Base {
 	}
 
 
-	@Override
-    public void setParentDirectory(Directory parentDirectory){
-//		if(parentDirectory == null){
-//			super.setParentDirectory(null);
-//		}else
-//			parentDirectory.addFile(this);
-		super.setParentDirectory(parentDirectory);
-    }
-	
-	
 	public Directory getFather(){
 	    return super.getParentDirectory();
 	}
 
 	
-	protected void remove() {
+	void remove() {
 		removeObject();
 		deleteDomainObject();
 	}
@@ -157,7 +147,7 @@ public abstract class File extends File_Base {
 
 	public abstract void writeContent(String content, User logged) throws IsNotPlainFileException;
 
-	protected abstract void executeFile(User logged, String args) throws IsNotPlainFileException;
+	protected abstract void executeFile(User logged, String[] args) throws IsNotPlainFileException;
 	
 	protected abstract void addFile(File toAdd) throws UnsupportedOperationException;
 	

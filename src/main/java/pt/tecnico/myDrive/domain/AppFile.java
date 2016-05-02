@@ -14,11 +14,11 @@ public class AppFile extends AppFile_Base {
     }
 
 
-    protected AppFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+    AppFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
         super.init(id, filename, userMask, owner, parentDirectory);
     }
 
-    protected AppFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
+    AppFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
         super.init(id, filename, userMask, owner, content, parentDirectory);
 
     }
@@ -33,20 +33,53 @@ public class AppFile extends AppFile_Base {
     	
     }
     
-    protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws InvalidContentException{
-    	int i = 1;
-    	String path = "";
-    	for(i = 1; i < arrayContent.length-1; i++){
-    		path += arrayContent[i] + ".";
-    	}
-    	path += arrayContent[arrayContent.length];
-    	
-    	this.writeContent(path, logged);
-    	this.executeFile(logged, this.getContent());
-    }
-    
     @Override
-    protected void executeFile(User logged, String args){
+    protected void executeFile(User logged, String[] args){
+    	//package.class.method(args)
+    	//package.class
+    	/*String pack = "pt.tecnico.myDrive.domain";
+    	
+    	String[] tokens = this.getContent().substring(pack.length()+1).split("\\.");
+    	
+    	String classname;
+    	String method;
+    	if(tokens.length == 2){
+    		classname = tokens[0];
+    		method = tokens[1];
+    	}
+    	else{
+    		classname = tokens[0];
+    		method = "main";
+    	}
+    	Class cl = null;
+    	try {
+			cl = Class.forName(pack+"."+classname);
+			
+			
+			  // get the constructor with one parameter
+	          java.lang.reflect.Constructor constructor =
+	             cl.getConstructor(new Class[] {String.class});
+
+	          // create an instance
+	          Object invoker=constructor.newInstance(new Object[]{"REAL'S HOWTO"});
+
+			 // the method has no argument
+	          Class  arguments[] = new Class[] { };
+
+	          
+	          java.lang.reflect.Method objMethod =
+		             cl.getMethod(method, arguments);
+	          
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"+ cl);
+		}*/
+   
+    	
+    	
+    	
     	//FIXME: you can execute from its content or directly from service
     }
 
