@@ -12,22 +12,22 @@ import static org.junit.Assert.assertNotNull;
 
 public class CreateFileTest extends AbstractServiceTest {
 
-    private static final String USER_LOGGED = "pikachu";
+    private static final String USER_LOGGED = "Charizard";
 
     @Override
     protected void populate(){
         MyDriveManager mg = MyDriveManager.getInstance();
         mg.addUser(USER_LOGGED);
         mg.login("root", "***");
-        Directory d = (Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu");
+        Directory d = (Directory) mg.getFilesystem().getHomeDirectory().getFileByName("Charizard");
         mg.getCurrentSession().setCurrentDir(d);
         mg.createDirectory("gary");
 
         // Setting gary directory mask to block reading writing from another user
-        ((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("pikachu"))
+        ((Directory) mg.getFilesystem().getHomeDirectory().getFileByName("Charizard"))
                 .getFileByName("gary").setPermissions("rwxd----");
 
-        mg.login("pikachu","pikachu");
+        mg.login("Charizard","Charizard");
 
         mg.createPlainFile("ash.txt");
 
@@ -59,18 +59,18 @@ public class CreateFileTest extends AbstractServiceTest {
         String filename = "thundershock.txt";
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename,
-                        "plain", "PIKACHUUUUU");
+                        "plain", "CharizardUUUU");
         service.execute();
         File file = getFile(filename);
         assertNotNull("File was not created", file);
-        assertEquals("Invalid content", "PIKACHUUUUU",
+        assertEquals("Invalid content", "CharizardUUUU",
                 file.printContent(MyDriveManager.getInstance().getCurrentSession().getCurrentUser()));
     }
 
     @Test
     public void successAppFileWithContent(){
         String filename = "quick_attack.exe";
-        String content = "Pokedex.Pikachu.beCute";
+        String content = "Pokedex.Charizard.beCute";
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), filename,
                         "app", content);
@@ -85,7 +85,7 @@ public class CreateFileTest extends AbstractServiceTest {
     public void successLinkWithContent(){
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "trainer.link", "link"
-                , "/home/pikachu/ash.txt");
+                , "/home/Charizard/ash.txt");
         service.execute();
     }
 
@@ -119,7 +119,7 @@ public class CreateFileTest extends AbstractServiceTest {
     public void linkWithLoop(){
         CreateFileService service =
                 new CreateFileService(MyDriveManager.getInstance().getCurrentSession().getToken(), "yellow.link",
-                        "link", "/home/pikachu/yellow.link");
+                        "link", "/home/Charizard/yellow.link");
         service.execute();
     }
 

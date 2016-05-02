@@ -1,6 +1,8 @@
 package pt.tecnico.myDrive.service;
 
 
+import java.util.LinkedHashMap;
+
 public class AddEnvironmentVariableService extends MyDriveService {
 
     private long _token;
@@ -17,5 +19,5 @@ public class AddEnvironmentVariableService extends MyDriveService {
     public void dispatch(){ getMyDriveManager().addEnvironmentVariable(_name, _value, _token);
     }
 
-    public String result(){return getMyDriveManager().listEnvironmentVariables(_token);}
+    public LinkedHashMap<String, String> result(){return getMyDriveManager().listEnvironmentVariables(_token);}
 }

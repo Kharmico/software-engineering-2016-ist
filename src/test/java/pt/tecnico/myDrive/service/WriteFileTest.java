@@ -16,7 +16,7 @@ public class WriteFileTest extends AbstractServiceTest {
         MyDriveManager mdm = MyDriveManager.getInstance();
 
         mdm.getFilesystem().addUsers("Josefina");
-        mdm.getFilesystem().addUsers("Josefo");
+        mdm.getFilesystem().addUsers("Josefino");
        // mdm.login("Josefina", "Josefina");
        // log.debug(mdm.getCurrentSession().getCurrentDir().getPath());
         mdm.login("root","***");
@@ -78,7 +78,7 @@ public class WriteFileTest extends AbstractServiceTest {
     @Test(expected = AccessDeniedException.class)
     public void noPermissions(){
     	MyDriveManager mdm = MyDriveManager.getInstance();
-    	mdm.login("Josefo","Josefo");
+    	mdm.login("Josefino","Josefino");
     	Directory dir = (Directory) mdm.getFilesystem().getHomeDirectory().getFileByName("Josefina");
     	mdm.getCurrentSession().setCurrentDir(dir);
     	
