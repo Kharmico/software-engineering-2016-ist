@@ -40,13 +40,13 @@ public class Session extends Session_Base {
                 return;
             }
         }
-        super.getVarSet().add(new EnvironmentVariable(name, value, this));
+        addVar(new EnvironmentVariable(name, value, this));
     }
 
     public LinkedHashMap<String, String> listEnvironmentVariables() {
         LinkedHashMap<String, String> list = new LinkedHashMap<>();
         for(EnvironmentVariable var : super.getVarSet()){
-            list.put(var.getName(), var.getValue());
+            list.put(new String(var.getName()), new String(var.getValue()));
         }
         return list;
     }

@@ -19,20 +19,27 @@ public class EnvironmentCommand extends MdCommand {
 
         //maybe use a switch-case, looks cleaner?!?, in which the default case is the "error" case
         switch (args.length) {
-            case 0: AddEnvironmentVariableService envVarUse = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
+            case 0: AddEnvironmentVariableService envVarUse =
+                        new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
+                    envVarUse.execute();
                     LinkedHashMap<String, String> envVarList = envVarUse.result();
-                    for(HashMap.Entry<String, String> var : envVarList.entrySet())
-                        System.out.printf("%s = %s\n", var.getKey(), var.getValue());
+                    for(String key: envVarList.keySet())
+                        shell().println(key + " = " + envVarList.get(key));
                     break;
-            case 1: AddEnvironmentVariableService envVarName = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
+            case 1: AddEnvironmentVariableService envVarName =
+                        new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
+                    envVarName.execute();
                     LinkedHashMap<String, String> envList = envVarName.result();
-                    for(HashMap.Entry<String, String> var : envList.entrySet()) {
-                        if (args[0].equals(var.getKey())) {
-                            System.out.printf("%s\n", var.getValue());
+                    boolean printed = false;
+                    for(String key: envList.keySet()){
+                        if (args[0].equals(key)) {
+                            shell().println(key + " = " + envList.get(key));
+                            printed = true;
                             break;
                         }
                     }
-                    System.out.printf("%s is not, currently, an environment variable.\n", args[0]);
+                    if (!printed)
+                        shell().println(args[0] + " is not, currently, an environment variable.");
                     break;
             case 2: AddEnvironmentVariableService envVar = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken(),
                                                                 args[0], args[1]);
