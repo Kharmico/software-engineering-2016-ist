@@ -71,7 +71,6 @@ public class SystemTest extends AbstractServiceTest {
         new EnvironmentCommand(sh).execute(NO_ARGS);
 
         // I believe this should work, however is not implemented yet.
-        // new WriteCommand(sh).execute(new String[]{ "$ficheiro_nobody" , "cozidas" });
         new KeyCommand(sh).execute(new String[]{});
         new ChangeWorkingDirectoryCommand(sh).execute(new String[]{"/home/nobody"});
         new KeyCommand(sh).execute(new String[]{ "nobody" });

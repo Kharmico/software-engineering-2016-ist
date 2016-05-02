@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
  */
 public class MdShell extends Shell {
     private String currentUser;
-    //private long currentToken;  -> imagine various sessions for the same username...
+    private long currentToken;
     private LinkedHashMap<String,Long> sessions = new LinkedHashMap<>(); //Can only be of active sessions!!!
 
     public static void main(String[] args) throws Exception {
@@ -20,10 +20,14 @@ public class MdShell extends Shell {
     void addSession(String username, long token){
         sessions.put(username,token);
         setCurrentUser(username);
+        currentToken = token;
+    }
+    void changeCurrentToken(String username){
+        currentToken = sessions.get(username);
     }
 
     long getCurrentToken(){
-        return sessions.get(currentUser);
+        return currentToken;
     }
 
     public String getCurrentUser(){
@@ -47,6 +51,7 @@ public class MdShell extends Shell {
         lus.execute();
         setCurrentUser("nobody");
         sessions.put("nobody",lus.result());
+        currentToken = lus.result();
     }
 
     public MdShell() { // add commands here
