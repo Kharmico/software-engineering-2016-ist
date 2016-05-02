@@ -17,7 +17,6 @@ public class EnvironmentCommand extends MdCommand {
     @Override
     public void execute(String args[]) {
 
-        //maybe use a switch-case, looks cleaner?!?, in which the default case is the "error" case
         switch (args.length) {
             case 0: AddEnvironmentVariableService envVarUse =
                         new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
