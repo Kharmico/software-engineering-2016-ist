@@ -49,7 +49,7 @@ public class PlainFile extends PlainFile_Base {
     	String realContent = this.getContent();
     	String appArgs = "";
     	
-    	while(realContent != ""){
+    	while(!realContent.equals("")){
 	    	appArgs = realContent.substring(0,realContent.indexOf("\n"));
 	    	String[] arrayApp = appArgs.split(" ");
 	    	

@@ -17,7 +17,13 @@ public class ExecuteFileTest extends AbstractServiceTest {
         manager.createAppFile("noperm");
 
         manager.login("Pedrocas","Pedrocas");
-        manager.createAppFile("sufix");
+        manager.createAppFile("sufix", "pt.tecnico.myDrive.domain.Directory.putas()");
+    }
+    
+    @Test
+    public void success(){
+    	ExecuteFileService service = new ExecuteFileService("/home/Pedrocas/sufix", null, MyDriveManager.getInstance().getCurrentSession().getToken());
+    	service.execute();
     }
 
 }

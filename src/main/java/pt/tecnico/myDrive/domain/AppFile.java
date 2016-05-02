@@ -35,10 +35,48 @@ public class AppFile extends AppFile_Base {
     
     @Override
     protected void executeFile(User logged, String[] args){
+    	//package.class.method(args)
+    	//package.class
+    	/*String pack = "pt.tecnico.myDrive.domain";
     	
+    	String[] tokens = this.getContent().substring(pack.length()+1).split("\\.");
     	
-    	
-    	
+    	String classname;
+    	String method;
+    	if(tokens.length == 2){
+    		classname = tokens[0];
+    		method = tokens[1];
+    	}
+    	else{
+    		classname = tokens[0];
+    		method = "main";
+    	}
+    	Class cl = null;
+    	try {
+			cl = Class.forName(pack+"."+classname);
+			
+			
+			  // get the constructor with one parameter
+	          java.lang.reflect.Constructor constructor =
+	             cl.getConstructor(new Class[] {String.class});
+
+	          // create an instance
+	          Object invoker=constructor.newInstance(new Object[]{"REAL'S HOWTO"});
+
+			 // the method has no argument
+	          Class  arguments[] = new Class[] { };
+
+	          
+	          java.lang.reflect.Method objMethod =
+		             cl.getMethod(method, arguments);
+	          
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"+ cl);
+		}*/
+   
     	
     	
     	
