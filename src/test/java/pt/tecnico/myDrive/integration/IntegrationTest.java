@@ -9,6 +9,8 @@ import pt.tecnico.myDrive.domain.EnvironmentVariable;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.service.*;
 
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -110,7 +112,8 @@ public class IntegrationTest extends AbstractServiceTest{
         AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"$ROOT","/home/root");
         ev.dispatch();
         assertTrue(MyDriveManager.getInstance().getCurrentSession().getVarSet().size() == 2);
-        assertEquals("$ROOT = /home/root\n$HOME = /home\n",ev.result());
+        assertEquals("/home",ev.result().get("$HOME"));
+        assertEquals("/home/root",ev.result().get("$ROOT"));
 
 
         cd = new ChangeDirectoryService(lus.result(),".");
