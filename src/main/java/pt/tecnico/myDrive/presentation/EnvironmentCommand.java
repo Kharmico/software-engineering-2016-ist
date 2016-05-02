@@ -3,7 +3,9 @@ package pt.tecnico.myDrive.presentation;
 
 import pt.tecnico.myDrive.service.AddEnvironmentVariableService;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class EnvironmentCommand extends MdCommand {
 
@@ -19,8 +21,10 @@ public class EnvironmentCommand extends MdCommand {
         switch (args.length) {
             case 0: AddEnvironmentVariableService envVarUse = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
                     LinkedHashMap<String, String> envVarList = envVarUse.result();
+                    for(HashMap.Entry<String, String> var : envVarList.entrySet())
+                        System.out.printf("%s = %s", var.getKey(), var.getValue());
                     break;
-            case 1: /*AddEnvironmentVariableService envVarUse;
+            case 1: /*AddEnvironmentVariableService envVarUse = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
                     LinkedHashMap<String, String> envVarList = envVarUse.result(((MdShell) shell()).getCurrentToken());
                     for(String var : envVarList)
                       */
