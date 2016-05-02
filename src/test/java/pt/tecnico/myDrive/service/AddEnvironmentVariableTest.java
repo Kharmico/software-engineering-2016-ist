@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.LinkedHashMap;
 
 
-public class EnvironmentVariableTest extends AbstractServiceTest {
+public class AddEnvironmentVariableTest extends AbstractServiceTest {
 
 	@Override
 	protected void populate() {
