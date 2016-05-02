@@ -79,8 +79,8 @@ public class ListDirectoryTest extends AbstractServiceTest {
         MyDriveManager.getInstance().createDirectory("Chewbacca");
         Directory chewbacca = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("Chewbacca");
         chewbacca.setPermissions("--------");
-        MyDriveManager.getInstance().addUser("Empire");
-        MyDriveManager.getInstance().login("Empire","Empire");
+        MyDriveManager.getInstance().addUser("Emperorr");
+        MyDriveManager.getInstance().login("Emperorr","Emperorr");
         ListDirectoryService service = new ListDirectoryService(token);
         service.execute();
     }

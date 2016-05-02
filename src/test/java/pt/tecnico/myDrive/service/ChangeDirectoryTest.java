@@ -16,7 +16,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
     protected void populate(){
         MyDriveManager mg = MyDriveManager.getInstance();
 
-        mg.getFilesystem().addUsers("Marco");
+        mg.getFilesystem().addUsers("Marcelino");
 
         mg.login("root","***");
         Session currentSession = mg.getCurrentSession();
@@ -72,7 +72,7 @@ public class ChangeDirectoryTest extends AbstractServiceTest {
 
     @Test(expected = AccessDeniedException.class)
     public void noPermissions(){
-        MyDriveManager.getInstance().login("Marco","Marco");
+        MyDriveManager.getInstance().login("Marcelino","Marcelino");
         ChangeDirectoryService service =
                 new ChangeDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/home/root/teste/pt");
         service.execute();
