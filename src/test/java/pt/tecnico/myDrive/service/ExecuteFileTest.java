@@ -10,13 +10,13 @@ public class ExecuteFileTest extends AbstractServiceTest {
     @Override
     public void populate() {
         MyDriveManager manager = MyDriveManager.getInstance();
-        manager.addUser("Joao");
-        manager.addUser("Pedro");
+        manager.addUser("Josefina");
+        manager.addUser("Pedrocas");
 
-        manager.login("Joao","Joao");
+        manager.login("Josefina","Josefina");
         manager.createAppFile("noperm");
 
-        manager.login("Pedro","Pedro");
+        manager.login("Pedrocas","Pedrocas");
         manager.createAppFile("sufix");
     }
 

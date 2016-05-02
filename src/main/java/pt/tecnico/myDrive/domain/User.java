@@ -74,8 +74,8 @@ public class User extends User_Base {
 
 	//FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
     private void checkPasswordStrength(String password) /*throws PasswordIsTooWeakException*/{
-		if( password.length() < 8 || !password.equals("***") || !password.equals("")){
-			//throw new PasswordIsTooWeakException;
+		if( password.length() < 8 && !isRoot() && !isGuest()){
+			throw new PasswordIsTooWeakException(password);
 		}
 	}
 

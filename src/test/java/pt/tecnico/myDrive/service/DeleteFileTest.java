@@ -15,9 +15,9 @@ public class DeleteFileTest extends AbstractServiceTest{
 
     protected void populate() {
         MyDriveManager manager = MyDriveManager.getInstance();
-        manager.addUser("Joao");
-        manager.addUser("Pedro");
-        manager.login("Joao","Joao");
+        manager.addUser("Francisco");
+        manager.addUser("Ferreira");
+        manager.login("Francisco","Francisco");
 
         manager.createDirectory("teste");
         manager.createPlainFile("sufix.txt","Engenharia dos sistemas de info");
@@ -30,10 +30,10 @@ public class DeleteFileTest extends AbstractServiceTest{
         manager.createDirectory("perm");
         manager.createDirectory("estrelas");
 
-        manager.login("Pedro","Pedro");
+        manager.login("Ferreira","Ferreira");
         manager.createDirectory("noperm");
 
-        manager.login("Joao","Joao");
+        manager.login("Francisco","Francisco");
     }
 
 
@@ -59,15 +59,15 @@ public class DeleteFileTest extends AbstractServiceTest{
 
     @Test(expected = AccessDeniedException.class)
     public void deleteFileWithoutPermissions(){
-        DeleteFileService service = new  DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/home/Pedro/noperm");
+        DeleteFileService service = new  DeleteFileService(MyDriveManager.getInstance().getCurrentSession().getToken(),"/home/Ferreira/noperm");
         service.execute();
     }
 
     @Test
     public void deleteAsRoot(){
-        DeleteFileService service = new DeleteFileService(MyDriveManager.getInstance().login("root","***"),"/home/Pedro/noperm");
+        DeleteFileService service = new DeleteFileService(MyDriveManager.getInstance().login("root","***"),"/home/Ferreira/noperm");
         service.execute();
-        assertEquals("Remove file as root","",getDirectoryFilesNames((Directory)MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Pedro")));
+        assertEquals("Remove file as root","",getDirectoryFilesNames((Directory)MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Ferreira")));
     }
 
 

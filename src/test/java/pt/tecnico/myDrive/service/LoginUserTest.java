@@ -13,13 +13,13 @@ public class LoginUserTest extends AbstractServiceTest {
     @Override
     protected void populate() {
         MyDriveManager mg = MyDriveManager.getInstance();
-        mg.addUser("ObiWan");
-        mg.addUser("R2D2");
+        mg.addUser("ObiWannn");
+        mg.addUser("R2D2R2D2");
     }
 
     @Test
     public void successLogin(){
-        LoginUserService service = new LoginUserService("R2D2", "R2D2");
+        LoginUserService service = new LoginUserService("R2D2R2D2", "R2D2R2D2");
         service.execute();
         long token = service.result();
         assertNotNull("Session was not created", MyDriveManager.getInstance().getCurrentSession());
@@ -35,7 +35,7 @@ public class LoginUserTest extends AbstractServiceTest {
 
     @Test(expected = WrongPasswordException.class)
     public void wrongPassword(){
-        LoginUserService service = new LoginUserService("ObiWan", "Kenobi");
+        LoginUserService service = new LoginUserService("ObiWannn", "Kenobi");
         service.execute();
     }
 
