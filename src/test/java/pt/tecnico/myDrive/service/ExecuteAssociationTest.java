@@ -22,17 +22,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
     @Test(expected = InvalidTokenException.class)
     public void success() {
 
-    /*    System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-        System.out.println("CEEEEEEEENAAAAAAAAAAAAAAAAS!!!!!!!!!!!!!!!!!!!!!<<<<<<------------");
-     */
 
         new MockUp<MyDriveManager>() {
-            @Mock
+            @Mock(invocations = 1)
             void executePlainFile(String _path, String _args, long _token) {
                 throw new InvalidTokenException(_token);
             }
@@ -44,14 +36,14 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
             String _argsToPass;
             long _tok;
 
-            @Mock
+            @Mock(invocations = 1)
             void $init(String pathToFile, String argsToPass, long tok) {
                 _pathToFile = pathToFile;
                 _argsToPass = argsToPass;
                 _tok = tok;
             }
 
-            @Mock
+            @Mock(invocations = 1)
             void dispatch() {
                 MyDriveManager mg = MyDriveManager.getInstance();
                 mg.executePlainFile(_pathToFile, _argsToPass, _tok);

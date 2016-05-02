@@ -3,6 +3,8 @@ package pt.tecnico.myDrive.presentation;
 
 import pt.tecnico.myDrive.service.AddEnvironmentVariableService;
 
+import java.util.LinkedHashMap;
+
 public class EnvironmentCommand extends MdCommand {
 
     public EnvironmentCommand(MdShell sh) {
@@ -14,11 +16,15 @@ public class EnvironmentCommand extends MdCommand {
     @Override
     public void execute(String args[]) {
 
-        //maybe use a switch-case, looks cleaner?!?, in which the default case is the "error" case
         switch (args.length) {
-            case 0: //TODO: ((MdShell) shell()).getEnvVarList();
+            case 0: AddEnvironmentVariableService envVarUse = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken());
+                    LinkedHashMap<String, String> envVarList = envVarUse.result();
                     break;
-            case 1: //TODO: ((MdShell) shell()).getEnvVarValue();  (error if it doesn't exist, let user know)
+            case 1: /*AddEnvironmentVariableService envVarUse;
+                    LinkedHashMap<String, String> envVarList = envVarUse.result(((MdShell) shell()).getCurrentToken());
+                    for(String var : envVarList)
+                      */
+                    //TODO: ((MdShell) shell()).getEnvVarValue();  (error if it doesn't exist, let user know)
                     break;
             case 2: AddEnvironmentVariableService envVar = new AddEnvironmentVariableService(((MdShell) shell()).getCurrentToken(),
                                                                 args[0], args[1]);

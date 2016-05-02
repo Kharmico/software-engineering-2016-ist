@@ -13,6 +13,10 @@ public class AddEnvironmentVariableService extends MyDriveService {
         _value = value;
     }
 
+    public AddEnvironmentVariableService(long token){
+        _token = token;
+    }
+
     @Override
     public void dispatch(){ getMyDriveManager().addEnvironmentVariable(_name, _value, _token);
     }
