@@ -9,7 +9,7 @@ import pt.tecnico.myDrive.exception.InvalidTokenException;
 import static org.junit.Assert.assertTrue;
 
 
-public class EnvironmentVariableTest extends AbstractServiceTest {
+public class AddEnvironmentVariableTest extends AbstractServiceTest {
 
 	@Override
 	protected void populate() {
