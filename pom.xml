@@ -184,11 +184,11 @@
 			<groupId>pt.tecnico.plugin</groupId>
 			<artifactId>dml2yuml-maven-plugin</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<configuration>
+			<!--<configuration>
 			  <names>false</names>
 			  <outputDirectory>info</outputDirectory>
 			  <url>http://yuml.me/diagram/scruffy;dir:lr/class/</url>
-			</configuration>
+			</configuration>-->
 			<executions>
 			  <execution>
 				<phase>compile</phase>

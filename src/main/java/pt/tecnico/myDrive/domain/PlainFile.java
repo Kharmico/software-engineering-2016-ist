@@ -10,24 +10,18 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 
-	protected PlainFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+	PlainFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
 		this.init(id, filename, userMask, owner, parentDirectory);
 	}
 
 
-	protected PlainFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
+	PlainFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
 		this.init(id, filename, userMask, owner, content, parentDirectory);
 
 	}
 
 
-	@Override
-	protected void init(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException{
-		super.init(id, filename, userMask, owner, parentDirectory);
-	}
-
-
-	protected void init(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+	void init(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
 		init(id, filename, userMask, owner, parentDirectory);
 		this.setContent(content);
 	}
@@ -120,7 +114,7 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 
-	protected Element generalFileExport(Element el){
+	Element generalFileExport(Element el){
 		el.setAttribute("id", getId().toString());
 		el.addContent(new Element("name").setText(getFilename()));
 		el.addContent(new Element("owner").setText(getOwner().getUsername()));

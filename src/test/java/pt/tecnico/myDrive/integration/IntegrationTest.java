@@ -1,15 +1,10 @@
 package pt.tecnico.myDrive.integration;
 
+import mockit.integration.junit4.JMockit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import mockit.Mock;
-import mockit.MockUp;
-import mockit.integration.junit4.JMockit;
-import pt.tecnico.myDrive.domain.EnvironmentVariable;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.service.*;
-
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

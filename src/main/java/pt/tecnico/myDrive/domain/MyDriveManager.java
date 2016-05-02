@@ -38,11 +38,6 @@ public class MyDriveManager extends MyDriveManager_Base {
         return new MyDriveManager();
     }
 
-    @Override
-    public void setFilesystem(FileSystem filesystem){
-    	super.setFilesystem(filesystem);
-    }
-    
     public void remove(){
     	this.setFilesystem(null);
         for(Session s : getSessionSet())

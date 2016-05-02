@@ -1,11 +1,8 @@
 package pt.tecnico.myDrive.service;
 
-import mockit.*;
 import mockit.integration.junit4.JMockit;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 
 /* This test involves the usage of mock-ups

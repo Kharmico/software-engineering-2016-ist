@@ -1,15 +1,14 @@
 package pt.tecnico.myDrive.service;
 
 import org.junit.Test;
-
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 
+import java.util.LinkedHashMap;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.LinkedHashMap;
 
 
 public class AddEnvironmentVariableTest extends AbstractServiceTest {

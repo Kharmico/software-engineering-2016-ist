@@ -1,9 +1,7 @@
 package pt.tecnico.myDrive.presentation;
 
-import pt.tecnico.myDrive.exception.UserUnknownException;
 import pt.tecnico.myDrive.service.LoginUserService;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 /**
@@ -44,7 +42,7 @@ public class MdShell extends Shell {
         return sessions;
     }
 
-    void init(){
+    private void init(){
         LoginUserService lus = new LoginUserService("nobody", "");
         lus.execute();
         setCurrentUser("nobody");
