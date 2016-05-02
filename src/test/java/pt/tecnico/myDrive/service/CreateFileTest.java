@@ -3,7 +3,6 @@ package pt.tecnico.myDrive.service;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.File;
-import pt.tecnico.myDrive.domain.Guest;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.*;
 

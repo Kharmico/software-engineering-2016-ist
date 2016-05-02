@@ -1,6 +1,5 @@
 package pt.tecnico.myDrive.presentation;
 
-import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.service.ListDirectoryService;
 
 public class ListCommand extends MdCommand {

@@ -14,11 +14,11 @@ public class AppFile extends AppFile_Base {
     }
 
 
-    protected AppFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+    AppFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
         super.init(id, filename, userMask, owner, parentDirectory);
     }
 
-    protected AppFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
+    AppFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
         super.init(id, filename, userMask, owner, content, parentDirectory);
 
     }

@@ -1,7 +1,7 @@
 package pt.tecnico.myDrive.domain;
 
-import pt.tecnico.myDrive.exception.IllegalRemovalException;
 import pt.tecnico.myDrive.exception.IllegalGuestPasswordChangeException;
+import pt.tecnico.myDrive.exception.IllegalRemovalException;
 
 public class Guest extends Guest_Base {
     private static final String GUEST_UMASK = "rxwdr-x-";

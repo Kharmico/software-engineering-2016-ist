@@ -4,10 +4,10 @@ public abstract class MyDriveException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public MyDriveException() {
+    MyDriveException() {
     }
 
-    public MyDriveException(String msg) {
+    MyDriveException(String msg) {
         super(msg);
     }
 }

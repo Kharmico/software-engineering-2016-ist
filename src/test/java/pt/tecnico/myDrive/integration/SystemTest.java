@@ -1,7 +1,6 @@
 package pt.tecnico.myDrive.integration;
 
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.presentation.*;
