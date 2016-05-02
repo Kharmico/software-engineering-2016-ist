@@ -45,17 +45,17 @@ public class PlainFile extends PlainFile_Base {
     }
     
     @Override
-    protected void executeFile(User logged, String args) throws FileUnknownException, IsNotAppFileException{
+    protected void executeFile(User logged, String[] args) throws FileUnknownException, IsNotAppFileException{
     	String realContent = this.getContent();
-    	String appContent = "";
+    	String appArgs = "";
     	
     	while(realContent != ""){
-	    	appContent = realContent.substring(0,realContent.indexOf("\n"));
-	    	String[] arrayApp = appContent.split(" ");
+	    	appArgs = realContent.substring(0,realContent.indexOf("\n"));
+	    	String[] arrayApp = appArgs.split(" ");
 	    	
 	    	getFilesystem().absolutePath(arrayApp[0], logged, getFather()).
-				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).writeContentFromPlainFile(logged, arrayApp);
-	    	
+				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).executeFile(logged, arrayApp);
+
 	    	realContent = realContent.substring(realContent.indexOf("\n"));
     	}
     }

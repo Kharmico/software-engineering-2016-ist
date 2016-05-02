@@ -130,7 +130,7 @@ public class Directory extends Directory_Base {
 	}
 
 	@Override
-	public void executeFile(User logged, String args) throws IsNotPlainFileException {
+	public void executeFile(User logged, String[] args) throws IsNotPlainFileException {
 		throw new IsNotPlainFileException(this.getFilename());
 	}
 	

@@ -5,9 +5,9 @@ public class ExecuteFileService extends MyDriveService {
 
     private long _token;
     private String _path;
-    private String _args;
+    private String[] _args;
 
-    public ExecuteFileService(String path, String args, long token) {
+    public ExecuteFileService(String path, String[] args, long token) {
         _token = token;
         _path = path;
         _args = args;

@@ -382,7 +382,7 @@ public class FileSystem extends FileSystem_Base {
 		d.getFileByName(filename).writeContent(content, currentUser);
 	}
 	
-	void executeFile(String path, User currentUser, Directory currentDirectory, String args){
+	void executeFile(String path, User currentUser, Directory currentDirectory, String[] args){
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = getLastPathToken(path);
 		d.getFileByName(filename).checkAccessEx(currentUser);

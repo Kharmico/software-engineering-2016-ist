@@ -105,7 +105,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
     
-    public void executePlainFile(String path, String args, long token){
+    public void executePlainFile(String path, String[] args, long token){
     	checkForSession(token);
     	getFilesystem().executeFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), args);
     }

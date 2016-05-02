@@ -33,20 +33,15 @@ public class AppFile extends AppFile_Base {
     	
     }
     
-    protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws InvalidContentException{
-    	int i = 1;
-    	String path = "";
-    	for(i = 1; i < arrayContent.length-1; i++){
-    		path += arrayContent[i] + ".";
-    	}
-    	path += arrayContent[arrayContent.length];
-    	
-    	this.writeContent(path, logged);
-    	this.executeFile(logged, this.getContent());
-    }
-    
     @Override
-    protected void executeFile(User logged, String args){
+    protected void executeFile(User logged, String[] args){
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     	//FIXME: you can execute from its content or directly from service
     }
 
