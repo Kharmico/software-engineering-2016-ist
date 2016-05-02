@@ -8,6 +8,8 @@ import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.LinkedHashMap;
+
 
 public class EnvironmentVariableTest extends AbstractServiceTest {
 
@@ -21,23 +23,27 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
 	    currentSession.setCurrentDir(mdm.getFilesystem().getHomeDirectory());
 	    mdm.addEnvironmentVariable("EnVarTest1", "SouO1", token);
 	    mdm.addEnvironmentVariable("EnVarTest2", "SouO2", token);	  
-	    mdm.addEnvironmentVariable("EnvVarTest3", "Falhei", token);	//FIXME: is there any exception? or error?
+	//    mdm.addEnvironmentVariable("EnvVarTest3", "Falhei", token);	//FIXME: is there any exception? or error?
 	    
 	}
 	
-    private String getValue(long token) {
+    private LinkedHashMap<String, String> getLinkedHashMap(long token) {
         return MyDriveManager.getInstance().listEnvironmentVariables(token);
+    }
+    
+    private String getValue(long token, String value){
+    	return getLinkedHashMap(token).get(value);
     }
 
 	
 	@Test
 	public void successNewEnvVar(){
-		String value = "ItsMeMario";
+		String value = "/home/ItsMeMario";
 		String writtenValue = "";
 		AddEnvironmentVariableService service = 
 				new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoNotExistButIWill", value);
 		service.execute();
-		writtenValue = getValue(MyDriveManager.getInstance().getCurrentSession().getToken()).toLowerCase();
+		writtenValue = getValue(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoNotExistButIWill").toLowerCase();
 		
 		assertTrue("Environment value was not created", writtenValue.contains("idonotexistbutiwill = " + value.toLowerCase()));	
 	}
@@ -49,7 +55,7 @@ public class EnvironmentVariableTest extends AbstractServiceTest {
 		AddEnvironmentVariableService service = 
 				new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "EnVarTest1", value);
 		service.execute();
-		writtenValue = getValue(MyDriveManager.getInstance().getCurrentSession().getToken()).toLowerCase();
+		writtenValue = getValue(MyDriveManager.getInstance().getCurrentSession().getToken(), "EnVarTest1").toLowerCase();
 		
 		assertTrue("Environment value was not modified", writtenValue.contains("envartest1 = " + value.toLowerCase()));
 	}
