@@ -1,9 +1,18 @@
 package pt.tecnico.myDrive.service;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
+import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.exception.AccessDeniedException;
+import pt.tecnico.myDrive.exception.InvalidContentException;
+
 
 public class ExecuteFileTest extends AbstractServiceTest {
+
+    private static final Logger log = LogManager.getRootLogger();
 
     @Override
     public void populate() {
@@ -12,23 +21,42 @@ public class ExecuteFileTest extends AbstractServiceTest {
         manager.addUser("Pedrocas");
 
         manager.login("Josefina","Josefina");
-        manager.createAppFile("noperm");
+        manager.createAppFile("noperm", "pt.tecnico.myDrive.MyDriveApplication.testAppfile");
 
         manager.login("Pedrocas","Pedrocas");
-        manager.createAppFile("sufix", "pt.tecnico.myDrive.MyDriveApplication");
+        manager.createAppFile("sufix", "pt.tecnico.myDrive.MyDriveApplication.testAppfile");
+        manager.createAppFile("noMethod");
     }
     
-    /*@Test
+    @Test
     public void success(){
-    	ExecuteFileService service = new ExecuteFileService("/home/Pedrocas/sufix", null, MyDriveManager.getInstance().getCurrentSession().getToken());
-    	service.execute();
-    }*/
+        String s = "home/Francisco/Pedro";
+        String[] t = s.split("/");
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("sufix").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+     //   assertEquals("App file isnt working","AppFileRunning");
+    }
+
+    // Teste para o caso de o metodo nao existir
+    @Test(expected = InvalidContentException.class)
+    public void noMethodAppFile(){
+        String s = "home/Francisco/Pedro";
+        String[] t = s.split("/");
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("noMethod").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
+    // Teste para o caso de o utilizador nao ter permissao
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissionAppFile(){
+        String s = "home/Francisco/Pedro";
+        String[] t = s.split("/");
+        Directory d = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina");
+        ExecuteFileService fl = new ExecuteFileService(d.getFileByName("noperm").getPath(),t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
 
 }
-
-/*
-1. Pedir para executar um  ficheiro sem especificar a path;
-2. Pedir para executar um ficheiro sem argumentos;
-3. Pedir para executar um ficheiro sem ter permissoes para tal;
-4. Executar um ficheiro que nao é uma aplicacao;
- */

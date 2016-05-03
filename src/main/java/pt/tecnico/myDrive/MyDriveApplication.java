@@ -65,6 +65,11 @@ public class MyDriveApplication{
 		    e.printStackTrace();
 		}
 	}
+
+
+	public static void testAppfile(String[] args) {
+		System.out.println("AppFileRunning");
+	}
 	
 }
 	
