@@ -129,7 +129,7 @@ public class FileSystem extends FileSystem_Base {
 		}
 	}
 
-	User getUserByUsername(String username) throws UserUnknownException {
+	public User getUserByUsername(String username) throws UserUnknownException {
 		for (User user: super.getUsersSet()){
 			if (user.getUsername().equals(username))
 				return user;

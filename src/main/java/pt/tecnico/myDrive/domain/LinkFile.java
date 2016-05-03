@@ -9,7 +9,7 @@ public class LinkFile extends LinkFile_Base {
         super();
     }
 
-    LinkFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws
+    public LinkFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws
             InvalidFileNameException, InvalidMaskException, LinkFileWithoutContentException, LoopLinkFileException {
         if(invalidContent(content)){
             throw new LinkFileWithoutContentException(filename + " link has an invalid content.");
