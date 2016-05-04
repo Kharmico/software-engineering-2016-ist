@@ -46,7 +46,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
      //   assertEquals("App file isnt working","AppFileRunning");
     }
 
-    // Teste para o caso de o metodo nao existir
+    // When method does not exist
     @Test(expected = InvalidContentException.class)
     public void noMethodAppFile(){
         String[] t = {"cd","ls"};
@@ -55,7 +55,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
         fl.execute();
     }
 
-    // Teste para o caso de o utilizador nao ter permissao
+    // User does not have permission
     @Test(expected = AccessDeniedException.class)
     public void noPermissionAppFile(){
         String[] t = {"cd","ls"};
@@ -68,25 +68,25 @@ public class ExecuteFileTest extends AbstractServiceTest {
     //         Plain File                   //
     //////////////////////////////////////////
 
-    /*
-    //Text PlainFIle with 2 paths
+    
+    //Text PlainFile with 2 paths
     @Test
-    public void SucessPlainFile() {
+    public void SucessPlainFileWith2Paths() {
         String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SPPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void SucessPlainFile(){
         String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SufixPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
-    }*/
+    }
 
-    // Teste para o caso de o metodo nao existir
+    // When method does not exist
     @Test(expected = InvalidContentException.class)
     public void noContetPlainFile(){
         String[] t = {"cd","ls"};
