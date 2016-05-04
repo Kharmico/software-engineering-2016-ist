@@ -32,15 +32,14 @@ public class ExecuteFileTest extends AbstractServiceTest {
         manager.createPlainFile("SPPath","/home/Pedrocas/sufix\n/home/Pedrocas/sufix");
     }
 
+
     //////////////////////////////////////////
     //           App File                   //
     //////////////////////////////////////////
 
-
     @Test
     public void success(){
-        String s = "home/Francisco/Pedro";
-        String[] t = s.split("/");
+        String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("sufix").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
@@ -50,8 +49,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
     // Teste para o caso de o metodo nao existir
     @Test(expected = InvalidContentException.class)
     public void noMethodAppFile(){
-        String s = "home/Francisco/Pedro";
-        String[] t = s.split("/");
+        String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("noMethod").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
@@ -60,8 +58,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
     // Teste para o caso de o utilizador nao ter permissao
     @Test(expected = AccessDeniedException.class)
     public void noPermissionAppFile(){
-        String s = "home/Francisco/Pedro";
-        String[] t = s.split("/");
+        String[] t = {"cd","ls"};
         Directory d = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina");
         ExecuteFileService fl = new ExecuteFileService(d.getFileByName("noperm").getPath(),t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
@@ -75,8 +72,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
     //Text PlainFIle with 2 paths
     @Test
     public void SucessPlainFile() {
-        String s = "home/Francisco/Pedro";
-        String[] t = s.split("/");
+        String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SPPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
@@ -84,8 +80,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
 
     /*@Test
     public void SucessPlainFile(){
-        String s = "home/Francisco/Pedro";
-        String[] t = s.split("/");
+        String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SufixPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
@@ -94,8 +89,7 @@ public class ExecuteFileTest extends AbstractServiceTest {
     // Teste para o caso de o metodo nao existir
     @Test(expected = InvalidContentException.class)
     public void noContetPlainFile(){
-        String s = "home/Francisco/Pedro";
-        String[] t = s.split("/");
+        String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("noMethod").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
