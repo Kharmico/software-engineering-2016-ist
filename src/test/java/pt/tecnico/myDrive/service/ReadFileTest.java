@@ -47,7 +47,7 @@ public class ReadFileTest extends AbstractServiceTest {
         .getFileByName("catering.txt").setPermissions("rwxd----");
 		
 		/* --- User charmander Files --- */
-		mg.login("charmander", "charmander");
+		mg.login(USER_LOGGED, USER_LOGGED);
 		
 		mg.createDirectory("splash");
 		mg.createPlainFile("ember.txt");
