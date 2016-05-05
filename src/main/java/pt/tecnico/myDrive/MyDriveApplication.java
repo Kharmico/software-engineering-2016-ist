@@ -68,8 +68,8 @@ public class MyDriveApplication{
 
 
 	public static void testAppfile(String[] args) {
-		System.out.println("AppFileRunning");
+		System.out.print("AppFileRunning");
 	}
-	
+
 }
 	
