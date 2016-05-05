@@ -42,15 +42,20 @@ public class PlainFile extends PlainFile_Base {
     protected void executeFile(User logged, String[] args) throws FileUnknownException, IsNotAppFileException{
     	String realContent = this.getContent();
     	String appArgs = "";
-    	
+
     	while(!realContent.equals("")){
-	    	appArgs = realContent.substring(0,realContent.indexOf("\n"));
-	    	String[] arrayApp = appArgs.split(" ");
+    		if(realContent.contains("\n")){
+    			appArgs = realContent.substring(0,realContent.indexOf("\n"));
+    			realContent = realContent.substring(realContent.indexOf("\n") + 1);
+    		} else {
+    			appArgs = realContent;
+    			realContent = "";
+    		}
+
+    		String[] arrayApp = appArgs.split(" ");
 	    	
 	    	getFilesystem().absolutePath(arrayApp[0], logged, getFather()).
 				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).executeFile(logged, arrayApp);
-
-	    	realContent = realContent.substring(realContent.indexOf("\n"));
     	}
     }
    
