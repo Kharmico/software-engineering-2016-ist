@@ -4,7 +4,7 @@ import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.*;
 
 public class PlainFile extends PlainFile_Base {
-    
+
 	protected PlainFile(){
 		super();
 	}
@@ -53,7 +53,7 @@ public class PlainFile extends PlainFile_Base {
     		}
 
     		String[] arrayApp = appArgs.split(" ");
-	    	
+
 	    	getFilesystem().absolutePath(arrayApp[0], logged, getFather()).
 				getFileByName(arrayApp[0].substring(arrayApp[0].lastIndexOf("/") + 1)).executeFile(logged, arrayApp);
     	}
