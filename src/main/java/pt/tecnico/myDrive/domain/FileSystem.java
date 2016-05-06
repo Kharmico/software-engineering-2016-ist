@@ -163,21 +163,21 @@ public class FileSystem extends FileSystem_Base {
 	}
 	
 	private Directory changeDirectory(String directoryName, Directory currentDirectory, User currentUser)
-			throws FileUnknownException{
-		currentDirectory.getFileByName(directoryName).checkAccessRead(currentUser);
+			throws FileUnknownException, AccessDeniedException {
+		currentDirectory.checkAccessEx(currentUser);
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
 	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
 		if(path.equals("/")) {
-			getSlash().checkAccessRead(currentUser);
+			getSlash().checkAccessEx(currentUser);
 			return getSlash();
 		}
 		// FIXME: DIOGO: maybe else if?
 		if(path.equals("."))
 			return currentDir;
 		else if(path.equals("..")) {
-			currentDir.getFather().checkAccessRead(currentUser);
+			currentDir.getFather().checkAccessEx(currentUser);
 			return currentDir.getFather();
 		}
 
@@ -187,6 +187,7 @@ public class FileSystem extends FileSystem_Base {
 
 		String name = tokens.length == 0 ? path : tokens[tokens.length - 1];
 
+		beforeLast.checkAccessEx(currentUser);
 		beforeLast.changeDirectory(name,currentUser);
 
 		return (Directory) beforeLast.getFileByName(name);
@@ -210,7 +211,7 @@ public class FileSystem extends FileSystem_Base {
 		String[] fileLocation = resultantPath.split(PATH_DELIM);
 		for(int i = 1; i < (fileLocation.length - 1) ; i++)
 			directory = changeDirectory(fileLocation[i], directory, getRoot());
-		directory.checkAccessRead(currentUser);
+		directory.checkAccessEx(currentUser);
 		return directory;
 	}
 
@@ -236,7 +237,7 @@ public class FileSystem extends FileSystem_Base {
 
 
 	String readFile(String path, Directory currentDirectory, User currentUser)
-			throws FileUnknownException, IsNotPlainFileException {
+			throws FileUnknownException, IsNotPlainFileException, AccessDeniedException {
 
 		Directory directory = absolutePath(path, currentUser, currentDirectory);
 		String filename = getLastPathToken(path);
@@ -386,6 +387,12 @@ public class FileSystem extends FileSystem_Base {
 		Directory d = absolutePath(path, currentUser, currentDirectory);
 		String filename = getLastPathToken(path);
 		d.getFileByName(filename).checkAccessEx(currentUser);
+		d.getFileByName(filename).executeFile(currentUser, args);
+	}
+
+	void executeFileExt(String path, User currentUser, Directory currentDirectory, String[] args) {
+		Directory d = absolutePath(path, currentUser, currentDirectory);
+		String filename = getLastPathToken(path);
 		d.getFileByName(filename).executeFile(currentUser, args);
 	}
 

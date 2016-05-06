@@ -31,6 +31,8 @@ public class LinkFile extends LinkFile_Base {
 
     @Override
 	public String printContent(User logged){
+        getFilesystem().absolutePath(super.getContent(), logged, getFather())
+                .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).checkAccessRead(logged);
     	return getFilesystem().absolutePath(super.getContent(), logged, getFather())
                 .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).printContent(logged);
     }
@@ -42,6 +44,8 @@ public class LinkFile extends LinkFile_Base {
 
     @Override
     public void executeFile(User logged, String[] args) {
+        getFilesystem().absolutePath(super.getContent(), logged, getFather())
+                .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).checkAccessEx(logged);
         getFilesystem().absolutePath(super.getContent(), logged, getFather())
                 .getFileByName(getContent().substring(getContent().lastIndexOf("/") + 1)).executeFile(logged, args);
     }

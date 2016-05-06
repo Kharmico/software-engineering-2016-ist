@@ -36,10 +36,16 @@ public class AppFile extends AppFile_Base {
     	}
     	
     }
+
+    @Override
+    public String printContent(User logged) {
+        return this.getContent();
+    }
     
     @Override
-    protected void executeFile(User logged, String[] args) throws InvalidExecuteException {
+    protected void executeFile(User logged, String[] args) throws InvalidExecuteException, InvalidContentException {
         String defPackageExt = "pt.tecnico.myDrive";
+
         try{
         String folder = this.getContent().substring(defPackageExt.length() + 1, getContent().length());
 
