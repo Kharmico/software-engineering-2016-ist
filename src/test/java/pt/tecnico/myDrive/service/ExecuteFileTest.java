@@ -10,6 +10,7 @@ import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidContentException;
+import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -31,6 +32,9 @@ public class ExecuteFileTest extends AbstractServiceTest {
 
         manager.login("Josefina","Josefina");
         manager.createAppFile("noperm", "pt.tecnico.myDrive.MyDriveApplication.testAppfile");
+        manager.createPlainFile("noperm1","/home/Josefina/noperm home Francisco Pedro");
+        manager.createLinkFile("JosApp","/home/Josefina/noperm1");
+
 
         manager.login("Pedrocas","Pedrocas");
         manager.createAppFile("sufix", "pt.tecnico.myDrive.MyDriveApplication.testAppfile");
@@ -38,7 +42,13 @@ public class ExecuteFileTest extends AbstractServiceTest {
         manager.createAppFile("noMethod");
         manager.createPlainFile("noPath");
         manager.createPlainFile("SufixPath","/home/Pedrocas/sufix home Francisco Pedro");
-        manager.createPlainFile("SPPath","/home/Pedrocas/sufix\n/home/Pedrocas/sufix");
+        manager.createPlainFile("SPPath","/home/Pedrocas/sufix\n/home/Pedrocas/sufix\n/home/Pedrocas/sufix");
+        manager.createPlainFile("NoPermJosefina","/home/Josefina/noperm home Francisco Pedro");
+
+        manager.createLinkFile("SLink","/home/Pedrocas/SPPath");
+        manager.createLinkFile("WrongLink","/home/Pedrocas");
+        manager.createLinkFile("NoLinkPermissionToJosPlainF","/home/Josefina/noperm1");
+        manager.createLinkFile("NoLinkPermissionToJosApp","/home/Josefina/noperm");
     }
 
     @Before
@@ -52,6 +62,16 @@ public class ExecuteFileTest extends AbstractServiceTest {
     public void cleanUpStreams() {
         System.out.flush();
         System.setOut(ps);
+    }
+
+
+    // When method does not exist
+    @Test(expected = IsNotPlainFileException.class)
+    public void ExecuteDir(){
+        String[] t = {"cd","ls"};
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
     }
 
     //////////////////////////////////////////
@@ -95,47 +115,35 @@ public class ExecuteFileTest extends AbstractServiceTest {
     //////////////////////////////////////////
 
 
-/*
-    //Text PlainFIle with 2 paths
+
+    //Text PlainFile with 3 paths
     @Test
-    public void SucessPlainFile2path() {
-=======
-    
-    //Text PlainFile with 2 paths
-    @Test
-    public void SucessPlainFileWith2Paths() {
->>>>>>> 0c3ea4443173f38269ac86c996e43fb4c0f0a18c
+    public void SucessPlainFileWith3Path() {
+
         String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SPPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
-<<<<<<< HEAD
 
         String[] output = outContent.toString().split("\n");
 
-        assertEquals("App file isnt working", "AppFileRunning", output[1]);
+        assertEquals("App file isnt working", "AppFileRunningAppFileRunningAppFileRunning", output[1]);
     }
 
 
-    //Text PlainFIle with 1 paths
+    //Text PlainFile with 1 paths
     @Test
-    public void SucessPlainFile1path(){
-=======
-    }
+    public void SucessPlainFile1aths(){
 
-    @Test
-    public void SucessPlainFile(){
->>>>>>> 0c3ea4443173f38269ac86c996e43fb4c0f0a18c
         String[] t = {"cd","ls"};
         ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SufixPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
-<<<<<<< HEAD
 
         String[] output = outContent.toString().split("\n");
-
+        log.debug(output[1]);
         assertEquals("App file isnt working", "AppFileRunning", output[1]);
-    }*/
+    }
 
 
     // When method does not exist
@@ -147,5 +155,81 @@ public class ExecuteFileTest extends AbstractServiceTest {
         fl.execute();
     }
 
+    // User does not have permission to execute josefina app through plain content
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissionPlainFileToApp(){
+        String[] t = {"cd","ls"};
+
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("NoPermJosefina").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
+    // User does not have permission to execute josefina plain file
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissionPlainFile(){
+        String[] t = {"cd","ls"};
+        Directory d = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina");
+        ExecuteFileService fl = new ExecuteFileService(d.getFileByName("noperm1").getPath(),t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
+    //////////////////////////////////////////
+    //           Link File                  //
+    //////////////////////////////////////////
+
+
+
+    //Text PlainFile with 3 paths
+    @Test
+    public void SucesLinkFile() {
+
+        String[] t = {"cd","ls"};
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("SLink").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+
+        String[] output = outContent.toString().split("\n");
+
+        assertEquals("App file isnt working", "AppFileRunningAppFileRunningAppFileRunning", output[1]);
+    }
+
+    // When method does not exist
+    @Test(expected = IsNotPlainFileException.class)
+    public void wrongContetLinkFile(){
+        String[] t = {"cd","ls"};
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("WrongLink").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
+    // User does not have permission to execute josefina plain file through link
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissionLinkToPlainFile(){
+        String[] t = {"cd","ls"};
+
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("NoLinkPermissionToJosPlainF").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
+    // User does not have permission to execute josefina app file through link
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissionLinkToAppFile(){
+        String[] t = {"cd","ls"};
+
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("NoLinkPermissionToJosApp").getPath(),
+                t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
+
+    // User does not have permission to execute josefina link file
+    @Test(expected = AccessDeniedException.class)
+    public void noPermissionAnotherUSerLinkFile(){
+        String[] t = {"cd","ls"};
+        Directory d = (Directory) MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFather().getFileByName("Josefina");
+        ExecuteFileService fl = new ExecuteFileService(d.getFileByName("JosApp").getPath(),t, MyDriveManager.getInstance().getCurrentSession().getToken());
+        fl.execute();
+    }
 
 }

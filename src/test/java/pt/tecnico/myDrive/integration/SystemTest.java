@@ -22,7 +22,7 @@ public class SystemTest extends AbstractServiceTest {
     protected void populate() {
         sh = new MdShell();
         MyDriveManager.getInstance().login("root", "***");
-        MyDriveManager.getInstance().createAppFile(APP_FILENAME);
+        MyDriveManager.getInstance().createAppFile(APP_FILENAME,"pt.tecnico.myDrive.MyDriveApplication.testAppfile");
         ListDirectoryService ls = new ListDirectoryService(MyDriveManager.getInstance().getCurrentSession().getToken(), "/home/root");
         ls.execute();
         System.out.println(ls.result());
@@ -88,7 +88,7 @@ public class SystemTest extends AbstractServiceTest {
         new LoginCommand(sh).execute(ROOT_LOGIN_ARGS);
         new ListCommand(sh).execute(NO_ARGS);
         new WriteCommand(sh).execute(new String[]{ "/home/root/main", "pt.tecnico.myDrive.MyDriveApplication.main"});
-        new ExecuteCommand(sh).execute(new String[]{APP_FILENAME, "drive.xml" });
+        new ExecuteCommand(sh).execute(new String[]{ "/home/root/main", "drive.xml" });
 
     }
     /*FRANCISCO - ve se queres aproveitar algo daqui eu enganei-me e pensei que tinha que fazer casos de teste à camada mas és tu*/
