@@ -35,7 +35,6 @@ public class PlainFile extends PlainFile_Base {
     @Override
 	public String printContent(User logged){
     	return this.getContent();
-
     }
     
     @Override

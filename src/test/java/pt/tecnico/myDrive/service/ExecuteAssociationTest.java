@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import pt.tecnico.myDrive.domain.Directory;
 import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
@@ -130,6 +131,14 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
     public void successfullyExecAppFileThroughExt() {
         String[] stuffToPass = {"Beep"};
 
+        new MockUp<User>() {
+
+            @Mock
+            String getFileAssocByExt(String path){
+                return "/home/Evangelion/ExecApp";
+            }
+        };
+
         new MockUp<ExecuteFileService>() {
 
             String _pathToFile;
@@ -154,7 +163,7 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
                     argsForExec[0] = "/home/Evangelion/Noname";
                     argsForExec[1] = String.valueOf(_manager.getCurrentSession().getToken());
                     argsForExec[2] = stuffToPass[0];
-                    mg.executePlainFile("/home/Evangelion/ExecApp", argsForExec, _tok);
+                    mg.executePlainFile(mg.getCurrentSession().getCurrentUser().getFileAssocByExt(argsForExec[0]), argsForExec, _tok);
                 }
             }
         };
@@ -167,6 +176,14 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
     @Test
     public void successfullyExecPlainFileThroughExt() {
         String[] stuffToPass = {"Ithinknot"};
+
+        new MockUp<User>() {
+
+            @Mock
+            String getFileAssocByExt(String path){
+                return "/home/Evangelion/ExecPlain";
+            }
+        };
 
         new MockUp<ExecuteFileService>() {
 
@@ -192,7 +209,7 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
                     argsForExec[0] = "/home/Evangelion/Ilikeithere";
                     argsForExec[1] = String.valueOf(_manager.getCurrentSession().getToken());
                     argsForExec[2] = stuffToPass[0];
-                    mg.executePlainFile("/home/Evangelion/ExecPlain", argsForExec, _tok);
+                    mg.executePlainFile(mg.getCurrentSession().getCurrentUser().getFileAssocByExt(argsForExec[0]), argsForExec, _tok);
                 }
             }
         };
@@ -235,6 +252,14 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
     public void successfullyExecPlainFileThroughLinkAndExt() {
         String[] stuffToPass = {"Ithinknot"};
 
+        new MockUp<User>() {
+
+            @Mock
+            String getFileAssocByExt(String path){
+                return "/home/Evangelion/ExecPlain";
+            }
+        };
+
         new MockUp<ExecuteFileService>() {
 
             String _pathToFile;
@@ -259,7 +284,7 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
                     argsForExec[0] = "/home/Evangelion/Ilikeithere";
                     argsForExec[1] = String.valueOf(_manager.getCurrentSession().getToken());
                     argsForExec[2] = stuffToPass[0];
-                    mg.executePlainFile("/home/Evangelion/ExecPlain", argsForExec, _tok);
+                    mg.executePlainFile(mg.getCurrentSession().getCurrentUser().getFileAssocByExt(argsForExec[0]), argsForExec, _tok);
                 }
             }
         };
