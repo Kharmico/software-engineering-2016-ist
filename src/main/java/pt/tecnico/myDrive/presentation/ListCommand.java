@@ -22,7 +22,3 @@ public class ListCommand extends MdCommand {
         }
     }
 }
-
-/*List: ls [path]
-Imprime a informação das entradas existentes na diretoria indicada pelo caminho (path) ou, 
-caso este seja omitido, as entradas da diretoria corrente.*/

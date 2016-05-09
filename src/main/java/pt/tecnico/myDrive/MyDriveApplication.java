@@ -10,6 +10,8 @@ import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.exception.InvalidContentException;
+import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,5 +73,13 @@ public class MyDriveApplication{
 		System.out.print("AppFileRunning");
 	}
 
+	public static void execNotPermedFile(String[] args) {
+		String _pathToFile = args[0];
+		long _token = Long.parseLong(args[1]);
+		String[] _argsToPass = new String[1];
+		_argsToPass[0] = args[2];
+
+		manager.executeFileExt(_pathToFile, _argsToPass, _token);
+	}
 }
 	

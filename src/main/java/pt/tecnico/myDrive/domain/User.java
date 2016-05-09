@@ -27,6 +27,9 @@ public class User extends User_Base {
 		super.setFilesystem(fs);
 	}
 
+	public String getFileAssocByExt(String path) {
+		return "";
+	}
 
 	@Override
 	public void setPassword(String password) throws PasswordIsTooWeakException {

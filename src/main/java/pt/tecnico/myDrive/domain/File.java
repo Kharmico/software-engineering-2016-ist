@@ -159,8 +159,6 @@ public abstract class File extends File_Base {
 
 	protected abstract boolean isEmpty() throws IsNotDirectoryException;
 	
-	protected abstract void writeContentFromPlainFile(User logged, String[] array);
-	
 	protected abstract Element xmlExport();
 
 	

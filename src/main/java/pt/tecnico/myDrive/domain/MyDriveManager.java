@@ -74,7 +74,6 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     public String changeDirectory(String directoryName, long token) throws FileUnknownException, PathIsTooBigException, AccessDeniedException{
         checkForSession(token);
-        //log.debug("TARGET DIR: " + directoryName);
         Directory toChange;
         if(directoryName.equals(getCurrentSession().getCurrentUser().getHomeDirectory().getPath()))
             toChange = getCurrentSession().getCurrentUser().getHomeDirectory();
@@ -86,7 +85,6 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public String getDirectoryFilesName(String path, long token) throws InvalidTokenException, AccessDeniedException{
         checkForSession(token);
-        //log.debug("Current Dir: " + currentSession.getCurrentDir().getPath());
         return getFilesystem().getDirectoryFilesName(path, currentSession.getCurrentUser(), currentSession.getCurrentDir());
     }
 
@@ -97,13 +95,17 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     public void writeContent(String path, String content, long token){
         checkForSession(token);
-        //log.debug("WRITE", path);
         getFilesystem().writeContent(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), content);
     }
     
     public void executePlainFile(String path, String[] args, long token){
     	checkForSession(token);
     	getFilesystem().executeFile(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), args);
+    }
+
+    public void executeFileExt(String path, String[] args, long token){
+        checkForSession(token);
+        getFilesystem().executeFileExt(path, currentSession.getCurrentUser(), currentSession.getCurrentDir(), args);
     }
    
     
