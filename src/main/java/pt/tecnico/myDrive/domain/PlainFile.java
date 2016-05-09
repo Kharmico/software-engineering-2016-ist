@@ -65,11 +65,6 @@ public class PlainFile extends PlainFile_Base {
         }
         return dir.getFilesystem();
     }
-
-    @Override
-    protected void writeContentFromPlainFile(User logged, String[] arrayContent) throws IsNotAppFileException {
-    	throw new IsNotAppFileException(this.getFilename());
-    }
     
 	@Override
 	protected void addFile(File toAdd) throws IsNotDirectoryException{

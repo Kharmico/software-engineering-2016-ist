@@ -59,12 +59,6 @@ public class LinkFile extends LinkFile_Base {
     }
     
     @Override
-    protected void writeContentFromPlainFile(User logger, String[] array) throws IsNotAppFileException{
-    	throw new IsNotAppFileException(this.getFilename());
-    }
-    
-    
-    @Override
     public String toString(){
     	return super.toString() + " -> " + super.getContent();
     }
