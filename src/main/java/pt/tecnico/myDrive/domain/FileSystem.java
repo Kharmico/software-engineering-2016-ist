@@ -168,7 +168,7 @@ public class FileSystem extends FileSystem_Base {
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
-	Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
+	public Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
 		if(path.equals("/")) {
 			getSlash().checkAccessRead(currentUser);
 			return getSlash();
@@ -214,7 +214,7 @@ public class FileSystem extends FileSystem_Base {
 		return directory;
 	}
 
-	String getDirectoryFilesName(String path, User currentUser, Directory currentDir)
+	public String getDirectoryFilesName(String path, User currentUser, Directory currentDir)
 			throws FileUnknownException, AccessDeniedException{
 		if(path.equals("."))
 			return currentDir.getDirectoryFilesName();
