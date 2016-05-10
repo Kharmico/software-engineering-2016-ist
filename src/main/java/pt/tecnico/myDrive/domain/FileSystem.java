@@ -168,7 +168,8 @@ public class FileSystem extends FileSystem_Base {
 		return currentDirectory.changeDirectory(directoryName, currentUser);
 	}
 
-	public Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException, PathIsTooBigException, AccessDeniedException {
+	public Directory getLastDirectory(String path, Directory currentDir, User currentUser) throws FileUnknownException,
+			PathIsTooBigException, AccessDeniedException {
 		if(path.equals("/")) {
 			getSlash().checkAccessEx(currentUser);
 			return getSlash();
@@ -499,7 +500,8 @@ public class FileSystem extends FileSystem_Base {
 
 				if (node.getChild("home") != null) {
 					String[] tokens = node.getChild("home").getValue().split(PATH_DELIM);
-					toInsert.setHomeDirectory(createDir(createPath(node.getChild("home").getValue()), tokens[tokens.length - 1], toInsert));
+					toInsert.setHomeDirectory(createDir(createPath(node.getChild("home").getValue()),
+							tokens[tokens.length - 1], toInsert));
 				} else {
 					Directory homeDirectory = new Directory(this.generateUniqueId(), username,
 							toInsert.getUmask(), toInsert, getHomeDirectory());
@@ -550,10 +552,12 @@ public class FileSystem extends FileSystem_Base {
 			if (node.getChild("path") != null) {
 				Directory beforeLast = createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1));
 				if (node.getChild("contents") != null){
-					this.createPlainFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("contents").getValue());
+					this.createPlainFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast,
+							this.getUserByUsername(input.get(2)), node.getChild("contents").getValue());
 				}
 				else
-					this.createPlainFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
+					this.createPlainFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast,
+							this.getUserByUsername(input.get(2)));
 			}
 			else
 				throw new ImportDocumentException();
@@ -565,7 +569,8 @@ public class FileSystem extends FileSystem_Base {
 		for (Element node : dir) {
 			Vector<String> input = xmlImportFile(node);
 			if (node.getChild("path") != null)
-				createDir(createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1)), input.get(1), this.getUserByUsername(input.get(2)));
+				createDir(createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1)), input.get(1),
+						this.getUserByUsername(input.get(2)));
 			else
 				throw new ImportDocumentException();
 		}
@@ -578,7 +583,8 @@ public class FileSystem extends FileSystem_Base {
 			if (node.getChild("path") != null) {
 				Directory beforeLast = createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1));
 				if (node.getChild("value") != null){
-					this.createLinkFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("value").getValue());
+					this.createLinkFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast,
+							this.getUserByUsername(input.get(2)), node.getChild("value").getValue());
 				}
 			}
 			else
@@ -593,9 +599,11 @@ public class FileSystem extends FileSystem_Base {
 			if (node.getChild("path") != null) {
 				Directory beforeLast = createPath(node.getChild("path").getValue() + PATH_DELIM + input.get(1));
 				if (node.getChild("method") != null)
-					this.createAppFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)), node.getChild("method").getValue());
+					this.createAppFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast,
+							this.getUserByUsername(input.get(2)), node.getChild("method").getValue());
 				else
-					this.createAppFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast, this.getUserByUsername(input.get(2)));
+					this.createAppFile(node.getChild("path").getValue() + PATH_DELIM + input.get(1), beforeLast,
+							this.getUserByUsername(input.get(2)));
 			}
 			else
 				throw new ImportDocumentException();

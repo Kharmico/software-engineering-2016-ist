@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 public class MdShell extends Shell {
     private String currentUser;
     private long currentToken;
-    private LinkedHashMap<String,Long> sessions = new LinkedHashMap<>(); //Can only be of active sessions!!!
+    private LinkedHashMap<String,Long> sessions = new LinkedHashMap<>();
 
     public static void main(String[] args) throws Exception {
         MdShell sh = new MdShell();
@@ -34,16 +34,8 @@ public class MdShell extends Shell {
         return currentUser;
     }
 
-    String getCurrentTokenUser(){
-        return sessions.get(currentUser) + " " + currentUser;
-    }
-
-    void setCurrentUser(String username){
+    private void setCurrentUser(String username){
         currentUser = username;
-    }
-
-    public LinkedHashMap<String,Long> getSessions(){
-        return sessions;
     }
 
     private void init(){
@@ -54,7 +46,7 @@ public class MdShell extends Shell {
         currentToken = lus.result();
     }
 
-    public MdShell() { // add commands here
+    public MdShell() {
         super("MyDrive");
         init();
         new ChangeWorkingDirectoryCommand(this);

@@ -66,7 +66,7 @@ public abstract class Shell {
 
     // false if it redefines an existing Command
   /* package */ boolean add(Command c) {
-        return coms.put(c.name(), c) == null ? true : false;
+        return coms.put(c.name(), c) == null;
     }
     public Command get(String s) {
         return coms.get(s);

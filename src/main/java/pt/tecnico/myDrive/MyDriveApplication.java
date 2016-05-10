@@ -59,7 +59,7 @@ public class MyDriveApplication{
 		log.trace("MyDriveApplication.xmlScan: " + FenixFramework.getDomainRoot());
 		SAXBuilder builder = new SAXBuilder();
 		try {
-		    Document document = (Document)builder.build(file);
+		    Document document = builder.build(file);
 		    manager.xmlImport(document.getRootElement());
 		} catch (JDOMException | IOException e) {
 		    e.printStackTrace();

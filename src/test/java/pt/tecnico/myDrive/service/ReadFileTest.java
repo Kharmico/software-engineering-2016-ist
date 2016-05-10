@@ -15,12 +15,11 @@ import static org.junit.Assert.assertEquals;
 public class ReadFileTest extends AbstractServiceTest {
 	private static final String USER_LOGGED = "charmander";
 	protected static final Logger log = LogManager.getRootLogger();
-	private static MyDriveManager mg;
-	
+
 
 	@Override
 	protected void populate() {
-		mg = MyDriveManager.getInstance();
+		MyDriveManager mg = MyDriveManager.getInstance();
 		
 		mg.addUser(USER_LOGGED);
 		mg.addUser("charizard");

@@ -111,7 +111,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     
     /* --- Files --- */ 
     
-    public void createFile(String type, String filename, long token) throws InvalidTokenException, UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
+    public void createFile(String type, String filename, long token) throws InvalidTokenException,
+            UnknownTypeException, LinkFileWithoutContentException, FileAlreadyExistsException {
     	checkForSession(token);
         switch(type.toLowerCase()){
         	case "app":
@@ -130,7 +131,8 @@ public class MyDriveManager extends MyDriveManager_Base {
     	}
     }
     
-    public void createFile(String type, String filename, String content, long token) throws InvalidTokenException, UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
+    public void createFile(String type, String filename, String content, long token) throws InvalidTokenException,
+            UnknownTypeException, IsNotPlainFileException, FileAlreadyExistsException {
         checkForSession(token);
         switch(type.toLowerCase()){
         	case "app":
@@ -164,7 +166,6 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     
     public void createLinkFile(String filename, String content) throws FileAlreadyExistsException{
-    	// TODO: InvalidContentException
     	super.getFilesystem().createLinkFile(filename,
     		currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }
@@ -177,7 +178,6 @@ public class MyDriveManager extends MyDriveManager_Base {
 
     
     public void createAppFile(String filename, String content) throws FileAlreadyExistsException{
-    	// TODO: InvalidContentException
 		super.getFilesystem().createAppFile(filename,
     			currentSession.getCurrentDir(), currentSession.getCurrentUser(), content);
     }

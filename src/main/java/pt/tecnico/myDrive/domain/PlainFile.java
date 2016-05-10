@@ -10,18 +10,21 @@ public class PlainFile extends PlainFile_Base {
 	}
 
 
-	PlainFile(int id, String filename, String userMask, User owner, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+	PlainFile(int id, String filename, String userMask, User owner, Directory parentDirectory)
+			throws InvalidFileNameException, InvalidMaskException {
 		this.init(id, filename, userMask, owner, parentDirectory);
 	}
 
 
-	PlainFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
+	PlainFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory)
+			throws InvalidFileNameException, InvalidMaskException, InvalidContentException {
 		this.init(id, filename, userMask, owner, content, parentDirectory);
 
 	}
 
 
-	void init(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException {
+	void init(int id, String filename, String userMask, User owner, String content, Directory parentDirectory)
+			throws InvalidFileNameException, InvalidMaskException {
 		init(id, filename, userMask, owner, parentDirectory);
 		this.setContent(content);
 	}
@@ -40,7 +43,7 @@ public class PlainFile extends PlainFile_Base {
     @Override
     protected void executeFile(User logged, String[] args) throws FileUnknownException, IsNotAppFileException{
     	String realContent = this.getContent();
-    	String appArgs = "";
+    	String appArgs;
 
     	while(!realContent.equals("")){
     		if(realContent.contains("\n")){

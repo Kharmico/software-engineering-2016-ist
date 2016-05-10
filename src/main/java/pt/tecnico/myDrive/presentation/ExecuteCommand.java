@@ -17,9 +17,7 @@ public class ExecuteCommand extends MdCommand{
             String path = args[0];
             String[] arg = {};
             if (args.length == 1)
-            for (int i = 1; i <= args.length; i++) {
-                arg[i] = args[i];
-            }
+                System.arraycopy(args, 1, arg, 1, args.length);
 
             ExecuteFileService executeFileService = new ExecuteFileService(path, arg, ((MdShell) shell()).getCurrentToken());
             executeFileService.execute();

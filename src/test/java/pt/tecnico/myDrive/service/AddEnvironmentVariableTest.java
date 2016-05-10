@@ -29,7 +29,7 @@ public class AddEnvironmentVariableTest extends AbstractServiceTest {
 	@Test
 	public void successNewEnvVar(){
 		String value = "/home/ItsMeMario";
-		LinkedHashMap<String, String> vars = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> vars;
 		
 		AddEnvironmentVariableService service = 
 				new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "IDoNotExistButIWill", value);
@@ -45,7 +45,7 @@ public class AddEnvironmentVariableTest extends AbstractServiceTest {
 	public void successExistingVar(){
 		String value1 = "NewValue";
 		String value2 = "hi";
-		LinkedHashMap<String, String> vars = new LinkedHashMap<String, String>();
+		LinkedHashMap<String, String> vars;
 
 		AddEnvironmentVariableService service1 = 
 				new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "EnVarTest1", value1);

@@ -45,26 +45,31 @@ public class AppFile extends AppFile_Base {
     @Override
     protected void executeFile(User logged, String[] args) throws InvalidExecuteException, InvalidContentException {
         String defPackageExt = "pt.tecnico.myDrive";
+        //FIXME: DIOGO: HAVE FUN parece que alguem fez testes onde nao mete nada nop conteudo, visto o proprio startsWith rebentar com null pointer
+        /*if(getContent().startsWith(defPackageExt)){
+            //throw new InvalidContentException(new String(getContent()));
+
+        }*/
 
         try{
-        String folder = this.getContent().substring(defPackageExt.length() + 1, getContent().length());
+            String folder = this.getContent().substring(defPackageExt.length() + 1, getContent().length());
 
-        if (StringUtils.countMatches(folder, ".") == 2) {
-            defPackageExt += "." + folder.substring(0, folder.indexOf("."));
-        }
+            if (StringUtils.countMatches(folder, ".") == 2) {
+                defPackageExt += "." + folder.substring(0, folder.indexOf("."));
+            }
 
-        String[] tokens = this.getContent().substring(defPackageExt.length() + 1).split("\\.");
+            String[] tokens = this.getContent().substring(defPackageExt.length() + 1).split("\\.");
 
-        String classname = tokens[0];
-        String method = tokens.length == 2 ? tokens[1] : "main";
+            String classname = tokens[0];
+            String method = tokens.length == 2 ? tokens[1] : "main";
 
-        try {
-            Class<?> cls = Class.forName(defPackageExt + "." + classname);
-            Method meth = cls.getMethod(method, String[].class);
-            meth.invoke(null, (Object) args);
+            try {
+                Class<?> cls = Class.forName(defPackageExt + "." + classname);
+                Method meth = cls.getMethod(method, String[].class);
+                meth.invoke(null, (Object) args);
 
-        } catch (Exception e) {
-            throw new InvalidExecuteException(e.getMessage());}
+            } catch (Exception e) {
+                throw new InvalidExecuteException(e.getMessage());}
         } catch (Exception e) {
             throw new InvalidContentException(e.getMessage());}
     }

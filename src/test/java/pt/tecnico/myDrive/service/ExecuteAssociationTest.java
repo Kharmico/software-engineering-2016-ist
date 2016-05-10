@@ -155,7 +155,6 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
                 try {
                     mg.executePlainFile(_pathToFile, _argsToPass, _tok);
                 } catch (AccessDeniedException ex) {
-                    int count = 2;
                     String[] argsForExec = new String[_argsToPass.length + 2];
                     argsForExec[0] = "/home/Evangelion/Noname";
                     argsForExec[1] = String.valueOf(_manager.getCurrentSession().getToken());
@@ -182,6 +181,14 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
             }
         };
 
+        commonMock(stuffToPass);
+
+        ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/Ilikeithere", stuffToPass, _manager.getCurrentSession().getToken());
+        execFile.execute();
+        //assertNotNull(_manager.getCurrentSession().getCurrentDir().getFileByName("Ithinknot"));
+    }
+
+    private void commonMock(final String[] stuffToPass) {
         new MockUp<ExecuteFileService>() {
 
             String _pathToFile;
@@ -210,10 +217,6 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
                 }
             }
         };
-
-        ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/Ilikeithere", stuffToPass, _manager.getCurrentSession().getToken());
-        execFile.execute();
-        //assertNotNull(_manager.getCurrentSession().getCurrentDir().getFileByName("Ithinknot"));
     }
 
     @Test
@@ -257,34 +260,7 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
             }
         };
 
-        new MockUp<ExecuteFileService>() {
-
-            String _pathToFile;
-            String[] _argsToPass;
-            long _tok;
-
-            @Mock(invocations = 1)
-            void $init(String pathToFile, String[] argsToPass, long tok) {
-                _pathToFile = pathToFile;
-                _argsToPass = argsToPass;
-                _tok = tok;
-            }
-
-            @Mock(invocations = 1)
-            void dispatch() {
-                MyDriveManager mg = MyDriveManager.getInstance();
-                try {
-                    mg.executePlainFile(_pathToFile, _argsToPass, _tok);
-                } catch (AccessDeniedException ex) {
-                    int count = 2;
-                    String[] argsForExec = new String[_argsToPass.length + 2];
-                    argsForExec[0] = "/home/Evangelion/Ilikeithere";
-                    argsForExec[1] = String.valueOf(_manager.getCurrentSession().getToken());
-                    argsForExec[2] = stuffToPass[0];
-                    mg.executePlainFile(mg.getCurrentSession().getCurrentUser().getFileAssocByExt(argsForExec[0]), argsForExec, _tok);
-                }
-            }
-        };
+        commonMock(stuffToPass);
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/RefToNotPermed", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();

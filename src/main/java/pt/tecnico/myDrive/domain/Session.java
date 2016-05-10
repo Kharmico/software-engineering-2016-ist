@@ -33,7 +33,7 @@ public class Session extends Session_Base {
         return getManager().getFilesystem().getUserByUsername(getUsername());
     }
 
-    public void addEnvironmentVariable(String name, String value) {
+    void addEnvironmentVariable(String name, String value) {
         for(EnvironmentVariable var : super.getVarSet()){
             if(var.getName().equals(name)){
                 var.setValue(value);
@@ -43,7 +43,7 @@ public class Session extends Session_Base {
         addVar(new EnvironmentVariable(name, value, this));
     }
 
-    public LinkedHashMap<String, String> listEnvironmentVariables() {
+    LinkedHashMap<String, String> listEnvironmentVariables() {
         LinkedHashMap<String, String> list = new LinkedHashMap<>();
         for(EnvironmentVariable var : super.getVarSet()){
             list.put(new String(var.getName()), new String(var.getValue()));

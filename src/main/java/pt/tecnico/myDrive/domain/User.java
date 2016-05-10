@@ -55,7 +55,7 @@ public class User extends User_Base {
             fs.addUsers(this);
     }
 
-    protected void remove(){
+    void remove(){
     	this.setHomeDirectory(null);
     	deleteDomainObject();
     }

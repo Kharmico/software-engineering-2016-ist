@@ -91,7 +91,7 @@ public abstract class File extends File_Base {
 	}
 
 	
-	protected void removeObject(){
+	void removeObject(){
 		setLastModified(null);
 		setParentDirectory(null);
 		setFilename(null);
@@ -123,10 +123,6 @@ public abstract class File extends File_Base {
 	
 	private void generalPermissionChecker(User u, int ownPermIndex, int otherPermIndex)
 			throws AccessDeniedException{
-		/*log.debug("User: " + u.getUsername());
-		log.debug("Directory Owner: " + getOwner().getUsername());
-		log.debug("Home: " + u.getHomeDirectory().getPath());
-		log.debug("Directory to be accessed: " + this.getPath());*/
 		if(u.equals(getOwner())) {
 			if (getPermissions().charAt(ownPermIndex) == '-')
 				throw new AccessDeniedException(u);
