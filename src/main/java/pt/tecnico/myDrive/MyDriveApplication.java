@@ -10,8 +10,6 @@ import org.jdom2.output.XMLOutputter;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.tecnico.myDrive.domain.MyDriveManager;
-import pt.tecnico.myDrive.exception.InvalidContentException;
-import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import java.io.File;
 import java.io.IOException;

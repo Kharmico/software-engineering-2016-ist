@@ -3,17 +3,14 @@ package pt.tecnico.myDrive.service;
 import mockit.Mock;
 import mockit.MockUp;
 import mockit.integration.junit4.JMockit;
-import org.junit.*;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.tecnico.myDrive.domain.Directory;
-import pt.tecnico.myDrive.domain.FileSystem;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
-
-import static org.junit.Assert.*;
 
 
 /* This test involves the usage of mock-ups

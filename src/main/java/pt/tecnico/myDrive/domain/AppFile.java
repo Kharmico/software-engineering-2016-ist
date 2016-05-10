@@ -1,14 +1,14 @@
 package pt.tecnico.myDrive.domain;
 
 
-import java.lang.reflect.Method;
-
 import org.apache.commons.lang.StringUtils;
 import org.jdom2.Element;
 import pt.tecnico.myDrive.exception.InvalidContentException;
 import pt.tecnico.myDrive.exception.InvalidExecuteException;
 import pt.tecnico.myDrive.exception.InvalidFileNameException;
 import pt.tecnico.myDrive.exception.InvalidMaskException;
+
+import java.lang.reflect.Method;
 
 public class AppFile extends AppFile_Base {
 

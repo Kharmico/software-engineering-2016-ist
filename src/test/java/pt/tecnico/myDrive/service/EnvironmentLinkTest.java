@@ -8,11 +8,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import pt.tecnico.myDrive.domain.*;
+import pt.tecnico.myDrive.domain.Directory;
+import pt.tecnico.myDrive.domain.LinkFile;
+import pt.tecnico.myDrive.domain.MyDriveManager;
+import pt.tecnico.myDrive.domain.User;
 import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.FileUnknownException;
-import pt.tecnico.myDrive.exception.IsNotFileException;
-import sun.awt.image.ImageWatched;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

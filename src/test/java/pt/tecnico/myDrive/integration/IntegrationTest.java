@@ -6,6 +6,9 @@ import org.junit.runner.RunWith;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.service.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -86,23 +89,36 @@ public class IntegrationTest extends AbstractServiceTest{
         lus.dispatch();
         assertTrue(MyDriveManager.getInstance().getCurrentSession().getToken() == lus.result());
 
-        // TO TEST EXECUTE APP
-        /*new CreateFileService(lus.result(),"Tryme","app","pt.tecnico.myDrive.MyDriveApplication.test()").dispatch();
+        new CreateFileService(lus.result(),"apptest","app","pt.tecnico.myDrive.MyDriveApplication.testAppfile").dispatch();
 
-        ExecuteFileService es =  new ExecuteFileService(lus.result(),"Tryme");
+        // Redirect system.out
+        PrintStream save = System.out;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        ExecuteFileService es = new ExecuteFileService("/home/root/apptest",null,lus.result());
         es.dispatch();
-        assertEquals("tested",es.result());*/
 
-        /*
-        new MockUp<ExecuteFileService>() {
-            @Mock
-            void dispatch() {}
-            String result() { return "pt.tecnico.myDrive.domain.TxtFile.execute(coisa)"; }
-        };
-        ExecuteFileService es = new ExecuteFileService(lus.result(),"/home/root/readme.txt");
+        assertEquals("AppFileRunning",outContent.toString());
+        outContent.reset();
+
+        new CreateFileService(lus.result(),"applink","link","/home/root/apptest").dispatch();
+        es = new ExecuteFileService("/home/root/applink",null,lus.result());
         es.dispatch();
-        */
 
+        assertEquals("AppFileRunning",outContent.toString());
+        outContent.reset();
+
+        new CreateFileService(lus.result(),"plaintest","plain","/home/root/apptest").dispatch();
+        es = new ExecuteFileService("/home/root/plaintest",null,lus.result());
+        es.dispatch();
+
+        assertEquals("AppFileRunning",outContent.toString());
+        outContent.reset();
+
+        // Restore system.out
+        System.setOut(save);
+        
         new AddEnvironmentVariableService(lus.result(),"HOME","/home").dispatch();
         AddEnvironmentVariableService ev = new AddEnvironmentVariableService(lus.result(),"ROOT","/home/root");
         ev.dispatch();
@@ -130,9 +146,6 @@ public class IntegrationTest extends AbstractServiceTest{
         assertEquals(lsresult[0],"rwxdr-x- root .");
         assertEquals(lsresult[1],"rwxdr-x- root ..");
         assertEquals(lsresult[2],"rwxdr-x- root home");
-
-
-
     }
 
     public String[] parseLs(String result){
@@ -152,11 +165,8 @@ public class IntegrationTest extends AbstractServiceTest{
        ListDirectory - ver todos os tipos de ficheiros
        ReadFile - plainfile && app && link
        WriteFile - plainfile && app
-       AddEnvVar - apenas com duas vars de ambiente...
-
-       Falta ver:
-       Execute Service - app
-       Execute Service e AddEnvVar - mocks são meus?
+       AddEnvVar - duas vars de ambiente...
+       Execute Service - app link plain
      */
 
 

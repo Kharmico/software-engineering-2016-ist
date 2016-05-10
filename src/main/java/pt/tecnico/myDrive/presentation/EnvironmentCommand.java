@@ -3,7 +3,6 @@ package pt.tecnico.myDrive.presentation;
 
 import pt.tecnico.myDrive.service.AddEnvironmentVariableService;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class EnvironmentCommand extends MdCommand {
