@@ -24,7 +24,7 @@ public class AddEnvironmentVariableService extends MyDriveService {
 
     @Override
     public void dispatch(){
-        if(_name != null && _value != null)
+        if(!_name.equals(null) && !_value.equals(null))
             getMyDriveManager().addEnvironmentVariable(_name, _value, _token);
         LinkedHashMap<String, String> result = getMyDriveManager().listEnvironmentVariables(_token);
         for(String key : result.keySet())
