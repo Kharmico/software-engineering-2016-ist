@@ -174,7 +174,7 @@ public class FileSystem extends FileSystem_Base {
 			getSlash().checkAccessEx(currentUser);
 			return getSlash();
 		}
-		// FIXME: DIOGO: maybe else if?
+
 		if(path.equals("."))
 			return currentDir;
 		else if(path.equals("..")) {
@@ -222,7 +222,6 @@ public class FileSystem extends FileSystem_Base {
 			return currentDir.getDirectoryFilesName();
 		else if(path.equals(".."))
 			return currentDir.getFather().getDirectoryFilesName();
-		//log.debug(absolutePath(path, getRoot(), currentDir).getPath());
 		File target = absolutePath(path, currentUser, currentDir).getFileByName(getLastPathToken(path));
 		target.checkAccessRead(currentUser);
 		return target.getDirectoryFilesName();
@@ -645,7 +644,7 @@ public class FileSystem extends FileSystem_Base {
 
 	private void checkUserPass(User user, String password) throws WrongPasswordException {
 		if(!user.getPassword().equals(password))
-			throw new WrongPasswordException(user.getPassword());
+			throw new WrongPasswordException();
 	}
 
 }

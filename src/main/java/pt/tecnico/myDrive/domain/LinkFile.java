@@ -39,7 +39,7 @@ public class LinkFile extends LinkFile_Base {
     
     @Override
 	public void writeContent(String content, User logged)throws IllegalAddContentException  {
-    	throw new IllegalAddContentException(this.getFilename());
+    	throw new IllegalAddContentException();
     }
 
     @Override

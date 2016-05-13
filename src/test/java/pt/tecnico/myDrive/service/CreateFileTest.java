@@ -37,9 +37,10 @@ public class CreateFileTest extends AbstractServiceTest {
         return dir.getFileByName(filename);
     }
 
+    // We know that that filename is a diretory because we created it
     private Directory getDirectory(String filename) {
         Directory dir = MyDriveManager.getInstance().getCurrentSession().getCurrentDir();
-        return (Directory) dir.getFileByName(filename); // We know that that filename is a diretory because we created it
+        return (Directory) dir.getFileByName(filename);
     }
 
     @Test

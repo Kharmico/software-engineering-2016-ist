@@ -263,7 +263,7 @@ public class MyDriveManager extends MyDriveManager_Base {
         boolean notFound = true;
         long token = 0;
         while(notFound) {
-            // Integers can be negative so to assure unicity for tests we only consider the positive ones
+            // Integers can be negative, so to assure unicity for tests we only consider the positive ones
             long randomLong = new BigInteger(64, new Random()).longValue();
             token = randomLong < 0 ? -randomLong : randomLong;
             notFound = false;

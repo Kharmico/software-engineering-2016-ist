@@ -18,7 +18,8 @@ public abstract class Command {
         help = h;
         (shell = sh).add(this);
     }
-    /* package */ void help(String  h) { help = h; }
+    /* package */
+    void help(String  h) { help = h; }
 
     public String name() { return name; }
     public String help() { return help; }

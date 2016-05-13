@@ -3,6 +3,8 @@ package pt.tecnico.myDrive.service;
 import mockit.Mock;
 import mockit.MockUp;
 import mockit.integration.junit4.JMockit;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import pt.tecnico.myDrive.domain.Directory;
@@ -12,6 +14,10 @@ import pt.tecnico.myDrive.exception.AccessDeniedException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 import pt.tecnico.myDrive.exception.IsNotPlainFileException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.Assert.*;
 
 /* This test involves the usage of mock-ups
  * to test the association between files
@@ -22,7 +28,8 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
     private static final String USER_LOGGED = "Evangelion";
     private static final String SECONDARY_USER = "Chiquitita";
     private static MyDriveManager _manager;
-
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private PrintStream ps;
 
     @Override
     public void populate() {
@@ -65,6 +72,18 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
         _manager.createLinkFile("RefToDiffDir", "/home/Chiquitita/Linktotest");
     }
 
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+        ps  =  System.out;
+    }
+
+    @After
+    public void cleanUpStreams() {
+        System.out.flush();
+        System.setOut(ps);
+    }
+
 
     @Test
     public void successfullyExecAppFile() {
@@ -92,7 +111,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/Shinji", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();
-        //assertNotNull(_manager.getCurrentSession().getCurrentDir().getFileByName("Ithinknot"));
+
+        String[] output = outContent.toString().split("\n");
+        assertEquals("App file isnt working", "AppFileRunning", output[1]);
     }
 
     @Test
@@ -121,7 +142,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/Ikari", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();
-        //assertNotNull(((Directory)_manager.getCurrentSession().getCurrentDir().getFileByName("Justbecause")).getFileByName("Ilikethis"));
+
+        String[] output = outContent.toString().split("\n");
+        assertEquals("App file isnt working", "AppFileRunningAppFileRunningAppFileRunning", output[1]);
     }
 
     @Test
@@ -166,7 +189,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/Noname", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();
-        //assertNotNull(((Directory)_manager.getCurrentSession().getCurrentDir().getFileByName("Noname")).getFileByName("Noname"));
+
+        String[] output = outContent.toString().split("\n");
+        assertEquals("AppFileRunning", output[1]);
     }
 
     @Test
@@ -185,7 +210,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/Ilikeithere", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();
-        //assertNotNull(_manager.getCurrentSession().getCurrentDir().getFileByName("Ithinknot"));
+
+        String[] output = outContent.toString().split("\n");
+        assertEquals("App file isnt working", "AppFileRunningAppFileRunning", output[1]);
     }
 
     private void commonMock(final String[] stuffToPass) {
@@ -245,7 +272,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/RefToPermed", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();
-        //assertNotNull(_manager.getCurrentSession().getCurrentDir().getFileByName("Ithinknot"));
+
+        String[] output = outContent.toString().split("\n");
+        assertEquals("App file isnt working", "AppFileRunning", output[1]);
     }
 
     @Test
@@ -264,7 +293,9 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
 
         ExecuteFileService execFile = new ExecuteFileService("/home/Evangelion/RefToNotPermed", stuffToPass, _manager.getCurrentSession().getToken());
         execFile.execute();
-        //assertNotNull(_manager.getCurrentSession().getCurrentDir().getFileByName("Ithinknot"));
+
+        String[] output = outContent.toString().split("\n");
+        assertEquals("App file isnt working", "AppFileRunningAppFileRunning", output[1]);
     }
 
 
@@ -354,4 +385,3 @@ public class ExecuteAssociationTest extends AbstractServiceTest {
     }
 
 }
-

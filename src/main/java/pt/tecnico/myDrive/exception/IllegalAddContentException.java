@@ -7,18 +7,10 @@ public class IllegalAddContentException extends MyDriveException{
 
     private static final long serialVersionUID = 1L;
 
-    private final String illegalContent;
-
-    public IllegalAddContentException(String content) {
-        illegalContent = content;
-    }
-
-    public String getIllegalContent(){
-        return illegalContent;
-    }
+    public IllegalAddContentException() {}
 
     @Override
     public String getMessage() {
-        return "Cannont add content to a link file.";
+        return "Cannot add content to a link file.";
     }
 }

@@ -7,11 +7,7 @@ public class WrongPasswordException extends MyDriveException{
 
     private static final long serialVersionUID = 1L;
 
-    private final String wrongPassword;
-
-    public WrongPasswordException(String password) {
-        wrongPassword = password;
-    }
+    public WrongPasswordException() {}
 
     @Override
     public String getMessage() {

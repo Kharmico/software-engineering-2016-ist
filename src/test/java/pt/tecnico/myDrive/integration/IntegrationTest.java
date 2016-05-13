@@ -157,18 +157,4 @@ public class IntegrationTest extends AbstractServiceTest{
             output[i] = tokens[i].substring(0, 9 + tokens[i].split(" ")[1].length()) + " " + tokens[i].substring(9 + tokens[i].split(" ")[1].length() + 31);
         return output;
     }
-
-    /* CD - Absolutos e relativos, . .. /
-       Login - User, root e guest
-       CreateFile - app, dir, link, plain
-       DeleteFile - app, dir, link, plain -> corresponde a tentar apagar uma directoria completa com todos estes tipos
-       ListDirectory - ver todos os tipos de ficheiros
-       ReadFile - plainfile && app && link
-       WriteFile - plainfile && app
-       AddEnvVar - duas vars de ambiente...
-       Execute Service - app link plain
-     */
-
-
-
 }

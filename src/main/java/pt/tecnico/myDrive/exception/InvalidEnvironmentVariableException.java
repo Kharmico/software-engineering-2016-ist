@@ -9,6 +9,6 @@ public class InvalidEnvironmentVariableException extends MyDriveException {
 
     @Override
     public String getMessage() {
-        return "Empty String is not a valid Environment Variable";
+        return "Given String is not a valid Environment Variable";
     }
 }

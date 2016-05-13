@@ -120,7 +120,7 @@ public class EnvironmentLinkTest extends AbstractServiceTest {
                  MyDriveManager.getInstance().getCurrentSession().getCurrentDir(),MyDriveManager.getInstance().getCurrentSession().getCurrentUser()));
     }
 
-    //Directory Doesnt Exist
+    //Directory Doesn't Exist
     @Test(expected = FileUnknownException.class)
     public void wrongPath(){
         new Expectations(LinkFile.class) {
@@ -132,13 +132,13 @@ public class EnvironmentLinkTest extends AbstractServiceTest {
         fl.printContent(getUser());
     }
 
-    //Directory Doesnt Exist
+    //Directory Doesn't Exist
     @Test(expected = FileUnknownException.class)
     public void nonExistingVarPath(){
         fl.printContent(getUser());
     }
 
-    //Doenst have permission Exist
+    //Doesn't have permission Exist
     @Test(expected = AccessDeniedException.class)
     public void permissionDeniedExist(){
         new Expectations(LinkFile.class) {

@@ -64,8 +64,9 @@ public abstract class Shell {
     public void println(String s) { out.println(s); }
     public void flush() { out.flush(); }
 
+    /* package */
     // false if it redefines an existing Command
-  /* package */ boolean add(Command c) {
+    boolean add(Command c) {
         return coms.put(c.name(), c) == null;
     }
     public Command get(String s) {

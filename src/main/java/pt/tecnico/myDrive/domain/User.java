@@ -59,7 +59,7 @@ public class User extends User_Base {
 
     private void checkPasswordStrength(String password) throws PasswordIsTooWeakException{
 		if( password.length() < 8 && !isRoot() && !isGuest()){
-			throw new PasswordIsTooWeakException(password);
+			throw new PasswordIsTooWeakException();
 		}
 	}
 
@@ -103,6 +103,7 @@ public class User extends User_Base {
 		return output;
 	}
 
+	// Used for MockUp testing
 	public String getFileAssocByExt(String path) {
 		return "";
 	}
