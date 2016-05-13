@@ -18,8 +18,8 @@ public class AddEnvironmentVariableService extends MyDriveService {
 
     public AddEnvironmentVariableService(long token){
         _token = token;
-        _value = null;
-        _name = null;
+        _value = "";
+        _name = "";
     }
 
     @Override
