@@ -3,6 +3,7 @@ package pt.tecnico.myDrive.service;
 import org.junit.Test;
 import pt.tecnico.myDrive.domain.MyDriveManager;
 import pt.tecnico.myDrive.domain.Session;
+import pt.tecnico.myDrive.exception.InvalidEnvironmentVariableException;
 import pt.tecnico.myDrive.exception.InvalidTokenException;
 
 import java.util.LinkedHashMap;
@@ -66,6 +67,12 @@ public class AddEnvironmentVariableTest extends AbstractServiceTest {
     @Test(expected = InvalidTokenException.class)
     public void invalidToken(){
     	AddEnvironmentVariableService service = new AddEnvironmentVariableService(-1, "EnVarTest2", "t0k3n");
+    	service.execute();
+    }
+    
+    @Test(expected = InvalidEnvironmentVariableException.class)
+    public void invalidEnvironmentVariable(){
+    	AddEnvironmentVariableService service = new AddEnvironmentVariableService(MyDriveManager.getInstance().getCurrentSession().getToken(), "", "value");
     	service.execute();
     }
 	

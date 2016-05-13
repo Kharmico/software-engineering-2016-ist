@@ -2,6 +2,8 @@ package pt.tecnico.myDrive.domain;
 
 import org.joda.time.DateTime;
 
+import pt.tecnico.myDrive.exception.InvalidEnvironmentVariableException;
+
 import java.util.LinkedHashMap;
 
 public class Session extends Session_Base {
@@ -33,14 +35,21 @@ public class Session extends Session_Base {
         return getManager().getFilesystem().getUserByUsername(getUsername());
     }
 
-    void addEnvironmentVariable(String name, String value) {
-        for(EnvironmentVariable var : super.getVarSet()){
-            if(var.getName().equals(name)){
-                var.setValue(value);
-                return;
-            }
-        }
+    void addEnvironmentVariable(String name, String value) throws InvalidEnvironmentVariableException{
+    	if(name.equals("") && value.equals("") || !name.equals("") && value.equals(""))
+    		return;
+ 
+    	if(!name.equals("")) {
+	        for(EnvironmentVariable var : super.getVarSet()){
+	            if(var.getName().equals(name)){
+	                var.setValue(value);
+	                return;
+	            }
+	        }
         addVar(new EnvironmentVariable(name, value, this));
+    	} else {
+    		throw new InvalidEnvironmentVariableException();
+    	}
     }
 
     LinkedHashMap<String, String> listEnvironmentVariables() {

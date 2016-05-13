@@ -4,7 +4,7 @@ package pt.tecnico.myDrive.service;
 import java.util.LinkedHashMap;
 
 public class AddEnvironmentVariableService extends MyDriveService {
-
+  
     private long _token;
     private String _name;
     private String _value;
@@ -24,8 +24,8 @@ public class AddEnvironmentVariableService extends MyDriveService {
 
     @Override
     public void dispatch(){
-        if(!_name.equals(null) && !_value.equals(null))
-            getMyDriveManager().addEnvironmentVariable(_name, _value, _token);
+        getMyDriveManager().addEnvironmentVariable(_name, _value, _token);           
+  
         LinkedHashMap<String, String> result = getMyDriveManager().listEnvironmentVariables(_token);
         for(String key : result.keySet())
             a.put(new String(key), new String(result.get(key)));
