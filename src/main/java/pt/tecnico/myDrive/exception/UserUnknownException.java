@@ -11,10 +11,6 @@ public class UserUnknownException extends MyDriveException {
 	public UserUnknownException(String username) {
 		missingUsername = username;
 	}
-	
-	public String getMissingUsername(){
-		return missingUsername;
-	}
 
 	@Override
 	public String getMessage() {

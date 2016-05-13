@@ -13,10 +13,6 @@ public class WrongPasswordException extends MyDriveException{
         wrongPassword = password;
     }
 
-    public String getWrongPassword(){
-        return wrongPassword;
-    }
-
     @Override
     public String getMessage() {
         return "Wrong Password.";

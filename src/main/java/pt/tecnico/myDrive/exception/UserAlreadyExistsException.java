@@ -12,11 +12,6 @@ public class UserAlreadyExistsException extends MyDriveException {
 	public UserAlreadyExistsException(String username) {
 		conflictingUsername = username;
 	}
-	
-	
-	public String getConflictingUsername(){
-		return conflictingUsername;
-	}
 
 	@Override
 	public String getMessage() {

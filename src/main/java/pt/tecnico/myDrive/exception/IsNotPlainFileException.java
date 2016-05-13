@@ -12,12 +12,8 @@ public class IsNotPlainFileException extends MyDriveException {
 		conflictingPlainFileName = name;
 	}
 
-	public String getConflictingPlainFileName(){
-		return conflictingPlainFileName;
-	}
-
 	@Override
 	public String getMessage() {
-		return "'" + conflictingPlainFileName + "' is not a plain file.";
+		return "'" + conflictingPlainFileName + " is not a plain file.";
 	}
 }

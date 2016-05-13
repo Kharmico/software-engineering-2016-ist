@@ -7,12 +7,13 @@ import pt.tecnico.myDrive.service.ChangeDirectoryService;
  */
 public class ChangeWorkingDirectoryCommand extends MdCommand {
 
-    public ChangeWorkingDirectoryCommand(MdShell sh) { super(sh, "cwd", "it changes the working directory"); }
+    public ChangeWorkingDirectoryCommand(MdShell sh) { super(sh, "cwd", "It changes the working directory and prints " +
+            "the path to the new one.\nThe path is optional."); }
     @Override
     public void execute(String[] args) {
         ChangeDirectoryService cds;
         if (args.length > 1)
-            throw new RuntimeException("USAGE: " + name() + " <path>");
+            throw new RuntimeException("USAGE: " + name() + " [path]");
         else if (args.length == 1)
             cds = new ChangeDirectoryService(((MdShell) shell()).getCurrentToken(), args[0]);
         else

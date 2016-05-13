@@ -482,7 +482,7 @@ public class FileSystem extends FileSystem_Base {
 			User toInsert;
 
 			try {
-				toInsert = this.getUserByUsername(username);
+				this.getUserByUsername(username);
 			} catch (UserAlreadyExistsException e) {
 				e.getMessage();
 				throw new ImportDocumentException();

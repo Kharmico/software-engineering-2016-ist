@@ -13,12 +13,8 @@ public class PathIsTooBigException extends MyDriveException{
         overSizeLimitPath = path;
     }
 
-    public String getOverSizeLimitPath(){
-        return overSizeLimitPath;
-    }
-
     @Override
     public String getMessage() {
-        return "'" + overSizeLimitPath + "' exceeds the path size limit.";
+        return overSizeLimitPath + " exceeds the path size limit.";
     }
 }

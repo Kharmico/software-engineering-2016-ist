@@ -23,8 +23,8 @@ public class AppFile extends AppFile_Base {
     }
 
     AppFile(int id, String filename, String userMask, User owner, String content, Directory parentDirectory) throws InvalidFileNameException, InvalidMaskException, InvalidContentException{
-        super.init(id, filename, userMask, owner, content, parentDirectory);
-
+        super.init(id, filename, userMask, owner, parentDirectory);
+        writeContent(content, owner);
     }
     
     @Override
@@ -34,7 +34,6 @@ public class AppFile extends AppFile_Base {
     	}else{
     		super.setContent(content);
     	}
-    	
     }
 
     @Override
@@ -45,11 +44,9 @@ public class AppFile extends AppFile_Base {
     @Override
     protected void executeFile(User logged, String[] args) throws InvalidExecuteException, InvalidContentException {
         String defPackageExt = "pt.tecnico.myDrive";
-        //FIXME: DIOGO: HAVE FUN parece que alguem fez testes onde nao mete nada nop conteudo, visto o proprio startsWith rebentar com null pointer
-        /*if(getContent().startsWith(defPackageExt)){
-            //throw new InvalidContentException(new String(getContent()));
 
-        }*/
+        if(this.getContent() == null)
+            throw new InvalidContentException(null);
 
         try{
             String folder = this.getContent().substring(defPackageExt.length() + 1, getContent().length());

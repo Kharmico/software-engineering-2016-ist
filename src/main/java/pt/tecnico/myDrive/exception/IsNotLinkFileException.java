@@ -11,13 +11,9 @@ public class IsNotLinkFileException extends MyDriveException {
 	public IsNotLinkFileException(String name) {
 		conflictingLinkFileName = name;
 	}
-	
-	public String getConflictingLinkFileName(){
-		return conflictingLinkFileName;
-	}
 
 	@Override
 	public String getMessage() {
-		return "'" + conflictingLinkFileName + "' is not a link file.";
+		return conflictingLinkFileName + " is not a link file.";
 	}
 }

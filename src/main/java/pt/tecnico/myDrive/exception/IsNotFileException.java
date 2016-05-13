@@ -11,13 +11,9 @@ public class IsNotFileException extends MyDriveException {
 	public IsNotFileException(String fileName) {
 		conflictingFileName = fileName;
 	}
-	
-	public String getConflictingFileName(){
-		return conflictingFileName;
-	}
 
 	@Override
 	public String getMessage() {
-		return "'" + conflictingFileName + "' is not a file.";
+		return conflictingFileName + " is not a file.";
 	}
 }

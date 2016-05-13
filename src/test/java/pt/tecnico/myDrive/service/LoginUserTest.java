@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 
 
 public class LoginUserTest extends AbstractServiceTest {
+
     @Override
     protected void populate() {
         MyDriveManager mg = MyDriveManager.getInstance();

@@ -10,7 +10,6 @@ import pt.tecnico.myDrive.exception.*;
 public abstract class File extends File_Base {
 
 	private static final String INVALID_FILENAME_REGEX = "[a-zA-Z0-9]*/[a-zA-Z0-9]+";
-	private static final Logger log = LogManager.getRootLogger();
 	private String _extension;
 
 	protected File(){

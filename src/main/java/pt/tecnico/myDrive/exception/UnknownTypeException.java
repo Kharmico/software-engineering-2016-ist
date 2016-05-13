@@ -13,10 +13,6 @@ public class UnknownTypeException extends MyDriveException {
 		nonExistingType = type;
 	}
 
-	public String getDuplicateFile(){
-		return nonExistingType;
-	}
-	
 	@Override
 	public String getMessage() {
 		return "The type '" + nonExistingType + "' does not exist.\n" +

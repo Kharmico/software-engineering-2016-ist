@@ -27,9 +27,6 @@ public class User extends User_Base {
 		super.setFilesystem(fs);
 	}
 
-	public String getFileAssocByExt(String path) {
-		return "";
-	}
 
 	@Override
 	public void setPassword(String password) throws PasswordIsTooWeakException {
@@ -60,8 +57,7 @@ public class User extends User_Base {
     	deleteDomainObject();
     }
 
-	//FIXME REMOVE FROM COMMENT AFTER EXCEPTION IS IMPLEMENTED
-    private void checkPasswordStrength(String password) /*throws PasswordIsTooWeakException*/{
+    private void checkPasswordStrength(String password) throws PasswordIsTooWeakException{
 		if( password.length() < 8 && !isRoot() && !isGuest()){
 			throw new PasswordIsTooWeakException(password);
 		}
@@ -107,5 +103,8 @@ public class User extends User_Base {
 		return output;
 	}
 
+	public String getFileAssocByExt(String path) {
+		return "";
+	}
 
 }

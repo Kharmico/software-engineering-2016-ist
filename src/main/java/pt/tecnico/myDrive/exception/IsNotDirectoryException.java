@@ -12,12 +12,8 @@ public class IsNotDirectoryException extends MyDriveException {
 		conflictingEntryName = entryName;
 	}
 
-	public String getEntryName(){
-		return conflictingEntryName;
-	}
-	
 	@Override
 	public String getMessage() {
-		return "'" + conflictingEntryName + "' is not a directory.";
+		return conflictingEntryName + " is not a directory.";
 	}
 }

@@ -13,10 +13,6 @@ public class LinkFileWithoutContentException extends MyDriveException {
         linkWithoutContent = name;
     }
 
-    public String getLinkWithoutContent(){
-        return linkWithoutContent;
-    }
-
     @Override
     public String getMessage() {
         return "Link file '" + linkWithoutContent + "' has an empty content.";

@@ -12,13 +12,9 @@ public class FileUnknownException extends MyDriveException {
 	public FileUnknownException(String file) {
 		unknownFile = file;
 	}
-	
-	public String getUnknownFile(){
-		return unknownFile;
-	}
 
 	@Override
 	public String getMessage() {
-		return "'" + unknownFile + "' does not exist.";
+		return unknownFile + " does not exist.";
 	}
 }

@@ -4,7 +4,7 @@ package pt.tecnico.myDrive.presentation;
 public class KeyCommand extends MdCommand {
 
     public KeyCommand(MdShell sh) {
-        super(sh, "token", "it changes the current session returning a token, or returns current session's token and username.\n" +
+        super(sh, "token", "It changes the current session returning a token, or returns the current session's token and username.\n" +
                 "The username is optional.");
     }
 
@@ -18,7 +18,7 @@ public class KeyCommand extends MdCommand {
             case 1:((MdShell) shell()).changeCurrentToken(args[0]);
                     shell().println("Current Token: " + ((MdShell) shell()).getCurrentToken());
                     break;
-            default: throw new RuntimeException("USAGE: " + name() + " <username>");
+            default: throw new RuntimeException("USAGE: " + name() + " [username]");
         }
 
     }

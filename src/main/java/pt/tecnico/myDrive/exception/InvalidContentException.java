@@ -13,13 +13,9 @@ public class InvalidContentException extends MyDriveException {
 	public InvalidContentException(String content){
 		invalidContent = content;
 	}
-	
-	public String getInvalidContent(){
-		return invalidContent;
-	}
-	
+
 	@Override
 	public String getMessage(){
-		return "'" + invalidContent + "' is not a valid content.";
+		return invalidContent + " is not a valid content.";
 	}
 }

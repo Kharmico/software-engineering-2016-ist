@@ -13,14 +13,10 @@ public class InvalidUsernameException extends MyDriveException {
 	public InvalidUsernameException(String username){
 		invalidUsername = username;
 	}
-	
-	public String getInvalidUsername(){
-		return invalidUsername;
-	}
-	
+
 	@Override
 	public String getMessage(){
-		return "'" + invalidUsername + "' is not a valid username.\n" +
+		return invalidUsername + " is not a valid username.\n" +
 				"It should be only numbers or letters and at least 3 characters long.";
 	}
 }

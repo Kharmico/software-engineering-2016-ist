@@ -55,7 +55,6 @@ public class ExecuteFileTest extends AbstractServiceTest {
     public void setUpStreams() {
         System.setOut(new PrintStream(outContent));
         ps  =  System.out;
-
     }
 
     @After
@@ -148,9 +147,9 @@ public class ExecuteFileTest extends AbstractServiceTest {
 
     // When method does not exist
     @Test(expected = InvalidContentException.class)
-    public void noContetPlainFile(){
+    public void noContentPlainFile(){
         String[] t = {"cd","ls"};
-        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("noMethod").getPath(),
+        ExecuteFileService fl = new ExecuteFileService(MyDriveManager.getInstance().getCurrentSession().getCurrentDir().getFileByName("noPath").getPath(),
                 t, MyDriveManager.getInstance().getCurrentSession().getToken());
         fl.execute();
     }

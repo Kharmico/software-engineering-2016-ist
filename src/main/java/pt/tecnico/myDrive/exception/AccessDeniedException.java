@@ -14,14 +14,9 @@ public class AccessDeniedException extends MyDriveException {
 	public AccessDeniedException(User user) {
 		conflictingUser = user.getUsername();
 	}
-	
-	public String getConflictingUser(){
-		return conflictingUser;
-	}
-	
 
 	@Override
 	public String getMessage() {
-		return "User '" + conflictingUser + "' does not have permissions to do this operation";
+		return "User '" + conflictingUser + "' does not have permission to do this operation";
 	}
 }

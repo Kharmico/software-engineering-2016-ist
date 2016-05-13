@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 public class EnvironmentCommand extends MdCommand {
 
     public EnvironmentCommand(MdShell sh) {
-        super(sh, "env", "it changes an environment variable to the given value, or returns its value.\n" +
+        super(sh, "env", "It changes an environment variable to the given value, or returns its value.\n" +
                 "Both the environment variable's name and value are optional.\n" +
                 "Can also list all environment variables.");
     }
@@ -43,7 +43,7 @@ public class EnvironmentCommand extends MdCommand {
                                                                 args[0], args[1]);
                     envVar.execute();
                     break;
-            default: throw new RuntimeException("USAGE: " + name() + " <name <value>>");
+            default: throw new RuntimeException("USAGE: " + name() + " [name [value]]");
         }
     }
 

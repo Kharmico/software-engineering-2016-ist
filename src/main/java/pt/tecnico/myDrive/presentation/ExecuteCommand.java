@@ -7,7 +7,8 @@ import pt.tecnico.myDrive.service.ExecuteFileService;
  */
 public class ExecuteCommand extends MdCommand{
 
-    public ExecuteCommand(MdShell sh){super(sh, "do", "execute the file given by a path with the args");}
+    public ExecuteCommand(MdShell sh){super(sh, "do", "Executes the file given by a path with the give args\n" +
+            "The args are optional.");}
 
     @Override
     public void execute(String[] args) {

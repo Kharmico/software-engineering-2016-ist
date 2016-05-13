@@ -45,6 +45,9 @@ public class PlainFile extends PlainFile_Base {
     	String realContent = this.getContent();
     	String appArgs;
 
+		if(realContent == null)
+			throw new InvalidContentException(null);
+
     	while(!realContent.equals("")){
     		if(realContent.contains("\n")){
     			appArgs = realContent.substring(0,realContent.indexOf("\n"));

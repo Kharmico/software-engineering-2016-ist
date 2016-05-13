@@ -11,13 +11,9 @@ public class IsNotAppFileException extends MyDriveException {
 	public IsNotAppFileException(String name) {
 		conflictingAppFileName = name;
 	}
-	
-	public String getConflictingAppFileName(){
-		return conflictingAppFileName;
-	}
 
 	@Override
 	public String getMessage() {
-		return "'" + conflictingAppFileName + "' is not an app file.";
+		return conflictingAppFileName + " is not an app file.";
 	}
 }

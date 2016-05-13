@@ -5,7 +5,7 @@ import pt.tecnico.myDrive.service.WriteFileService;
 
 public class WriteCommand extends MdCommand {
 
-    public WriteCommand(MdShell sh) { super(sh, "update", "changes the content of a specific file given by a path with the given text"); }
+    public WriteCommand(MdShell sh) { super(sh, "update", "Changes the content of a file, given by a path, with the given text"); }
 
     @Override
     public void execute(String[] args) {

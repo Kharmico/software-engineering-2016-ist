@@ -13,13 +13,9 @@ public class InvalidFileNameException extends MyDriveException {
 	public InvalidFileNameException(String filename){
 		invalidFileName = filename;
 	}
-	
-	public String getInvalidFileName(){
-		return invalidFileName;
-	}
-	
+
 	@Override
 	public String getMessage(){
-		return "'" + invalidFileName + "' is not a valid file name.";
+		return invalidFileName + " is not a valid file name.";
 	}
 }

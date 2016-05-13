@@ -11,13 +11,9 @@ public class LoopLinkFileException extends MyDriveException {
 	public LoopLinkFileException(String name) {
 		conflictingLinkFileName = name;
 	}
-	
-	public String getConflictingLinkFileName(){
-		return conflictingLinkFileName;
-	}
 
 	@Override
 	public String getMessage() {
-		return "'" + conflictingLinkFileName + "' is being linked to himself.";
+		return conflictingLinkFileName + " is being linked to itself.";
 	}
 }

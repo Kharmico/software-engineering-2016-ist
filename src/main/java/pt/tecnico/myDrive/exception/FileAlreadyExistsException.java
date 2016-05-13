@@ -13,12 +13,8 @@ public class FileAlreadyExistsException extends MyDriveException {
 		duplicateFile = filename;
 	}
 
-	public String getDuplicateFile(){
-		return duplicateFile;
-	}
-	
 	@Override
 	public String getMessage() {
-		return "'" + duplicateFile + "' already exists.";
+		return duplicateFile + " already exists.";
 	}
 }
